@@ -1,6 +1,6 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/ccc/demo-test.v1.json",
-    "title": "Demo",
-    "description": "Test configuration kind schema for demo purposes"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/ccc/demo-test.v1.json",
+  "title": "Demo",
+  "description": "Test configuration kind schema for demo purposes"
 }
