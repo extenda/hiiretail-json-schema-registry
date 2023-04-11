@@ -1,0 +1,212 @@
+{
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/checkout-config/che.receipt-layout.v1.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Receipt Layout Schema",
+    "description": "A schema for receipt layout kind for Customer Controlled Config service",
+    "type": "object",
+    "required": [
+      "sections"
+    ],
+    "properties": {
+      "effectiveDate": {
+        "description": "The date when this layout should be applied, if present. It is up to the integrator\nto make sure that a current layout exists in the final system, if a layout has a\nfuture effectiveDate set.\\\nThe current date will be used if left out and layout will take effect immediately.\n",
+        "type": "string",
+        "format": "date"
+      },
+      "sections": {
+        "description": "A ReceiptLayout consists of Sections.",
+        "type": "array",
+        "items": {
+          "$ref": "#/schemas/Section"
+        }
+      }
+    },
+    "schemas": {
+      "ImagesType": {
+        "type": "array",
+        "items": {
+          "$ref": "#/schemas/ImageType"
+        }
+      },
+      "ImageType": {
+        "type": "object",
+        "description": "An image that can be referenced from Sections.\n",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          },
+          "value": {
+            "oneOf": [
+              {
+                "$ref": "#/schemas/ImageDataType"
+              },
+              {
+                "$ref": "#/schemas/ImageLinkType"
+              }
+            ]
+          },
+          "properties": {
+            "$ref": "#/schemas/ImageProperty"
+          }
+        }
+      },
+      "Section": {
+        "description": "A Section contains image or textual data.\n",
+        "anyOf": [
+          {
+            "$ref": "#/schemas/ImageSection"
+          },
+          {
+            "$ref": "#/schemas/TextSection"
+          }
+        ]
+      },
+      "ImageSection": {
+        "description": "An ImageSection containing image data.\n",
+        "type": "object",
+        "required": [
+          "type",
+          "value"
+        ],
+        "properties": {
+          "type": {
+            "description": "Each Section has a type that determines its placement on the actual\nreceipt. Headers are placed above receipt line items and Footers are\nplaced below receipt line items.\n",
+            "type": "string",
+            "default": "HEADER_IMAGE",
+            "enum": [
+              "HEADER_IMAGE",
+              "FOOTER_IMAGE"
+            ]
+          },
+          "value": {
+            "oneOf": [
+              {
+                "$ref": "#/schemas/ImageDataType"
+              },
+              {
+                "$ref": "#/schemas/ImageLinkType"
+              },
+              {
+                "$ref": "#/schemas/ImageIdType"
+              }
+            ]
+          },
+          "properties": {
+            "$ref": "#/schemas/ImageProperty"
+          }
+        }
+      },
+      "ImageDataType": {
+        "description": "Image data conforming to [RFC2397](https://datatracker.ietf.org/doc/html/rfc2397).\n",
+        "type": "string",
+        "pattern": "^data:image\\/(png|jpeg|gif);base64,.+$"
+      },
+      "ImageLinkType": {
+        "description": "A uri to an image.\n",
+        "type": "string",
+        "pattern": "^(https?|file):\\/\\/.+$",
+        "maxLength": 2048
+      },
+      "ImageIdType": {
+        "description": "An id to a supplied image.",
+        "type": "string",
+        "pattern": "^id:.+$"
+      },
+      "ImageProperty": {
+        "description": "A property for a image.\\\nAdditional custom properties can be added via '*additionalProperties*' field.\n",
+        "type": "object",
+        "properties": {
+          "suppressOnActiveReceipt": {
+            "description": "Determines if this section is to be hidden on the currently active receipt presentation.\n",
+            "type": "boolean",
+            "default": false
+          },
+          "height": {
+            "description": "The height in pixels, for the image.\\\nE.g. an image would have a height property determining the height of the resulting image.\n",
+            "type": "integer",
+            "example": 50
+          },
+          "width": {
+            "description": "The width in pixels, for the image.\\\nE.g. an image would have a width property determining the width of the resulting image.\n",
+            "type": "integer",
+            "example": 40
+          },
+          "additionalProperties": {}
+        }
+      },
+      "TextSection": {
+        "description": "A TextSection contains textual data.\n",
+        "type": "object",
+        "required": [
+          "type",
+          "value"
+        ],
+        "properties": {
+          "type": {
+            "description": "Each Section has a type that determines its placement on the actual\nreceipt. Headers are placed above receipt line items and Footers are\nplaced below receipt line items.\n",
+            "type": "string",
+            "default": "HEADER",
+            "enum": [
+              "HEADER",
+              "FOOTER"
+            ]
+          },
+          "value": {
+            "description": "A textual value that is treated as simple strings.\n",
+            "type": "string",
+            "maxLength": 255
+          },
+          "properties": {
+            "$ref": "#/schemas/TextSectionProperty"
+          }
+        }
+      },
+      "TextSectionProperty": {
+        "description": "A property for a textual section.\\\nAdditional custom properties can be added via '*additionalProperties*' field.\n",
+        "type": "object",
+        "properties": {
+          "suppressOnActiveReceipt": {
+            "description": "Determines if this section is to be hidden on the currently active receipt presentation.\n",
+            "type": "boolean",
+            "default": false
+          },
+          "alignment": {
+            "$ref": "#/schemas/AlignmentTypeEnum"
+          },
+          "fontStyle": {
+            "$ref": "#/schemas/FontStyleEnum"
+          },
+          "additionalProperties": {}
+        }
+      },
+      "AlignmentTypeEnum": {
+        "description": "Configures the textual content alignment within the receipt.\n",
+        "type": "string",
+        "example": "CENTER",
+        "default": "LEFT",
+        "enum": [
+          "LEFT",
+          "CENTER",
+          "RIGHT"
+        ]
+      },
+      "FontStyleEnum": {
+        "description": "Configures the textual content style within the receipt.\n",
+        "type": "string",
+        "example": "PLAIN",
+        "default": "PLAIN",
+        "enum": [
+          "PLAIN",
+          "BOLD",
+          "ITALIC",
+          "BOLD_ITALIC"
+        ]
+      }
+    }
+  }
