@@ -1,5 +1,5 @@
 {
-    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/checkout-config/che.receipt-layout.v1.json",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.receipt-layout.v1.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Receipt Layout Schema",
     "description": "A schema for receipt layout kind for Customer Controlled Config service",
