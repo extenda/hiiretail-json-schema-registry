@@ -1,0 +1,15 @@
+{
+  "id": "rec.accountability-type.v1",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AccountabilityType",
+  "description": "Accountability type for reconciliation",
+  "type": "object",
+  "required": ["accountabilityType"],
+  "properties": {
+    "accountabilityType": {
+      "type": "string",
+      "description": "An accountability type for reconciliation",
+      "enum": [ "NONE", "WORKSTATION", "OPERATOR"]
+    }
+  }
+}
