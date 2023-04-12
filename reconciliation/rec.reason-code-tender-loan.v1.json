@@ -4,10 +4,12 @@
   "title": "ReasonCodeTenderLoan",
   "description": "Reason code tender loan",
   "type": "object",
-  "required": ["reasonCodeTenderLoan"],
   "properties": {
     "reasonCodeTenderLoan": {
-      "type": "string",
+      "type": [
+        "null",
+        "string"
+      ],
       "description": "Reason code tender loan"
     }
   }
