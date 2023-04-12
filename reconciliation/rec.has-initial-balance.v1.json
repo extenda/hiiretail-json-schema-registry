@@ -1,6 +1,6 @@
 {
-  "id": "rec.has-initial-balance.v1",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rec.has-initial-balance.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "HasInitialBalance",
   "description": "Parameter to define if reconciliation has initial balance",
   "type": "object",

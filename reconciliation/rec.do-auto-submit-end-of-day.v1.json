@@ -1,6 +1,6 @@
 {
-  "id": "rec.do-auto-submit-end-of-day.v1",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rec.do-auto-submit-end-of-day.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DoAutoSubmitEndOfDay",
   "description": "Parameter to define do auto submit end of day for reconciliation or not",
   "type": "object",

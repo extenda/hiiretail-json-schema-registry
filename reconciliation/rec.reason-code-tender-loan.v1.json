@@ -1,6 +1,6 @@
 {
-  "id": "rec.reason-code-tender-loan.v1",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rec.reason-code-tender-loan.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ReasonCodeTenderLoan",
   "description": "Reason code tender loan",
   "type": "object",

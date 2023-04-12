@@ -1,6 +1,6 @@
 {
-  "id": "rec.maximum-reconciliation-attempts.v1",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rec.maximum-reconciliation-attempts.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MaximumReconciliationAttempts",
   "description": "Maximum number of reconciliation attempts before a reconciliation get status LOCKED",
   "type": "object",
