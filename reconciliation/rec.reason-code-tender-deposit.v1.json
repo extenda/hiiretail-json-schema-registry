@@ -4,10 +4,12 @@
   "title": "ReasonCodeTenderDeposit",
   "description": "Reason code tender deposit",
   "type": "object",
-  "required": ["reasonCodeTenderDeposit"],
   "properties": {
     "reasonCodeTenderDeposit": {
-      "type": "string",
+      "type": [
+        "null",
+        "string"
+      ],
       "description": "Reason code tender deposit"
     }
   }
