@@ -1,0 +1,15 @@
+{
+  "$id": "rec.initial-balance-mode.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InitialBalanceMode",
+  "description": "Initial balance mode for reconciliation",
+  "type": "object",
+  "required": ["initialBalanceMode"],
+  "properties": {
+    "initialBalanceMode": {
+      "type": "string",
+      "description": "Initial balance mode for reconciliation",
+      "enum": ["FIXED", "FLUCTUATING"]
+    }
+  }
+}

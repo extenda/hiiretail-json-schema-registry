@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-auto-create-daily-reconciliation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoAutoCreateDailyReconciliation",
+  "description": "Parameter to define do auto create daily reconciliation or not",
+  "type": "object",
+  "required": ["doAutoCreateDailyReconciliation"],
+  "properties": {
+    "doAutoCreateDailyReconciliation": {
+      "type": "boolean",
+      "description": "Parameter to define do auto create daily reconciliation or not"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$id": "rec.reason-code-tender-deposit.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReasonCodeTenderDeposit",
+  "description": "Reason code tender deposit",
+  "type": "object",
+  "required": ["reasonCodeTenderDeposit"],
+  "properties": {
+    "reasonCodeTenderDeposit": {
+      "type": "string",
+      "description": "Reason code tender deposit"
+    }
+  }
+}
