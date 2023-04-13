@@ -14,7 +14,7 @@ Each directory on top level has sub directories like:
 
 - [customer-config/cloud-core](./customer-config/cloud-core)
 
-Directory on `2nd` level represent team owner of schema.
+Directories on `2nd` level represent team names of owner of contained schemas.
 
 Each directory on `2nd` level contains schemas.
 
@@ -25,19 +25,12 @@ Schema file name has following structure:
 che.receipt-layout.v1.json
 ```
 
-A version is name is encouraged. If it is not presented in entity name,
-please add it before `extention`
+A version name is encouraged. If it is not present in entity name please add it before `{extention}`
 
 *IMPORTANT*
 
-> Keep schemas immutable. that makes it easier for consumer of schemas
+> Keep schemas immutable. That makes it easier for consumers of schemas
 
-TODO: @glebbash add 
+## Usage in configuration service
 
-## How to add a schema?
-
-TODO: @glebbash
-
-## How to use schema
-
-TODO: @glebbash 
+[Guide for using schemas in Customer Controlled Configuration](https://developer.hiiretail.com/docs/customer-controlled-configuration/public/concepts/CONFIG-KIND/#config-schema)
