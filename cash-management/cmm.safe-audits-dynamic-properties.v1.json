@@ -1,0 +1,37 @@
+{
+  "$id": "cmm.safe-audits-properties.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SafeAuditsDynamicProperties",
+  "description": "Dynamic properties for safe audits",
+  "type": "object",
+  "required": [ "dynamicProperties"],
+  "properties": {
+    "dynamicProperties": {
+      "description": "Dynamic properties for safe audits",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DynamicProperty"
+      }
+    }
+  },
+  "$defs": {
+    "DynamicProperty": {
+      "type": "object",
+      "description": "Dynamic configurations for safe audit",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for field"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name for field"
+        }
+      }
+    }
+  }
+}

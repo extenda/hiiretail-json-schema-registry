@@ -1,0 +1,14 @@
+{
+  "$id": "cmm.show-total-balance-in-safe-audit.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShowTotalBalanceInSafeAudit",
+  "description": "Parameter to define show total balance in safe audit or not",
+  "type": "object",
+  "required": ["showTotalBalanceInSafeAudit"],
+  "properties": {
+    "showTotalBalanceInSafeAudit": {
+      "type": "boolean",
+      "description": "Parameter to define show total balance in safe audit or not"
+    }
+  }
+}  

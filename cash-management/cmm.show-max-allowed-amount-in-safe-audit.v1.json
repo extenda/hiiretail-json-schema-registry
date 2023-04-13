@@ -1,0 +1,14 @@
+{
+  "$id": "cmm.show-max-allowed-amount-in-safe-audit.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShowMaxAllowedAmountInSafeAudit",
+  "description": "Parameter to define show max allowed amount in safe audit or not",
+  "type": "object",
+  "required": ["showMaxAllowedAmountInSafeAudit"],
+  "properties": {
+    "showMaxAllowedAmountInSafeAudit": {
+      "type": "boolean",
+      "description": "Parameter to define show max allowed amount in safe audit or not"
+    }
+  }
+}  
