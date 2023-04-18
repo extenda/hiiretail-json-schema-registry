@@ -1,11 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/che/plulist.v1.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.plulist.v1.json",
   "title": "PLU List messages",
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "plu"],
+    "required": [
+      "id",
+      "plu"
+    ],
     "properties": {
       "effectiveDate": {
         "description": "The date when this PLU list should be applied, if present.",
@@ -42,70 +45,37 @@
         }
       },
       "additionalProperties": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "value": {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "enum": [
-                      "SCO",
-                      "POS"
-                    ]
-                  },
-                  {
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "dataType": {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "enum": [
-                      "STRING",
-                      "BOOLEAN"
-                    ]
-                  }
-                ]
-              }
-            }
-          }
+        "description": "Additional custom properties can be added via this field.",
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/AdditionalProperty"
         }
+      }
     }
   },
   "$defs": {
     "PluContentType": {
       "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PluItemType"
         },
-        "imageId": {
-          "type": "string"
+        {
+          "$ref": "#/$defs/PluReferenceType"
         },
-        "type": {
-          "type": "string",
-          "enum": [
-            "PLU",
-            "ITEM",
-            "GROUP"
-          ]
-        },
-        "group": {
+        {
           "$ref": "#/$defs/PluGroupType"
         }
-      },
-      "required": ["id", "type"]
+      ]
     },
     "PluItemType": {
+      "description": "This is an entry for a specific item, and is placed inside a PLU list.",
       "type": "object",
-      "required": ["identifier", "imageUrl", "type"],
+      "required": [
+        "identifier",
+        "imageUrl",
+        "type"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -135,56 +105,76 @@
         "type": {
           "description": "The, ITEM type is for PLU items.",
           "type": "string",
-          "enum": ["ITEM"]
+          "enum": [
+            "ITEM"
+          ]
         }
       }
     },
     "PluReferenceType": {
-      "imageUrl": {
-        "description": "A uri to an image.",
-        "type": "string",
-        "pattern": "^(https?|file):\\/\\/.+$",
-        "maxLength": 2048,
-        "example": "https://example.com/assets/plu.png"
-      },
-      "id": {
-        "description": "The id of referenced PLU List",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 20
-      },
-      "type": {
-        "description": "The PLU_REFERENCE type is for referencing other PLUs.",
-        "type": "string",
-        "enum": ["PLU_REFERENCE"]
+      "type": "object",
+      "required": [
+        "id",
+        "imageUrl",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "description": "The id of referenced PLU List",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "imageUrl": {
+          "$ref": "#/$defs/ImageLinkType"
+        },
+        "type": {
+          "description": "The PLU_REFERENCE type is for referencing other PLUs.",
+          "type": "string",
+          "enum": [
+            "PLU_REFERENCE"
+          ]
+        }
       }
     },
     "PluGroupType": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "imageId": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "PLU_REFERENCE",
-              "ITEM",
-              "GROUP"
-            ]
+      "description": "This is a PLU - it contains a set of other PLUs to form a hierarchy.",
+      "type": "object",
+      "required": [
+        "id",
+        "imageUrl",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "plu": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PluContentType"
           }
         },
-        "required": ["id", "imageId", "type"]
+        "type": {
+          "description": "The GROUP type is for PLU lists.",
+          "type": "string",
+          "enum": [
+            "GROUP"
+          ]
+        }
       }
     },
     "AdditionalProperty": {
       "description": "Contains key-value collection of additional property.",
       "type": "object",
+      "required": [
+        "id",
+        "value",
+        "dataType"
+      ],
       "properties": {
         "id": {
           "description": "A, unique id for additional property object.",
@@ -219,6 +209,13 @@
           ]
         }
       }
+    },
+    "ImageLinkType": {
+      "description": "A uri to an image.",
+      "type": "string",
+      "pattern": "^(https?|file):\\/\\/.+$",
+      "maxLength": 2048,
+      "example": "https://example.com/assets/plu.png"
     }
   }
 }
