@@ -17,15 +17,15 @@
         "description": "A ReceiptLayout consists of Sections.",
         "type": "array",
         "items": {
-          "$ref": "#/schemas/Section"
+          "$ref": "#/$def/Section"
         }
       }
     },
-    "schemas": {
+    "$defs": {
       "ImagesType": {
         "type": "array",
         "items": {
-          "$ref": "#/schemas/ImageType"
+          "$ref": "#/$def/ImageType"
         }
       },
       "ImageType": {
@@ -44,15 +44,15 @@
           "value": {
             "oneOf": [
               {
-                "$ref": "#/schemas/ImageDataType"
+                "$ref": "#/$def/ImageDataType"
               },
               {
-                "$ref": "#/schemas/ImageLinkType"
+                "$ref": "#/$def/ImageLinkType"
               }
             ]
           },
           "properties": {
-            "$ref": "#/schemas/ImageProperty"
+            "$ref": "#/$def/ImageProperty"
           }
         }
       },
@@ -60,10 +60,10 @@
         "description": "A Section contains image or textual data.\n",
         "anyOf": [
           {
-            "$ref": "#/schemas/ImageSection"
+            "$ref": "#/$def/ImageSection"
           },
           {
-            "$ref": "#/schemas/TextSection"
+            "$ref": "#/$def/TextSection"
           }
         ]
       },
@@ -87,18 +87,18 @@
           "value": {
             "oneOf": [
               {
-                "$ref": "#/schemas/ImageDataType"
+                "$ref": "#/$def/ImageDataType"
               },
               {
-                "$ref": "#/schemas/ImageLinkType"
+                "$ref": "#/$def/ImageLinkType"
               },
               {
-                "$ref": "#/schemas/ImageIdType"
+                "$ref": "#/$def/ImageIdType"
               }
             ]
           },
           "properties": {
-            "$ref": "#/schemas/ImageProperty"
+            "$ref": "#/$def/ImageProperty"
           }
         }
       },
@@ -163,7 +163,7 @@
             "maxLength": 255
           },
           "properties": {
-            "$ref": "#/schemas/TextSectionProperty"
+            "$ref": "#/$def/TextSectionProperty"
           }
         }
       },
@@ -177,10 +177,10 @@
             "default": false
           },
           "alignment": {
-            "$ref": "#/schemas/AlignmentTypeEnum"
+            "$ref": "#/$def/AlignmentTypeEnum"
           },
           "fontStyle": {
-            "$ref": "#/schemas/FontStyleEnum"
+            "$ref": "#/$def/FontStyleEnum"
           },
           "additionalProperties": {}
         }
