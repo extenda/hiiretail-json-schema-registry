@@ -20,9 +20,7 @@
       "description": "Dynamic configurations for safe audit",
       "required": [
         "id",
-        "name",
-        "isNegativeSignByDefault",
-        "sortOrderKey"
+        "name"
       ],
       "properties": {
         "id": {
