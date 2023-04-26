@@ -25,11 +25,11 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for dynamic field"
+          "description": "Unique identifier for dynamic property"
         },
         "name": {
           "type": "string",
-          "description": "Name for dynamic field"
+          "description": "Name for dynamic property"
         },
         "isNegativeSignByDefault": {
           "type": "boolean",
