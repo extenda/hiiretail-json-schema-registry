@@ -90,11 +90,7 @@
           "example": "An entry for a specific item"
         },
         "imageUrl": {
-          "description": "A uri to an image.",
-          "type": "string",
-          "pattern": "^(https?|file):\\/\\/.+$",
-          "maxLength": 2048,
-          "example": "https://example.com/assets/plu.png"
+          "$ref": "#/$defs/ImageLinkType"
         },
         "identifier": {
           "description": "The, item identifier reference",
@@ -150,7 +146,7 @@
           "type": "string"
         },
         "imageUrl": {
-          "type": "string"
+          "$ref": "#/$defs/ImageLinkType"
         },
         "plu": {
           "type": "array",
@@ -213,7 +209,7 @@
     "ImageLinkType": {
       "description": "A uri to an image.",
       "type": "string",
-      "pattern": "^(https?|file):\\/\\/.+$",
+      "pattern": "^(https?|file)://.+$",
       "maxLength": 2048,
       "example": "https://example.com/assets/plu.png"
     }
