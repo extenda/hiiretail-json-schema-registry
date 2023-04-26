@@ -20,7 +20,9 @@
       "description": "Dynamic configurations for safe audit",
       "required": [
         "id",
-        "name"
+        "name",
+        "isNegativeSignByDefault",
+        "sortOrderKey"
       ],
       "properties": {
         "id": {
@@ -30,6 +32,14 @@
         "name": {
           "type": "string",
           "description": "Name for field"
+        },
+        "isNegativeSignByDefault": {
+          "type": "boolean",
+          "description": "If true, this indicates that the value entered is a negative amount by default"
+        },
+        "sortOrderKey": {
+          "type": "number",
+          "description": "Indicates the sequence the dynamics fields should be displayed in the UI"
         }
       }
     }
