@@ -77,18 +77,6 @@
         "type"
       ],
       "properties": {
-        "name": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "example": "ITEM1"
-        },
-        "description": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 255,
-          "example": "An entry for a specific item"
-        },
         "imageUrl": {
           "$ref": "#/$defs/ImageLinkType"
         },
@@ -142,6 +130,18 @@
         "type"
       ],
       "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "ITEM1"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "An entry for a specific item"
+        },
         "id": {
           "type": "string"
         },
