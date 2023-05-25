@@ -1,0 +1,15 @@
+{
+  "$id": "sng.settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Settings",
+  "description": "Scan&Go settings",
+  "type": "object",
+  "required": ["ceUrl"],
+  "properties": {
+    "ceUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Checkout Engine API URL"
+    }
+  }
+}
