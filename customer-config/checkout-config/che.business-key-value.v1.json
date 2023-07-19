@@ -1,0 +1,59 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.business-key-value.v1.json",
+    "title": "Business key-value configuration",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "required": [
+            "id",
+            "map"
+        ],
+        "properties": {
+            "id": {
+                "description": "A unique identifier for the business configuration map.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "example": "ext-co-props-configuration"
+            },
+            "map": {
+                "description": "Map with the key / value parameters",
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/MapContentType"
+                }
+            }
+        }
+    },
+    "$defs": {
+        "MapContentType": {
+            "description": "This is a definition of the key value structure.",
+            "type": "object",
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "key": {
+                    "description": "The key to identify property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "value": {
+                    "description": "The value of the item identified by the key",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "type": {
+                    "description": "The type of the property",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 255
+                }
+            }
+        }   
+    }
+}
