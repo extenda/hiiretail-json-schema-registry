@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.business-key-value.v1.json",
-    "title": "Business key-value configuration",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/pos-config/pos.config.v1.json",
+    "title": "POS business key-value configuration",
     "type": "array",
     "items": {
         "type": "object",
