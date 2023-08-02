@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-include-cash-changer-in-end-of-day.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoIncludeCashChangerInEndOfDay",
+  "description": "Include cash changer in End of Day",
+  "type": "object",
+  "required": ["doIncludeCashChangerInEndOfDay"],
+  "properties": {
+    "doIncludeCashChangerInEndOfDay": {
+      "type": "boolean",
+      "description": "Include cash changer in End of Day"
+    }
+  }
+}
