@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-auto-create-daily-cash-changer-reconciliation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoAutoCreateDailyCashChangerReconciliation",
+  "description": "Enable daily cash changer reconciliation",
+  "type": "object",
+  "required": ["doAutoCreateDailyCashChangerReconciliation"],
+  "properties": {
+    "doAutoCreateDailyCashChangerReconciliation": {
+      "type": "boolean",
+      "description": "Enable daily cash changer reconciliation"
+    }
+  }
+}
