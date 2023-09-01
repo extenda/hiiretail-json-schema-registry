@@ -3,9 +3,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "showDeviationDetailsInEndOfDay",
   "type": "object",
-  "required": ["ShowDeviationDetailsInEndOfDay"],
+  "required": ["showDeviationDetailsInEndOfDay"],
   "properties": {
-    "ShowDeviationDetailsInEndOfDay": {
+    "showDeviationDetailsInEndOfDay": {
       "type": "boolean"
     }
   }

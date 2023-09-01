@@ -1,11 +1,11 @@
 {
   "$id": "rec.show-deviation-details-in-till-audit.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "ShowDeviationDetailsInTillAuditReconciliation",
+  "title": "ShowDeviationDetailsInTillAudit",
   "type": "object",
-  "required": ["showDeviationDetailsInTillAuditReconciliation"],
+  "required": ["showDeviationDetailsInTillAudit"],
   "properties": {
-    "showDeviationDetailsInTillAuditReconciliation": {
+    "showDeviationDetailsInTillAudit": {
       "type": "boolean"
     }
   }
