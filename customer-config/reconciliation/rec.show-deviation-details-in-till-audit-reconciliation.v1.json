@@ -1,0 +1,12 @@
+{
+  "$id": "rec.show-deviation-details-in-till-audit.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShowDeviationDetailsInTillAudit",
+  "type": "object",
+  "required": ["showDeviationDetailsInTillAudit"],
+  "properties": {
+    "showDeviationDetailsInTillAudit": {
+      "type": "boolean"
+    }
+  }
+}
