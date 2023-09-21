@@ -107,7 +107,6 @@
     "OcmsSettingsType": {
       "softwareStatement": {
         "type": "string",
-        "format": "uri",
         "description": "Software statement."
       }
     },
