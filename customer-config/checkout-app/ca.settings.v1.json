@@ -1,0 +1,181 @@
+{
+  "$id": "ca.settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Settings",
+  "description": "Checkout App settings",
+  "type": "object",
+  "required": ["retail", "server"],
+  "properties": {
+    "retail": {
+      "description": "Retail settings",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/RetailSettingsType"
+      }
+    },
+    "server": {
+      "description": "Server settings",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/ServerSettingsType"
+      }
+    },
+    "ocms": {
+      "description": "Ocms settings",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/OcmsSettingsType"
+      }
+    },
+    "layout": {
+      "description": "Server settings",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/LayoutSettingsType"
+      }
+    },
+    "sco": {
+      "description": "SCO settings",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/ScoSettingsType"
+      }
+    },
+    "kiosk": {
+      "type": "boolean",
+      "description": "Hides the settings button from drawer."
+    },
+    "integerMonetary": {
+      "type": "boolean",
+      "description": "Indicates if the monetary input should accept decimals or not"
+    },
+    "priceVerification": {
+      "type": "boolean",
+      "description": "Displays price verification button in PLU, only for countries that do not require a control transaction for that."
+    },
+    "clearReceiptTimeout": {
+      "type": "number",
+      "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
+    }
+  },
+  "$defs": {
+    "RetailSettingsType": {
+        "description": "This is a definition of the retails settings",
+        "type": "object",
+        "required": [
+          "workstationId",
+          "storeId",
+          "coutryCode",
+          "tenantAlias"
+        ],
+        "properties": {
+          "workstationId": {
+            "type": "string",
+            "description": "Workstation ID for the session."
+          },
+          "storeId": {
+            "type": "string",
+            "description": "The retail store ID for the session."
+          },
+           "coutryCode": {
+            "type": "string",
+            "description": "The ISO 3166-1 2-alpha country code."
+          },
+          "tenantAlias": {
+            "type": "string",
+            "description": "The tenant and country-specific subdomain."
+          }
+        }
+    },
+    "ServerSettingsType": {
+      "description": "This is a definition of the server settings",
+      "type": "object",
+      "required": [
+        "host"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Checkout Engine API URL"
+        },
+        "networkCallTimeout": {
+          "type": "number",
+          "description": "The timeout for network calls. In milliseconds."
+        }
+      }
+    },
+    "OcmsSettingsType": {
+      "softwareStatement": {
+        "type": "string",
+        "format": "uri",
+        "description": "Software statement."
+      }
+    },
+    "LayoutSettingsType": {
+      "description": "This is a definition of the layout properties settings.",
+      "type": "object",
+      "properties": {
+        "wallpaperUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "logoUri": {
+          "type": "string",
+          "pattern":  "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for logo in SCO mode."
+        },
+        "enableInfoReceipt": {
+          "type": "boolean",
+          "description": "Enables the new receipt rendering based on the info property data."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customisation of the app."
+        }
+      }
+    },
+    "ScoSettingsType": {
+      "description": "This is a definition of the SCO properties settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the new SCO mode."
+        },
+        "pluFlag": {
+          "type": "boolean",
+          "description": "Enables the plu in SCO mode."
+        },
+        "callAssistantFlag": {
+          "type": "boolean",
+          "description": "Enables the call assistant button in SCO mode."
+        },
+        "bagsScreenFlag": {
+          "type": "boolean",
+          "description": "Enables the bags screen in SCO mode."
+        },
+        "disableDecreaseFlag": {
+          "type": "boolean",
+          "description": "Allows for item's quantity decrease in SCO mode."
+        },
+        "availableLanguages": {
+          "type": "string",
+          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE"
+        },
+         "defaultLanguage": {
+          "type": "string",
+          "description": "Defines the default languages in SCO mode."
+        },
+        "sessionKeepAliveInterval": {
+          "type": "number",
+          "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
+        },
+        "scoLoyaltyCCPrefix": {
+          "type": "string",
+          "description": "Defines the loyalty card prefix in SCO mode."
+        }
+      }
+    }
+  }
+}
