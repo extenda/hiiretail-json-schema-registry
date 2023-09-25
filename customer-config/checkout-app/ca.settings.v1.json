@@ -2,40 +2,26 @@
   "$id": "ca.settings.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Settings",
-  "description": "Checkout App settings",
+  "description": "Checkout App settings.",
   "type": "object",
-  "required": ["retail", "server"],
+  "required": ["server"],
   "properties": {
-    "retail": {
-      "description": "Retail settings",
-      "type": "object",
-      "items": {
-          "$ref": "#/$defs/RetailSettingsType"
-      }
-    },
     "server": {
-      "description": "Server settings",
+      "description": "Server settings.",
       "type": "object",
       "items": {
           "$ref": "#/$defs/ServerSettingsType"
       }
     },
-    "ocms": {
-      "description": "Ocms settings",
-      "type": "object",
-      "items": {
-          "$ref": "#/$defs/OcmsSettingsType"
-      }
-    },
     "layout": {
-      "description": "Server settings",
+      "description": "Layout settings.",
       "type": "object",
       "items": {
           "$ref": "#/$defs/LayoutSettingsType"
       }
     },
     "sco": {
-      "description": "SCO settings",
+      "description": "SCO settings.",
       "type": "object",
       "items": {
           "$ref": "#/$defs/ScoSettingsType"
@@ -59,34 +45,6 @@
     }
   },
   "$defs": {
-    "RetailSettingsType": {
-        "description": "This is a definition of the retails settings",
-        "type": "object",
-        "required": [
-          "workstationId",
-          "storeId",
-          "coutryCode",
-          "tenantAlias"
-        ],
-        "properties": {
-          "workstationId": {
-            "type": "string",
-            "description": "Workstation ID for the session."
-          },
-          "storeId": {
-            "type": "string",
-            "description": "The retail store ID for the session."
-          },
-           "coutryCode": {
-            "type": "string",
-            "description": "The ISO 3166-1 2-alpha country code."
-          },
-          "tenantAlias": {
-            "type": "string",
-            "description": "The tenant and country-specific subdomain."
-          }
-        }
-    },
     "ServerSettingsType": {
       "description": "This is a definition of the server settings",
       "type": "object",
@@ -102,12 +60,6 @@
           "type": "number",
           "description": "The timeout for network calls. In milliseconds."
         }
-      }
-    },
-    "OcmsSettingsType": {
-      "softwareStatement": {
-        "type": "string",
-        "description": "Software statement."
       }
     },
     "LayoutSettingsType": {
