@@ -1,0 +1,49 @@
+{
+  "$id": "rec.tender-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TenderConfig",
+  "description": "Set of available settings for tender",
+  "type": "object",
+  "properties": {
+    "doReconcileAmount": {
+      "type": ["null", "boolean"],
+      "description": "If true, it is required to populate ActualAmount or denominations when committing an actual count"
+    },
+    "doReconcileQuantity": {
+      "type": ["null", "boolean"],
+      "description": "If true, it is required to populate ActualCount when commiting an actual count"
+    },
+    "isCashChanger": {
+      "type": ["null", "boolean"],
+      "description": "If true, reconciliation type is CASH_CHANGER"
+    },
+    "maxAllowedAmount": {
+      "type": ["null", "number"],
+      "description": "The max allowed amount  this tender"
+    },
+    "minAllowedAmount": {
+      "type": ["null", "number"],
+      "description": "The min allowed amount  this tender"
+    },
+    "maxAllowedDeviationQuantity": {
+      "type": ["null", "number"],
+      "description": "The max allowed deviation quantity of this tender"
+    },
+    "maxAllowedDeviationAmount": {
+      "type": ["null", "number"],
+      "description": "The max allowed deviation amount for this tender"
+    },
+    "maxAllowedStoreDeviationQuantity": {
+      "type": ["null", "number"],
+      "description": "The max allowed store deviation quantity of this tender"
+    },
+    "maxAllowedStoreDeviationAmount": {
+      "type": ["null", "number"],
+      "description": "The max allowed store deviation amount for this tender"
+    },
+    "defaultInitialBalance": {
+      "type": ["null", "number"],
+      "description": "The value that will be used by default for the initial balance"
+    }
+  }
+}
