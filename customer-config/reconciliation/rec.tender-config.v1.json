@@ -27,7 +27,7 @@
     },
     "maxAllowedDeviationQuantity": {
       "type": ["null", "number"],
-      "description": "The max allowed deviation quantity of this tender"
+      "description": "The maximum allowed deviation for quantity, for a single reconciliation."
     },
     "maxAllowedDeviationAmount": {
       "type": ["null", "number"],
