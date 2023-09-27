@@ -7,7 +7,7 @@
   "properties": {
     "doReconcileAmount": {
       "type": ["null", "boolean"],
-      "description": "If true, it is required to populate ActualAmount or denominations when committing an actual count"
+      "description": "Indicates whether reconciliation of amount is required"
     },
     "doReconcileQuantity": {
       "type": ["null", "boolean"],
