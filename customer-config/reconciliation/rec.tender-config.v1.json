@@ -11,7 +11,7 @@
     },
     "doReconcileQuantity": {
       "type": ["null", "boolean"],
-      "description": "If true, it is required to populate ActualCount when commiting an actual count"
+      "description": "Indicates whether reconciliation of quantity is required"
     },
     "isCashChanger": {
       "type": ["null", "boolean"],
