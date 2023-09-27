@@ -32,31 +32,31 @@ export interface Config {
    */
   doReconcileQuantity?: null | boolean;
   /**
-   * Indicates that the cash is handled by a cash changer
+   * Indicates the cash is handled by a cash changer
    */
   isCashChanger?: null | boolean;
   /**
-   * Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered
+   * Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered.
    */
   maxAllowedAmount?: null | number;
   /**
-   * The min allowed amount  this tender
+   * Minimum allowed amount in cash drawer, if below, a warning will be triggered.
    */
   minAllowedAmount?: null | number;
   /**
-   * The max allowed deviation quantity of this tender
+   * The maximum allowed deviation for quantity, for a single reconciliation.
    */
   maxAllowedDeviationQuantity?: null | number;
   /**
-   * The max allowed deviation amount for this tender
+   * The maximum allowed deviation for amount, for a single reconciliation.
    */
   maxAllowedDeviationAmount?: null | number;
   /**
-   * The max allowed store deviation quantity of this tender
+   * The maximum allowed deviation for quantity, for the business unit (includes all reconciliations)
    */
   maxAllowedStoreDeviationQuantity?: null | number;
   /**
-   * The max allowed store deviation amount for this tender
+   * The maximum allowed deviation for amount, for the business unit (includes all reconciliations).
    */
   maxAllowedStoreDeviationAmount?: null | number;
   /**

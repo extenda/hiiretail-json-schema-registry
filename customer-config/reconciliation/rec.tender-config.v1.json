@@ -39,31 +39,31 @@
         },
         "isCashChanger": {
           "type": ["null", "boolean"],
-          "description": "Indicates that the cash is handled by a cash changer"
+          "description": "Indicates the cash is handled by a cash changer"
         },
         "maxAllowedAmount": {
           "type": ["null", "number"],
-          "description": "Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered"
+          "description": "Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered."
         },
         "minAllowedAmount": {
           "type": ["null", "number"],
-          "description": "The min allowed amount  this tender"
+          "description": "Minimum allowed amount in cash drawer, if below, a warning will be triggered."
         },
         "maxAllowedDeviationQuantity": {
           "type": ["null", "number"],
-          "description": "The max allowed deviation quantity of this tender"
+          "description": "The maximum allowed deviation for quantity, for a single reconciliation."
         },
         "maxAllowedDeviationAmount": {
           "type": ["null", "number"],
-          "description": "The max allowed deviation amount for this tender"
+          "description": "The maximum allowed deviation for amount, for a single reconciliation."
         },
         "maxAllowedStoreDeviationQuantity": {
           "type": ["null", "number"],
-          "description": "The max allowed store deviation quantity of this tender"
+          "description": "The maximum allowed deviation for quantity, for the business unit (includes all reconciliations)"
         },
         "maxAllowedStoreDeviationAmount": {
           "type": ["null", "number"],
-          "description": "The max allowed store deviation amount for this tender"
+          "description": "The maximum allowed deviation for amount, for the business unit (includes all reconciliations)."
         },
         "defaultInitialBalance": {
           "type": ["null", "number"],
