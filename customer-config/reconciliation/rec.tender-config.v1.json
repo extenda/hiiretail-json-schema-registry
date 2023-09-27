@@ -35,7 +35,7 @@
     },
     "maxAllowedStoreDeviationQuantity": {
       "type": ["null", "number"],
-      "description": "The max allowed store deviation quantity of this tender"
+      "description": "The maximum allowed deviation for quantity, for the business unit (includes all reconciliations)"
     },
     "maxAllowedStoreDeviationAmount": {
       "type": ["null", "number"],
