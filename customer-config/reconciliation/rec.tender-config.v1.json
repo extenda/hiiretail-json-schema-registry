@@ -23,7 +23,7 @@
     },
     "minAllowedAmount": {
       "type": ["null", "number"],
-      "description": "The min allowed amount  this tender"
+      "description": "Minimum allowed amount in cash drawer, if below, a warning will be triggered."
     },
     "maxAllowedDeviationQuantity": {
       "type": ["null", "number"],
