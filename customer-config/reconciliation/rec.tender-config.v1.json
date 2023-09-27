@@ -15,7 +15,7 @@
     },
     "isCashChanger": {
       "type": ["null", "boolean"],
-      "description": "Indicates that the cash is handled by a cash changer"
+      "description": "Indicates the cash is handled by a cash changer"
     },
     "maxAllowedAmount": {
       "type": ["null", "number"],
