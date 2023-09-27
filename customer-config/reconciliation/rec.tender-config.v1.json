@@ -4,46 +4,72 @@
   "title": "TenderConfig",
   "description": "Set of available settings for tender",
   "type": "object",
+  "required": [
+    "configs"
+  ],
   "properties": {
-    "doReconcileAmount": {
-      "type": ["null", "boolean"],
-      "description": "If true, it is required to populate ActualAmount or denominations when committing an actual count"
-    },
-    "doReconcileQuantity": {
-      "type": ["null", "boolean"],
-      "description": "If true, it is required to populate ActualCount when commiting an actual count"
-    },
-    "isCashChanger": {
-      "type": ["null", "boolean"],
-      "description": "If true, reconciliation type is CASH_CHANGER"
-    },
-    "maxAllowedAmount": {
-      "type": ["null", "number"],
-      "description": "The max allowed amount  this tender"
-    },
-    "minAllowedAmount": {
-      "type": ["null", "number"],
-      "description": "The min allowed amount  this tender"
-    },
-    "maxAllowedDeviationQuantity": {
-      "type": ["null", "number"],
-      "description": "The max allowed deviation quantity of this tender"
-    },
-    "maxAllowedDeviationAmount": {
-      "type": ["null", "number"],
-      "description": "The max allowed deviation amount for this tender"
-    },
-    "maxAllowedStoreDeviationQuantity": {
-      "type": ["null", "number"],
-      "description": "The max allowed store deviation quantity of this tender"
-    },
-    "maxAllowedStoreDeviationAmount": {
-      "type": ["null", "number"],
-      "description": "The max allowed store deviation amount for this tender"
-    },
-    "defaultInitialBalance": {
-      "type": ["null", "number"],
-      "description": "The value that will be used by default for the initial balance"
+    "configs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Config"
+      },
+      "description": "List of settings for tenders"
+    }
+  },
+  "$defs": {
+    "Config": {
+      "title": "Config",
+      "description": "Set of available settings for tender",
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify tender"
+        },
+        "doReconcileAmount": {
+          "type": ["null", "boolean"],
+          "description": "Indicates whether reconciliation of amount is required"
+        },
+        "doReconcileQuantity": {
+          "type": ["null", "boolean"],
+          "description": "Indicates whether reconciliation of quantity is required"
+        },
+        "isCashChanger": {
+          "type": ["null", "boolean"],
+          "description": "Indicates that the cash is handled by a cash changer"
+        },
+        "maxAllowedAmount": {
+          "type": ["null", "number"],
+          "description": "Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered"
+        },
+        "minAllowedAmount": {
+          "type": ["null", "number"],
+          "description": "The min allowed amount  this tender"
+        },
+        "maxAllowedDeviationQuantity": {
+          "type": ["null", "number"],
+          "description": "The max allowed deviation quantity of this tender"
+        },
+        "maxAllowedDeviationAmount": {
+          "type": ["null", "number"],
+          "description": "The max allowed deviation amount for this tender"
+        },
+        "maxAllowedStoreDeviationQuantity": {
+          "type": ["null", "number"],
+          "description": "The max allowed store deviation quantity of this tender"
+        },
+        "maxAllowedStoreDeviationAmount": {
+          "type": ["null", "number"],
+          "description": "The max allowed store deviation amount for this tender"
+        },
+        "defaultInitialBalance": {
+          "type": ["null", "number"],
+          "description": "The value that will be used by default for the initial balance"
+        }
+      }
     }
   }
 }
