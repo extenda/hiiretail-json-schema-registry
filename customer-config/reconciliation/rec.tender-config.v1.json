@@ -39,7 +39,7 @@
     },
     "maxAllowedStoreDeviationAmount": {
       "type": ["null", "number"],
-      "description": "The max allowed store deviation amount for this tender"
+      "description": "The maximum allowed deviation for amount, for the business unit (includes all reconciliations)."
     },
     "defaultInitialBalance": {
       "type": ["null", "number"],
