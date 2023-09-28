@@ -1,0 +1,80 @@
+{
+  "$id": "rec.tenders-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TendersConfig",
+  "description": "List of tenders with settings",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/TenderConfig"
+  },
+  "$defs": {
+    "TenderConfig": {
+      "title": "TenderConfig",
+      "description": "Tender with necessary settings",
+      "type": "object",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify tender"
+        },
+        "config": {
+          "type": "object",
+          "$ref": "#/$defs/TenderConfig/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for tender",
+          "type": "object",
+          "properties": {
+            "doReconcileAmount": {
+              "type": ["null", "boolean"],
+              "description": "Indicates whether reconciliation of amount is required"
+            },
+            "doReconcileQuantity": {
+              "type": ["null", "boolean"],
+              "description": "Indicates whether reconciliation of quantity is required"
+            },
+            "isCashChanger": {
+              "type": ["null", "boolean"],
+              "description": "Indicates the cash is handled by a cash changer"
+            },
+            "maxAllowedAmount": {
+              "type": ["null", "number"],
+              "description": "Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered."
+            },
+            "minAllowedAmount": {
+              "type": ["null", "number"],
+              "description": "Minimum allowed amount in cash drawer, if below, a warning will be triggered."
+            },
+            "maxAllowedDeviationQuantity": {
+              "type": ["null", "number"],
+              "description": "The maximum allowed deviation for quantity, for a single reconciliation."
+            },
+            "maxAllowedDeviationAmount": {
+              "type": ["null", "number"],
+              "description": "The maximum allowed deviation for amount, for a single reconciliation."
+            },
+            "maxAllowedStoreDeviationQuantity": {
+              "type": ["null", "number"],
+              "description": "The maximum allowed deviation for quantity, for the business unit (includes all reconciliations)"
+            },
+            "maxAllowedStoreDeviationAmount": {
+              "type": ["null", "number"],
+              "description": "The maximum allowed deviation for amount, for the business unit (includes all reconciliations)."
+            },
+            "defaultInitialBalance": {
+              "type": ["null", "number"],
+              "description": "The value that will be used by default for the initial balance"
+            }
+          }
+        }
+      }
+    }
+  }
+}
