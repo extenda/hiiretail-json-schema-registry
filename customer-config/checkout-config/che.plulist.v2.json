@@ -11,7 +11,7 @@
     ],
     "properties": {
       "effectiveDate": {
-        "description": "The date when this PLU list should be applied, if present.",
+        "description": "The date when this PLU list should be applied, if present. The date should be in UTC time zone",
         "type": "string",
         "format": "date",
         "example": "2021-01-01"
@@ -122,7 +122,8 @@
       "type": "object",
       "required": [
         "id",
-        "images",
+        "name",
+        "content",
         "type"
       ],
       "properties": {
@@ -206,6 +207,9 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": [
+          "url"
+        ],
         "properties": {
           "url": {
             "description": "A uri to an image.",
