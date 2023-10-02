@@ -7,7 +7,7 @@
     "type": "object",
     "required": [
       "id",
-      "plu"
+      "content"
     ],
     "properties": {
       "effectiveDate": {
@@ -38,11 +38,14 @@
         "example": "The description for PLU List"
       },
       "deviceTypes": {
-        "description": "A list of device types that this PLUList applies to",
+        "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
         "type": "array",
-        "example": "[{'id': 'SelfCheckout'}]",
+        "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
         "items": {
           "type": "object",
+          "required": [
+            "id"
+          ],
           "properties": {
             "id": {
               "type": "string",
