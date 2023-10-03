@@ -98,7 +98,6 @@
       "type": "object",
       "required": [
         "identifier",
-        "images",
         "type"
       ],
       "properties": {
