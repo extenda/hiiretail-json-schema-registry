@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.plulist.v2.json",
+  "title": "PLU List message",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/$defs/PluListType"
+  },
+  "$defs": {
+     "PluListType": {
+      "type": "object",
+      "required": [
+        "name",
+        "content"
+      ],
+      "properties": {
+        "effectiveDate": {
+          "description": "The date when this PLU list should be applied, if present. The date should be in UTC time zone",
+          "type": "string",
+          "format": "date",
+          "example": "2021-01-01"
+        },
+        "name": {
+          "description": "The PLU List name",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "PLU List"
+        },
+        "description": {
+          "description": "The PLU List description",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "The description for PLU List"
+        },
+        "deviceTypes": {
+          "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
+          "type": "array",
+          "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              }
+            }
+            }
+        },
+        "isModifiable": {
+          "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "isRemovable": {
+          "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "content": {
+          "description": "PLU lists can contain other PLU lists and/or items.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PluContentType"
+          }
+        },
+        "additionalProperties": {
+          "description": "Additional custom properties can be added via this field.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AdditionalProperty"
+          }
+        }
+      }
+    },
+    "PluContentType": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PluItemType"
+        },
+        {
+          "$ref": "#/$defs/PluGroupType"
+        }
+      ]
+    },
+    "PluItemType": {
+      "description": "This is an entry for a specific item, and is placed inside a PLU list.",
+      "type": "object",
+      "required": [
+        "identifier",
+        "type"
+      ],
+      "properties": {
+        "images": {
+          "$ref": "#/$defs/ImagesType"
+        },
+        "itemIdentifier": {
+          "description": "The item identifier reference",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "type": {
+          "description": "The ITEM type is for PLU items.",
+          "type": "string",
+          "enum": [
+            "ITEM"
+          ]
+        }
+      }
+    },
+    "PluGroupType": {
+      "description": "This is a PLU - it contains a set of other PLUs to form a hierarchy.",
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "content",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "Apples"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "Our delicious apples"
+        },
+        "id": {
+          "type": "string"
+        },
+        "images": {
+          "$ref": "#/$defs/ImagesType"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PluContentType"
+          }
+        },
+        "type": {
+          "description": "The GROUP type is for PLU lists.",
+          "type": "string",
+          "enum": [
+            "GROUP"
+          ]
+        }
+      }
+    },
+    "AdditionalProperty": {
+      "description": "Contains key-value collection of additional property.",
+      "type": "object",
+      "required": [
+        "id",
+        "value",
+        "dataType"
+      ],
+      "properties": {
+        "id": {
+          "description": "A, unique id for additional property object.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "property.id"
+        },
+        "value": {
+          "description": "The actual Value of the additional property object.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "50.00"
+        },
+        "dataType": {
+          "description": "The type of the data found in 'value'.",
+          "type": "string",
+          "example": "DOUBLE",
+          "enum": [
+            "BOOL",
+            "INT",
+            "DOUBLE",
+            "STRING",
+            "DATE",
+            "DATETIME",
+            "IMAGE",
+            "BINARY",
+            "JSON",
+            "ARRAY",
+            "UNKNOWN"
+          ]
+        }
+      }
+    },
+    "ImagesType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "description": "A uri to an image.",
+            "type": "string",
+            "pattern": "^(https?|file)://.+$",
+            "maxLength": 2048,
+            "example": "https://example.com/assets/plu.png"
+          }
+        }
+      }
+    }
+  }
+}
