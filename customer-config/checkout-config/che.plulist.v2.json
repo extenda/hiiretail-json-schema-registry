@@ -2,86 +2,82 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.plulist.v2.json",
   "title": "PLU List message",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "required": [
-      "id",
-      "content"
-    ],
-    "properties": {
-      "effectiveDate": {
-        "description": "The date when this PLU list should be applied, if present. The date should be in UTC time zone",
-        "type": "string",
-        "format": "date",
-        "example": "2021-01-01"
-      },
-      "id": {
-        "description": "A unique identifier for the PLU list.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 20,
-        "example": "top-5-items-plu"
-      },
-      "name": {
-        "description": "The PLU List name",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 40,
-        "example": "PLU List"
-      },
-      "description": {
-        "description": "The PLU List description",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 255,
-        "example": "The description for PLU List"
-      },
-      "deviceTypes": {
-        "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
-        "type": "array",
-        "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
-        "items": {
-          "type": "object",
-          "required": [
-            "id"
-          ],
-          "properties": {
-            "id": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            }
-          }
-          }
-      },
-      "isModifiable": {
-        "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
-        "type": "boolean",
-        "example": "true"
-      },
-      "isRemovable": {
-        "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
-        "type": "boolean",
-        "example": "true"
-      },
-      "content": {
-        "description": "PLU lists can contain other PLU lists and/or items.",
-        "type": "array",
-        "items": {
-          "$ref": "#/$defs/PluContentType"
-        }
-      },
-      "additionalProperties": {
-        "description": "Additional custom properties can be added via this field.",
-        "type": "array",
-        "items": {
-          "$ref": "#/$defs/AdditionalProperty"
-        }
-      }
-    }
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/$defs/PluListType"
   },
   "$defs": {
+     "PluListType": {
+      "type": "object",
+      "required": [
+        "name",
+        "content"
+      ],
+      "properties": {
+        "effectiveDate": {
+          "description": "The date when this PLU list should be applied, if present. The date should be in UTC time zone",
+          "type": "string",
+          "format": "date",
+          "example": "2021-01-01"
+        },
+        "name": {
+          "description": "The PLU List name",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "PLU List"
+        },
+        "description": {
+          "description": "The PLU List description",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "The description for PLU List"
+        },
+        "deviceTypes": {
+          "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
+          "type": "array",
+          "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              }
+            }
+            }
+        },
+        "isModifiable": {
+          "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "isRemovable": {
+          "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "content": {
+          "description": "PLU lists can contain other PLU lists and/or items.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PluContentType"
+          }
+        },
+        "additionalProperties": {
+          "description": "Additional custom properties can be added via this field.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AdditionalProperty"
+          }
+        }
+      }
+    },
     "PluContentType": {
       "type": "object",
       "oneOf": [
