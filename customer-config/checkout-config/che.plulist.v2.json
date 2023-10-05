@@ -100,15 +100,15 @@
       "description": "This is an entry for a specific item, and is placed inside a PLU list.",
       "type": "object",
       "required": [
-        "identifier",
+        "id",
         "type"
       ],
       "properties": {
         "images": {
           "$ref": "#/$defs/ImagesType"
         },
-        "itemIdentifier": {
-          "description": "The item identifier reference",
+        "id": {
+          "description": "The item identifier (barcode, GTIN, PLU) reference",
           "type": "string",
           "minLength": 1,
           "maxLength": 20
