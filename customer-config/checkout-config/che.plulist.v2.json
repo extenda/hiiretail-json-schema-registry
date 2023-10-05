@@ -20,6 +20,13 @@
           "format": "date",
           "example": "2021-01-01"
         },
+        "id": {
+          "description": "A unique identifier for the PLU list.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "example": "top-5-items-plu"
+        },
         "name": {
           "description": "The PLU List name",
           "type": "string",
