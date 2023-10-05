@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.plulist.v2.json",
   "title": "PLU List message",
-  "type": "object",
-  "additionalProperties": {
+  "type": "array",
+  "items": {
     "$ref": "#/$defs/PluListType"
   },
   "$defs": {
