@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.plulist.v2.json",
   "title": "PLU List message",
-  "type": "object",
-  "additionalProperties": {
+  "type": "array",
+  "items": {
     "$ref": "#/$defs/PluListType"
   },
   "$defs": {
@@ -19,6 +19,13 @@
           "type": "string",
           "format": "date",
           "example": "2021-01-01"
+        },
+        "id": {
+          "description": "A unique identifier for the PLU list.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "example": "top-5-items-plu"
         },
         "name": {
           "description": "The PLU List name",
