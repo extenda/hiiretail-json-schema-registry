@@ -27,6 +27,13 @@
           "$ref": "#/$defs/ScoSettingsType"
       }
     },
+    "peripherals": {
+      "description": "Periperals settings.",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/PeripheralsSettingsType"
+      }
+    },
     "kiosk": {
       "type": "boolean",
       "description": "Hides the settings button from drawer."
@@ -90,10 +97,6 @@
       "description": "This is a definition of the SCO properties settings.",
       "type": "object",
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the new SCO mode."
-        },
         "pluFlag": {
           "type": "boolean",
           "description": "Enables the plu in SCO mode."
@@ -125,6 +128,69 @@
         "scoLoyaltyCCPrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
+        }
+      }
+    },
+    "PeripheralsSettingsType": {
+      "description": "This is a definition of the peripherals properties settings.",
+      "type": "object",
+      "properties": {
+        "scanner1": {
+          "items": {
+            "$ref": "#/$defs/PeripheralsScannerType"
+          }
+        },
+        "scanner2": {
+          "items": {
+            "$ref": "#/$defs/PeripheralsScannerType"
+          }
+        },
+        "printer": {
+          "items": {
+            "$ref": "#/$defs/PeripheralsPrinterType"
+          }
+        }
+      }
+    },
+    "PeripheralsScannerType": {
+      "description": "This is a definition of the scanner settings.",
+      "type": "object",
+      "required": ["logicalName"],
+      "properties": {
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Scanner's logical name"
+        }
+      }
+    },
+    "PeripheralsPrinterType": {
+      "description": "This is a definition of the printer settings.",
+      "type": "object",
+      "required": ["logicalName"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Printer's logical name"
+        },
+        "cashdrawerEnabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "cashdrawerLogicalName": {
+          "type": "string",
+          "description": "Cashdrawer's logical name"
         }
       }
     }
