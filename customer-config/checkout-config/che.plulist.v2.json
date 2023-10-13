@@ -27,6 +27,10 @@
           "maxLength": 20,
           "example": "top-5-items-plu"
         },
+        "disabled": {
+          "description": "If true, this PLU list will not be available",
+          "type": "boolean"
+        },
         "name": {
           "description": "The PLU List name",
           "type": "string",
