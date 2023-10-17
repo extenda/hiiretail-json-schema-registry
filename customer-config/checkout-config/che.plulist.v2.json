@@ -50,18 +50,8 @@
           "type": "array",
           "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
           "items": {
-            "type": "object",
-            "required": [
-              "id"
-            ],
-            "properties": {
-              "id": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 40
-              }
-            }
-            }
+            "$ref": "#/$defs/DeviceType"
+          }
         },
         "isModifiable": {
           "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
@@ -86,6 +76,19 @@
           "items": {
             "$ref": "#/$defs/AdditionalProperty"
           }
+        }
+      }
+    },
+    "DeviceType": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
         }
       }
     },
@@ -158,6 +161,14 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/PluContentType"
+          }
+        },
+        "deviceTypes": {
+          "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
+          "type": "array",
+          "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
+          "items": {
+            "$ref": "#/$defs/DeviceType"
           }
         },
         "type": {
