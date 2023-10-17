@@ -31,12 +31,19 @@
             "description": "This is a definition of the key value structure.",
             "type": "object",
             "required": [
+                "id",
                 "key",
                 "value"
             ],
             "properties": {
+                "id": {
+                    "description": "The unique identifier of the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
                 "key": {
-                    "description": "The key to identify property",
+                    "description": "The key to identify business property",
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 255
