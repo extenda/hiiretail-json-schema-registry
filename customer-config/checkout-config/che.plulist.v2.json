@@ -171,6 +171,16 @@
             "$ref": "#/$defs/DeviceType"
           }
         },
+        "isModifiable": {
+          "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "isRemovable": {
+          "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
         "type": {
           "description": "The GROUP type is for PLU lists.",
           "type": "string",
