@@ -1,0 +1,14 @@
+{
+  "$id": "rec.min-allowed-amount-in-cash-drawer.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MinAllowedAmountInCashDrawer",
+  "description": "Minimum allowed amount in cash drawer, if below, a warning will be triggered.",
+  "type": "object",
+  "required": ["minAllowedAmountInCashDrawer"],
+  "properties": {
+    "minAllowedAmountInCashDrawer": {
+      "type": "number",
+      "description": "Minimum allowed amount in cash drawer"
+    }
+  }
+}
