@@ -1,0 +1,57 @@
+{
+  "$id": "cmm.tender-configs.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TenderConfigs",
+  "description": "List of tenders with settings",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/TenderConfig"
+  },
+  "$defs": {
+    "TenderConfig": {
+      "title": "TenderConfig",
+      "description": "Tender with necessary settings",
+      "type": "object",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify tender"
+        },
+        "config": {
+          "type": "object",
+          "description": "Set of available settings for tender",
+          "$ref": "#/$defs/TenderConfig/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for tender",
+          "type": "object",
+          "properties": {
+            "maxAllowedDeviationAmount": {
+              "type": ["null", "number"],
+              "description": "The maximum allowed deviation for amount, for a single reconciliation."
+            },
+            "minAmountBankDeposit": {
+              "type": ["null", "number"],
+              "description": "Minimum amount when doing bank deposits, i.e. transfers from the repository to the bank"
+            },
+            "maxAllowedAmountInSafe": {
+              "type": ["null", "number"],
+              "description": "Maximum allowed amount in safe, if exceeded, a warning will be triggered."
+            },
+            "minAllowedAmountInSafe": {
+              "type": ["null", "number"],
+              "description": "Minimum allowed amount in safe, if below, a warning will be triggered."
+            }
+          }
+        }
+      }
+    }
+  }
+}
