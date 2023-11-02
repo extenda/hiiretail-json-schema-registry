@@ -71,6 +71,14 @@
             "defaultInitialBalance": {
               "type": ["null", "number"],
               "description": "The value that will be used by default for the initial balance"
+            },
+            "maxAllowedAmountInCashDrawer": {
+              "type": ["null", "number"],
+              "description": "Maximum allowed amount in cash drawer, if exceeded, a warning will be triggered."
+            },
+            "minAllowedAmountInCashDrawer": {
+              "type": ["null", "number"],
+              "description": "Minimum allowed amount in cash drawer, if below, a warning will be triggered."
             }
           }
         }
