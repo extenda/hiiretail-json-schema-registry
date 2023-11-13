@@ -266,7 +266,7 @@
           "description": "The query ID",
           "type": "string",
           "minLength": 1,
-          "maxLength": 20
+          "maxLength": 40
         },
         "type": {
           "description": "The ITEM_SELECTION type is for automated PLU lists.",
