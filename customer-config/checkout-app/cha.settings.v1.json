@@ -34,6 +34,13 @@
           "$ref": "#/$defs/PeripheralsSettingsType"
       }
     },
+    "cfd": {
+      "description": "Customer facing display",
+      "type": "object",
+      "items": {
+          "$ref": "#/$defs/CfdSettingsType"
+      }
+    },
     "kiosk": {
       "type": "boolean",
       "description": "Hides the settings button from drawer."
@@ -191,6 +198,21 @@
         "cashdrawerLogicalName": {
           "type": "string",
           "description": "Cashdrawer's logical name"
+        }
+      }
+    },
+    "CfdSettingsType": {
+      "description": "This is a definition of the cfd settings",
+      "type": "object",
+      "required": ["autoConnect"],
+      "properties": {
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "welcomeMessage": {
+          "type": "string",
+          "description": "Welcome message to display on the customer facing display."
         }
       }
     }
