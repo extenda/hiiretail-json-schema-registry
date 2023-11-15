@@ -146,7 +146,7 @@
     "PeripheralsScannerType": {
       "description": "This is a definition of the scanner settings.",
       "type": "object",
-      "required": ["logicalName"],
+      "required": ["logicalName", "autoConnect"],
       "properties": {
         "autoConnect": {
           "type": "boolean",
@@ -161,7 +161,7 @@
     "PeripheralsPrinterType": {
       "description": "This is a definition of the printer settings.",
       "type": "object",
-      "required": ["logicalName"],
+      "required": ["logicalName", "enabled", "autoConnect"],
       "properties": {
         "enabled": {
           "type": "boolean",
