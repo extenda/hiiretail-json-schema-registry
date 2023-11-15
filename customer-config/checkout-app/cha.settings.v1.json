@@ -188,9 +188,9 @@
     "CfdSettingsType": {
       "description": "This is a definition of the cfd settings",
       "type": "object",
-      "required": ["autoConnect"],
+      "required": ["autoStart"],
       "properties": {
-        "autoConnect": {
+        "autoStart": {
           "type": "boolean",
           "description": "Enables the device."
         },
