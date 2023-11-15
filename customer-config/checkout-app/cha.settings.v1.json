@@ -9,37 +9,27 @@
     "server": {
       "description": "Server settings.",
       "type": "object",
-      "items": {
-          "$ref": "#/$defs/ServerSettingsType"
-      }
+      "$ref": "#/$defs/ServerSettingsType"
     },
     "layout": {
       "description": "Layout settings.",
       "type": "object",
-      "items": {
-          "$ref": "#/$defs/LayoutSettingsType"
-      }
+      "$ref": "#/$defs/LayoutSettingsType"
     },
     "sco": {
       "description": "SCO settings.",
       "type": "object",
-      "items": {
-          "$ref": "#/$defs/ScoSettingsType"
-      }
+      "$ref": "#/$defs/ScoSettingsType"
     },
     "peripherals": {
       "description": "Periperals settings.",
       "type": "object",
-      "items": {
-          "$ref": "#/$defs/PeripheralsSettingsType"
-      }
+      "$ref": "#/$defs/PeripheralsSettingsType"
     },
     "cfd": {
       "description": "Customer facing display",
       "type": "object",
-      "items": {
-          "$ref": "#/$defs/CfdSettingsType"
-      }
+      "$ref": "#/$defs/CfdSettingsType"
     },
     "kiosk": {
       "type": "boolean",
@@ -143,19 +133,13 @@
       "type": "object",
       "properties": {
         "scanner1": {
-          "items": {
-            "$ref": "#/$defs/PeripheralsScannerType"
-          }
+          "$ref": "#/$defs/PeripheralsScannerType"
         },
         "scanner2": {
-          "items": {
-            "$ref": "#/$defs/PeripheralsScannerType"
-          }
+          "$ref": "#/$defs/PeripheralsScannerType"
         },
         "printer": {
-          "items": {
-            "$ref": "#/$defs/PeripheralsPrinterType"
-          }
+          "$ref": "#/$defs/PeripheralsPrinterType"
         }
       }
     },
