@@ -1,0 +1,14 @@
+{
+  "$id": "rec.use-single-cash-changer.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UseSingleCashChanger",
+  "description": "Parameter to define single/multiple cashChanger for reconciliation",
+  "type": "object",
+  "required": ["useSingleCashChanger"],
+  "properties": {
+    "useSingleCashChanger": {
+      "type": ["boolean", "null"],
+      "description": "Parameter to define single/multiple cashChanger"
+    }
+  }
+}
