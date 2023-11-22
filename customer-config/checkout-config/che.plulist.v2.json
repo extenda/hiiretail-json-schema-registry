@@ -10,6 +10,7 @@
      "PluListType": {
       "type": "object",
       "required": [
+        "id",
         "name",
         "content"
       ],
@@ -164,14 +165,6 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/PluContentType"
-          }
-        },
-        "deviceTypes": {
-          "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
-          "type": "array",
-          "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
-          "items": {
-            "$ref": "#/$defs/DeviceType"
           }
         },
         "isModifiable": {
