@@ -103,7 +103,7 @@
           "$ref": "#/$defs/PluGroupType"
         },
         {
-          "$ref" : "#/$defs/PluItemSelectionType"
+          "$ref": "#/$defs/PluItemSelectionType"
         }
       ]
     },
@@ -248,20 +248,45 @@
       }
     },
     "PluItemSelectionType": {
-      "description": "This is an entry for a query used to fetch PLU items",
+      "description": "This is an entry for dynamically created PLUList items",
       "type": "object",
       "required": [
         "id",
         "type"
       ],
       "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "Bakery Top 10"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "The top 10 most sold in Bakery"
+        },
         "id": {
-          "description": "The query ID",
+          "description": "The Search Selection query ID",
           "type": "string",
           "minLength": 1,
           "maxLength": 40
         },
-        "type": {
+        "images": {
+          "$ref": "#/$defs/ImagesType"
+        },
+        "isModifiable": {
+          "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+        "isRemovable": {
+          "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
+          "type": "boolean",
+          "example": "true"
+        },
+       "type": {
           "description": "The ITEM_SELECTION type is for automated PLU lists.",
           "type": "string",
           "enum": [
