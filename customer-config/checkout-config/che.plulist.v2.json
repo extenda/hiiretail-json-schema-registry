@@ -156,7 +156,9 @@
           "example": "Our delicious apples"
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
         },
         "images": {
           "$ref": "#/$defs/ImagesType"
