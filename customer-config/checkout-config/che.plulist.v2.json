@@ -254,6 +254,7 @@
       "type": "object",
       "required": [
         "id",
+        "name",
         "type"
       ],
       "properties": {
