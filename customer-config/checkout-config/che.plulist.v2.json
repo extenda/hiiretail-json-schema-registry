@@ -254,6 +254,7 @@
       "type": "object",
       "required": [
         "id",
+        "searchSelectionId",
         "name",
         "type"
       ],
@@ -271,6 +272,12 @@
           "example": "The top 10 most sold in Bakery"
         },
         "id": {
+          "description": "A unique id",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "searchSelectionId": {
           "description": "The Search Selection query ID",
           "type": "string",
           "minLength": 1,
