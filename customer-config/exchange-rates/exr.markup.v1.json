@@ -1,0 +1,62 @@
+{
+  "$id": "exr.markup.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExchangeRatesMarkups",
+  "description": "List of exchange rates markups",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/ExchangeRate"
+  },
+  "$defs": {
+    "ExchangeRate": {
+      "title": "ExchangeRate",
+      "description": "The exchange rate with markup",
+      "type": "object",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify exchange rate"
+        },
+        "config": {
+          "type": "object",
+          "$ref": "#/$defs/ExchangeRate/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for exchange rate markup",
+          "type": "object",
+          "required": [
+            "type",
+            "currencyIdFrom",
+            "currencyIdTo",
+            "markup"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Indicates type of exchange rate"
+            },
+            "currencyIdFrom": {
+              "type": "string",
+              "description": "Source currency code using ISO4217 format"
+            },
+            "currencyIdTo": {
+              "type": "string",
+              "description": "Target currency code using ISO4217 format"
+            },
+            "markup": {
+              "type": "number",
+              "description": "Value for markup"
+            }
+          }
+        }
+      }
+    }
+  }
+}
