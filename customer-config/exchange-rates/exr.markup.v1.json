@@ -8,7 +8,7 @@
     "$ref": "#/$defs/ExchangeRate"
   },
   "$defs": {
-    "ExchangeRate": {
+    "Markup": {
       "title": "ExchangeRate",
       "description": "The exchange rate with markup",
       "type": "object",
