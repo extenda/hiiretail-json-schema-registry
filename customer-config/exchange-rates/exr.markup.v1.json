@@ -10,7 +10,7 @@
   "$defs": {
     "Markup": {
       "title": "ExchangeRate",
-      "description": "The exchange rate with markup",
+      "description": "The markup for a given exchange rate",
       "type": "object",
       "required": [
         "id",
