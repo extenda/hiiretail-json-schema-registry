@@ -1,0 +1,47 @@
+{
+  "$id": "cur.currencies.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Currencies",
+  "description": "List of currencies",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/Currency"
+  },
+  "$defs": {
+    "Currency": {
+      "title": "Currency",
+      "description": "The currency with configuration",
+      "type": "object",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify currency using ISO4217 format"
+        },
+        "config": {
+          "type": "object",
+          "$ref": "#/$defs/Currency/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for currency",
+          "type": "object",
+          "required": [
+            "isDefaultCurrency"
+          ],
+          "properties": {
+            "isDefaultCurrency": {
+              "type": "boolean",
+              "description": "Indicates if currency is used as default"
+            }
+          }
+        }
+      }
+    }
+  }
+}
