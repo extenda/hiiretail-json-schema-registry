@@ -5,7 +5,7 @@
   "description": "List of exchange rates markups",
   "type": "array",
   "items": {
-    "$ref": "#/$defs/ExchangeRate"
+    "$ref": "#/$defs/Markup"
   },
   "$defs": {
     "Markup": {
@@ -23,7 +23,7 @@
         },
         "config": {
           "type": "object",
-          "$ref": "#/$defs/ExchangeRate/$defs/Config"
+          "$ref": "#/$defs/Markup/$defs/Config"
         }
       },
       "$defs": {
