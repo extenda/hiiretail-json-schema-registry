@@ -19,7 +19,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique id to identify exchange rate"
+          "description": "Unique id to identify exchange rate, i.e. concatenated values of type, currencyIdFrom and currencyIdTo. For instance SALES-EUR-NOK."
         },
         "config": {
           "type": "object",
@@ -40,6 +40,11 @@
           "properties": {
             "type": {
               "type": "string",
+              "enum": [
+                "SALES",
+                "PURCHASE",
+                "INTERCOMPANY"
+              ],
               "description": "Indicates type of exchange rate"
             },
             "currencyIdFrom": {
