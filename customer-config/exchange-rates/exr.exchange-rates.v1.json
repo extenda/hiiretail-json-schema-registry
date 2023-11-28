@@ -1,0 +1,67 @@
+{
+  "$id": "exr.exchange-rates.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExchangeRates",
+  "description": "List of exchange rates",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/ExchangeRate"
+  },
+  "$defs": {
+    "ExchangeRate": {
+      "title": "ExchangeRate",
+      "description": "The exchange rate with configuration",
+      "type": "object",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique id to identify exchange rate, i.e. concatenated values of type, currencyIdFrom and currencyIdTo. For instance SALES-EUR-NOK."
+        },
+        "config": {
+          "type": "object",
+          "$ref": "#/$defs/ExchangeRate/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for exchange rate",
+          "type": "object",
+          "required": [
+            "type",
+            "currencyIdFrom",
+            "currencyIdTo",
+            "exchangeRate"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "SALES",
+                "PURCHASE",
+                "INTERCOMPANY"
+              ],
+              "description": "Indicates type of exchange rate"
+            },
+            "currencyIdFrom": {
+              "type": "string",
+              "description": "Source currency code using ISO4217 format"
+            },
+            "currencyIdTo": {
+              "type": "string",
+              "description": "Target currency code using ISO4217 format"
+            },
+            "exchangeRate": {
+              "type": "number",
+              "description": "Value for exchange rate"
+            }
+          }
+        }
+      }
+    }
+  }
+}
