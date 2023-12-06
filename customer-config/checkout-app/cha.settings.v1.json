@@ -46,6 +46,10 @@
     "clearReceiptTimeout": {
       "type": "number",
       "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
+    },
+    "enableIntegratedWebBrowser": {
+      "type": "boolean",
+      "description": "Enables the integrated web browser."
     }
   },
   "$defs": {
