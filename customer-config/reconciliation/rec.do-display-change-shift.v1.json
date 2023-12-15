@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-display-change-shift.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoDisplayChangeShift",
+  "description": "Parameter to define do display change shift",
+  "type": "object",
+  "required": ["doDisplayChangeShift"],
+  "properties": {
+    "doDisplayChangeShift": {
+      "type": "boolean",
+      "description": "Parameter to define do display change shift or not"
+    }
+  }
+}
