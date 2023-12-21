@@ -4,7 +4,7 @@
   "title": "Tender API",
   "description": "The API allows you to define what tenders should be available in a given store\nand their respective behaviour, such as currency id, description,\ntender restriction rules for for specific item category etc.",
   "type": "array",
-  "tenders": {
+  "items": {
     "$ref": "#/$defs/Tender"
   },
   "$defs": {
@@ -22,40 +22,40 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 50,
-          "example": "store-1"
+          "$comment": "store-1"
         },
         "id": {
           "description": "A code which uniquely identifies the tender.\nIt is also the ID referenced to identify the tender in the POSLog\n(i.e. the transaction data from POS).\n",
           "type": "string",
           "minLength": 1,
           "maxLength": 4,
-          "example": "cash"
+          "$comment": "cash"
         },
         "currencyId": {
           "description": "A identifier for the currency. Usually the three letter ISO 4217 code.",
           "type": "string",
           "minLength": 1,
           "maxLength": 3,
-          "example": "SEK"
+          "$comment": "SEK"
         },
         "classCode": {
           "description": "The group of tenders to which this tender type belongs. Can be\nCash, Check, CreditDebit, ForeignCurrency, GiftCertificate, OrganizationCharge,\\\nElectronicGiftCard, LoyaltyRedemption, Voucher, Coupon, FoodStamp, HouseAccount,\\\nWICCheck, ManufacturerCoupon\n",
           "type": "string",
           "minLength": 1,
           "maxLength": 20,
-          "example": "Cash"
+          "$comment": "Cash"
         },
         "name": {
           "description": "A name for this tender.",
           "type": "string",
           "maxLength": 40,
-          "example": "PromotionCard"
+          "$comment": "PromotionCard"
         },
         "description": {
           "description": "A description for this tender.",
           "type": "string",
           "maxLength": 255,
-          "example": "A promotion card"
+          "$comment": "A promotion card"
         },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
@@ -83,19 +83,19 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "example": "Pos.maximumCashBack.amount"
+          "$comment": "Pos.maximumCashBack.amount"
         },
         "value": {
           "description": "The actual Value of the additional property object.",
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "example": "50.00"
+          "$comment": "50.00"
         },
         "dataType": {
           "description": "The type of the data found in 'value'.",
           "type": "string",
-          "example": "DOUBLE",
+          "$comment": "DOUBLE",
           "enum": [
             "BOOL",
             "INT",
@@ -120,25 +120,25 @@
           "description": "A name for this restriction rule.",
           "type": "string",
           "maxLength": 40,
-          "example": "FoodTicket"
+          "$comment": "FoodTicket"
         },
         "description": {
           "description": "A description for this restriction rule.",
           "type": "string",
           "maxLength": 255,
-          "example": "A food ticket"
+          "$comment": "A food ticket"
         },
         "maxAllowedAmount": {
           "description": "The maximum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
           "maximum": 999999999999,
-          "example": 10000
+          "$comment": 10000
         },
         "minAllowedAmount": {
           "description": "The minimum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
           "maximum": 999999999999,
-          "example": 50
+          "$comment": 50
         },
         "itemCategoryTags": {
           "description": "A list of item category tags.",
@@ -161,7 +161,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 32,
-          "example": "VEGETABLES"
+          "$comment": "VEGETABLES"
         }
       }
     }
