@@ -4,7 +4,9 @@
   "title": "Settings",
   "description": "Checkout App settings.",
   "type": "object",
-  "required": ["server"],
+  "required": [
+    "server"
+  ],
   "properties": {
     "server": {
       "description": "Server settings.",
@@ -27,9 +29,14 @@
       "$ref": "#/$defs/PeripheralsSettingsType"
     },
     "cfd": {
-      "description": "Customer facing display",
+      "description": "Customer facing display.",
       "type": "object",
       "$ref": "#/$defs/CfdSettingsType"
+    },
+    "lock": {
+      "description": "Lock settings.",
+      "type": "object",
+      "$ref": "#/$defs/LockSettingsType"
     },
     "kiosk": {
       "type": "boolean",
@@ -37,7 +44,7 @@
     },
     "integerMonetary": {
       "type": "boolean",
-      "description": "Indicates if the monetary input should accept decimals or not"
+      "description": "Indicates if the monetary input should accept decimals or not."
     },
     "priceVerification": {
       "type": "boolean",
@@ -50,11 +57,19 @@
     "enableIntegratedWebBrowser": {
       "type": "boolean",
       "description": "Enables the integrated web browser."
+    },
+    "variantSearchFlag": {
+      "type": "boolean",
+      "description": "Enables the variant search."
+    },
+    "fullscreen": {
+      "type": "boolean",
+      "description": "Sets whether the application should open in full screen by default."
     }
   },
   "$defs": {
     "ServerSettingsType": {
-      "description": "This is a definition of the server settings",
+      "description": "This is a definition of the server settings.",
       "type": "object",
       "required": [
         "host"
@@ -62,11 +77,19 @@
       "properties": {
         "host": {
           "type": "string",
-          "description": "Checkout Engine API URL"
+          "description": "Checkout Engine API URL."
         },
         "networkCallTimeout": {
           "type": "number",
           "description": "The timeout for network calls. In milliseconds."
+        },
+        "edgeHost": {
+          "type": "string",
+          "description": "Edge host URL."
+        },
+        "enableEdge": {
+          "type": "boolean",
+          "description": "Allows the application to switch to the Edge solution offline."
         }
       }
     },
@@ -81,7 +104,7 @@
         },
         "logoUri": {
           "type": "string",
-          "pattern":  "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for logo in SCO mode."
         },
         "enableInfoReceipt": {
@@ -91,6 +114,10 @@
         "theme": {
           "type": "object",
           "description": "Theme object for customisation of the app."
+        },
+        "itemPictureFlag": {
+          "type": "boolean",
+          "description": "Enables showing of item images in receipt and search."
         }
       }
     },
@@ -98,6 +125,16 @@
       "description": "This is a definition of the SCO properties settings.",
       "type": "object",
       "properties": {
+        "scoPaperBag": {
+          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
+        },
+        "scoPlasticBag": {
+          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
+        },
         "pluFlag": {
           "type": "boolean",
           "description": "Enables the plu in SCO mode."
@@ -116,9 +153,9 @@
         },
         "availableLanguages": {
           "type": "string",
-          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE"
+          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
         },
-         "defaultLanguage": {
+        "defaultLanguage": {
           "type": "string",
           "description": "Defines the default languages in SCO mode."
         },
@@ -129,6 +166,10 @@
         "scoLoyaltyCCPrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the SCO mode."
         }
       }
     },
@@ -150,7 +191,10 @@
     "PeripheralsScannerType": {
       "description": "This is a definition of the scanner settings.",
       "type": "object",
-      "required": ["logicalName", "autoConnect"],
+      "required": [
+        "logicalName",
+        "autoConnect"
+      ],
       "properties": {
         "autoConnect": {
           "type": "boolean",
@@ -158,14 +202,18 @@
         },
         "logicalName": {
           "type": "string",
-          "description": "Scanner's logical name"
+          "description": "Scanner's logical name."
         }
       }
     },
     "PeripheralsPrinterType": {
       "description": "This is a definition of the printer settings.",
       "type": "object",
-      "required": ["logicalName", "enabled", "autoConnect"],
+      "required": [
+        "logicalName",
+        "enabled",
+        "autoConnect"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -177,7 +225,7 @@
         },
         "logicalName": {
           "type": "string",
-          "description": "Printer's logical name"
+          "description": "Printer's logical name."
         },
         "cashdrawerEnabled": {
           "type": "boolean",
@@ -185,14 +233,16 @@
         },
         "cashdrawerLogicalName": {
           "type": "string",
-          "description": "Cashdrawer's logical name"
+          "description": "Cashdrawer's logical name."
         }
       }
     },
     "CfdSettingsType": {
-      "description": "This is a definition of the cfd settings",
+      "description": "This is a definition of the cfd settings.",
       "type": "object",
-      "required": ["autoStart"],
+      "required": [
+        "autoStart"
+      ],
       "properties": {
         "autoStart": {
           "type": "boolean",
@@ -201,6 +251,37 @@
         "welcomeMessage": {
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
+        }
+      }
+    },
+    "ScoBagType": {
+      "description": "This is a definition of the bag.",
+      "type": "object",
+      "required": [
+        "ean",
+        "title"
+      ],
+      "properties": {
+        "ean": {
+          "type": "string",
+          "description": "Defines the EAN of the bag."
+        },
+        "title": {
+          "type": "string",
+          "description": "Defines the name of the bag."
+        }
+      }
+    },
+    "LockSettingsType": {
+      "description": "This is a definition of the lick settings.",
+      "type": "object",
+      "required": [
+        "timeout"
+      ],
+      "properties": {
+        "timeout": {
+          "type": "number",
+          "description": "The number of seconds the register is idle before it is autolocked."
         }
       }
     }
