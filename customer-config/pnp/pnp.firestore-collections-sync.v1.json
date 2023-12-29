@@ -1,25 +1,22 @@
 {
-    "$id": "pnp.firestore-collections-sync.v1",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Firestore collections synchronization",
-    "description": "A configuration defining which Firestore collections should be synchronized per tenant.",
-    "type": "object",
-    "required": [
-        "tenantId"
-    ],
-    "properties": {
-        "tenantId": {
-        "type": "string",
-        "description": "The id of the tenant."
-        },
-        "tenantWideCollections": {
-        "type": "array",
-        "description": "An array containing the names of business unit agnostic collections which must be synchronized."
-        },
-        "businessUnitSpecificCollections": {
-        "type": "array",
-        "description": "An array containing the names of business unit specific collections which must be synchronized."
-        }
+  "$id": "pnp.firestore-collections-sync.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Firestore collections synchronization",
+  "description": "A configuration defining which Firestore collections should be synchronized per tenant.",
+  "type": "object",
+  "required": ["tenantId"],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The id of the tenant."
+    },
+    "tenantWideCollections": {
+      "type": "array",
+      "description": "An array containing the names of business unit agnostic collections which must be synchronized."
+    },
+    "businessUnitSpecificCollections": {
+      "type": "array",
+      "description": "An array containing the names of business unit specific collections which must be synchronized."
     }
+  }
 }
-  
