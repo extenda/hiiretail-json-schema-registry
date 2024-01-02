@@ -5,7 +5,7 @@
   "description": "Checkout App settings.",
   "type": "object",
   "required": [
-    "server"
+    "pos"
   ],
   "properties": {
     "pos": {
@@ -29,26 +29,23 @@
       "description": "This is a definition of the POS settings.",
       "type": "object",
       "required": [
-        "host"
+        "server"
       ],
       "properties": {
         "sco": {
-          "type": "boolean",
-          "description": "Enables the sco mode."
-        },
-        "priceVerification": {
-          "type": "boolean",
-          "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+          "description": "SCO settings.",
+          "type": "object",
+          "$ref": "#/$defs/ScoSettingsType"
         },
         "server": {
           "description": "Server settings.",
           "type": "object",
           "$ref": "#/$defs/ServerType"
         },
-        "layout": {
-          "description": "Layout settings.",
+        "edge": {
+          "description": "Edge settings.",
           "type": "object",
-          "$ref": "#/$defs/LayoutType"
+          "$ref": "#/$defs/EdgeType"
         },
         "peripherals": {
           "description": "Periperals settings.",
@@ -65,15 +62,50 @@
           "type": "object",
           "$ref": "#/$defs/ReceiptType"
         },
-        "integratedWebBrowser": {
-          "description": "Integrated web browser settings.",
+        "externalLinks": {
+          "description": "External links settings.",
           "type": "object",
-          "$ref": "#/$defs/IntegratedWebBrowserType"
+          "$ref": "#/$defs/ExternalLinksType"
         },
         "variantSearch": {
           "description": "Variant search settings.",
           "type": "object",
           "$ref": "#/$defs/VariantSearchType"
+        },
+        "wallpaperUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customisation of the app."
+        },
+        "fullscreen": {
+          "type": "boolean",
+          "description": "Sets whether the application should open in full screen by default."
+        },
+        "kiosk": {
+          "type": "boolean",
+          "description": "Hides the settings button from drawer."
+        },
+        "itemPicturesEnabled": {
+          "type": "boolean",
+          "description": "Enables showing of item images in receipt and search."
+        },
+        "priceVerificationEnabled": {
+          "type": "boolean",
+          "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+        }
+      }
+    },
+    "ScoSettingsType": {
+      "description": "This is a definition of SCO settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the sco mode."
         }
       }
     },
@@ -91,46 +123,20 @@
         "networkCallTimeout": {
           "type": "number",
           "description": "The timeout for network calls. In milliseconds."
-        },
-        "edgeHost": {
-          "type": "string",
-          "description": "Edge host URL."
-        },
-        "enableEdge": {
-          "type": "boolean",
-          "description": "Allows the application to switch to the Edge solution offline."
         }
       }
     },
-    "LayoutType": {
-      "description": "This is a definition of the layout properties settings.",
+    "EdgeType": {
+      "description": "This is a definition of the edge settings.",
       "type": "object",
       "properties": {
-        "wallpaperUri": {
+        "host": {
           "type": "string",
-          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
-          "description": "URI for the wallaper image."
+          "description": "Edge host URL."
         },
-        "logoUri": {
-          "type": "string",
-          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
-          "description": "URI for logo in SCO mode."
-        },
-        "theme": {
-          "type": "object",
-          "description": "Theme object for customisation of the app."
-        },
-        "itemPictureFlag": {
+        "enabled": {
           "type": "boolean",
-          "description": "Enables showing of item images in receipt and search."
-        },
-        "fullscreen": {
-          "type": "boolean",
-          "description": "Sets whether the application should open in full screen by default."
-        },
-        "kiosk": {
-          "type": "boolean",
-          "description": "Hides the settings button from drawer."
+          "description": "Allows the application to switch to the Edge solution offline."
         }
       }
     },
@@ -215,23 +221,19 @@
       "description": "This is a definition of the receipt settings.",
       "type": "object",
       "properties": {
-        "enableInfoReceipt": {
-          "type": "boolean",
-          "description": "Enables the new receipt rendering based on the info property data."
-        },
-        "clearReceiptTimeout": {
+        "clearTimeout": {
           "type": "number",
           "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
         }
       }
     },
-    "IntegratedWebBrowserType": {
-      "description": "This is a definition of the integrated web browser settings.",
+    "ExternalLinksType": {
+      "description": "This is a definition of the external links settings.",
       "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables the integrated web browser."
+          "description": "Enables the external links."
         }
       }
     },
@@ -259,6 +261,11 @@
       "description": "This is a definition of the SCO settings.",
       "type": "object",
       "properties": {
+        "logoUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for logo in SCO mode."
+        },
         "bags": {
           "description": "Bags settings in SCO mode.",
           "type": "object",
@@ -274,22 +281,22 @@
           "type": "object",
           "$ref": "#/$defs/ScoPluType"
         },
-        "assistance": {
-          "description": "Assistance settings in SCO mode.",
+        "loyalty": {
+          "description": "Loyalty settings in SCO mode.",
           "type": "object",
-          "$ref": "#/$defs/ScoAssistanceType"
+          "$ref": "#/$defs/ScoLoyaltyType"
         },
-        "disableDecreaseFlag": {
+        "callAssistantEnabled": {
+          "type": "boolean",
+          "description": "Enables the call assistant button in SCO mode."
+        },
+        "decreaseEnabled": {
           "type": "boolean",
           "description": "Allows for item's quantity decrease in SCO mode."
         },
         "sessionKeepAliveInterval": {
           "type": "number",
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
-        },
-        "scoLoyaltyCCPrefix": {
-          "type": "string",
-          "description": "Defines the loyalty card prefix in SCO mode."
         }
       }
     },
@@ -355,13 +362,13 @@
         }
       }
     },
-    "ScoAssistanceType": {
-      "description": "This is a definition assistance settings in SCO mode.",
+    "ScoLoyaltyType": {
+      "description": "This is a definition Loyalty settings in SCO mode.",
       "type": "object",
       "properties": {
-        "enableCallAssistant": {
-          "type": "boolean",
-          "description": "Enables the call assistant button in SCO mode."
+        "countryCodePrefix": {
+          "type": "string",
+          "description": "Defines the loyalty card prefix in SCO mode."
         }
       }
     },
