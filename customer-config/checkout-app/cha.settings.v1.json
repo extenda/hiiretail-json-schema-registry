@@ -57,6 +57,11 @@
           "type": "object",
           "$ref": "#/$defs/ReceiptType"
         },
+        "prompt": {
+          "description": "Prompt settings.",
+          "type": "object",
+          "$ref": "#/$defs/PromptType"
+        },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
           "type": "object",
