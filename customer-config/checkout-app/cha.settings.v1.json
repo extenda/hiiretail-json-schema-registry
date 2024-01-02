@@ -5,66 +5,79 @@
   "description": "Checkout App settings.",
   "type": "object",
   "required": [
-    "pos"
+    "server"
   ],
   "properties": {
     "pos": {
       "description": "POS settings.",
       "type": "object",
-      "$ref": "#/$defs/PosSettingsType"
-    },
-    "cfd": {
-      "description": "Customer facing display.",
-      "type": "object",
-      "$ref": "#/$defs/CfdSettingsType"
+      "$ref": "#/$defs/PosType"
     },
     "sco": {
       "description": "SCO settings.",
       "type": "object",
-      "$ref": "#/$defs/ScoSettingsType"
+      "$ref": "#/$defs/ScoType"
+    },
+    "cfd": {
+      "description": "Customer facing display settings.",
+      "type": "object",
+      "$ref": "#/$defs/CfdType"
     }
   },
   "$defs": {
-    "PosSettingsType": {
-      "description": "This is a definition of the SCO properties settings.",
+    "PosType": {
+      "description": "This is a definition of the POS settings.",
       "type": "object",
       "required": [
-        "server"
+        "host"
       ],
       "properties": {
+        "sco": {
+          "type": "boolean",
+          "description": "Enables the sco mode."
+        },
+        "priceVerification": {
+          "type": "boolean",
+          "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+        },
         "server": {
           "description": "Server settings.",
           "type": "object",
-          "$ref": "#/$defs/ServerSettingsType"
+          "$ref": "#/$defs/ServerType"
         },
         "layout": {
           "description": "Layout settings.",
           "type": "object",
-          "$ref": "#/$defs/LayoutSettingsType"
-        },
-        "workflow": {
-          "description": "Workflow settings.",
-          "type": "object",
-          "$ref": "#/$defs/WorkflowSettingsType"
-        },
-        "features": {
-          "description": "POS features settings.",
-          "type": "object",
-          "$ref": "#/$defs/PosFeaturesSettingsType"
-        },
-        "fiscal": {
-          "description": "Fiscal settings.",
-          "type": "object",
-          "$ref": "#/$defs/FiscalSettingsType"
+          "$ref": "#/$defs/LayoutType"
         },
         "peripherals": {
           "description": "Periperals settings.",
           "type": "object",
-          "$ref": "#/$defs/PeripheralsSettingsType"
+          "$ref": "#/$defs/PeripheralsType"
+        },
+        "lock": {
+          "description": "Lock settings.",
+          "type": "object",
+          "$ref": "#/$defs/LockType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "integratedWebBrowser": {
+          "description": "Integrated web browser settings.",
+          "type": "object",
+          "$ref": "#/$defs/IntegratedWebBrowserType"
+        },
+        "variantSearch": {
+          "description": "Variant search settings.",
+          "type": "object",
+          "$ref": "#/$defs/VariantSearchType"
         }
       }
     },
-    "ServerSettingsType": {
+    "ServerType": {
       "description": "This is a definition of the server settings.",
       "type": "object",
       "required": [
@@ -89,7 +102,7 @@
         }
       }
     },
-    "LayoutSettingsType": {
+    "LayoutType": {
       "description": "This is a definition of the layout properties settings.",
       "type": "object",
       "properties": {
@@ -106,90 +119,37 @@
         "theme": {
           "type": "object",
           "description": "Theme object for customisation of the app."
-        }
-      }
-    },
-    "WorkflowSettingsType": {
-      "description": "This is a definition of the workflow properties settings.",
-      "type": "object",
-      "properties": {
-        "kiosk": {
-          "type": "boolean",
-          "description": "Hides the settings button from drawer."
         },
-        "clearReceiptTimeout": {
-          "type": "number",
-          "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
+        "itemPictureFlag": {
+          "type": "boolean",
+          "description": "Enables showing of item images in receipt and search."
         },
         "fullscreen": {
           "type": "boolean",
           "description": "Sets whether the application should open in full screen by default."
         },
-        "lockTimeout": {
-          "type": "number",
-          "description": "The number of seconds the register is idle before it is autolocked."
+        "kiosk": {
+          "type": "boolean",
+          "description": "Hides the settings button from drawer."
         }
       }
     },
-    "PosFeaturesSettingsType": {
-      "description": "This is a definition of the POS features settings.",
-      "type": "object",
-      "required": [
-        "host"
-      ],
-      "properties": {
-        "sco": {
-          "type": "boolean",
-          "description": "Enables the SCO mode."
-        },
-        "priceVerification": {
-          "type": "boolean",
-          "description": "Displays price verification button in PLU, only for countries that do not require a control transaction for that."
-        },
-        "enableIntegratedWebBrowser": {
-          "type": "boolean",
-          "description": "Enables the integrated web browser."
-        },
-        "variantSearchFlag": {
-          "type": "boolean",
-          "description": "Enables the variant search."
-        },
-        "enableInfoReceipt": {
-          "type": "boolean",
-          "description": "Enables the new receipt rendering based on the info property data."
-        },
-        "itemPictureFlag": {
-          "type": "boolean",
-          "description": "Enables showing of item images in receipt and search."
-        }
-      }
-    },
-    "FiscalSettingsType": {
-      "description": "This is a definition of the fiscal properties settings.",
-      "type": "object",
-      "properties": {
-        "integerMonetary": {
-          "type": "boolean",
-          "description": "Indicates if the monetary input should accept decimals or not."
-        }
-      }
-    },
-    "PeripheralsSettingsType": {
+    "PeripheralsType": {
       "description": "This is a definition of the peripherals properties settings.",
       "type": "object",
       "properties": {
         "scanner1": {
-          "$ref": "#/$defs/PeripheralsScannerType"
+          "$ref": "#/$defs/ScannerType"
         },
         "scanner2": {
-          "$ref": "#/$defs/PeripheralsScannerType"
+          "$ref": "#/$defs/ScannerType"
         },
         "printer": {
-          "$ref": "#/$defs/PeripheralsPrinterType"
+          "$ref": "#/$defs/PrinterType"
         }
       }
     },
-    "PeripheralsScannerType": {
+    "ScannerType": {
       "description": "This is a definition of the scanner settings.",
       "type": "object",
       "required": [
@@ -207,7 +167,7 @@
         }
       }
     },
-    "PeripheralsPrinterType": {
+    "PrinterType": {
       "description": "This is a definition of the printer settings.",
       "type": "object",
       "required": [
@@ -238,46 +198,86 @@
         }
       }
     },
-    "CfdSettingsType": {
-      "description": "This is a definition of the cfd settings.",
+    "LockType": {
+      "description": "This is a definition of the lock settings.",
       "type": "object",
       "required": [
-        "autoStart"
+        "timeout"
       ],
       "properties": {
-        "autoStart": {
-          "type": "boolean",
-          "description": "Enables the device."
-        },
-        "welcomeMessage": {
-          "type": "string",
-          "description": "Welcome message to display on the customer facing display."
+        "timeout": {
+          "type": "number",
+          "description": "The number of seconds the register is idle before it is autolocked."
         }
       }
     },
-    "ScoSettingsType": {
-      "description": "This is a definition of the SCO properties settings.",
+    "ReceiptType": {
+      "description": "This is a definition of the receipt settings.",
       "type": "object",
       "properties": {
-        "features": {
-          "description": "SCO features settings.",
-          "type": "object",
-          "$ref": "#/$defs/ScoFeaturesSettingsType"
+        "enableInfoReceipt": {
+          "type": "boolean",
+          "description": "Enables the new receipt rendering based on the info property data."
         },
-        "localization": {
-          "description": "SCO localization settings.",
+        "clearReceiptTimeout": {
+          "type": "number",
+          "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
+        }
+      }
+    },
+    "IntegratedWebBrowserType": {
+      "description": "This is a definition of the integrated web browser settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integrated web browser."
+        }
+      }
+    },
+    "VariantSearchType": {
+      "description": "This is a definition of the variant search settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the variant search."
+        }
+      }
+    },
+    "PromptType": {
+      "description": "This is a definition of the prompt settings.",
+      "type": "object",
+      "properties": {
+        "integerMonetary": {
+          "type": "boolean",
+          "description": "Indicates if the monetary input should accept decimals or not."
+        }
+      }
+    },
+    "ScoType": {
+      "description": "This is a definition of the SCO settings.",
+      "type": "object",
+      "properties": {
+        "bags": {
+          "description": "Bags settings in SCO mode.",
           "type": "object",
-          "$ref": "#/$defs/ScoLocalizationSettingsType"
+          "$ref": "#/$defs/ScoBagsType"
         },
-        "scoPaperBag": {
-          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
+        "language": {
+          "description": "Language settings in SCO mode.",
           "type": "object",
-          "$ref": "#/$defs/ScoBagType"
+          "$ref": "#/$defs/ScoLanguageType"
         },
-        "scoPlasticBag": {
-          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
+        "plu": {
+          "description": "Plu settings in SCO mode.",
           "type": "object",
-          "$ref": "#/$defs/ScoBagType"
+          "$ref": "#/$defs/ScoPluType"
+        },
+        "assistance": {
+          "description": "Assistance settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoAssistanceType"
         },
         "disableDecreaseFlag": {
           "type": "boolean",
@@ -290,6 +290,50 @@
         "scoLoyaltyCCPrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
+        }
+      }
+    },
+    "ScoLanguageType": {
+      "description": "This is a definition language settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "availableLanguages": {
+          "type": "string",
+          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
+        },
+        "defaultLanguage": {
+          "type": "string",
+          "description": "Defines the default languages in SCO mode."
+        }
+      }
+    },
+    "ScoPluType": {
+      "description": "This is a definition of the PLU settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the plu in SCO mode."
+        }
+      }
+    },
+    "ScoBagsType": {
+      "description": "This is a definition of the bags settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the bags screen in SCO mode."
+        },
+        "paperBag": {
+          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
+        },
+        "plasticBag": {
+          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
         }
       }
     },
@@ -311,39 +355,30 @@
         }
       }
     },
-    "ScoFeaturesSettingsType": {
-      "description": "This is a definition of the SCO features settings.",
+    "ScoAssistanceType": {
+      "description": "This is a definition assistance settings in SCO mode.",
       "type": "object",
       "properties": {
-        "pluFlag": {
-          "type": "boolean",
-          "description": "Enables the plu in SCO mode."
-        },
-        "callAssistantFlag": {
+        "enableCallAssistant": {
           "type": "boolean",
           "description": "Enables the call assistant button in SCO mode."
-        },
-        "bagsScreenFlag": {
-          "type": "boolean",
-          "description": "Enables the bags screen in SCO mode."
         }
       }
     },
-    "ScoLocalizationSettingsType": {
-      "description": "This is a definition of the localization settings in SCO mode.",
+    "CfdType": {
+      "description": "This is a definition of the cfd settings.",
       "type": "object",
       "required": [
-        "availableLanguages",
-        "defaultLanguage"
+        "autoStart"
       ],
       "properties": {
-        "availableLanguages": {
-          "type": "string",
-          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
+        "autoStart": {
+          "type": "boolean",
+          "description": "Enables auto start of customer faced display."
         },
-        "defaultLanguage": {
+        "welcomeMessage": {
           "type": "string",
-          "description": "Defines the default languages in SCO mode."
+          "description": "Welcome message to display on the customer facing display."
         }
       }
     }
