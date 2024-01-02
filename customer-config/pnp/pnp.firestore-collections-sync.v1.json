@@ -3,7 +3,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Firestore collections synchronization",
   "description": "A configuration defining which Firestore collections should be synchronized per tenant.",
-  "type": "object",
+  "type": ["null", "object"],
   "required": ["tenantId"],
   "properties": {
     "tenantId": {
