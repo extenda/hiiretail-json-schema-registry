@@ -32,11 +32,6 @@
         "server"
       ],
       "properties": {
-        "sco": {
-          "description": "SCO settings.",
-          "type": "object",
-          "$ref": "#/$defs/ScoSettingsType"
-        },
         "server": {
           "description": "Server settings.",
           "type": "object",
@@ -63,7 +58,7 @@
           "$ref": "#/$defs/ReceiptType"
         },
         "externalLinks": {
-          "description": "External links settings.",
+          "description": "Checkout App External Websites settings.",
           "type": "object",
           "$ref": "#/$defs/ExternalLinksType"
         },
@@ -96,16 +91,6 @@
         "priceVerificationEnabled": {
           "type": "boolean",
           "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
-        }
-      }
-    },
-    "ScoSettingsType": {
-      "description": "This is a definition of SCO settings.",
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the sco mode."
         }
       }
     },
@@ -228,12 +213,33 @@
       }
     },
     "ExternalLinksType": {
-      "description": "This is a definition of the external links settings.",
+      "description": "This is a definition of the External Websites settings.",
       "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
           "description": "Enables the external links."
+        },
+        "links": {
+          "description": "External links list.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "url",
+              "name"
+            ],
+            "properties": {
+              "url": {
+                "description": "External web page urls.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the web site to display in the choice list in app.",
+                "type": "string"
+              }
+            }
+          }
         }
       }
     },
@@ -261,6 +267,10 @@
       "description": "This is a definition of the SCO settings.",
       "type": "object",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the sco mode."
+        },
         "logoUri": {
           "type": "string",
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
