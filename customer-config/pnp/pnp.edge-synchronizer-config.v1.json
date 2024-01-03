@@ -1,0 +1,41 @@
+{
+  "$id": "pnp.edge-synchronizer-configuration.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Edge Synchronizer Configuration",
+  "description": "A configuration defining which master data entities should be synchronized by the Edge Synchronizer client.",
+  "type": "object",
+  "properties": {
+    "complete-items": {
+      "type": "boolean",
+      "description": "Synchronize Complete Items"
+    },
+    "items": {
+      "type": "boolean",
+      "description": "Synchronize Items"
+    },
+    "promotions": {
+      "type": "boolean",
+      "description": "Synchronize Promotions"
+    },
+    "price-specifications": {
+      "type": "boolean",
+      "description": "Synchronize Price Specifications"
+    },
+    "item-identifiers": {
+      "type": "boolean",
+      "description": "Synchronize Item Identifiers"
+    },
+    "item-categories": {
+      "type": "boolean",
+      "description": "Synchronize Item Categories"
+    },
+    "deposit-rules": {
+      "type": "boolean",
+      "description": "Synchronize Item Identifiers"
+    },
+    "item-links": {
+      "type": "boolean",
+      "description": "Synchronize Item Identifiers"
+    }
+  }
+}
