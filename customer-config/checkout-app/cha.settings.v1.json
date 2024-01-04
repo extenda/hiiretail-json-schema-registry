@@ -230,7 +230,7 @@
         "clearTimeout": {
           "default": 5000,
           "type": "number",
-          "description": "The number of seconds the receipt is visible after finalization. In milliseconds."
+          "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         }
       }
     },
