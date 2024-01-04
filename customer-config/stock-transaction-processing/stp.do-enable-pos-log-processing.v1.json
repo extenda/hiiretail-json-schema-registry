@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-enable-pos-log-processing.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoEnablePosLogProcessing",
+  "description": "Enable PosLog Processing",
+  "type": "object",
+  "required": ["doEnablePosLogProcessing"],
+  "properties": {
+    "doEnablePosLogProcessing": {
+      "type": "boolean",
+      "description": "Enable PosLog Processing"
+    }
+  }
+}
