@@ -73,7 +73,7 @@
           "minimum": 0
         },
         "groups": {
-          "description": "Group IDs assigned to a specific reason code. ID must be a valid ID from predefined reason code groups list",
+          "description": "Group IDs assigned to a specific reason code",
           "type": "array",
           "items": {
             "type": "string",
