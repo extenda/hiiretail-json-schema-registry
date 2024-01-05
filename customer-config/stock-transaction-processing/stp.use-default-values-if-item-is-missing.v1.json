@@ -1,5 +1,5 @@
 {
-  "$id": "rec.use-default-values-if-item-is-missing.v1",
+  "$id": "stp.use-default-values-if-item-is-missing.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "UseDefaultValuesIfItemIsMissing",
   "description": "Use Default Values If Item Is Missing",

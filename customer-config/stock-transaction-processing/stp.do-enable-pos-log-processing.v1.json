@@ -1,5 +1,5 @@
 {
-  "$id": "rec.do-enable-pos-log-processing.v1",
+  "$id": "stp.do-enable-pos-log-processing.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DoEnablePosLogProcessing",
   "description": "Enable PosLog Processing",
