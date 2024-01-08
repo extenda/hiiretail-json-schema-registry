@@ -1,0 +1,99 @@
+{
+  "$id": "rco.reason-codes.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReasonCodes",
+  "description": "Reason Codes Schema",
+  "type": "object",
+  "required": [
+    "reasonCodes"
+  ],
+  "properties": {
+    "reasonCodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ReasonCode"
+      },
+      "description": "List of available reason codes per tenant"
+    }
+  },
+  "$defs": {
+    "ReasonCode": {
+      "title": "Reason Code",
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "description": "The unique identifier",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the reason code",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "description": {
+          "description": "The description of the reason code",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the reason code",
+          "type": "string",
+          "enum": [ "Activated", "Deactivated" ]
+        },
+        "isManualEntryRequired": {
+          "description": "A flag that indicates whether manual entry is required, i.s. not allowed to scan",
+          "type": "boolean"
+        },
+        "isReferenceNumberRequired": {
+          "description": "A flag that indicates whether a reference number is required",
+          "type": "boolean"
+        },
+        "isCommentRequired": {
+          "description": "A flag that indicates whether a comment is required",
+          "type": "boolean"
+        },
+        "isNegativeQuantityByDefault": {
+          "description": "A flag that indicates whether the quantity by default is negative",
+          "type": "boolean"
+        },
+        "minimumAmount": {
+          "description": "The minimum amount allowed to be entered",
+          "type": "number",
+          "minimum": 0
+        },
+        "maximumAmount": {
+          "description": "The maximum amount allowed to be entered",
+          "type": "number",
+          "minimum": 0
+        },
+        "groups": {
+          "description": "Group IDs assigned to a specific reason code",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Refund",
+              "OverwritePrice",
+              "MarkDownOrder",
+              "MarkDownPrice",
+              "Disbursement",
+              "FundsReceipt",
+              "NoSale",
+              "CancelOrder",
+              "ItemComment",
+              "TransactionComment",
+              "Complaint"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
