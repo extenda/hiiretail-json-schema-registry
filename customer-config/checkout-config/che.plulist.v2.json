@@ -47,7 +47,7 @@
           "example": "The description for PLU List"
         },
         "tags": {
-          "description": "A list of tags that this PLUList applies to. Use the ids from the example.",
+          "description": "A list of tags that this PLUList applies to.",
           "type": "array",
           "example": "[{'id': 'TAG1'},{'id': 'TAG2'},{'id': 'TAG3'},{'id': 'TAG4'}]",
           "items": {
