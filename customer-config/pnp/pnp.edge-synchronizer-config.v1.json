@@ -33,6 +33,28 @@
           "maxLength": 40,
           "example": "item-identifiers"
         },
+        "dfoEntityType": {
+          "description": "The entity type that is used in a Data Flow Observability Event.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "COMPLETE_ITEM",
+          "enum": [
+            "ITEM",
+            "ITEM_LINK",
+            "ITEM_CATEGORY",
+            "COMPLETE_ITEM",
+            "ITEM_IDENTIFIER",
+            "PROMOTION",
+            "PRICE_SPECIFICATION",
+            "ASSORTMENT_POLICY",
+            "DEPOSIT_RULE",
+            "EXTERNAL_DEVICE_ITEM",
+            "PRINT_COMMAND",
+            "ENTITY_CHANGES",
+            "ENTITY_VALIDATION_RESULT"
+          ]
+        },
         "synchronized": {
           "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
           "type": "boolean"
