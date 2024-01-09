@@ -19,16 +19,23 @@
           "maxLength": 40,
           "example": "Price Specification"
         },
-        "synchronized": {
-          "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
-          "type": "boolean"
-        },
         "description": {
           "description": "The entity description.",
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
           "example": "Some sample description."
+        },
+        "collectionName": {
+          "description": "The name of the Firestore collection containing the entity data.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "item-identifiers"
+        },
+        "synchronized": {
+          "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
+          "type": "boolean"
         }
       }
     }
