@@ -10,11 +10,7 @@
   "$defs": {
     "Entity": {
       "type": "object",
-      "required": [
-        "id",
-        "name",
-        "content"
-      ],
+      "required": [],
       "properties": {
         "name": {
           "description": "The name of the entity.",
