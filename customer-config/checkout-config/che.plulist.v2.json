@@ -7,7 +7,7 @@
     "$ref": "#/$defs/PluListType"
   },
   "$defs": {
-     "PluListType": {
+    "PluListType": {
       "type": "object",
       "required": [
         "id",
@@ -46,13 +46,22 @@
           "maxLength": 255,
           "example": "The description for PLU List"
         },
+        "tags": {
+          "description": "A list of tags related to the PLU list.",
+          "type": "array",
+          "example": "[{'id': 'TAG1'},{'id': 'TAG2'},{'id': 'TAG3'},{'id': 'TAG4'}]",
+          "items": {
+            "$ref": "#/$defs/Tag"
+          }
+        },
         "deviceTypes": {
           "description": "A list of device types that this PLUList applies to. Use the ids from the example.",
           "type": "array",
           "example": "[{'id': 'PLU_BAGS_SCO'},{'id': 'PLU_MPOS'},{'id': 'PLU_SCO'},{'id': 'PLU_POS'}]",
           "items": {
             "$ref": "#/$defs/DeviceType"
-          }
+          },
+          "deprecated": true
         },
         "isModifiable": {
           "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
@@ -80,8 +89,24 @@
         }
       }
     },
+    "Tag": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "description": "A unique identifier for the tag.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "TAG1"
+        }
+      }
+    },
     "DeviceType": {
       "type": "object",
+      "deprecated": true,
       "required": [
         "id"
       ],
@@ -172,12 +197,12 @@
         "isModifiable": {
           "description": "If it is possible to modify the content of this PLUList further down the hierarchy",
           "type": "boolean",
-          "example": "true"
+          "example": true
         },
         "isRemovable": {
           "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
           "type": "boolean",
-          "example": "true"
+          "example": true
         },
         "type": {
           "description": "The GROUP type is for PLU lists.",
@@ -296,7 +321,7 @@
           "type": "boolean",
           "example": "true"
         },
-       "type": {
+        "type": {
           "description": "The ITEM_SELECTION type is for automated PLU lists.",
           "type": "string",
           "enum": [
