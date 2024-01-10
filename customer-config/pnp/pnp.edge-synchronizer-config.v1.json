@@ -59,8 +59,8 @@
           "type": "boolean",
           "default": false
         },
-        "isTenantwideEntity": {
-          "description": "If true, this entity will considered as not being specific to a business unit or a business unit group.",
+        "isTenantWide": {
+          "description": "If true, this entity will be considered as global for a specific tenant and not defined per business unit or business unit group.",
           "type": "boolean",
           "default": false
         }
