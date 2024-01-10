@@ -51,12 +51,16 @@
             "ITEM_IDENTIFIER",
             "PROMOTION",
             "PRICE_SPECIFICATION",
-            "DEPOSIT_RULE",
-            "ASSORTMENT_POLICY"
+            "DEPOSIT_RULE"
           ]
         },
         "synchronized": {
           "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
+          "type": "boolean",
+          "default": false
+        },
+        "isTenantwideEntity": {
+          "description": "If true, this entity will considered as not being specific to a business unit or a business unit group.",
           "type": "boolean",
           "default": false
         }
