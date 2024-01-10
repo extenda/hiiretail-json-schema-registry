@@ -10,7 +10,11 @@
   "$defs": {
     "Entity": {
       "type": "object",
-      "required": [],
+      "required": [
+        "name",
+        "collectionName",
+        "dfoEntityType"
+      ],
       "properties": {
         "name": {
           "description": "The name of the entity.",
@@ -24,21 +28,21 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "example": "Some sample description."
+          "example": "The PriceSpecification entity is the HiiRetail representation of a currency-specific value related to a Item."
         },
         "collectionName": {
           "description": "The name of the Firestore collection containing the entity data.",
           "type": "string",
           "minLength": 1,
           "maxLength": 40,
-          "example": "item-identifiers"
+          "example": "price-specifications"
         },
         "dfoEntityType": {
           "description": "The entity type that is used in a Data Flow Observability Event.",
           "type": "string",
           "minLength": 1,
           "maxLength": 40,
-          "example": "COMPLETE_ITEM",
+          "example": "PRICE_SPECIFICATION",
           "enum": [
             "ITEM",
             "ITEM_LINK",
@@ -47,17 +51,18 @@
             "ITEM_IDENTIFIER",
             "PROMOTION",
             "PRICE_SPECIFICATION",
-            "ASSORTMENT_POLICY",
-            "DEPOSIT_RULE",
-            "EXTERNAL_DEVICE_ITEM",
-            "PRINT_COMMAND",
-            "ENTITY_CHANGES",
-            "ENTITY_VALIDATION_RESULT"
+            "DEPOSIT_RULE"
           ]
         },
         "synchronized": {
           "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
+        },
+        "isTenantWide": {
+          "description": "If true, this entity will be considered as global for a specific tenant and not defined per business unit or business unit group.",
+          "type": "boolean",
+          "default": false
         }
       }
     }
