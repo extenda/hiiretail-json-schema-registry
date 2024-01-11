@@ -3,68 +3,39 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Edge Synchronizer Configuration",
   "description": "A configuration defining which master data entities should be synchronized by the Edge Synchronizer client.",
-  "type": "array",
-  "items": {
-    "$ref": "#/$defs/Entity"
-  },
-  "$defs": {
-    "Entity": {
-      "type": "object",
-      "required": [
-        "name",
-        "collectionName",
-        "dfoEntityType"
-      ],
-      "properties": {
-        "name": {
-          "description": "The name of the entity.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "example": "Price Specification"
-        },
-        "description": {
-          "description": "The entity description.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 255,
-          "example": "The PriceSpecification entity is the HiiRetail representation of a currency-specific value related to a Item."
-        },
-        "collectionName": {
-          "description": "The name of the Firestore collection containing the entity data.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "example": "price-specifications"
-        },
-        "dfoEntityType": {
-          "description": "The entity type that is used in a Data Flow Observability Event.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "example": "PRICE_SPECIFICATION",
-          "enum": [
-            "ITEM",
-            "ITEM_LINK",
-            "ITEM_CATEGORY",
-            "COMPLETE_ITEM",
-            "ITEM_IDENTIFIER",
-            "PROMOTION",
-            "PRICE_SPECIFICATION",
-            "DEPOSIT_RULE"
-          ]
-        },
-        "synchronized": {
-          "description": "If true, this entity will be synchronized by the Edge Synchronizer client.",
-          "type": "boolean",
-          "default": false
-        },
-        "isTenantWide": {
-          "description": "If true, this entity will be considered as global for a specific tenant and not defined per business unit or business unit group.",
-          "type": "boolean",
-          "default": false
-        }
-      }
+  "type": "object",
+  "properties": {
+    "complete-items": {
+      "type": "boolean",
+      "description": "Synchronize Complete Items."
+    },
+    "items": {
+      "type": "boolean",
+      "description": "Synchronize Items."
+    },
+    "promotions": {
+      "type": "boolean",
+      "description": "Synchronize Promotions."
+    },
+    "price-specifications": {
+      "type": "boolean",
+      "description": "Synchronize Price Specifications."
+    },
+    "item-identifiers": {
+      "type": "boolean",
+      "description": "Synchronize Item Identifiers."
+    },
+    "item-categories": {
+      "type": "boolean",
+      "description": "Synchronize Item Categories."
+    },
+    "deposit-rules": {
+      "type": "boolean",
+      "description": "Synchronize Deposit Rules."
+    },
+    "item-links": {
+      "type": "boolean",
+      "description": "Synchronize Item Links."
     }
   }
 }
