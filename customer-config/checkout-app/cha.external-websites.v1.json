@@ -1,8 +1,24 @@
 {
   "$id": "cha.external-websites.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "External websites",
-  "description": "Checkout App external websites.",
-  "type": "object",
-  "properties": {}
+  "title": "External Websites",
+  "description": "Checkout App External Websites",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "url",
+      "name"
+    ],
+    "properties": {
+      "url": {
+        "description": "External web page urls.",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the web site to display in the choice list in app.",
+        "type": "string"
+      }
+    }
+  }
 }
