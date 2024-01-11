@@ -57,11 +57,6 @@
           "maxLength": 255,
           "$comment": "A promotion card"
         },
-        "noAutoFinalization": {
-          "description": "When set to true in the tender data, prevents automatic finalization\nof receipts  upon addition, specifically when both the amount due and change due are 0; if the field is set to false or is null, automatic finalization occurs.",
-          "type": "boolean",
-          "default": false
-        },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
         },
