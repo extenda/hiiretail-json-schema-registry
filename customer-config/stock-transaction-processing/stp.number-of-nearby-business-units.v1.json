@@ -4,10 +4,9 @@
   "title": "NumberOfNearbyBusinessUnits",
   "description": "Number of nearby business units to include in stock lookups",
   "type": "object",
-  "required": ["numberOfNearbyBusinessUnits"],
   "properties": {
     "numberOfNearbyBusinessUnits": {
-      "type": "integer",
+      "type": ["null", "integer"],
       "description": "Number of nearby business units to include in stock lookups"
     }
   }
