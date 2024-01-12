@@ -4,10 +4,9 @@
   "title": "LowStockThreshold",
   "description": "Low stock threshold value",
   "type": "object",
-  "required": ["lowStockThreshold"],
   "properties": {
     "lowStockThreshold": {
-      "type": "integer",
+      "type": ["null", "integer"],
       "description": "Low stock threshold value"
     }
   }
