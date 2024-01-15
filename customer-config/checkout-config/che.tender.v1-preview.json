@@ -13,8 +13,7 @@
       "type": "object",
       "required": [
         "id",
-        "currencyId",
-        "businessUnitGroupId"
+        "currencyId"
       ],
       "properties": {
         "id": {
