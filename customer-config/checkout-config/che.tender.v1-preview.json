@@ -49,6 +49,11 @@
           "maxLength": 255,
           "$comment": "A promotion card"
         },
+        "active": {
+          "description": "Tender state active/inactive",
+          "type": "boolean",
+          "default": true
+        },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
         },
