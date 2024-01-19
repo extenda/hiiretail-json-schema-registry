@@ -100,6 +100,11 @@
           "default": false,
           "type": "boolean",
           "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+        },
+        "logs": {
+          "description": "Logs settings.",
+          "type": "object",
+          "$ref": "#/$defs/LogsType"
         }
       }
     },
@@ -285,6 +290,17 @@
           "default": false,
           "type": "boolean",
           "description": "Indicates if the monetary input should accept decimals or not."
+        }
+      }
+    },
+    "LogsType": {
+      "description": "This is a definition of the logs settings.",
+      "type": "object",
+      "properties": {
+        "uploadEnabled": {
+          "default": true,
+          "type": "boolean",
+          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
         }
       }
     },
