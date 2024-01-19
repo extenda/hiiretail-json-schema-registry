@@ -1,0 +1,14 @@
+{
+  "$id": "exr.do-import-exchange-rates.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoImportExchangeRates",
+  "description": "Do import exchange rates",
+  "type": "object",
+  "required": ["doImportExchangeRates"],
+  "properties": {
+    "doImportExchangeRates": {
+      "type": "boolean",
+      "description": "Do import exchange rates"
+    }
+  }
+}
