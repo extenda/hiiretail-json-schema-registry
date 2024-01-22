@@ -134,7 +134,7 @@
         "host": {
           "default": "",
           "type": "string",
-          "description": "Edge host URL."
+          "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
         }
       }
     },
