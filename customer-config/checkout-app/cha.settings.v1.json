@@ -135,11 +135,6 @@
           "default": "",
           "type": "string",
           "description": "Edge host URL."
-        },
-        "enabled": {
-          "default": false,
-          "type": "boolean",
-          "description": "Allows the application to switch to the Edge solution offline."
         }
       }
     },
