@@ -47,11 +47,6 @@
           "type": "object",
           "$ref": "#/$defs/ReceiptType"
         },
-        "prompt": {
-          "description": "Prompt settings.",
-          "type": "object",
-          "$ref": "#/$defs/PromptType"
-        },
         "wallpaperUri": {
           "type": "string",
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
