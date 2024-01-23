@@ -8,6 +8,11 @@
     "pos"
   ],
   "properties": {
+    "mpos": {
+      "description": "MPOS settings.",
+      "type": "object",
+      "$ref": "#/$defs/MposType"
+    },
     "pos": {
       "description": "POS settings.",
       "type": "object",
@@ -25,6 +30,34 @@
     }
   },
   "$defs": {
+    "MposType": {
+      "description": "This is a definition of the MPOS settings.",
+      "type": "object",
+      "required": [
+        "server"
+      ],
+      "properties": {
+        "server": {
+          "description": "Server settings.",
+          "type": "object",
+          "$ref": "#/$defs/ServerType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "wallpaperUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customisation of the app."
+        }
+      }
+    },
     "PosType": {
       "description": "This is a definition of the POS settings.",
       "type": "object",
