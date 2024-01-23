@@ -52,6 +52,11 @@
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for the wallaper image."
         },
+        "logoUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for logo mobile POS."
+        },
         "theme": {
           "type": "object",
           "description": "Theme object for customisation of the app."
