@@ -1,0 +1,108 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/pos-config/pos.config.v1.json",
+    "title": "POS business key-value configuration",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "required": [
+            "id",
+            "map"
+        ],
+        "properties": {
+            "id": {
+                "description": "A unique identifier for the business configuration map.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "example": "ext-co-props-configuration"
+            },
+            "map": {
+                "description": "Map with the key / value parameters",
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/MapContentType"
+                }
+            }
+        }
+    },
+    "$defs": {
+        "MapContentType": {
+            "description": "This is a definition of the key value structure.",
+            "type": "object",
+            "required": [
+                "id",
+                "key",
+                "value",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "description": "The unique identifier of the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "key": {
+                    "description": "The key to identify business property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "value": {
+                    "description": "The value of the item identified by the key",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "type": {
+                    "description": "The type of the property",
+                    "type": "string",
+                    "enum": [
+                        "STRING",
+                        "NUMBER",
+                        "BOOLEAN"
+                    ],
+                    "minLength": 3,
+                    "maxLength": 255
+                },
+                "title": {
+                    "description": "The title of the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "description": {
+                    "description": "The description of the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "validationRegex": {
+                    "description": "The validation regex for the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "customPath": {
+                    "description": "The custom path for the property",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "propertyOf": {
+                    "description": "To identify whether the property is for given value",
+                    "type": "string",
+                    "example": "BOTH",
+                    "enum": [
+                        "IN_STORE",
+                        "CONFIG_PORTAL",
+                        "BOTH"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 255
+                }
+            }
+        }   
+    }
+}
