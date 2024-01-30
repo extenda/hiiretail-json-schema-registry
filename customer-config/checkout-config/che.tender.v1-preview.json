@@ -21,33 +21,33 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 4,
-          "$comment": "cash"
+          "example": "cash"
         },
         "currencyId": {
           "description": "A identifier for the currency. Usually the three letter ISO 4217 code.",
           "type": "string",
           "minLength": 1,
           "maxLength": 3,
-          "$comment": "SEK"
+          "example": "SEK"
         },
         "classCode": {
           "description": "The group of tenders to which this tender type belongs. Can be\nCash, Check, CreditDebit, ForeignCurrency, GiftCertificate, OrganizationCharge,\\\nElectronicGiftCard, LoyaltyRedemption, Voucher, Coupon, FoodStamp, HouseAccount,\\\nWICCheck, ManufacturerCoupon\n",
           "type": "string",
           "minLength": 1,
           "maxLength": 20,
-          "$comment": "Cash"
+          "example": "Cash"
         },
         "name": {
           "description": "A name for this tender.",
           "type": "string",
           "maxLength": 40,
-          "$comment": "PromotionCard"
+          "example": "PromotionCard"
         },
         "description": {
           "description": "A description for this tender.",
           "type": "string",
           "maxLength": 255,
-          "$comment": "A promotion card"
+          "example": "A promotion card"
         },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
@@ -75,19 +75,19 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "$comment": "Pos.maximumCashBack.amount"
+          "example": "Pos.maximumCashBack.amount"
         },
         "value": {
           "description": "The actual Value of the additional property object.",
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "$comment": "50.00"
+          "example": "50.00"
         },
         "dataType": {
           "description": "The type of the data found in 'value'.",
           "type": "string",
-          "$comment": "DOUBLE",
+          "example": "DOUBLE",
           "enum": [
             "BOOL",
             "INT",
@@ -112,25 +112,25 @@
           "description": "A name for this restriction rule.",
           "type": "string",
           "maxLength": 40,
-          "$comment": "FoodTicket"
+          "example": "FoodTicket"
         },
         "description": {
           "description": "A description for this restriction rule.",
           "type": "string",
           "maxLength": 255,
-          "$comment": "A food ticket"
+          "example": "A food ticket"
         },
         "maxAllowedAmount": {
           "description": "The maximum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
           "maximum": 999999999999,
-          "$comment": 10000
+          "example": 10000
         },
         "minAllowedAmount": {
           "description": "The minimum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
           "maximum": 999999999999,
-          "$comment": 50
+          "example": 50
         },
         "itemCategoryTags": {
           "description": "A list of item category tags.",
@@ -153,7 +153,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 32,
-          "$comment": "VEGETABLES"
+          "example": "VEGETABLES"
         }
       }
     }
