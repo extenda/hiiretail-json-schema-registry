@@ -115,22 +115,18 @@
           "description": "Theme object for customisation of the app."
         },
         "fullscreen": {
-          "default": true,
           "type": "boolean",
           "description": "Sets whether the application should open in full screen by default."
         },
         "kiosk": {
-          "default": true,
           "type": "boolean",
           "description": "Hides the settings button from drawer."
         },
         "itemPicturesEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables showing of item images in receipt and search."
         },
         "priceVerificationEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
         },
@@ -149,12 +145,10 @@
       ],
       "properties": {
         "host": {
-          "default": "https://testrunner-eu.retailsvc.com",
           "type": "string",
           "description": "Checkout Engine API URL."
         },
         "networkCallTimeout": {
-          "default": 30000,
           "type": "number",
           "description": "The timeout for network calls. In milliseconds."
         }
@@ -165,7 +159,6 @@
       "type": "object",
       "properties": {
         "host": {
-          "default": "",
           "type": "string",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
         }
@@ -195,12 +188,10 @@
       ],
       "properties": {
         "autoConnect": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the auto connect."
         },
         "logicalName": {
-          "default": "Scanner",
           "type": "string",
           "description": "Scanner's logical name."
         }
@@ -216,27 +207,22 @@
       ],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the device."
         },
         "autoConnect": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the auto connect."
         },
         "logicalName": {
-          "default": "POSPrinter",
           "type": "string",
           "description": "Printer's logical name."
         },
         "cashdrawerEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the device."
         },
         "cashdrawerLogicalName": {
-          "default": "CashDrawer",
           "type": "string",
           "description": "Cashdrawer's logical name."
         }
@@ -250,7 +236,6 @@
       ],
       "properties": {
         "timeout": {
-          "default": 0,
           "type": "number",
           "description": "The number of seconds the register is idle before it is autolocked."
         }
@@ -261,7 +246,6 @@
       "type": "object",
       "properties": {
         "clearTimeout": {
-          "default": 5000,
           "type": "number",
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         }
@@ -272,7 +256,6 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the external links."
         },
@@ -304,7 +287,6 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the variant search."
         }
@@ -315,7 +297,6 @@
       "type": "object",
       "properties": {
         "integerMonetary": {
-          "default": false,
           "type": "boolean",
           "description": "Indicates if the monetary input should accept decimals or not."
         }
@@ -326,7 +307,6 @@
       "type": "object",
       "properties": {
         "uploadEnabled": {
-          "default": true,
           "type": "boolean",
           "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
         }
@@ -335,9 +315,9 @@
     "ScoType": {
       "description": "This is a definition of the SCO settings.",
       "type": "object",
+      "required": ["sessionKeepAliveInterval"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the sco mode."
         },
@@ -367,17 +347,14 @@
           "$ref": "#/$defs/ScoLoyaltyType"
         },
         "callAssistantEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the call assistant button in SCO mode."
         },
         "decreaseEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Allows for item's quantity decrease in SCO mode."
         },
         "sessionKeepAliveInterval": {
-          "default": 600000,
           "type": "number",
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
         }
@@ -388,12 +365,10 @@
       "type": "object",
       "properties": {
         "availableLanguages": {
-          "default": "en-GB",
           "type": "string",
           "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
         },
         "defaultLanguage": {
-          "default": "en-GB",
           "type": "string",
           "description": "Defines the default languages in SCO mode."
         }
@@ -404,7 +379,6 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the plu in SCO mode."
         }
@@ -415,7 +389,6 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the bags screen in SCO mode."
         },
@@ -455,7 +428,6 @@
       "properties": {
         "countryCodePrefix": {
           "type": "string",
-          "default": "",
           "description": "Defines the loyalty card prefix in SCO mode."
         }
       }
@@ -468,12 +440,10 @@
       ],
       "properties": {
         "autoStart": {
-          "default": false,
           "type": "boolean",
           "description": "Enables auto start of customer faced display."
         },
         "welcomeMessage": {
-          "default": "Welcome to Extenda Retail",
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
         }
