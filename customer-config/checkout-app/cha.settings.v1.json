@@ -152,7 +152,7 @@
         },
         "networkCallTimeout": {
           "type": "number",
-          "default": 30000
+          "default": 30000,
           "description": "The timeout for network calls. In milliseconds."
         }
       }
