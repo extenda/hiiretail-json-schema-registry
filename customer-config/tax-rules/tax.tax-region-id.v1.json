@@ -4,10 +4,15 @@
   "title": "TaxRegionId",
   "description": "Tax region for a country",
   "type": "object",
-  "required": ["taxRegionId"],
+  "required": [
+    "taxRegionId"
+  ],
   "properties": {
     "taxRegionId": {
-      "type": "string",
+      "type": [
+        "null",
+        "string"
+      ],
       "description": "Tax region for a country"
     }
   }
