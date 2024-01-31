@@ -160,10 +160,10 @@
     "EdgeType": {
       "description": "This is a definition of the edge settings.",
       "type": "object",
+      "required": ["host"],
       "properties": {
         "host": {
           "type": "string",
-          "default": "https://testrunner-eu.checkout-api.retailsvc.com",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
         }
       }
@@ -263,9 +263,11 @@
     "ExternalLinksType": {
       "description": "This is a definition of the External Websites settings.",
       "type": "object",
+      "required": ["enabled", "links"],
       "properties": {
         "enabled": {
           "type": "boolean",
+          "default": false,
           "description": "Enables the external links."
         },
         "links": {
@@ -294,9 +296,11 @@
     "VariantSearchType": {
       "description": "This is a definition of the variant search settings.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
           "type": "boolean",
+          "default": false,
           "description": "Enables the variant search."
         }
       }
@@ -314,6 +318,7 @@
     "LogsType": {
       "description": "This is a definition of the logs settings.",
       "type": "object",
+      "required": ["uploadEnabled"],
       "properties": {
         "uploadEnabled": {
           "type": "boolean",
@@ -324,10 +329,11 @@
     "ScoType": {
       "description": "This is a definition of the SCO settings.",
       "type": "object",
-      "required": ["sessionKeepAliveInterval"],
+      "required": ["enabled","sessionKeepAliveInterval"],
       "properties": {
         "enabled": {
           "type": "boolean",
+          "default": false,
           "description": "Enables the sco mode."
         },
         "logoUri": {
@@ -357,10 +363,12 @@
         },
         "callAssistantEnabled": {
           "type": "boolean",
+          "default": false,
           "description": "Enables the call assistant button in SCO mode."
         },
         "decreaseEnabled": {
           "type": "boolean",
+          "default": false,
           "description": "Allows for item's quantity decrease in SCO mode."
         },
         "sessionKeepAliveInterval": {
@@ -373,13 +381,16 @@
     "ScoLanguageType": {
       "description": "This is a definition language settings in SCO mode.",
       "type": "object",
+      "required": ["availableLanguages", "defaultLanguage"],
       "properties": {
         "availableLanguages": {
           "type": "string",
+          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO",
           "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
         },
         "defaultLanguage": {
           "type": "string",
+          "default": "en-GB",
           "description": "Defines the default languages in SCO mode."
         }
       }
@@ -387,6 +398,7 @@
     "ScoPluType": {
       "description": "This is a definition of the PLU settings in SCO mode.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -397,9 +409,11 @@
     "ScoBagsType": {
       "description": "This is a definition of the bags settings in SCO mode.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
           "type": "boolean",
+          "default": false,
           "description": "Enables the bags screen in SCO mode."
         },
         "paperBag": {
@@ -435,6 +449,7 @@
     "ScoLoyaltyType": {
       "description": "This is a definition Loyalty settings in SCO mode.",
       "type": "object",
+      "required": ["countryCodePrefix"],
       "properties": {
         "countryCodePrefix": {
           "type": "string",
@@ -445,12 +460,11 @@
     "CfdType": {
       "description": "This is a definition of the cfd settings.",
       "type": "object",
-      "required": [
-        "autoStart"
-      ],
+      "required": ["autoStart"],
       "properties": {
         "autoStart": {
           "type": "boolean",
+          "default": false,
           "description": "Enables auto start of customer faced display."
         },
         "welcomeMessage": {
