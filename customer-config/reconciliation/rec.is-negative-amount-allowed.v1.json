@@ -1,0 +1,15 @@
+{
+    "$id": "rec.is-negative-amount-allowed.v1",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "IsNegativeAmountAllowed",
+    "description": "Allow negative amount for reconciliation",
+    "type": "object",
+    "required": ["isNegativeAmountAllowed"],
+    "properties": {
+      "isNegativeAmountAllowed": {
+        "type": "boolean",
+        "description": "Allow negative amount for reconciliation"
+      }
+    }
+  }
+  
