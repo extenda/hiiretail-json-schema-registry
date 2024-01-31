@@ -4,9 +4,6 @@
   "title": "Settings",
   "description": "Checkout App settings.",
   "type": "object",
-  "required": [
-    "pos"
-  ],
   "properties": {
     "mpos": {
       "description": "MPOS settings.",
@@ -62,7 +59,9 @@
       "description": "This is a definition of the POS settings.",
       "type": "object",
       "required": [
-        "server"
+        "server",
+        "fullscreen",
+        "kiosk"
       ],
       "properties": {
         "server": {
@@ -116,10 +115,12 @@
         },
         "fullscreen": {
           "type": "boolean",
+          "default": false,
           "description": "Sets whether the application should open in full screen by default."
         },
         "kiosk": {
           "type": "boolean",
+          "default": false, 
           "description": "Hides the settings button from drawer."
         },
         "itemPicturesEnabled": {
@@ -141,7 +142,8 @@
       "description": "This is a definition of the server settings.",
       "type": "object",
       "required": [
-        "host"
+        "host",
+        "networkCallTimeout"
       ],
       "properties": {
         "host": {
@@ -150,6 +152,7 @@
         },
         "networkCallTimeout": {
           "type": "number",
+          "default": 30000
           "description": "The timeout for network calls. In milliseconds."
         }
       }
@@ -160,6 +163,7 @@
       "properties": {
         "host": {
           "type": "string",
+          "default": "https://testrunner-eu.checkout-api.retailsvc.com",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
         }
       }
@@ -237,6 +241,7 @@
       "properties": {
         "timeout": {
           "type": "number",
+          "default": 0,
           "description": "The number of seconds the register is idle before it is autolocked."
         }
       }
@@ -244,9 +249,13 @@
     "ReceiptType": {
       "description": "This is a definition of the receipt settings.",
       "type": "object",
+      "required": [
+        "clearTimeout"
+      ],
       "properties": {
         "clearTimeout": {
           "type": "number",
+          "default": 5000,
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         }
       }
@@ -356,6 +365,7 @@
         },
         "sessionKeepAliveInterval": {
           "type": "number",
+          "default": 600000,
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
         }
       }
