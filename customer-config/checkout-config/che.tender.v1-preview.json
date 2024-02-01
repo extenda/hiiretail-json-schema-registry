@@ -49,10 +49,10 @@
           "maxLength": 255,
           "$comment": "A promotion card"
         },
-        "active": {
-          "description": "Tender state active/inactive",
+        "disabled": {
+          "description": "If true, this Tender will not be available",
           "type": "boolean",
-          "default": true
+          "default": false
         },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
