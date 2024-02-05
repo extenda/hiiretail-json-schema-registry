@@ -289,8 +289,12 @@
                 "description": "Name of the web site to display in the choice list in app.",
                 "type": "string"
               },
-               "requiresAuthorization": {
-                "description": "Set true if the App should share authorization with this website.",
+               "shareAuthorizationToken": {
+                "description": "Set true to share authorization token with this website.",
+                "type": "boolean"
+              },
+              "shareRetailInformation": {
+                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
                 "type": "boolean"
               }
             }
