@@ -288,6 +288,10 @@
               "name": {
                 "description": "Name of the web site to display in the choice list in app.",
                 "type": "string"
+              },
+               "requiresAuthorization": {
+                "description": "Set true if the App should share authorization with this website.",
+                "type": "boolean"
               }
             }
           }
