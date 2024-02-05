@@ -289,7 +289,7 @@
                 "description": "Name of the web site to display in the choice list in app.",
                 "type": "string"
               },
-               "shareAuthorizationToken": {
+              "shareAuthorizationToken": {
                 "description": "Set true to share authorization token with this website.",
                 "type": "boolean"
               },
