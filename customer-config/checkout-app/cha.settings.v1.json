@@ -4,10 +4,12 @@
   "title": "Settings",
   "description": "Checkout App settings.",
   "type": "object",
-  "required": [
-    "pos"
-  ],
   "properties": {
+    "mpos": {
+      "description": "MPOS settings.",
+      "type": "object",
+      "$ref": "#/$defs/MposType"
+    },
     "pos": {
       "description": "POS settings.",
       "type": "object",
@@ -25,11 +27,41 @@
     }
   },
   "$defs": {
+    "MposType": {
+      "description": "This is a definition of the MPOS settings.",
+      "type": "object",
+      "required": [
+        "server"
+      ],
+      "properties": {
+        "server": {
+          "description": "Server settings.",
+          "type": "object",
+          "$ref": "#/$defs/ServerType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "wallpaperUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customisation of the app."
+        }
+      }
+    },
     "PosType": {
       "description": "This is a definition of the POS settings.",
       "type": "object",
       "required": [
-        "server"
+        "server",
+        "fullscreen",
+        "kiosk"
       ],
       "properties": {
         "server": {
@@ -74,6 +106,7 @@
         },
         "wallpaperUri": {
           "type": "string",
+          "nullable": true,
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for the wallaper image."
         },
@@ -82,24 +115,27 @@
           "description": "Theme object for customisation of the app."
         },
         "fullscreen": {
-          "default": true,
           "type": "boolean",
+          "default": false,
           "description": "Sets whether the application should open in full screen by default."
         },
         "kiosk": {
-          "default": true,
           "type": "boolean",
+          "default": false, 
           "description": "Hides the settings button from drawer."
         },
         "itemPicturesEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables showing of item images in receipt and search."
         },
         "priceVerificationEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+        },
+        "logs": {
+          "description": "Logs settings.",
+          "type": "object",
+          "$ref": "#/$defs/LogsType"
         }
       }
     },
@@ -107,17 +143,17 @@
       "description": "This is a definition of the server settings.",
       "type": "object",
       "required": [
-        "host"
+        "host",
+        "networkCallTimeout"
       ],
       "properties": {
         "host": {
-          "default": "https://testrunner-eu.retailsvc.com",
           "type": "string",
           "description": "Checkout Engine API URL."
         },
         "networkCallTimeout": {
-          "default": 30000,
           "type": "number",
+          "default": 30000,
           "description": "The timeout for network calls. In milliseconds."
         }
       }
@@ -125,16 +161,11 @@
     "EdgeType": {
       "description": "This is a definition of the edge settings.",
       "type": "object",
+      "required": ["host"],
       "properties": {
         "host": {
-          "default": "",
           "type": "string",
-          "description": "Edge host URL."
-        },
-        "enabled": {
-          "default": false,
-          "type": "boolean",
-          "description": "Allows the application to switch to the Edge solution offline."
+          "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
         }
       }
     },
@@ -162,12 +193,10 @@
       ],
       "properties": {
         "autoConnect": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the auto connect."
         },
         "logicalName": {
-          "default": "Scanner",
           "type": "string",
           "description": "Scanner's logical name."
         }
@@ -183,27 +212,22 @@
       ],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the device."
         },
         "autoConnect": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the auto connect."
         },
         "logicalName": {
-          "default": "POSPrinter",
           "type": "string",
           "description": "Printer's logical name."
         },
         "cashdrawerEnabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the device."
         },
         "cashdrawerLogicalName": {
-          "default": "CashDrawer",
           "type": "string",
           "description": "Cashdrawer's logical name."
         }
@@ -217,8 +241,8 @@
       ],
       "properties": {
         "timeout": {
-          "default": 0,
           "type": "number",
+          "default": 0,
           "description": "The number of seconds the register is idle before it is autolocked."
         }
       }
@@ -226,10 +250,13 @@
     "ReceiptType": {
       "description": "This is a definition of the receipt settings.",
       "type": "object",
+      "required": [
+        "clearTimeout"
+      ],
       "properties": {
         "clearTimeout": {
-          "default": 5000,
           "type": "number",
+          "default": 5000,
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         }
       }
@@ -237,10 +264,11 @@
     "ExternalLinksType": {
       "description": "This is a definition of the External Websites settings.",
       "type": "object",
+      "required": ["enabled", "links"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables the external links."
         },
         "links": {
@@ -269,10 +297,11 @@
     "VariantSearchType": {
       "description": "This is a definition of the variant search settings.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables the variant search."
         }
       }
@@ -282,23 +311,35 @@
       "type": "object",
       "properties": {
         "integerMonetary": {
-          "default": false,
           "type": "boolean",
           "description": "Indicates if the monetary input should accept decimals or not."
+        }
+      }
+    },
+    "LogsType": {
+      "description": "This is a definition of the logs settings.",
+      "type": "object",
+      "required": ["uploadEnabled"],
+      "properties": {
+        "uploadEnabled": {
+          "type": "boolean",
+          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
         }
       }
     },
     "ScoType": {
       "description": "This is a definition of the SCO settings.",
       "type": "object",
+      "required": ["enabled","sessionKeepAliveInterval"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables the sco mode."
         },
         "logoUri": {
           "type": "string",
+          "nullable": true,
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for logo in SCO mode."
         },
@@ -323,18 +364,18 @@
           "$ref": "#/$defs/ScoLoyaltyType"
         },
         "callAssistantEnabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables the call assistant button in SCO mode."
         },
         "decreaseEnabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Allows for item's quantity decrease in SCO mode."
         },
         "sessionKeepAliveInterval": {
-          "default": 600000,
           "type": "number",
+          "default": 600000,
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
         }
       }
@@ -342,15 +383,16 @@
     "ScoLanguageType": {
       "description": "This is a definition language settings in SCO mode.",
       "type": "object",
+      "required": ["availableLanguages", "defaultLanguage"],
       "properties": {
         "availableLanguages": {
-          "default": "en-GB",
           "type": "string",
+          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO",
           "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
         },
         "defaultLanguage": {
-          "default": "en-GB",
           "type": "string",
+          "default": "en-GB",
           "description": "Defines the default languages in SCO mode."
         }
       }
@@ -358,9 +400,9 @@
     "ScoPluType": {
       "description": "This is a definition of the PLU settings in SCO mode.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
           "description": "Enables the plu in SCO mode."
         }
@@ -369,10 +411,11 @@
     "ScoBagsType": {
       "description": "This is a definition of the bags settings in SCO mode.",
       "type": "object",
+      "required": ["enabled"],
       "properties": {
         "enabled": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables the bags screen in SCO mode."
         },
         "paperBag": {
@@ -408,10 +451,10 @@
     "ScoLoyaltyType": {
       "description": "This is a definition Loyalty settings in SCO mode.",
       "type": "object",
+      "required": ["countryCodePrefix"],
       "properties": {
         "countryCodePrefix": {
           "type": "string",
-          "default": "",
           "description": "Defines the loyalty card prefix in SCO mode."
         }
       }
@@ -419,17 +462,14 @@
     "CfdType": {
       "description": "This is a definition of the cfd settings.",
       "type": "object",
-      "required": [
-        "autoStart"
-      ],
+      "required": ["autoStart"],
       "properties": {
         "autoStart": {
-          "default": false,
           "type": "boolean",
+          "default": false,
           "description": "Enables auto start of customer faced display."
         },
         "welcomeMessage": {
-          "default": "Welcome to Extenda Retail",
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
         }
