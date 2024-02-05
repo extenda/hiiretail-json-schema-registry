@@ -49,6 +49,11 @@
           "maxLength": 255,
           "example": "A promotion card"
         },
+        "disabled": {
+          "description": "If true, this Tender will not be available",
+          "type": "boolean",
+          "default": false
+        },
         "restrictionRule": {
           "$ref": "#/$defs/RestrictionRule"
         },
