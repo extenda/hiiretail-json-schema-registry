@@ -1,0 +1,13 @@
+{
+  "$id": "stp.low-stock-threshold.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LowStockThreshold",
+  "description": "Low stock threshold value",
+  "type": "object",
+  "properties": {
+    "lowStockThreshold": {
+      "type": ["null", "integer"],
+      "description": "Low stock threshold value"
+    }
+  }
+}

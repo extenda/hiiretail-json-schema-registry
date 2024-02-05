@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-ignore-tender-pickup.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoIgnoreTenderPickup",
+  "description": "Do ignore tender pickup",
+  "type": "object",
+  "required": ["doIgnoreTenderPickup"],
+  "properties": {
+    "doIgnoreTenderPickup": {
+      "type": "boolean",
+      "description": "Do ignore tender pickup"
+    }
+  }
+}

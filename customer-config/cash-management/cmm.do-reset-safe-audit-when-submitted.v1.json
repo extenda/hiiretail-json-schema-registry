@@ -1,0 +1,14 @@
+{
+  "$id": "cmm.do-reset-safe-audit-when-submitted.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoResetSafeAuditWhenSubmitted",
+  "description": "Parameter to define do reset safe audi when submitted or not",
+  "type": "object",
+  "required": ["doResetSafeAuditWhenSubmitted"],
+  "properties": {
+    "doResetSafeAuditWhenSubmitted": {
+      "type": "boolean",
+      "description": "Parameter to define do reset safe audi when submitted or not"
+    }
+  }
+}

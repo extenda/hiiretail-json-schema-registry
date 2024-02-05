@@ -1,0 +1,13 @@
+{
+  "$id": "stp.number-of-nearby-business-units.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NumberOfNearbyBusinessUnits",
+  "description": "Number of nearby business units to include in stock lookups",
+  "type": "object",
+  "properties": {
+    "numberOfNearbyBusinessUnits": {
+      "type": ["null", "integer"],
+      "description": "Number of nearby business units to include in stock lookups"
+    }
+  }
+}
