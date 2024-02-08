@@ -125,17 +125,11 @@
           "maxLength": 255,
           "example": "A food ticket"
         },
-        "maxAllowedAmount": {
+        "maximumPerTransactionAmount": {
           "description": "The maximum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
           "maximum": 999999999999,
           "example": 10000
-        },
-        "minAllowedAmount": {
-          "description": "The minimum amount that can be used at one purchase with the tender that references this rule.",
-          "type": "number",
-          "maximum": 999999999999,
-          "example": 50
         },
         "itemCategoryTags": {
           "description": "A list of item category tags.",
