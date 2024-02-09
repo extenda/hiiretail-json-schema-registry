@@ -1,0 +1,85 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/pos-config/pos.config.v1.json",
+    "title": "POS configuration fields definitions",
+    "type": "object",
+    "required": [
+        "id",
+        "map"
+    ],
+    "properties": {
+        "applicableTo": {
+            "description": "Defines wheather the fields definition file should be used in the In Store or in the Configuration Portal",
+            "type": "enum",
+            "oneOf": ["IN_STORE", "CONFIGURATION_PORTAL"],
+            "example": "CONFIGURATION_PORTAL"
+        },
+        "fields": {
+            "description": "An array containing definitions of POS configuration fields",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/PosFieldConfiguration"
+            }
+        }
+    },
+    "$defs": {
+        "PosFieldConfiguration": {
+            "description": "Definition of POS configuration field",
+            "type": "object",
+            "required": [
+                "id",
+                "key",
+                "type",
+                "label",
+                "displayedPath"
+            ],
+            "properties": {
+                "id": {
+                    "description": "The unique identifier of the property. Will be saved in the CCC",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "key": {
+                    "description": "The key to identify the field. Will be saved in the CCC",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "type": {
+                    "description": "The type of the property. Only used by the UI for validation, not saved in the CCC",
+                    "type": "string",
+                    "enum": [
+                        "STRING",
+                        "NUMBER",
+                        "BOOLEAN"
+                    ]
+                },
+                "label": {
+                    "description": "The title of the property. Only used by the UI, not saved in the CCC",
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 255
+                },
+                "description": {
+                    "description": "The description of the property. Only used by the UI, not saved in the CCC",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "validationRegex": {
+                    "description": "The validation regex for the property. Only used by the UI for validation, not saved in the CCC",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "displayedPath": {
+                    "description": "Human-friendly interpetation of the key property. Only used by the UI for grouping, not saved in the CCC",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                }
+            }
+        }
+    }
+}
