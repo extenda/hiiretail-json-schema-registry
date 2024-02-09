@@ -128,7 +128,7 @@
         "maximumPerTransactionAmount": {
           "description": "The maximum amount that can be used at one purchase with the tender that references this rule.",
           "type": "number",
-          "maximum": 999999999999,
+          "maximum": 99999999999,
           "example": 10000
         },
         "itemCategoryTags": {
