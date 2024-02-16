@@ -173,6 +173,10 @@
       "description": "This is a definition of the peripherals properties settings.",
       "type": "object",
       "properties": {
+        "legacy": {
+          "type": "boolean",
+          "description": "Enables legacy MQTT peripherals instead of gRPC."
+        },
         "scanner1": {
           "$ref": "#/$defs/ScannerType"
         },
