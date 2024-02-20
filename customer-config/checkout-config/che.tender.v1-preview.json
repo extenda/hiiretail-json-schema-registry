@@ -121,7 +121,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "example": "Pos.maximumCashBack.amount"
+          "example": "3125339"
         },
         "name": {
           "description": "A name for this restriction rule.",
@@ -163,7 +163,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 255,
-          "example": "Pos.maximumCashBack.amount"
+          "example": "121312"
         },
         "name": {
           "description": "The name of the item category tag.",
