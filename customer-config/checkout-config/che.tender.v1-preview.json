@@ -112,7 +112,17 @@
     "RestrictionRule": {
       "description": "A rule that is set on a Tender to specify which items can be purchased with this tender.",
       "type": "object",
+      "required": [
+        "id"
+      ],
       "properties": {
+        "id": {
+          "description": "A unique id for restriction rule.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "3125339"
+        },
         "name": {
           "description": "A name for this restriction rule.",
           "type": "string",
@@ -144,9 +154,17 @@
       "description": "Item category tags are used to mark certain items that can be paid for with specific tenders.",
       "type": "object",
       "required": [
+        "id",
         "name"
       ],
       "properties": {
+        "id": {
+          "description": "A unique id for item category tag.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "example": "121312"
+        },
         "name": {
           "description": "The name of the item category tag.",
           "type": "string",
