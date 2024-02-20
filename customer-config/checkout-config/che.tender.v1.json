@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.v1-preview.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.v1.json",
   "title": "Tender API",
   "description": "The API allows you to define what tenders should be available in a given store\nand their respective behaviour, such as currency id, description,\ntender restriction rules for for specific item category etc.",
   "type": "array",
