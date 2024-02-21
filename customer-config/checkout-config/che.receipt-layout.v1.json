@@ -152,10 +152,18 @@
         "description": "A TextSection contains textual data.\n",
         "type": "object",
         "required": [
+          "id",
           "type",
           "value"
         ],
         "properties": {
+          "id": {
+            "description": "A unique id for the section.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "example": "75123839"
+          },
           "type": {
             "description": "Each Section has a type that determines its placement on the actual\nreceipt. Headers are placed above receipt line items and Footers are\nplaced below receipt line items.\n",
             "type": "string",
