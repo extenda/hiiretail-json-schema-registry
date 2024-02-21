@@ -71,7 +71,6 @@
         "description": "An ImageSection containing image data.\n",
         "type": "object",
         "required": [
-          "id",
           "type",
           "value"
         ],
@@ -152,7 +151,6 @@
         "description": "A TextSection contains textual data.\n",
         "type": "object",
         "required": [
-          "id",
           "type",
           "value"
         ],
