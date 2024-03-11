@@ -35,7 +35,23 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 20,
-          "example": "Cash"
+          "example": "Cash",
+          "enum": [
+            "CASH",
+            "CHECK",
+            "CREDITDEBIT",
+            "FOREIGNCURRENCY",
+            "GIFTCERTIFICATE",
+            "ORGANIZATIONCHARGE",
+            "ELECTRONICGIFTCARD",
+            "LOYALTYREDEMPTION",
+            "VOUCHER",
+            "COUPON",
+            "FOODSTAMP",
+            "HOUSEACCOUNT",
+            "WICCHECK",
+            "MANUFACTURERCOUPON"
+          ]
         },
         "name": {
           "description": "A name for this tender.",
