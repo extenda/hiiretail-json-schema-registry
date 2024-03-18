@@ -264,10 +264,16 @@
           "url"
         ],
         "properties": {
+          "id": {
+            "description": "A unique id of the image",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
           "url": {
             "description": "A uri to an image.",
             "type": "string",
-            "pattern": "^(https?|file)://.+$",
+            "pattern": "^(https)://.+$",
             "maxLength": 2048,
             "example": "https://example.com/assets/plu.png"
           }
