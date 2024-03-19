@@ -335,6 +335,10 @@
           "enum": [
             "ITEM_SELECTION"
           ]
+        },
+        "sequenceNumber": {
+          "description": "A sequence number to sort ITEM_SELECTION on.",
+          "type": "int"
         }
       }
     }
