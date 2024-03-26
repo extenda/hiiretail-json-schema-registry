@@ -86,6 +86,10 @@
           "items": {
             "$ref": "#/$defs/AdditionalProperty"
           }
+        },
+        "sequenceNumber": {
+          "description": "A sequence number to sort PluListType on.",
+          "type": "int"
         }
       }
     },
@@ -155,6 +159,10 @@
           "enum": [
             "ITEM"
           ]
+        },
+        "sequenceNumber": {
+          "description": "A sequence number to sort item on.",
+          "type": "int"
         }
       }
     },
@@ -210,6 +218,10 @@
           "enum": [
             "GROUP"
           ]
+        },
+        "sequenceNumber": {
+          "description": "A sequence number to sort PLU group on.",
+          "type": "int"
         }
       }
     },
@@ -327,6 +339,10 @@
           "enum": [
             "ITEM_SELECTION"
           ]
+        },
+        "sequenceNumber": {
+          "description": "A sequence number to sort ITEM_SELECTION on.",
+          "type": "int"
         }
       }
     }
