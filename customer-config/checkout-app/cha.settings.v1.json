@@ -51,7 +51,11 @@
         },
         "theme": {
           "type": "object",
-          "description": "Theme object for customisation of the app."
+          "description": "Theme object for customization of the app."
+        },
+        "peripherals": {
+          "type": "object",
+          "$ref": "#/$defs/MposPeripheralType"
         }
       }
     },
@@ -169,6 +173,15 @@
         }
       }
     },
+    "MposPeripheralType": {
+      "description": "This is a definition of the Mobile POS peripherals settings.",
+      "type": "object",
+      "properties": {
+        "printer": {
+           "$ref": "#/$defs/MposPrinterType"
+        },
+      }
+    },
     "PeripheralsType": {
       "description": "This is a definition of the peripherals properties settings.",
       "type": "object",
@@ -236,6 +249,16 @@
           "description": "Cashdrawer's logical name."
         }
       }
+    },
+    "MposPrinterType": {
+      "type": "object",
+      "description": "Printer configurations",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the printing."
+        },
+      },
     },
     "LockType": {
       "description": "This is a definition of the lock settings.",
