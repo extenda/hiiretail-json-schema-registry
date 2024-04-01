@@ -54,6 +54,7 @@
           "description": "Theme object for customization of the app."
         },
         "peripherals": {
+          "description": "Periperals settings definitions.",
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         }
@@ -125,7 +126,7 @@
         },
         "kiosk": {
           "type": "boolean",
-          "default": false, 
+          "default": false,
           "description": "Hides the settings button from drawer."
         },
         "itemPicturesEnabled": {
@@ -179,7 +180,7 @@
       "properties": {
         "printer": {
            "$ref": "#/$defs/MposPrinterType"
-        },
+        }
       }
     },
     "PeripheralsType": {
@@ -257,8 +258,8 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the printing."
-        },
-      },
+        }
+      }
     },
     "LockType": {
       "description": "This is a definition of the lock settings.",
