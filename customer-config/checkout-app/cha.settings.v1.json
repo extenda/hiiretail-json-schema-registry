@@ -54,6 +54,7 @@
           "description": "Theme object for customization of the app."
         },
         "peripherals": {
+          "description": "Periperals settings definitions.",
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         }
