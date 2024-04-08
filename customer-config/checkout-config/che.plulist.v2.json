@@ -312,7 +312,7 @@
           "description": "A unique id",
           "type": "string",
           "minLength": 1,
-          "maxLength": 20
+          "maxLength": 40
         },
         "searchSelectionId": {
           "description": "The Search Selection query ID",
