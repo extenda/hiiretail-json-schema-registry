@@ -89,7 +89,7 @@
         },
         "sequenceNumber": {
           "description": "A sequence number to sort PluListType on.",
-          "type": "int"
+          "type": "integer"
         }
       }
     },
@@ -162,7 +162,7 @@
         },
         "sequenceNumber": {
           "description": "A sequence number to sort item on.",
-          "type": "int"
+          "type": "integer"
         }
       }
     },
@@ -221,7 +221,7 @@
         },
         "sequenceNumber": {
           "description": "A sequence number to sort PLU group on.",
-          "type": "int"
+          "type": "integer"
         }
       }
     },
@@ -342,7 +342,7 @@
         },
         "sequenceNumber": {
           "description": "A sequence number to sort ITEM_SELECTION on.",
-          "type": "int"
+          "type": "integer"
         }
       }
     }
