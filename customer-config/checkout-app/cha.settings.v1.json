@@ -416,7 +416,7 @@
         },
         "loyaltyCardReminder": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
         }
       }
