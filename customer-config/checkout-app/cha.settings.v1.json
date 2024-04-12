@@ -493,7 +493,7 @@
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
         },
-        "addCardReminder": {
+        "cardReminderEnabled": {
           "type": "boolean",
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
