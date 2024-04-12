@@ -413,11 +413,6 @@
           "type": "number",
           "default": 600000,
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
-        },
-        "loyaltyCardReminder": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the loyalty card reminder dialog in SCO mode."
         }
       }
     },
@@ -497,6 +492,11 @@
         "countryCodePrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
+        },
+        "addCardReminder": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the loyalty card reminder dialog in SCO mode."
         }
       }
     },
