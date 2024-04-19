@@ -1,0 +1,56 @@
+{
+  "$id": "cor.delivery-options.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DeliveryOptions",
+  "description": "Delivery options for customer order",
+  "type": "object",
+  "required": [ "deliveryOptions"],
+  "properties": {
+    "deliveryOptions": {
+      "description": "Delivery options for customer order",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DeliveryOption"
+      }
+    }
+  },
+  "$defs": {
+    "DeliveryOption": {
+      "type": "object",
+      "description": "Delivery option for customer order",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "costAmount",
+        "deliveryType"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for delivery option"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name for delivery option"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description for delivery option"
+        },
+        "costAmount": {
+          "type": "number",
+          "description": "Indicates the cost amount"
+        },
+        "deliveryType": {
+          "type": "string",
+          "description": "Indicates the delivery type",
+          "enum": [
+            "PICKUP_STORE",
+            "HOME_DELIVERY_WAREHOUSE"
+          ]
+        }
+      }
+    }
+  }
+}
