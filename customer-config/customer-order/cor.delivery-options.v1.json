@@ -20,35 +20,51 @@
       "description": "Delivery option for customer order",
       "required": [
         "id",
-        "name",
-        "description",
-        "costAmount",
-        "deliveryType"
+        "config"
       ],
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for delivery option"
         },
-        "name": {
-          "type": "string",
-          "description": "Name for delivery option"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description for delivery option"
-        },
-        "costAmount": {
-          "type": "number",
-          "description": "Indicates the cost amount"
-        },
-        "deliveryType": {
-          "type": "string",
-          "description": "Indicates the delivery type",
-          "enum": [
-            "PICKUP_STORE",
-            "HOME_DELIVERY_WAREHOUSE"
-          ]
+        "config": {
+          "type": "object",
+          "description": "Set of available settings for delivery option",
+          "$ref": "#/$defs/DeliveryOption/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for delivery option",
+          "type": "object",
+          "required": [
+            "name",
+            "costAmount",
+            "deliveryType"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name for delivery option"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description for delivery option"
+            },
+            "costAmount": {
+              "type": "number",
+              "description": "Indicates the cost amount for the delivery option"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "Indicates the delivery type",
+              "enum": [
+                "PICKUP_STORE",
+                "HOME_DELIVERY_WAREHOUSE"
+              ]
+            }
+          }
         }
       }
     }
