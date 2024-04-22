@@ -1,0 +1,72 @@
+{
+  "$id": "cor.delivery-options.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DeliveryOptions",
+  "description": "Delivery options for customer order",
+  "type": "object",
+  "required": [ "deliveryOptions"],
+  "properties": {
+    "deliveryOptions": {
+      "description": "Delivery options for customer order",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DeliveryOption"
+      }
+    }
+  },
+  "$defs": {
+    "DeliveryOption": {
+      "type": "object",
+      "description": "Delivery option for customer order",
+      "required": [
+        "id",
+        "config"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for delivery option"
+        },
+        "config": {
+          "type": "object",
+          "description": "Set of available settings for delivery option",
+          "$ref": "#/$defs/DeliveryOption/$defs/Config"
+        }
+      },
+      "$defs": {
+        "Config": {
+          "title": "Config",
+          "description": "Set of available settings for delivery option",
+          "type": "object",
+          "required": [
+            "name",
+            "costAmount",
+            "deliveryType"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name for delivery option"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description for delivery option"
+            },
+            "costAmount": {
+              "type": "number",
+              "description": "Indicates the cost amount for the delivery option"
+            },
+            "deliveryType": {
+              "type": "string",
+              "description": "Indicates the delivery type",
+              "enum": [
+                "PICKUP_STORE",
+                "HOME_DELIVERY_WAREHOUSE"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
