@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/iri/iri.mappings.v1.json",
+  "title": "IRI mappings",
+  "description": "IRI mappings",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/Entity"
+  },
+  "$defs": {
+    "Entity": {
+      "type": "object",
+      "required": [
+        "classLabel",
+        "searchLabel",
+        "itemId",
+        "itemCategory",
+        "itemPlu",
+        "action",
+        "barcode",
+        "mode"
+      ],
+      "properties": {
+        "classLabel": {
+          "description": "IRI model label",
+          "type": "string",
+          "example": "apple_green"
+        },
+        "searchLabel": {
+          "description": "Store specific label classLabel should be mapped to",
+          "type": "string",
+          "example": "apple"
+        },
+        "itemId": {
+          "description": "Store specific item ID",
+          "type": "string",
+          "example": "778"
+        },
+        "itemCategory": {
+          "description": "Store specific item category",
+          "type": "string"
+        },
+        "itemPlu": {
+          "description": "Item PLU",
+          "type": "string"
+        },
+        "action": {
+          "description": "Action",
+          "type": "string"
+        },
+        "barcode": {
+          "description": "Barcode identifying the item",
+          "type": "string"
+        },
+        "mode": {
+          "description": "Mode",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
