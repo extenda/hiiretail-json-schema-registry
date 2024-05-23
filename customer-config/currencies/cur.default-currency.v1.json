@@ -7,7 +7,7 @@
   "required": ["defaultCurrency"],
   "properties": {
     "defaultCurrency": {
-      "type": "string",
+      "type": ["null", "string"],
       "description": "Default currency",
       "maxLength": 3
     }
