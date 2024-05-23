@@ -1,0 +1,15 @@
+{
+  "$id": "cur.default-currency.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DefaultCurrency",
+  "description": "Default currency",
+  "type": "object",
+  "required": ["defaultCurrency"],
+  "properties": {
+    "defaultCurrency": {
+      "type": "string",
+      "description": "Default currency",
+      "maxLength": 3
+    }
+  }
+}
