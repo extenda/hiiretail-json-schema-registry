@@ -82,6 +82,10 @@
             "maxLength": 255,
             "example": "75123839"
           },
+          "sequenceNumber": {
+            "type": "integer",
+            "description": "Decides the order of the image within the section"
+          },
           "type": {
             "description": "Each Section has a type that determines its placement on the actual\nreceipt. Headers are placed above receipt line items and Footers are\nplaced below receipt line items.\n",
             "type": "string",
@@ -161,6 +165,10 @@
             "minLength": 1,
             "maxLength": 255,
             "example": "75123839"
+          },
+          "sequenceNumber": {
+            "type": "integer",
+            "description": "Decides the order of the text row within the section with a certain type"
           },
           "type": {
             "description": "Each Section has a type that determines its placement on the actual\nreceipt. Headers are placed above receipt line items and Footers are\nplaced below receipt line items.\n",
