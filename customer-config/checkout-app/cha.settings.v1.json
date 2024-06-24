@@ -373,6 +373,11 @@
           "default": false,
           "description": "Enables the sco mode."
         },
+        "lockEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the sco lockscreen feature."
+        },
         "logoUri": {
           "type": "string",
           "nullable": true,
