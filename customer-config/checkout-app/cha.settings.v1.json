@@ -373,7 +373,7 @@
           "default": false,
           "description": "Enables the sco mode."
         },
-        "enableScoLock": {
+        "lockEnabled": {
           "type": "boolean",
           "default": false,
           "description": "Enables the sco lockscreen feature."
