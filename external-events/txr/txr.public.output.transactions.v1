@@ -1,0 +1,8 @@
+{
+  "$id": "txr.public.output.transactions.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SafPublishes a raw transaction event.",
+  "description": "Publishes a raw transaction event.",
+  "type": "string",
+  "format": "binary"
+}
