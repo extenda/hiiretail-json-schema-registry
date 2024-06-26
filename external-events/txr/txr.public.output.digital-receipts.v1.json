@@ -23,7 +23,7 @@
     },
     "digitalReceipt": {
       "type": "string",
-      "description": "Base64 represintation of Digital Receipt PDF"
+      "description": "Base64 represintation of Digital Receipt PNG"
     }
   },
   "required": [
