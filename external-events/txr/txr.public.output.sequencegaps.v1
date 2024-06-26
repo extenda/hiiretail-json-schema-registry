@@ -1,0 +1,26 @@
+{
+  "$id": "txr.public.output.sequencegaps.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes a gap event",
+  "description": "Publishes event when the gap in transaction sequence is detected",
+  "type": "object",
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The tenantId of the gap."
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The businessUnitId of the gap."
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "The transactionId of the gap."
+    }
+  },
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "transactionId"
+  ]
+}
