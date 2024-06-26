@@ -1,0 +1,36 @@
+{
+  "$id": "txr.public.output.digital-receipts.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes a digital receipt",
+  "description": "Publishes digital receipt for transaction",
+  "type": "object",
+  "properties": {
+    "countryCode": {
+      "type": "string",
+      "description": "The country code of transaction."
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The businessUnitId of the digital receipt."
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "The transactionId of the digital receipt."
+    },
+    "loyaltyNumber": {
+      "type": "string",
+      "description": "The loyaltyNumber of the digital receipt."
+    },
+    "digitalReceipt": {
+      "type": "string",
+      "description": "Base64 represintation of Digital Receipt PNG"
+    }
+  },
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "transactionId",
+    "loyaltyNumber",
+    "digitalReceipt"
+  ]
+}
