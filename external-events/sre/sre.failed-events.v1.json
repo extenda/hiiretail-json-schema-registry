@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "correlationId": {
+      "type": "string",
+      "description": "Unique identifier for the failed event"
+    },
+    "entityType": {
+      "type": "string",
+      "enum": ["ITEM", "PRICE_SPECIFICATION", "ITEM_IDENTIFIER", "PROMOTION", "COMPLETE_ITEM"],
+      "description": "The entity type of the event."
+    },
+    "businessUnitGroupId": {
+      "type": "string",
+      "description": "Identifier for the business unit group"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Identifier for the specific business unit"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the failed event.",
+      "minLength": 0
+    }
+  },
+  "required": ["correlationId", "entityType", "businessUnitGroupId", "businessUnitId", "reason"],
+  "additionalProperties": false
+}
