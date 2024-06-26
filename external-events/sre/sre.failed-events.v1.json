@@ -4,11 +4,11 @@
   "properties": {
     "correlationId": {
       "type": "string",
-      "description": "Unique identifier for the failed event"
+      "description": "Unique identifier for the event"
     },
     "entityType": {
       "type": "string",
-      "enum": ["ITEM", "PRICE_SPECIFICATION", "ITEM_IDENTIFIER", "PROMOTION", "COMPLETE_ITEM"],
+      "enum": ["ITEM", "PRICE_SPECIFICATION", "COMPLETE_ITEM", "PROMOTION"],
       "description": "The entity type of the event."
     },
     "businessUnitGroupId": {
@@ -19,9 +19,10 @@
       "type": "string",
       "description": "Identifier for the specific business unit"
     },
-    "reason": {
+    "status": {
       "type": "string",
-      "description": "Reason for the failed event.",
+      "description": "Status of the event",
+      "enum": ["FAILED", "NOT_DELIVERED"],
       "minLength": 0
     }
   },
