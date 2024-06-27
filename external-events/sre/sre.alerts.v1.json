@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "alertId": {
+      "type": "string",
+      "description": "Unique identifier for the alert"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["open", "closed"],
+      "description": "Current state of the alert"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 formatted date-time when the alert started"
+    },
+    "endedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 formatted date-time when the alert ended"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the alert"
+    },
+    "product": {
+      "type": "string",
+      "description": "Product associated with the alert"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component associated with the alert"
+    },
+    "function": {
+      "type": "string",
+      "description": "Function associated with the alert"
+    }
+  },
+  "required": ["alertId", "state", "startedAt", "type", "product", "component", "function"],
+  "additionalProperties": false
+}
