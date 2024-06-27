@@ -1,0 +1,281 @@
+{
+  "$id": "xzr.public.output.eod-reports.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes EOD report",
+  "description": "Publishes generated JSON EOD report",
+  "type": "object",
+  "properties": {
+    "operatorIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The country code of transaction."
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The businessUnitId of the report."
+    },
+    "workstationIds": {
+      "type": "string",
+      "description": "The workstation ids of the report."
+    },
+    "reportDate": {
+      "type": "string",
+      "description": "The creation date of report."
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The generation date of report."
+    },
+    "id": {
+      "type": "string",
+      "description": "Id of the report."
+    },
+    "cashSales": {
+      "$ref": "#/$defs/CashSalesReportDto"
+    },
+    "cashReturns": {
+      "$ref": "#/$defs/CashSalesReportDto"
+    },
+    "taxes": {
+      "$ref": "#/$defs/TaxesReportDto"
+    },
+    "aggregatedStats": {
+      "$ref": "#/$defs/AggregatedStatsReportDto"
+    },
+    "corrections": {
+      "$ref": "#/$defs/CorrectionsReportDto"
+    },
+    "grandTotals": {
+      "$ref": "#/$defs/GrandTotalsReportDto"
+    },
+    "giftCards": {
+      "$ref": "#/$defs/GiftCardsReportDto"
+    }
+  },
+  "$defs": {
+    "GiftCardsReportDto": {
+      "type": "object",
+      "properties": {
+        "sales": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TotalAndNumberDto"
+          }
+        },
+        "payments": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TotalAndNumberDto"
+          }
+        }
+      }
+    },
+    "CorrectionsReportDto": {
+      "type": "object",
+      "properties": {
+        "Post Void": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "Price Look Up": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "Void Items": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        }
+      },
+      "required": [
+        "Post Void",
+        "Price Look Up",
+        "Void Items"
+      ]
+    },
+    "GrandTotalsReportDto": {
+      "type": "object",
+      "properties": {
+        "sales": {
+          "type": "number"
+        },
+        "returns": {
+          "type": "number"
+        },
+        "net": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "sales",
+        "returns",
+        "net"
+      ]
+    },
+    "AggregatedStatsReportDto": {
+      "type": "object",
+      "properties": {
+        "saleReceipts": {
+          "type": "number"
+        },
+        "cashBoxOpenings": {
+          "type": "number"
+        },
+        "copyReceipts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "suspendedReceipts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "returnReceipts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "discounts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "canceledSales": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "deliveryReceipts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "trainingReceipts": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        }
+      },
+      "required": [
+        "saleReceipts",
+        "cashBoxOpenings",
+        "copyReceipts",
+        "suspendedReceipts",
+        "returnReceipts",
+        "discounts",
+        "canceledSales",
+        "deliveryReceipts",
+        "trainingReceipts"
+      ]
+    },
+    "TaxesReportDto": {
+      "type": "object",
+      "properties": {
+        "freeFromVatNumber": {
+          "type": "number"
+        },
+        "subjectToVat": {
+          "$ref": "#/$defs/TotalAndNumberDto"
+        },
+        "subjectToVatByRate": {
+          "type": "object",
+          "example": {
+            "9": {
+              "total": 200,
+              "number": 2
+            }
+          }
+        }
+      },
+      "required": [
+        "freeFromVatNumber",
+        "subjectToVat",
+        "subjectToVatByRate"
+      ]
+    },
+    "TotalAndNumberDto": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number"
+        },
+        "number": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "total",
+        "number"
+      ]
+    },
+    "CashSalesReportDto": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number"
+        },
+        "byGroups": {
+          "type": "object",
+          "example": {
+            "Sellable Goods": {
+              "total": 200,
+              "number": 2
+            }
+          }
+        },
+        "byMeansOfPayment": {
+          "type": "object",
+          "example": {
+            "Cash": {
+              "total": 200,
+              "number": 2
+            },
+            "Gift Certificate": {
+              "total": 50,
+              "number": 1,
+              "byOperator": {
+                "1": {
+                  "total": 50,
+                  "number": 1
+                }
+              }
+            },
+            "Credit Debit": {
+              "total": 150,
+              "number": 3,
+              "byOperator": {
+                "1": {
+                  "total": 100,
+                  "number": 2
+                }
+              },
+              "bySubTender": {
+                "MasterCard": {
+                  "id": "1",
+                  "total": 50,
+                  "number": 1
+                },
+                "Visa": {
+                  "id": "03",
+                  "total": 50,
+                  "number": 1
+                },
+                "Unknown": {
+                  "total": 50,
+                  "number": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "total",
+        "byGroups",
+        "byMeansOfPayment"
+      ]
+    }
+  },
+  "required": [
+    "operatorIds",
+    "businessUnitId",
+    "workstationIds",
+    "createdAt",
+    "reportDate",
+    "id",
+    "operatorIds",
+    "cashSales",
+    "cashReturns",
+    "cashSales",
+    "taxes",
+    "aggregatedStats",
+    "corrections",
+    "grandTotals",
+    "giftCards"
+  ]
+}
