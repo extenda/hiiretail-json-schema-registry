@@ -1,5 +1,8 @@
 {
+  "$id": "sre.alerts.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hii Retail Alerts",
+  "description": "Internal Alerts Firing Within Hii Retail.",
   "type": "object",
   "properties": {
     "alertId": {

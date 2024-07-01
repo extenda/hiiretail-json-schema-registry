@@ -1,5 +1,8 @@
 {
+  "$id": "sre.failed-events.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Failed Events",
+  "description": "Customer Event/Message Processing Failure Notifications",
   "type": "object",
   "properties": {
     "correlationId": {
