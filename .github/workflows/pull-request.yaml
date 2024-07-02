@@ -1,8 +1,8 @@
 on:
   pull_request:
   push:
-    paths:
-      - customer-config/**
+    # paths:
+    #   - customer-config/**
     # branches: master
 
 jobs:
@@ -29,4 +29,5 @@ jobs:
         run: |
               for file in ${{ steps.changed-files.outputs.changed_files }}; do
                   echo "$file was changed"
+                  echo $file
               done
