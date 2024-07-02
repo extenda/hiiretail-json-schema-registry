@@ -17,17 +17,22 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        run: |
-          echo "ASD test"
-          if ${{ github.event_name == 'pull_request' }}; then
-              echo "changed_files=$(git diff --name-only -r HEAD^1 HEAD | xargs)" >> $GITHUB_OUTPUT
-          else
-              echo "changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
-          fi
+        uses: tj-actions/changed-files@v14.4
+        with:
+          since_last_remote_commit: 'true'
 
-      - name: List changed files
+      - name: get_modified_files
+        id: diff
+        working-directory: './diff_files'
         run: |
-              for file in ${{ steps.changed-files.outputs.changed_files }}; do
-                  echo "$file was changed"
-                  cat $file
-              done
+          git config diff.renameLimit 99000
+          git fetch origin $GITHUB_BASE_REF --depth=1
+          touch files.txt
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo $file >> files.txt
+          done
+          cat files.txt | split -l 100 -a 8
+          rm files.txt
+          export filename_string=""
+          for i in `ls`; do export filename_string=$filename_string"file!"$i; done
+          echo "::set-output name=filenames::$filename_string"
