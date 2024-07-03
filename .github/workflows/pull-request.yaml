@@ -30,7 +30,7 @@ jobs:
         working-directory: './diff_files'
         run: |
           git config diff.renameLimit 99000
-          git fetch origin $GITHUB_BASE_REF --depth=1
+          git fetch origin $GITHUB_BASE_REF --depth=0
           ls -la
           touch files.txt
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
