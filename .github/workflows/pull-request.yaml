@@ -39,4 +39,4 @@ jobs:
           rm files.txt
           export filename_string=""
           for i in `ls`; do export filename_string=$filename_string"file!"$i; done
-          echo "::set-output name=filenames::$filename_string"
+          echo $filename_string
