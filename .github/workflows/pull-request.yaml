@@ -34,9 +34,7 @@ jobs:
           touch files.txt
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo $file >> files.txt
+            echo $file
+            cat $file
           done
-          cat files.txt | split -l 100 -a 8
-          rm files.txt
-          export filename_string=""
-          for i in `ls`; do export filename_string=$filename_string"file!"$i; done
-          echo $filename_string
+
