@@ -21,6 +21,10 @@ jobs:
         with:
           since_last_remote_commit: 'true'
 
+      - name: Create wokrking directory
+        run: |
+          mkdir diff_files
+
       - name: get_modified_files
         id: diff
         working-directory: './diff_files'
