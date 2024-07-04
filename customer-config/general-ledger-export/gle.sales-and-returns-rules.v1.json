@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sales and Returns Rules",
+  "description": "Sales and Returns rules for general ledger export",
+  "type": "object",
+  "properties": {
+    "default": {
+      "type": "object",
+      "properties": {
+        "accountId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accountId"
+      ]
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ITEM",
+              "CATEGORY",
+              "TAX_GROUP"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "value",
+          "accountId"
+        ]
+      }
+    }
+  },
+  "required": [
+    "rules"
+  ]
+}
