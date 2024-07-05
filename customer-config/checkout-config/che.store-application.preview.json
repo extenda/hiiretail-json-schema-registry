@@ -7,11 +7,13 @@
     "required": [
         "applications"
     ],
-    "applications": {
-        "description": "Defines the types of applications used by a business unit or a group",
-        "type": "array",
-        "items": {
-            "$ref": "#/$defs/Application"
+    "properties": {
+        "applications": {
+            "description": "Defines the types of applications used by a business unit or a group",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Application"
+            }
         }
     },
     "$defs": {
