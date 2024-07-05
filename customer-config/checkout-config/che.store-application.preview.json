@@ -1,0 +1,30 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.store-application.preview.json",
+    "title": "Store Application API",
+    "description": "The API allows you to define application related configuration",
+    "type": "object",
+    "required": [
+        "applications"
+    ],
+    "properties": {
+        "applications": {
+            "description": "Defines the types of applications used by a business unit or a group",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Application"
+            }
+        }
+    },
+    "$defs": {
+        "Application": {
+            "description": "Application type enumeration",
+            "type": "string",
+            "enum": [
+                "ERPOS",
+                "CHECKOUT_ENGINE",
+                "EDGE_CHECKOUT_ENGINE"
+            ]
+        }
+    }
+}
