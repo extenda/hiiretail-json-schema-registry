@@ -1,23 +1,16 @@
 {
+  "$id": "gle.sales-and-returns-rules.v1.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Sales and Returns Rules",
-  "description": "Sales and Returns rules for general ledger export",
-  "type": "object",
-  "properties": {
-    "default": {
-      "type": "object",
-      "properties": {
-        "accountId": {
-          "type": "string"
-        }
+  "description": "List of Sales and Returns rules for general ledger accounting and export",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
       },
-      "required": [
-        "accountId"
-      ]
-    },
-    "rules": {
-      "type": "array",
-      "items": {
+      "config": {
         "type": "object",
         "properties": {
           "type": {
@@ -25,25 +18,26 @@
             "enum": [
               "ITEM",
               "CATEGORY",
-              "TAX_GROUP"
+              "TAX_GROUP",
+              "DEFAULT"
             ]
           },
-          "value": {
+          "accountId": {
             "type": "string"
           },
-          "accountId": {
+          "value": {
             "type": "string"
           }
         },
         "required": [
           "type",
-          "value",
           "accountId"
         ]
       }
-    }
-  },
-  "required": [
-    "rules"
-  ]
+    },
+    "required": [
+      "id",
+      "config"
+    ]
+  }
 }
