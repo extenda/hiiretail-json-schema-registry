@@ -1,0 +1,380 @@
+{
+  "$id": "pnp.public.output.external-device-item-batches.v1",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.ExternalDeviceBatch",
+  "title": "HiiRetail Batch of External Device Items",
+  "description": "Publishes batches of complete items for specific types of external devices.",
+  "definitions" : {
+    "record:hiiretail.contracts.externaldeviceintegration.ExternalDeviceBatch" : {
+      "type" : "object",
+      "required" : [ "httpMethod", "items" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "httpMethod" : {
+          "type" : "string"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.Item"
+          }
+        }
+      }
+    },
+    "record:hiiretail.contracts.externaldeviceintegration.Item" : {
+      "type" : "object",
+      "required" : [ "id", "tenantId", "correlationId", "businessUnitId", "externalDeviceId", "externalDeviceType", "name", "description", "brand", "itemCategoryId", "referencePriceConversionFactor", "assortmentTags", "images", "itemIdentifiers", "additionalProperties", "priceSpecifications", "promotions" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "tenantId" : {
+          "type" : "string"
+        },
+        "correlationId" : {
+          "type" : "string"
+        },
+        "businessUnitId" : {
+          "type" : "string"
+        },
+        "externalDeviceId" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "$ref" : "#/definitions/enum:hiiretail.contracts.externaldeviceintegration.ExternalDeviceId"
+          } ]
+        },
+        "externalDeviceType" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "$ref" : "#/definitions/enum:hiiretail.contracts.externaldeviceintegration.ExternalDeviceType"
+          } ]
+        },
+        "name" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "description" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "brand" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "itemCategoryId" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "referencePriceConversionFactor" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "number"
+          } ]
+        },
+        "assortmentTags" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          } ]
+        },
+        "images" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.Image"
+            }
+          } ]
+        },
+        "itemIdentifiers" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.ItemIdentifier"
+            }
+          } ]
+        },
+        "additionalProperties" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/record:hiiretail.contracts.common.AdditionalProperty"
+            }
+          } ]
+        },
+        "priceSpecifications" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.PriceSpecification"
+            }
+          } ]
+        },
+        "promotions" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/record:hiiretail.contracts.externaldeviceintegration.PromotionItem"
+            }
+          } ]
+        }
+      }
+    },
+    "enum:hiiretail.contracts.externaldeviceintegration.ExternalDeviceId" : {
+      "enum" : [ "BIZERBA", "STRONGPOINT", "DIGI", "EWQ", "PRICER", "LTG", "HDR" ]
+    },
+    "enum:hiiretail.contracts.externaldeviceintegration.ExternalDeviceType" : {
+      "enum" : [ "SCALE", "ESL", "PRINT", "HDB" ]
+    },
+    "record:hiiretail.contracts.externaldeviceintegration.Image" : {
+      "type" : "object",
+      "required" : [ "url", "intendedAudience", "modified" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "url" : {
+          "type" : "string"
+        },
+        "intendedAudience" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          } ]
+        },
+        "modified" : {
+          "type" : "integer",
+          "minimum" : -9223372036854775808,
+          "maximum" : 9223372036854775807
+        }
+      }
+    },
+    "record:hiiretail.contracts.externaldeviceintegration.ItemIdentifier" : {
+      "type" : "object",
+      "required" : [ "id", "type" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "type" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "$ref" : "#/definitions/enum:hiiretail.contracts.itemidentifiers.ItemIdentifierType"
+          } ]
+        }
+      }
+    },
+    "enum:hiiretail.contracts.itemidentifiers.ItemIdentifierType" : {
+      "description" : "An ItemIdentifier represents a product identification code of some sort. According to the GS1 standard this is mostly a GTIN of 8-14 digits, \r\nbut it might be a Non-standard code for special use cases or it might be a PLU code for specific PLU use cases. It can also be a QR code \r\nor other machine registrable code or just an alternative SKU. This is also why several types are supported in Hii Retail \r\n- we know other identifiers than GTIN are required beyond the GS1 specifications.",
+      "enum" : [ "NONSTANDARD", "UUID", "GTIN8", "GTIN12", "GTIN13", "GTIN14", "PLU", "SKU", "QR", "ECC140", "ECC200", "ISBN", "RFID", "DATABAR_OMNI", "DATABAR_STACKED_OMNI", "DATABAR_EXPANDED", "DATABAR_STACKED_EXPANDED", "DATABAR_TRUNCATED", "DATABAR_LIMITED", "DATABAR_STACKED" ]
+    },
+    "record:hiiretail.contracts.common.AdditionalProperty" : {
+      "description" : "AdditionalProperty is an entity for providing dynamic information to other entities. Additional properties can be considered as key value pairs with some additional metadata.",
+      "type" : "object",
+      "required" : [ "id", "name", "code", "description", "dataType", "value", "isMandatory" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "code" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "description" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "dataType" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.common.enums.AdditionalPropertyValueType"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "isMandatory" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "enum:hiiretail.contracts.common.enums.AdditionalPropertyValueType" : {
+      "description" : "Additional Properties is a general HiiRetail concept made to handle any unforeseen data need without resulting in the need for additional development. \r\nThis is mainly for information that does not have a direct relationship with the business logic, but can be relevant for things like reporting or \r\nprocessing in other systems. We support Additional Properties on most entities in Hii Retail. \r\n\r\nThe AdditionalProperty is part of an array or list of data on the entity in need of dynamic additional information. This applies whether it is placed directly \r\non a specific entity or added to an entity based on calculation from internal Hii Retail processing. \r\n\r\nAdditional properties can be considered as key value pairs with some additional metadata. The name is the identifier for the information and \r\nthe value will be stored as a string. When reading or displaying the data in the AdditionalProperty entity, the DataType must be evaluated \r\nto be able to interpret the content correctly. \r\nAdditional Properties can be of several data types, and this MUST be set correctly for the data to be visualized and treated correctly.",
+      "enum" : [ "BOOL", "INT", "LONG", "DECIMAL", "DOUBLE", "STRING", "DATE", "DATETIME", "CURRENCY", "IMAGE", "BINARY", "LINK", "ARRAY", "KEY_VALUE", "JSON", "XML", "TIME", "UNKNOWN" ]
+    },
+    "record:hiiretail.contracts.externaldeviceintegration.PriceSpecification" : {
+      "type" : "object",
+      "required" : [ "id", "type", "value", "isCurrent", "validFrom", "validTo", "additionalProperties" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "type" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.pricespecifications.PriceSpecificationType"
+        },
+        "value" : {
+          "type" : "string",
+          "pattern" : "^[\u0000-ÿ]*$"
+        },
+        "isCurrent" : {
+          "type" : "boolean"
+        },
+        "validFrom" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "integer",
+            "minimum" : -9223372036854775808,
+            "maximum" : 9223372036854775807
+          } ]
+        },
+        "validTo" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "integer",
+            "minimum" : -9223372036854775808,
+            "maximum" : 9223372036854775807
+          } ]
+        },
+        "additionalProperties" : {
+          "default" : [ ],
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/record:hiiretail.contracts.common.AdditionalProperty"
+          }
+        }
+      }
+    },
+    "enum:hiiretail.contracts.pricespecifications.PriceSpecificationType" : {
+      "enum" : [ "SALES", "PURCHASE", "LOWEST_HISTORIC_PRICE" ]
+    },
+    "record:hiiretail.contracts.externaldeviceintegration.PromotionItem" : {
+      "type" : "object",
+      "required" : [ "id", "correlationId", "tenantId", "businessUnitId", "name", "itemId", "type", "status", "startDate", "endDate", "additionalProperties", "additionalPromotionItemProperties" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "correlationId" : {
+          "type" : "string"
+        },
+        "tenantId" : {
+          "type" : "string"
+        },
+        "businessUnitId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "itemId" : {
+          "type" : "string"
+        },
+        "type" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.promotions.PromotionType"
+        },
+        "status" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.promotions.PromotionStatus"
+        },
+        "startDate" : {
+          "type" : "integer",
+          "minimum" : -9223372036854775808,
+          "maximum" : 9223372036854775807
+        },
+        "endDate" : {
+          "default" : null,
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "integer",
+            "minimum" : -9223372036854775808,
+            "maximum" : 9223372036854775807
+          } ]
+        },
+        "additionalProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/record:hiiretail.contracts.common.AdditionalProperty"
+          }
+        },
+        "additionalPromotionItemProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/record:hiiretail.contracts.common.AdditionalProperty"
+          }
+        }
+      }
+    },
+    "enum:hiiretail.contracts.promotions.PromotionType" : {
+      "enum" : [ "NORMAL", "MEMBER", "REPEATING", "COUPON", "MIXMATCH" ]
+    },
+    "enum:hiiretail.contracts.promotions.PromotionStatus" : {
+      "enum" : [ "ACTIVE", "DELETED" ]
+    }
+  }
+}
