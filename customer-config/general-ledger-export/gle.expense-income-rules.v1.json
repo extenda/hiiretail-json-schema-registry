@@ -1,0 +1,41 @@
+{
+  "$id": "gle.expense-income-rules.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Expense/Income Accounting Rules",
+  "description": "List of Expense/Income rules for general ledger accounting and export",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "config": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "REASON_CODE",
+              "DEFAULT"
+            ]
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "accountId"
+        ]
+      }
+    },
+    "required": [
+      "id",
+      "config"
+    ]
+  }
+}
