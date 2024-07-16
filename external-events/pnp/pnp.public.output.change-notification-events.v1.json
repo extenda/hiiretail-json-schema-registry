@@ -1,0 +1,47 @@
+{
+  "$id": "pnp.public.output.change-notification-events.v1", 
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$ref" : "#/definitions/record:hiiretail.contracts.changenotifications.ChangeNotificationEvent",
+  "title": "HiiRetail Change Notification Events",
+  "description": "Publishes Notification Events for changes in entities",
+  "definitions" : {
+    "record:hiiretail.contracts.changenotifications.ChangeNotificationEvent" : {
+      "description" : "Payload describes the entity that has been changed",
+      "type" : "object",
+      "required" : [ "correlationId", "tenantId", "businessUnitIds", "entityType", "entityId", "type", "timestamp" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "correlationId" : {
+          "type" : "string"
+        },
+        "tenantId" : {
+          "type" : "string"
+        },
+        "businessUnitIds" : {
+          "default" : [ ],
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "entityType" : {
+          "type" : "string"
+        },
+        "entityId" : {
+          "type" : "string"
+        },
+        "type" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.changenotifications.ChangeNotificationEventType"
+        },
+        "timestamp" : {
+          "type" : "integer",
+          "minimum" : -9223372036854775808,
+          "maximum" : 9223372036854775807
+        }
+      }
+    },
+    "enum:hiiretail.contracts.changenotifications.ChangeNotificationEventType" : {
+      "enum" : [ "UPSERT", "DELETE" ]
+    }
+  }
+}

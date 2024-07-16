@@ -1,0 +1,159 @@
+{
+  "$id": "bms.public.output.calculated-basket.v1",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "HiiRetail Calculated Baskets",
+  "description": "Publishes updates for baskets with calculated prices and totals.",
+  "type" : "object",
+  "required": [ "basketId", "lastOperationTimestamp", "globalTransactionId", "itemCount", "totalDiscountAmount", "totalOrderAmount", "totalTaxableAmount", "taxGroups", "loyaltyId", "promotions", "items", "sessionId", "receiptId", "coupons", "basketType" ],
+  "properties" : {
+    "basketId" : {
+      "type" : "string"
+    },
+    "lastOperationTimestamp" : {
+      "type" : "string"
+    },
+    "globalTransactionId" : {
+      "type" : "string"
+    },
+    "itemCount" : {
+      "type" : "integer"
+    },
+    "totalDiscountAmount" : {
+      "type" : "number"
+    },
+    "totalOrderAmount" : {
+      "type" : "number"
+    },
+    "totalTaxableAmount" : {
+      "type" : "number"
+    },
+    "taxGroups" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "record:com.retailsvc.entity.TaxGroup",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "loyaltyId" : {
+      "type" : "string"
+    },
+    "promotions" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "record:com.retailsvc.entity.Promotion",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "discountAmount" : {
+            "type" : "number"
+          },
+          "discountPercentage" : {
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "items" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "record:com.retailsvc.entity.Item",
+        "properties" : {
+          "entityId" : {
+            "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "itemIdentifier" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "quantity" : {
+            "type" : "number"
+          },
+          "unitOfMeasure" : {
+            "type" : "string"
+          },
+          "actualUnitSalesPrice" : {
+            "type" : "number"
+          },
+          "totalActualSalesPrice" : {
+            "type" : "number"
+          },
+          "regularUnitSalesPrice" : {
+            "type" : "number"
+          },
+          "totalRegularSalesPrice" : {
+            "type" : "number"
+          },
+          "depositAmount" : {
+            "type" : "number"
+          },
+          "depositQuantity" : {
+            "type" : "number"
+          },
+          "promotions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "$ref" : "record:com.retailsvc.entity.Promotion"
+            }
+          }
+        }
+      }
+    },
+    "sessionId" : {
+      "type" : "string"
+    },
+    "receiptId" : {
+      "type" : "integer"
+    },
+    "coupons" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "id" : "record:com.retailsvc.entity.Coupon",
+        "properties" : {
+          "entityId" : {
+            "type" : "integer"
+          },
+          "couponId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "quantity" : {
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "basketType" : {
+      "type" : "string",
+      "enum" : [ "CHECKOUT", "WISHLIST", "CREDIT_ORDER", "HYBRID_ORDER" ]
+    },
+    "exceptionMessage" : {
+      "type" : "string"
+    }
+  }
+}

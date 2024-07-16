@@ -1,0 +1,120 @@
+{
+  "$id": "pnp.public.output.customer-notifications.v1",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$ref" : "#/definitions/record:hiiretail.contracts.notifications.NotificationEvent",
+  "title": "HiiRetail Customer Notifications",
+  "description": "Publishes events meant to notify external systems or users about an event that needs attention.",
+  "definitions" : {
+    "record:hiiretail.contracts.notifications.NotificationEvent" : {
+      "description" : "The notification event is used to notify external systems or users about an event that needs attention.\r\nIt might be to show something in a UI, send an SMS notification, raise an alert in a monitoring system, \r\nsend a confirmation e-mail, etc. \r\nThe notification event can typically be used to alert about an error that occurred in Hii Retail and will contain the necessary information about the error, why it happened and what needs to be done to resolve it.",
+      "type" : "object",
+      "required" : [ "id", "title", "correlationId", "tenantId", "businessUnitId", "businessUnitGroupId", "message", "recommendation", "type", "urgency", "impact", "additionalProperties" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "correlationId" : {
+          "type" : "string"
+        },
+        "tenantId" : {
+          "type" : "string"
+        },
+        "businessUnitId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "businessUnitGroupId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "recommendation" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "type" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.notifications.NotificationEventType"
+        },
+        "urgency" : {
+          "default" : "HIGH",
+          "$ref" : "#/definitions/enum:hiiretail.contracts.notifications.NotificationEventUrgency"
+        },
+        "impact" : {
+          "default" : "HIGH",
+          "$ref" : "#/definitions/enum:hiiretail.contracts.notifications.NotificationEventImpact"
+        },
+        "additionalProperties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/record:hiiretail.contracts.common.AdditionalProperty"
+          }
+        }
+      }
+    },
+    "enum:hiiretail.contracts.notifications.NotificationEventType" : {
+      "enum" : [ "INFORMATION", "ERROR", "WARNING" ]
+    },
+    "enum:hiiretail.contracts.notifications.NotificationEventUrgency" : {
+      "enum" : [ "HIGH", "MEDIUM", "LOW" ]
+    },
+    "enum:hiiretail.contracts.notifications.NotificationEventImpact" : {
+      "enum" : [ "HIGH", "MEDIUM", "LOW" ]
+    },
+    "record:hiiretail.contracts.common.AdditionalProperty" : {
+      "description" : "AdditionalProperty is an entity for providing dynamic information to other entities. Additional properties can be considered as key value pairs with some additional metadata.",
+      "type" : "object",
+      "required" : [ "id", "name", "code", "description", "dataType", "value", "isMandatory" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "code" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "description" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "dataType" : {
+          "$ref" : "#/definitions/enum:hiiretail.contracts.common.enums.AdditionalPropertyValueType"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "isMandatory" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "enum:hiiretail.contracts.common.enums.AdditionalPropertyValueType" : {
+      "description" : "Additional Properties is a general HiiRetail concept made to handle any unforeseen data need without resulting in the need for additional development. \r\nThis is mainly for information that does not have a direct relationship with the business logic, but can be relevant for things like reporting or \r\nprocessing in other systems. We support Additional Properties on most entities in Hii Retail. \r\n\r\nThe AdditionalProperty is part of an array or list of data on the entity in need of dynamic additional information. This applies whether it is placed directly \r\non a specific entity or added to an entity based on calculation from internal Hii Retail processing. \r\n\r\nAdditional properties can be considered as key value pairs with some additional metadata. The name is the identifier for the information and \r\nthe value will be stored as a string. When reading or displaying the data in the AdditionalProperty entity, the DataType must be evaluated \r\nto be able to interpret the content correctly. \r\nAdditional Properties can be of several data types, and this MUST be set correctly for the data to be visualized and treated correctly.",
+      "enum" : [ "BOOL", "INT", "LONG", "DECIMAL", "DOUBLE", "STRING", "DATE", "DATETIME", "CURRENCY", "IMAGE", "BINARY", "LINK", "ARRAY", "KEY_VALUE", "JSON", "XML", "TIME", "UNKNOWN" ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$id": "pnp.public.output.missing-dependencies.v2",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$ref" : "#/definitions/record:hiiretail.contracts.communication.messages.externalevents.MissingDependency",
+  "title": "HiiRetail Missing Dependency Events",
+  "description": "Publishes events about missing dependencies for certain entities.",
+  "definitions" : {
+    "record:hiiretail.contracts.communication.messages.externalevents.MissingDependency" : {
+      "description" : "Missing dependency object in the same format as one used in Store Data service to notify customers\r\n* about missing dependcies via the External Events (EXE).\r\n* https://github.com/extenda/hiiretail-developer-docs/blob/master/docs/store-data-service/concepts/README.md",
+      "type" : "object",
+      "required" : [ "entityId", "businessUnitId", "businessUnitGroupId", "messageType", "correlationId", "correlationSequence", "createdDate", "waitingFor" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "entityId" : {
+          "type" : "string"
+        },
+        "businessUnitId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "businessUnitGroupId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "messageType" : {
+          "type" : "string"
+        },
+        "correlationId" : {
+          "type" : "string"
+        },
+        "correlationSequence" : {
+          "type" : "string"
+        },
+        "createdDate" : {
+          "type" : "string"
+        },
+        "waitingFor" : {
+          "$ref" : "#/definitions/record:hiiretail.contracts.communication.messages.externalevents.WaitingFor"
+        }
+      }
+    },
+    "record:hiiretail.contracts.communication.messages.externalevents.WaitingFor" : {
+      "type" : "object",
+      "required" : [ "entityId", "businessUnitId", "businessUnitGroupId", "messageType" ],
+      "additionalProperties" : false,
+      "properties" : {
+        "entityId" : {
+          "type" : "string"
+        },
+        "businessUnitId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "businessUnitGroupId" : {
+          "oneOf" : [ {
+            "type" : "null"
+          }, {
+            "type" : "string"
+          } ]
+        },
+        "messageType" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
