@@ -1,0 +1,107 @@
+{
+  "id": "cor.public.event.order-to-pick-store.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerOrderToPickStoreEvent",
+  "description": "Customer order to be picked from store event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "items",
+    "customerOrderId",
+    "currencyId",
+    "fulfilledByBusinessUnitId",
+    "customerDetails"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant id of the order"
+    },
+    "placedByBusinessUnitId": {
+      "type": "string",
+      "description": "The id of the business unit (store) the order is placed"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "description": "Item definitions"
+    },
+    "customerOrderId": {
+      "type": "string",
+      "description": "Customer Order Id"
+    },
+    "fulfilledByBusinessUnitId": {
+      "type": "string",
+      "description": "The id of the business unit (store) the order is fulfilled by"
+    },
+    "currencyId": {
+      "type": "string",
+      "description": "3 letter currency code"
+    },
+    "customerId": {
+      "type": "string",
+      "description": "customer id"
+    },
+    "customerDetails": {
+      "$ref": "#/$defs/CustomerDetails"
+    }
+  },
+  "$defs": {
+    "Item": {
+      "title": "Item",
+      "description": "Item of the order",
+      "type": "object",
+      "required": [
+        "itemId",
+        "quantity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "description": "Id of the item"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the item"
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the item"
+        }
+      }
+    },
+    "CustomerDetails": {
+      "title": "CustomerDetails",
+      "description": "Customer Details",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Customer display name"
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Customer email"
+        },
+        "phoneNumber": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Customer contact number"
+        }
+      }
+    }
+  }
+}

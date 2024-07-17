@@ -1,0 +1,135 @@
+{
+  "id": "cor.public.event.order-to-pick-warehouse.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerOrderToPickWarehouseEvent",
+  "description": "Customer order to be picked from warehouse event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "items",
+    "customerOrderId",
+    "currencyId",
+    "customerAddress"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant id of the order"
+    },
+    "placedByBusinessUnitid": {
+      "type": "string",
+      "description": "The id of the business unit (store) the order is placed"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "description": "Item definitions"
+    },
+    "customerOrderId": {
+      "type": "string",
+      "description": "Customer Order Id"
+    },
+    "currencyId": {
+      "type": "string",
+      "description": "3 letter currency code"
+    },
+    "customerId": {
+      "type": "string",
+      "description": "customer id"
+    },
+    "customerAddress": {
+      "$ref": "#/$defs/CustomerAddress"
+    }
+  },
+  "$defs": {
+    "Item": {
+      "title": "Item",
+      "description": "Item of the order",
+      "type": "object",
+      "required": [
+        "itemId",
+        "quantity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "description": "Id of the item"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the item"
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the item"
+        }
+      }
+    },
+    "CustomerAddress": {
+      "title": "Address",
+      "description": "Customer address",
+      "type": "object",
+      "required": [
+        "name",
+        "streetAddress"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "streetAddress": {
+          "type": "string",
+          "description": "Customer street address"
+        },
+        "city": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Name of city or locality"
+        },
+        "postalCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Also known as ZIP code or postcode. It is composed of a series of letters, digits, or both"
+        },
+        "region": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Name of region, municipality, or county"
+        },
+        "country": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Name of country"
+        },
+        "name": {
+          "type": "string",
+          "description": "Customer display name"
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Customer email"
+        },
+        "phoneNumber": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Customer contact number"
+        }
+      }
+    }
+  }
+}

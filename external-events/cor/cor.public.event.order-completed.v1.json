@@ -1,0 +1,76 @@
+{
+  "id": "cor.public.event.order-completed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerOrderCompletedEvent",
+  "description": "Customer order completed event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "items",
+    "customerOrderId",
+    "totalSalesPrice",
+    "orderDate",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant id of the order"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the order"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "description": "Item definitions"
+    },
+    "customerOrderId": {
+      "type": "string",
+      "description": "Customer Order Id"
+    },
+    "totalSalesPrice": {
+      "type": "number",
+      "description": "Total sales Price"
+    },
+    "orderDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date of the order in UTC timezone."
+    }
+  },
+  "$defs": {
+    "Item": {
+      "description": "Item of the order",
+      "type": "object",
+      "required": [
+        "itemId",
+        "quantity",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "description": "Id of the item"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the order"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the item"
+        },
+        "price": {
+          "type": "number",
+          "description": "Sales Price of the item"
+        }
+      }
+    }
+  }
+}
