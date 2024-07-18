@@ -1,0 +1,112 @@
+{
+  "id": "rec.public.event.reconciliation-change-shift.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpotBalanceAndShiftEvents",
+  "description": "Actual counted amounts, and delta since previous count",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "reconciliationId",
+    "counts"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of business unit"
+    },
+    "reconciliationId": {
+      "type": "string",
+      "description": "Id of reconciliation"
+    },
+    "counts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ShiftCount"
+      },
+      "description": "Counts for given reconciliation"
+    }
+  },
+  "$defs": {
+    "ShiftCount": {
+      "title": "ShiftCount",
+      "type": "object",
+      "required": [
+        "shift",
+        "userId",
+        "timestamp",
+        "deviations"
+      ],
+      "properties": {
+        "shift": {
+          "type": "integer",
+          "description": "Spot count of the shift"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Id of user"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp for the reconciliation event"
+        },
+        "deviations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TenderDeviation"
+          },
+          "description": "Tender deviations"
+        }
+      }
+    },
+    "TenderDeviation": {
+      "title": "TenderDeviation",
+      "type": "object",
+      "required": [
+        "tenderId",
+        "currencyId",
+        "deviationAmount",
+        "deviationAmountInShift"
+      ],
+      "properties": {
+        "tenderId": {
+          "type": "string",
+          "description": "Tender id"
+        },
+        "currencyId": {
+          "type": "string",
+          "description": "Currency id of the tender",
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "expectedAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The expected amount for the tender"
+        },
+        "actualAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the tender."
+        },
+        "deviationAmount": {
+          "type": "number",
+          "description": "Deviation of the tender"
+        },
+        "deviationAmountInShift": {
+          "type": "number",
+          "description": "Deviation of the tender in the shift"
+        }
+      }
+    }
+  }
+}

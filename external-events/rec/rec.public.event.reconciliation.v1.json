@@ -1,0 +1,391 @@
+{
+  "id": "rec.public.event.reconciliation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reconciliation",
+  "description": "Reconciliation event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "correlationId",
+    "reconciliationId",
+    "timestamp"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The tenant id for the reconciliation"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit id for the reconciliation"
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "The correlation id that can be used to track the message to other services"
+    },
+    "reconciliationId": {
+      "type": "string",
+      "description": "The reconciliation id"
+    },
+    "reconciliationType": {
+      "type": "string",
+      "description": "Type of reconciliation",
+      "enum": [
+        "CASH_DRAWER",
+        "CASH_CHANGER"
+      ]
+    },
+    "workstationId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If workstation accountability, this is the workstation id used for the reconciliation"
+    },
+    "operatorId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If operator accountability, this is the operator id used for the reconciliation"
+    },
+    "userId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The user id of the user that performed the recount"
+    },
+    "externalUserId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The external user id of the user that performed the recount"
+    },
+    "comment": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The comment by the user that performed the recount"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp for the reconciliation event"
+    },
+    "timezoneOffset": {
+      "type": "string",
+      "description": "Timezone offset of created reconciliation"
+    },
+    "businessDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (not time) for the reconciliation event"
+    },
+    "tenders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Tender"
+      },
+      "description": "The reconciliation data for each tender"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "description": "The reconciliation data for each item"
+    },
+    "transactionIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "All transaction id's included in the reconciliation"
+    },
+    "transactionTenderDates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TransactionTenderDate"
+      },
+      "description": "Accumulated amount for each date in case the reconciliation cover sereval dates. This does not affect the counting of the user, this is for statistics only."
+    },
+    "transactionItemDates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TransactionItemDate"
+      },
+      "description": "Accumulated item amount for each date in case the reconciliation cover sereval dates. This does not affect the counting of the user, this is for statistics only."
+    }
+  },
+  "$defs": {
+    "Denomination": {
+      "title": "Denomination",
+      "type": "object",
+      "required": [
+        "denominationValue",
+        "quantity"
+      ],
+      "properties": {
+        "denominationValue": {
+          "type": "number",
+          "description": "The value of the denomination, e.g. 0.1, 10, 100 etc."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The quantity of the given denomination"
+        }
+      }
+    },
+    "Tender": {
+      "title": "Tender",
+      "type": "object",
+      "required": [
+        "tenderId",
+        "currencyId",
+        "isReadOnly"
+      ],
+      "properties": {
+        "tenderId": {
+          "type": "string",
+          "description": " The tender id"
+        },
+        "currencyId": {
+          "type": "string",
+          "description": "The currency id"
+        },
+        "isReadOnly": {
+          "type": "boolean"
+        },
+        "initialBalance": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The initial balance for the tender."
+        },
+        "expectedAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The expected amount for the tender, i.e. the system accumulated amount based on all transactions performed."
+        },
+        "actualAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the tender."
+        },
+        "deviationAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The deviation between counted and expected amount. If negative, it means that counted is less than expected"
+        },
+        "allowedDeviationAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The maximum allowed deviation for the amount."
+        },
+        "expectedQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The expected quantity for the tender, i.e. the system accumulated quantity based on all transactions performed."
+        },
+        "actualQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The actual amount for the tender."
+        },
+        "deviationQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The deviation between counted and expected quantity. If negative, it means that counted is less than expected"
+        },
+        "allowedDeviationQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The maximum allowed deviation for the quantity."
+        },
+        "isCashChanger": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Is this a cash changer tender. False if not present"
+        },
+        "denominations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Denomination"
+          },
+          "description": "The denominations in case the user has done the reconciliation by counting denominations."
+        }
+      }
+    },
+    "TransactionTenderDate": {
+      "title": "TransactionTenderDate",
+      "type": "object",
+      "required": [
+        "tenderId",
+        "dateValue",
+        "amount",
+        "quantity"
+      ],
+      "properties": {
+        "tenderId": {
+          "type": "string",
+          "description": "Tender Id"
+        },
+        "dateValue": {
+          "type": "string",
+          "format": "date",
+          "description": "The date (not time) for the accumulated amount"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The accumulated amount for all transactions, grouped by tender and date"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Number of transactions for this tender and date"
+        }
+      }
+    },
+    "TransactionItemDate": {
+      "title": "TransactionItemDate",
+      "type": "object",
+      "required": [
+        "reconciliationMethod",
+        "reconciliationTypeCode",
+        "dateValue",
+        "amount",
+        "quantity"
+      ],
+      "properties": {
+        "reconciliationMethod": {
+          "type": "string",
+          "description": "Reconciliation method"
+        },
+        "reconciliationTypeCode": {
+          "type": "string",
+          "description": "Reconciliation type code"
+        },
+        "dateValue": {
+          "type": "string",
+          "format": "date",
+          "description": "The date (not time) for the accumulated amount"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The accumulated item amount for all transactions, grouped by item and date"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Number of transactions for this item and date"
+        }
+      }
+    },
+    "Item": {
+      "title": "Item",
+      "type": "object",
+      "required": [
+        "reconciliationMethod",
+        "reconciliationTypeCode"
+      ],
+      "properties": {
+        "reconciliationMethod": {
+          "type": "string",
+          "description": "If AUTOMATIC then item is read only, if MANUAL then item is not read only"
+        },
+        "reconciliationTypeCode": {
+          "type": "string",
+          "description": "This item reconciliationTypeCode"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name of the item"
+        },
+        "isReadOnly": {
+          "type": "boolean",
+          "description": "false if it is required to count amount or quantity"
+        },
+        "expectedAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the item."
+        },
+        "actualAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the item."
+        },
+        "deviationAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The deviation between counted and expected amount. If negative, it means that counted is less than expected"
+        },
+        "allowedDeviationAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The maximum allowed deviation for the amount."
+        },
+        "expectedQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The expected quantity for the item, i.e. the system accumulated quantity based on all transactions performed."
+        },
+        "actualQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The actual amount for the item."
+        },
+        "deviationQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The deviation between counted and expected quantity. If negative, it means that counted is less than expected"
+        },
+        "allowedDeviationQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The maximum allowed deviation for the quantity."
+        }
+      }
+    }
+  }
+}
