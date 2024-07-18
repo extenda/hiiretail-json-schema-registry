@@ -1,0 +1,256 @@
+{
+  "id": "stp.public.output.processed-transactions.v3",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProcessedTransactionDto",
+  "description": "Stock Transaction Processing Processed Transaction DTO entity",
+  "type": "object",
+  "required": [
+    "transactionId",
+    "tenantId",
+    "businessUnitId",
+    "itemId",
+    "stockType",
+    "transactionDate",
+    "quantity",
+    "costAmount",
+    "documentType",
+    "correlationId",
+    "stockHandlingTypeId",
+    "stockHandlingMethodId",
+    "useAverageWeightedCostPrice",
+    "isStructuredItem",
+    "operationType"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "Unique id for the transaction"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "The tenant Id"
+    },
+    "businessUnitId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The id of the business unit (store)"
+    },
+    "itemId": {
+      "type": "string",
+      "description": "itemId"
+    },
+    "stockType": {
+      "$ref": "stock-type.json"
+    },
+    "transactionDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date of the transaction in UTC timezone. Note! The actual timestamp for when done in any system, e.g. POS, not when processed. The original transaction date, i.e. the actual timestamp for a sale, the actual timestamp for an order etc."
+    },
+    "quantity": {
+      "type": "number",
+      "description": "The quantity by which the targeted entity is affected. Expect to have 2 digits after the point precision"
+    },
+    "originalQuantity": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Quantity originally used for the document before processing. Expect to have 2 digits after the point precision"
+    },
+    "costAmount": {
+      "type": "number",
+      "description": "The cost amount by which the targeted entity is affected. Expect to have 3 digits after the point precision"
+    },
+    "salesAmount": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "The sales price if sold. Expect to have 3 digits after the point precision"
+    },
+    "currencyCode": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "3 letter currency code for the transaction"
+    },
+    "reasonCode": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "comment": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "documentType": {
+      "type": "string",
+      "description": "The type of document that produced this transaction"
+    },
+    "documentId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The id if the document that produced this transaction"
+    },
+    "documentLineId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The id of the document line that produced this transaction"
+    },
+    "supplierId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The id of the supplier that is attached to the affected StockItem"
+    },
+    "batchNumber": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The Batch/Lot number attached to the affected StockItem"
+    },
+    "serialNumber": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The serial number attached to the affected StockItem"
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "A unique identifier used to correlate all transactions processed by a single message."
+    },
+    "linkIdExternal": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "An optional unique identifier specified by the sender. Could be used to link several messages from the sender."
+    },
+    "linkIdRelated": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "A unique identifier used to correlate the related transactions (one transaction causing several transactions during processing)"
+    },
+    "linkIdStructure": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "A unique identifier used to correlate transactions to the same structured item"
+    },
+    "linkIdDelayed": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "A unique identifier used to correlate stock count transactions with delayed transactions (arrives after the stock count is processed, but is done before the stock count). "
+    },
+    "sourceType": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Indicates the type of device performing the sale, e.g. Mobile Access, RS POS, Extenda POS etc"
+    },
+    "sourceId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Indicates the id of the device performing the transaction"
+    },
+    "stockHandlingTypeId": {
+      "$ref": "stock-handling-type.json",
+      "description": "Indicates the stock handling type at the time of processing transaction, e.g. NoStockHandling, DoStockHandling..."
+    },
+    "stockHandlingMethodId": {
+      "$ref": "stock-handling-method.json",
+      "description": "Indicates the stock handling method at the time of processing the transaction, e.g. Fifo, Fefo, Lifo"
+    },
+    "useAverageWeightedCostPrice": {
+      "type": "boolean",
+      "description": "Indicates whether to use average weighted cost price (AWCP)"
+    },
+    "isStructuredItem": {
+      "type": "boolean",
+      "description": "True if the item is a master product (containing child products) at the time of processing the transaction"
+    },
+    "createdBy": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Identity the user triggering the transaction"
+    },
+    "bestBeforeDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time",
+      "description": "Timestamp of the transaction in UTC timezone."
+    },
+    "expirationDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time",
+      "description": "Timestamp of the transaction in UTC timezone."
+    },
+    "purchasePrice": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "operationType": {
+      "$ref": "transaction-operation-type.json"
+    },
+    "additionalProperties": {
+      "type": "array",
+      "items": {
+        "$ref": "additional-property.json"
+      }
+    },
+    "remainingStockQuantity": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "A snapshot of stock quantity for the processed stock type after this transaction is processed"
+    },
+    "remainingCostAmount": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "A snapshot of stock cost amount after this transaction is processed"
+    },
+    "timestamp": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time",
+      "description": "Timestamp of when transaction was processed."
+    }
+  }
+}

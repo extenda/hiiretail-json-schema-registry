@@ -1,0 +1,12 @@
+{
+  "id": "hiiretail.contracts.logistics.stp.StockHandlingType",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StockHandlingType",
+  "description": "Stock Item Handling type",
+  "type": "string",
+  "enum": [
+    "NO_STOCK_HANDLING",
+    "DO_STOCK_HANDLING",
+    "DO_CONSIGNMENT_STOCK_HANDLING"
+  ]
+}
