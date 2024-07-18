@@ -1,0 +1,149 @@
+{
+  "id": "cmm.public.event.safe-audit.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SafeAudit",
+  "description": "Safe audit values",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "userId",
+    "businessUnitId",
+    "repositoryId",
+    "audits",
+    "eventDatetime"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "userId": {
+      "type": "string",
+      "description": "Id of user"
+    },
+    "externalUserId": {
+      "type": "string",
+      "description": "External user id of user"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of business unit"
+    },
+    "repositoryId": {
+      "type": "string",
+      "description": "Id of repository"
+    },
+    "audits": {
+      "type": "array",
+      "description": "Array of safe audit",
+      "items": {
+        "$ref": "#/$defs/Audit"
+      }
+    },
+    "eventDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp"
+    },
+    "businessDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (not time) for the safe audit"
+    }
+  },
+  "$defs": {
+    "Audit": {
+      "type": "object",
+      "title": "Audit",
+      "required": [
+        "currencyId",
+        "additionalProperties"
+      ],
+      "properties": {
+        "currencyId": {
+          "type": "string",
+          "description": "Id of audited currency"
+        },
+        "reconciledAmount": {
+          "type": "number",
+          "description": "Cash transferred from tills to safe due to reconciliations/till audits."
+        },
+        "reconciledDeviationAmount": {
+          "type": "number",
+          "description": "Deviation in reconciliations for today"
+        },
+        "cashChangerAmount": {
+          "type": "number",
+          "description": "Cash transferred from cash changer to safe."
+        },
+        "cashChangerDeviationAmount": {
+          "type": "number",
+          "description": "Deviation in cash changer for today"
+        },
+        "safeAmount": {
+          "type": "number",
+          "description": "Total amount in safe (including any cash transferred to safe, like reconciliations or cash changer)"
+        },
+        "safeDeviationAmount": {
+          "type": "number",
+          "description": "Deviation in safe"
+        },
+        "bankDepositAmount": {
+          "type": "number",
+          "description": "Amount deposited to bank"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Comment from user for audit"
+        },
+        "additionalProperties": {
+          "type": "array",
+          "description": "Customer specific dynamic fields",
+          "items": {
+            "$ref": "#/$defs/Audit/$defs/AdditionalProperty"
+          }
+        },
+        "referenceId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Id of bank bag reference"
+        }
+      },
+      "$defs": {
+        "AdditionalProperty": {
+          "type": "object",
+          "title": "AdditionalProperty",
+          "required": [
+            "id",
+            "name",
+            "value"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of additional property"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of additional property"
+            },
+            "value": {
+              "type": "number",
+              "description": "Value of additional property"
+            },
+            "isNegativeSignByDefault": {
+              "type": "boolean",
+              "description": "If true, this indicates that the value entered is a negative amount by default"
+            },
+            "sortOrderKey": {
+              "type": "number",
+              "description": "Indicates the sequence the dynamics fields should be displayed in the UI"
+            }
+          }
+        }
+      }
+    }
+  }
+}
