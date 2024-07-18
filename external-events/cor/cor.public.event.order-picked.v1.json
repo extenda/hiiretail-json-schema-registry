@@ -1,0 +1,72 @@
+{
+  "id": "cor.public.event.order-picked.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerOrderPickEvent",
+  "description": "Customer order picked event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "items",
+    "customerOrderId",
+    "totalSalesPrice",
+    "orderDate",
+    "userProfileId"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Tenant id of the order"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "description": "Item definitions"
+    },
+    "customerOrderId": {
+      "type": "string",
+      "description": "Customer Order Id"
+    },
+    "userProfileId": {
+      "type": "string",
+      "description": "Unique user profile id"
+    },
+    "totalSalesPrice": {
+      "type": "number",
+      "description": "Total sales Price"
+    },
+    "orderDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date of the order in UTC timezone."
+    }
+  },
+  "$defs": {
+    "Item": {
+      "title": "Item",
+      "description": "Item of the order",
+      "type": "object",
+      "required": [
+        "itemId",
+        "quantity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "description": "Id of the item"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the item"
+        },
+        "price": {
+          "type": "number",
+          "description": "Sales Price of the item"
+        }
+      }
+    }
+  }
+}
