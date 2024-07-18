@@ -1,0 +1,248 @@
+{
+  "id": "rec.public.event.reconciliation-recount.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReconciliationRecount",
+  "description": "ReconciliationRecount event",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "correlationId",
+    "reconciliationId",
+    "recountId",
+    "timestamp"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The tenant id for the reconciliation"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit id for the reconciliation"
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "The correlation id that can be used to track the message to other services"
+    },
+    "reconciliationId": {
+      "type": "string",
+      "description": "The reconciliation id"
+    },
+    "reconciliationType": {
+      "type": "string",
+      "description": "Type of reconciliation",
+      "enum": [
+        "CASH_DRAWER",
+        "CASH_CHANGER"
+      ]
+    },
+    "recountId": {
+      "type": "string",
+      "description": "The count id of the recount"
+    },
+    "workstationId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If workstation accountability, this is the workstation id used for the reconciliation"
+    },
+    "operatorId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If operator accountability, this is the operator id used for the reconciliation"
+    },
+    "userId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The user id of the user that performed the recount"
+    },
+    "externalUserId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The external user id of the user that performed the recount"
+    },
+    "comment": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The comment by the user that performed the recount"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp for the recount event"
+    },
+    "businessDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (not time) this recount applies to."
+    },
+    "tenders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RecountTender"
+      },
+      "description": "The recount data for each tender"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RecountItem"
+      },
+      "description": "The recount data for each item"
+    }
+  },
+  "$defs": {
+    "RecountTender": {
+      "title": "RecountTender",
+      "type": "object",
+      "required": [
+        "tenderId",
+        "currencyId",
+        "isReadOnly"
+      ],
+      "properties": {
+        "tenderId": {
+          "type": "string",
+          "description": " The tender id"
+        },
+        "currencyId": {
+          "type": "string",
+          "description": "The currency id"
+        },
+        "isReadOnly": {
+          "type": "boolean"
+        },
+        "expectedAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The expected amount for the tender, i.e. the system accumulated amount based on all transactions performed."
+        },
+        "actualAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the tender."
+        },
+        "expectedQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The expected quantity for the tender, i.e. the system accumulated quantity based on all transactions performed."
+        },
+        "actualQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The actual amount for the tender."
+        },
+        "amountCorrection": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Deviation between recounted amount and previously counted amount."
+        },
+        "quantityCorrection": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Deviation between recounted quantity and previously counted quantity."
+        },
+        "isCashChanger": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Is this a cash changer tender. False if not present"
+        }
+      }
+    },
+    "RecountItem": {
+      "title": "RecountItem",
+      "type": "object",
+      "required": [
+        "reconciliationMethod",
+        "reconciliationTypeCode"
+      ],
+      "properties": {
+        "reconciliationMethod": {
+          "type": "string",
+          "description": "If AUTOMATIC then item is read only, if MANUAL then item is not read only"
+        },
+        "reconciliationTypeCode": {
+          "type": "string",
+          "description": "This item reconciliationTypeCode"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The name of the item"
+        },
+        "isReadOnly": {
+          "type": "boolean",
+          "description": "false if it is required to count amount or quantity"
+        },
+        "expectedAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the item."
+        },
+        "actualAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "The actual amount counted for the item."
+        },
+        "expectedQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The expected quantity for the item, i.e. the system accumulated quantity based on all transactions performed."
+        },
+        "actualQuantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The actual amount for the item."
+        },
+        "amountCorrection": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Deviation between recounted amount and previously counted amount."
+        },
+        "quantityCorrection": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Deviation between recounted quantity and previously counted quantity."
+        }
+      }
+    }
+  }
+}
