@@ -1,0 +1,155 @@
+{
+  "id": "cmm.public.event.transactions.v2",
+  "title": "CashManagementPublicTransactions",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Cash Management event used in a public pubsub topic",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "eventId",
+    "eventType",
+    "eventDateTime",
+    "correlationId",
+    "exportDateTime"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The tenant id of event"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit id of the event"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Unique event id for deduplication"
+    },
+    "eventType": {
+      "type": "string",
+      "description": "Type of the event, possible values: InitialBalance, Reconciliation, ReconciliationRecount, Transfer, BankDeposit, BankWithdrawal, Correction"
+    },
+    "eventDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp"
+    },
+    "correlationId": {
+      "type": "string",
+      "description": "Correlation id of the event"
+    },
+    "exportDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when exported"
+    },
+    "businessDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (not time) of the event"
+    },
+    "createdBy": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Id of the user who created this event"
+    },
+    "externalUserId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "External user id of the user who created this event"
+    },
+    "workstationId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Workstation id of the transaction"
+    },
+    "operatorId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Operator id of the transaction"
+    },
+    "transactions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CashManagementPublicEventTransaction"
+      },
+      "description": "Transactions of the event"
+    }
+  },
+  "$defs": {
+    "CashManagementPublicEventTransaction": {
+      "title": "CashManagementPublicEventTransaction",
+      "type": "object",
+      "required": [
+        "transactionId",
+        "currencyId",
+        "amount"
+      ],
+      "properties": {
+        "transactionId": {
+          "type": "string",
+          "description": "Id of the transaction"
+        },
+        "currencyId": {
+          "type": "string",
+          "description": "The currency id"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The actual amount"
+        },
+        "repositoryFromBalance": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Balance of the sending repository after transaction has been committed"
+        },
+        "repositoryToBalance": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Balance of the receiving repository after transaction has been committed"
+        },
+        "repositoryIdFrom": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Id of repository from which money is reduced"
+        },
+        "repositoryIdTo": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Id of repository to which money is added"
+        },
+        "referenceId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Id of bank bag reference"
+        },
+        "comment": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Comment to the transaction"
+        }
+      }
+    }
+  }
+}
