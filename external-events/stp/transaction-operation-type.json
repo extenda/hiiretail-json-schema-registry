@@ -1,0 +1,24 @@
+{
+  "id": "TransactionOperationType",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TransactionOperationType",
+  "description": "Operation Type Enum used in Transaction",
+  "type": "string",
+  "enum": [
+    "UNKNOWN",
+    "GOODS_RECEIVED",
+    "ORDER_RESPONSE",
+    "PURCHASE_ORDER",
+    "RETURN",
+    "RESERVATION",
+    "STOCK_CORRECTION",
+    "STOCK_COUNT",
+    "STOCK_TRANSFER",
+    "STOCK_TRANSFER_RECEIVED",
+    "SUPPLIER_RETURN",
+    "TRANSACTION",
+    "SYNCHRONIZE_STOCK",
+    "DEPRECATION",
+    "SALES"
+  ]
+}

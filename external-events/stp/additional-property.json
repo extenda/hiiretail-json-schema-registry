@@ -1,0 +1,51 @@
+{
+  "id": "AdditionalPropertyDto",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AdditionalPropertyDto",
+  "description": "Additional Property entity used in Transaction",
+  "type": "object",
+  "required": [
+    "uniqueId",
+    "name",
+    "dataType",
+    "value"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "uniqueId": {
+      "type": "string",
+      "description": "A unique id for the value object. This is only for global uniqueness and not the key of the additional information"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the value object. This should be considered to be the key used to translate, sort, display, search, etc."
+    },
+    "code": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "An optional user defined code to accompany the value"
+    },
+    "description": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "A description to follow the value. This can be used to explain what the content is for or what a specific value means."
+    },
+    "dataType": {
+      "$ref": "additional-property-value-type.json",
+      "description": "Datatype of the value object"
+    },
+    "value": {
+      "type": "string",
+      "description": "The actual value as string. DataType must be evaluated to present it correctly in a UI"
+    },
+    "isMandatory": {
+      "type": "boolean",
+      "default": true,
+      "description": "Is it mandatory to provide a value when using the data in a UI"
+    }
+  }
+}

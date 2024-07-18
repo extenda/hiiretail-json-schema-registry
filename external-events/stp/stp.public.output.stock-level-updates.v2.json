@@ -1,0 +1,55 @@
+{
+  "id": "stp.public.output.stock-level-updates.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StockLevelDto",
+  "description": "Additional Property entity used in Transaction",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "itemId",
+    "stockType",
+    "quantity",
+    "costAmount"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string"
+    },
+    "businessUnitId": {
+      "type": "string"
+    },
+    "itemId": {
+      "type": "string"
+    },
+    "stockType": {
+      "$ref": "stock-type.json"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "costAmount": {
+      "type": "number"
+    },
+    "currencyCode": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "averageCostAmount": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "timestamp": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    }
+  }
+}

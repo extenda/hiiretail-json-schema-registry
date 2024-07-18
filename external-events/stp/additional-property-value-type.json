@@ -1,0 +1,25 @@
+{
+  "id": "AdditionalPropertyValueType",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AdditionalPropertyValueType",
+  "description": "Datatype of the value object",
+  "type": "string",
+  "enum": [
+    "BOOL",
+    "INT",
+    "LONG",
+    "DECIMAL",
+    "DOUBLE",
+    "STRING",
+    "DATE",
+    "DATETIME",
+    "CURRENCY",
+    "IMAGE",
+    "BINARY",
+    "LINK",
+    "ARRAY",
+    "JSON",
+    "XML",
+    "UNKNOWN"
+  ]
+}
