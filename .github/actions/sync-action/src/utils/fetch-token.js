@@ -6,7 +6,7 @@ const core = require('@actions/core');
  * @return {Promise<string>}
  */
 
-export async function fetchToken({
+async function fetchToken({
   key, email, pass, gipTenantId,
 }) {
   try {
@@ -28,3 +28,5 @@ export async function fetchToken({
     throw new Error(`Could not get auth token from GIP. ${err}`);
   }
 }
+
+modules.export = fetchToken;

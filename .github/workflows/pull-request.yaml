@@ -22,16 +22,9 @@ jobs:
         with:
           service-account-key: ${{ secrets.SECRET_AUTH }}
           secrets: |
+            AUTH_EMAIL: ccc-sync-admin
+            AUTH_PASS: ccc-sync-pass
             AUTH_KEY: iam-api-key-prod
-
-      # - uses: extenda/actions/gcp-secret-manager@v0
-      #   if: steps.changed-files.outputs.any_changed == 'true'
-      #   with:
-      #     service-account-key: ${{ secrets.SECRET_AUTH }}
-      #     secrets: |
-      #       AUTH_EMAIL: ccc-sync-admin
-      #       AUTH_PASS: ccc-sync-pass
-      #       AUTH_KEY: iam-api-key-prod
 
       - name: Set modified files in one line
         if: steps.changed-files.outputs.any_changed == 'true'

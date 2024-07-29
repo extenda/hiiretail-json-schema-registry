@@ -1,18 +1,6 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const fetchToken = require('./utils/fetch-token');
-// const { createApi } = require('../../external-events/src/utils/create-api');
-
-// async function loadSecrets(serviceAccountKey) {
-//     const getSecret = (name) => loadSecret(serviceAccountKey, name);
-
-//     return {
-//         key: await getSecret('iam-api-key-prod'),
-//         email: await getSecret('ccc-sync-admin'),
-//         pass: await getSecret('ccc-sync-pass'),
-//         gipTenantId: await getSecret('exe-api-tenant-id'),
-//     };
-// }
 
 const run = async (act) => {
   try {
