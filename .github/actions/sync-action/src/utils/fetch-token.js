@@ -29,4 +29,4 @@ async function fetchToken({
   }
 }
 
-modules.export = fetchToken;
+module.exports = fetchToken;
