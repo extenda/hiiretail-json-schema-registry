@@ -45,7 +45,6 @@ async function action() {
     pass: process.env.AUTH_PASS,
     gipTenantId: 'extenda-mdcg6',
   });
-  // const cccApi = createApi({ name: 'customer-config', auth: secrets, url: 'https://ccc-api.retailsvc.com' });
 
   const payload = inputFiles.map(file => {
     return {
