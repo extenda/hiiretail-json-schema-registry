@@ -19,9 +19,9 @@ jobs:
 
       - name: Hide secrets
         run: |
-          export AUTH_EMAIL="ABC"
-          export AUTH_PASS="DEF"
-          export AUTH_KEY="GHI"
+          echo "AUTH_EMAIL=ABC" >> $GITHUB_ENV
+          echo "AUTH_PASS=DEF" >> $GITHUB_ENV
+          echo "AUTH_KEY=GHI" >> $GITHUB_ENV
       # - uses: extenda/actions/gcp-secret-manager@v0
       #   if: steps.changed-files.outputs.any_changed == 'true'
       #   with:
