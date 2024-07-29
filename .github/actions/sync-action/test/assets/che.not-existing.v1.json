@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "newProp": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "newProp"
+  ]
+}

@@ -1,41 +1,50 @@
+name: Deploy
 on:
   pull_request:
-  push:
-    # paths:
-    #   - customer-config/**
-    # branches: master
 
 jobs:
-  get_files:
-    name: run_on_pr
+  test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 0 }}
 
-      - name: Get changed files
+      - name: Get all changed markdown files
         id: changed-files
-        uses: tj-actions/changed-files@v14.4
+        uses: tj-actions/changed-files@v44
         with:
-          since_last_remote_commit: 'true'
+          files: |
+            customer-config/**/**.json
 
-      - name: Create wokrking directory
+      - name: Hide secrets
         run: |
-          mkdir diff_files
+          export AUTH_EMAIL="ABC"
+          export AUTH_PASS="DEF"
+          export AUTH_KEY="GHI"
+      # - uses: extenda/actions/gcp-secret-manager@v0
+      #   if: steps.changed-files.outputs.any_changed == 'true'
+      #   with:
+      #     service-account-key: ${{ secrets.SECRET_AUTH }}
+      #     secrets: |
+      #       AUTH_EMAIL: ccc-sync-admin
+      #       AUTH_PASS: ccc-sync-pass
+      #       AUTH_KEY: iam-api-key-prod
 
-      - name: get_modified_files
-        id: diff
-        working-directory: './diff_files'
+      - name: Set modified files in one line
+        if: steps.changed-files.outputs.any_changed == 'true'
+        shell: bash
         run: |
-          git config diff.renameLimit 99000
-          git fetch origin $GITHUB_BASE_REF --depth=0
-          ls -la
-          touch files.txt
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo $file >> files.txt
-            echo $file
-            cat $file
-          done
+          echo "MODIFIED_FILES=$(echo ${{ steps.changed-files.outputs.modified_files }} | tr -s ' ' ';')" >> $GITHUB_ENV
+          echo "ADDED_FILES=$(echo ${{ steps.changed-files.outputs.added_files }} | tr -s ' ' ';')" >> $GITHUB_ENV
 
+      - name: Prepare action
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: npm ci --prefix .github/actions/sync-action
+
+      - name: Validate and sync schema
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: ./.github/actions/sync-action
+        with:
+          schema-files: ${{ env.MODIFIED_FILES }};${{ env.ADDED_FILES }}
+          dry-run: "true"

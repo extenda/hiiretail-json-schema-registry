@@ -1,0 +1,16 @@
+name: Validate and sync schema
+description: Validate and sync schema values to CCC
+author: Extenda Retail
+inputs:
+  schema-files:
+    description: |
+      String of files to be validated and synced, delimited by a `;`.
+    required: true
+  dry-run:
+    description: |
+      If 'true', action will only validate.
+    required: false
+    default: "true"
+runs:
+  using: node20
+  main: src/index.js
