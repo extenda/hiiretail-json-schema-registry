@@ -41,5 +41,5 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: ./.github/actions/sync-action
         with:
-          schema-files: ${{ env.MODIFIED_FILES }};${{ env.ADDED_FILES }}
+          schema-files: ${{ env.MODIFIED_FILES }}
           dry-run: "true"
