@@ -1,0 +1,46 @@
+{
+  "$id": "txe.public.output.tsaf-poslogs.v1+txe.tsaf-poslogs",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes a PosLog event",
+  "description": "Publishes a PosLog event that needs to be transformed to TSAF format and forwarded",
+  "type": "object",
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "Transaction identifier"
+    },
+    "transaction_date_time": {
+      "type": "string",
+      "description": "The datetime, when the PosLog was created"
+    },
+    "storeId": {
+      "type": "string",
+      "description": "The store id, where the PosLog was created"
+    },
+    "workstationId": {
+      "type": "string",
+      "description": "The workstation id, where the PosLog was created"
+    },
+    "sequenceNumber": {
+      "type": "string",
+      "description": "The sequence number, from the PosLog"
+    },
+    "receiptNumber": {
+      "type": "string",
+      "description": "The receipt number, from the PosLog"
+    },
+    "posLog": {
+      "type": "string",
+      "description": "The PosLog XML in base64 format"
+    }
+  },
+  "required": [
+    "transactionId",
+    "transaction_date_time",
+    "storeId",
+    "workstationId",
+    "sequenceNumber",
+    "receiptNumber",
+    "posLog"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$id": "txe.public.output.tsaf-poslogs.v1+txe.tsaf-poslogs",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes a PosLog event",
+  "description": "Publishes a PosLog event that needs to be transformed to TSAF format and forwarded",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the event"
+    },
+    "specversion": {
+      "type": "string",
+      "description": "The CloudEvents specification version used for this event"
+    },
+    "time": {
+      "type": "string",
+      "description": "Event generation time"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of event data"
+    },
+    "data": {
+      "type": "string",
+      "description": "The message that is forwarded Base64 encoded"
+    },
+    "datacontenttype": {
+      "type": "string",
+      "description": "The type of message that is encoded in the 'data' field"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source of the event"
+    }
+  },
+  "required": [
+    "id",
+    "specversion",
+    "time",
+    "type",
+    "data",
+    "datacontenttype",
+    "source"
+  ]
+}
