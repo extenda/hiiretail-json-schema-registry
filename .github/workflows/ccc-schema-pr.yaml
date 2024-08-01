@@ -42,18 +42,12 @@ jobs:
             result=$(python -m jsonsubschema.cli master/$file $file 2>&1)
             command_status=$?
 
-            if [[ $command_status -ne 0 ]]; then
-              if [[ $result == *"jsonsubschema.exceptions.UnsupportedRecursiveRef"* ]]; then
-                echo "::error file=$file,line=1::Command failed - Unsupported recursive reference"
-              else
-                echo "::error file=$file,line=1::Command failed with error: $result"
-              fi
-              exit_code=1
-            elif [[ $result == *"LHS <: RHS False"* ]]; then
+
+            if [[ $result == *"LHS <: RHS True"* ]]; then
+              echo "::notice file=$file::OK"
+            else
               echo "::error file=$file,line=1::Not OK - failed backwards compatibility check"
               exit_code=1
-            else
-              echo "::notice file=$file::OK"
             fi
           done
 
