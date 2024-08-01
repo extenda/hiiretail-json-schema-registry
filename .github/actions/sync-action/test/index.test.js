@@ -1,4 +1,3 @@
-// //@ts-check
 jest.mock('@actions/core');
 const core = require('@actions/core');
 const action = require('../src/index');
@@ -44,7 +43,7 @@ describe(`Sync schema action`, () => {
     jest.resetAllMocks();
   });
 
-  it.each([true, false])('calls ccc api with valid schemas dryRun=%s', async (dryRun) => {
+  it.each([true, false])('calls ccc api with various schemas dryRun=%s', async (dryRun) => {
     core.getInput.mockReturnValueOnce('test/assets/che.not-existing.v1.json;test/assets/che.to-update.v1.json;test/assets/che.invalid-schema.v2.json');
     core.getBooleanInput.mockReturnValue(dryRun);
 
@@ -103,6 +102,12 @@ describe(`Sync schema action`, () => {
     expect(await action()).toBeUndefined();
 
     expectCccToBeCalled();
+
+    expect(core.startGroup).toHaveBeenCalledTimes(3);
+    expect(core.endGroup).toHaveBeenCalledTimes(3);
+    expect(core.info).toHaveBeenCalledTimes(4);
+    expect(core.warning).toHaveBeenCalledTimes(1);
+    expect(core.error).toHaveBeenCalledTimes(1);
   });
 });
 

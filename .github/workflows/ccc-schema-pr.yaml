@@ -1,6 +1,9 @@
-name: Deploy
+name: Schema validation and sync
 on:
   pull_request:
+    paths:
+      - 'customer-config/**/**.json'
+      - '.github/workflows/ccc-schema-pr.yaml'
 
 jobs:
   test:
