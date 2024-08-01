@@ -1,7 +1,6 @@
 name: Action
 on:
   pull_request:
-  push:
     paths:
       - '.github/actions/sync-action/**'
 
