@@ -180,7 +180,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 40,
-          "example": "Apples"
+          "example": "Apples222"
         },
         "description": {
           "type": "string",
