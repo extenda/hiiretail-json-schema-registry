@@ -5,42 +5,42 @@
   "description": "Publishes a PosLog event that needs to be transformed to TSAF format and forwarded",
   "type": "object",
   "properties": {
-    "id": {
+    "transactionId": {
       "type": "string",
-      "description": "Unique identifier for the event"
+      "description": "Transaction identifier"
     },
-    "specversion": {
+    "transaction_date_time": {
       "type": "string",
-      "description": "The CloudEvents specification version used for this event"
+      "description": "The datetime, when the PosLog was created"
     },
-    "time": {
+    "storeId": {
       "type": "string",
-      "description": "Event generation time"
+      "description": "The store id, where the PosLog was created"
     },
-    "type": {
+    "workstationId": {
       "type": "string",
-      "description": "The type of event data"
+      "description": "The workstation id, where the PosLog was created"
     },
-    "data": {
+    "sequenceNumber": {
       "type": "string",
-      "description": "The message that is forwarded Base64 encoded"
+      "description": "The sequence number, from the PosLog"
     },
-    "datacontenttype": {
+    "receiptNumber": {
       "type": "string",
-      "description": "The type of message that is encoded in the 'data' field"
+      "description": "The receipt number, from the PosLog"
     },
-    "source": {
+    "posLog": {
       "type": "string",
-      "description": "Source of the event"
+      "description": "The PosLog XML in base64 format"
     }
   },
   "required": [
-    "id",
-    "specversion",
-    "time",
-    "type",
-    "data",
-    "datacontenttype",
-    "source"
+    "transactionId",
+    "transaction_date_time",
+    "storeId",
+    "workstationId",
+    "sequenceNumber",
+    "receiptNumber",
+    "posLog"
   ]
 }
