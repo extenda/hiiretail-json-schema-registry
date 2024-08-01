@@ -5,7 +5,7 @@ on:
       - '.github/actions/sync-action/**'
 
 jobs:
-  test:
+  test_action:
     runs-on: ubuntu-latest
     defaults:
       run:

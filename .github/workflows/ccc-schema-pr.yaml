@@ -6,7 +6,7 @@ on:
       - '.github/workflows/ccc-schema-pr.yaml'
 
 jobs:
-  test:
+  validate_and_sync:
     runs-on: ubuntu-latest
 
     steps:
