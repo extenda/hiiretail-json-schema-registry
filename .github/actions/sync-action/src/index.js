@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const fs = require('fs');
-const fetchToken = require('./utils/fetch-token');
 const axios = require('axios');
+const fetchToken = require('./utils/fetch-token');
 
 const run = async (act) => {
   try {
@@ -47,20 +47,18 @@ async function action() {
     gipTenantId: 'extenda-mdcg6',
   });
 
-  const payload = inputFiles.map(file => {
-    return {
-      kind: file.substring(file.lastIndexOf('/') + 1, file.lastIndexOf('.')),
-      schemaFile: file,
-      schemaValue: JSON.parse(fs.readFileSync(file, 'utf8')),
-    }
-  });
+  const payload = inputFiles.map((file) => ({
+    kind: file.substring(file.lastIndexOf('/') + 1, file.lastIndexOf('.')),
+    schemaFile: file,
+    schemaValue: JSON.parse(fs.readFileSync(file, 'utf8')),
+  }));
 
   const { data } = await axios.post(
     `https://ccc-api.retailsvc.com/api/v1/internal/schema:sync?dryRun=${dryRun}`,
     payload,
     {
-      headers: { 'Authorization': `Bearer ${token}` },
-    }
+      headers: { Authorization: `Bearer ${token}` },
+    },
   );
 
   printReport(data);
