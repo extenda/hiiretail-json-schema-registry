@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const fetchToken = require('./utils/fetch-token');
+const axios = require('axios');
 
 const run = async (act) => {
   try {
@@ -54,50 +55,17 @@ async function action() {
     }
   });
 
-  //TODO: get results for all schema files
-  // // eslint-disable-next-line no-await-in-loop
-  // const { data } = await cccApi.post(
-  //   `/api/v1/internal/schema:sync?dryRun=${dryRun}`,
-  //   payload,
-  // );
+  const { data } = await axios.post(
+    `https://ccc-api.retailsvc.com/api/v1/internal/schema:sync?dryRun=${dryRun}`,
+    payload,
+    {
+      headers: { 'Authorization': `Bearer ${token}` },
+    }
+  );
 
-  const notExistingKind = 'che.not-existing.v1';
-  const notExistingKindFileName = `${notExistingKind}.json`;
-  const kind = 'che.workspace.v1';
-  const kindFileName = `${kind}.json`;
-  const kind2 = 'che.workspace.v2';
-  const kind2FileName = `${kind2}.json`;
-  const report = {
-    reports: [
-      {
-        kind: notExistingKind,
-        messages: ['Skipped'],
-        warnings: [
-          `Schema ${notExistingKindFileName} is not attached to any kind, skipping backwards compatibility check`,
-        ],
-      },
-      {
-        kind: kind,
-        messages: [
-          `Schema ${kindFileName} for kind ${kind} is backwards compatible`,
-        ],
-      },
-      {
-        kind: kind2,
-        messages: [
-          `Schema ${kind2FileName} for kind ${kind2} is not backwards compatible`,
-        ],
-        errors: [
-          '{"error":"Undefined must have required property \\"newProp\\"","path":""}',
-        ],
-      },
-    ],
-    success: false,
-  };
+  printReport(data);
 
-  printReport(report);
-
-  if (!report.success) {
+  if (!data.success) {
     core.setFailed('Sync process had some errors (see details above).');
   }
 
