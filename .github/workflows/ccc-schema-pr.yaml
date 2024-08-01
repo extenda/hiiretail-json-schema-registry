@@ -33,8 +33,7 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         shell: bash
         run: |
-          echo "MODIFIED_FILES=$(echo ${{ steps.changed-files.outputs.modified_files }} | tr -s ' ' ';')" >> $GITHUB_ENV
-          echo "ADDED_FILES=$(echo ${{ steps.changed-files.outputs.added_files }} | tr -s ' ' ';')" >> $GITHUB_ENV
+          echo "CHANGED_FILES=$(echo ${{ steps.changed-files.outputs.all_changed_files }} | tr -s ' ' ';')" >> $GITHUB_ENV
 
       - name: Prepare action
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -44,5 +43,5 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: ./.github/actions/sync-action
         with:
-          schema-files: ${{ env.MODIFIED_FILES }};${{ env.ADDED_FILES }}
+          schema-files: ${{ env.CHANGED_FILES }}
           dry-run: "true"
