@@ -19,7 +19,7 @@ jobs:
           ref: master
           path: master
 
-      - name: Get all changed markdown files
+      - name: Get all changed schema files
         id: changed-files
         uses: tj-actions/changed-files@v44
         with:
@@ -43,7 +43,7 @@ jobs:
           echo "Modified files: ${{ steps.changed-files.outputs.modified_files }}"
 
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
-            result=$(python -m jsonsubschema.cli master/$file $file 2>&1)
+            result=$(python -Wi -m jsonsubschema.cli master/$file $file 2>&1)
             command_status=$?
             echo "Result: $result"
 
