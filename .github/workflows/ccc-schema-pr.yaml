@@ -36,12 +36,26 @@ jobs:
 
       - name: Validate schema
         run: |
+          exit_code=0
+
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
-            python -m jsonsubschema.cli master/$file $file
+            result=$(python -m jsonsubschema.cli master/$file $file)
+
+            if [[ $result == *"LHS <: RHS False"* ]]; then
+              echo "$file: not ok"
+              exit_code=1
+            else
+              echo "$file: ok"
+            fi
           done
+
+          exit $exit_code
+
 
     # TODO Add checkout of master to master folder
       # run python jsonsubschema.pl --schema=master/schema.json --data=customer-config/ccc.json
+
+
 
       - uses: extenda/actions/gcp-secret-manager@v0
         if: steps.changed-files.outputs.any_changed == 'true'
