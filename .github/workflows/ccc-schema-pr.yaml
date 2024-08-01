@@ -40,6 +40,8 @@ jobs:
           set +e
           exit_code=0
 
+          echo "Modified files: ${{ steps.changed-files.outputs.modified_files }}"
+
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
             result=$(python -m jsonsubschema.cli master/$file $file 2>&1)
             command_status=$?
