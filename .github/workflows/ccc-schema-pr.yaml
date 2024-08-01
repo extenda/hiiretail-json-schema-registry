@@ -42,7 +42,7 @@ jobs:
             result=$(python -m jsonsubschema.cli master/$file $file)
 
             if [[ $result == *"LHS <: RHS False"* ]]; then
-              echo "::error file={$file}::Not OK - failed backwards compatibility check"
+              echo "::error file=$file::Not OK - failed backwards compatibility check"
               exit_code=1
             else
               echo "::notice file=$file::OK"
