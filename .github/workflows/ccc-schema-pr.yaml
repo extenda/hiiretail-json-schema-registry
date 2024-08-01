@@ -39,7 +39,7 @@ jobs:
           exit_code=0
 
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
-            result=$(python -m jsonsubschema.cli master/$file $file)
+            result=$(python -m jsonsubschema.cli master/$file $file 2>&1)
             command_status=$?
             echo "command status: $command_status"
 
