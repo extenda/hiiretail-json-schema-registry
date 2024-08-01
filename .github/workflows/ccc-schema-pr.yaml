@@ -13,12 +13,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+
       - name: Get all changed markdown files
         id: changed-files
         uses: tj-actions/changed-files@v44
         with:
           files: |
             customer-config/**/**.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+
+      - name: Install jsonsubschema
+        run: pip install jsonsubschema
+
+      - name: Validate schema
+        run: |
+          for file in ${{ steps.changed-files.outputs.modified_files }}; do
+            python -m jsonsubschema.cli master/$file $file
+          done
+
+    # TODO Add checkout of master to master folder
+      # run python jsonsubschema.pl --schema=master/schema.json --data=customer-config/ccc.json
 
       - uses: extenda/actions/gcp-secret-manager@v0
         if: steps.changed-files.outputs.any_changed == 'true'
