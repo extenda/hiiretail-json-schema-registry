@@ -36,6 +36,8 @@ jobs:
 
       - name: Validate schema
         run: |
+          echo "Validate modified schemas"
+          set +e
           exit_code=0
 
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
