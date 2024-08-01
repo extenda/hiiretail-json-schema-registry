@@ -40,8 +40,13 @@ jobs:
 
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
             result=$(python -m jsonsubschema.cli master/$file $file)
+            command_status=$?
+            echo "command status: $command_status"
 
-            if [[ $result == *"LHS <: RHS False"* ]]; then
+            if [[ $command_status -ne 0 ]]; then
+              echo "::error file=$file,line=1::Command failed to execute -recursive schema?"
+              exit_code=1
+            elif [[ $result == *"LHS <: RHS False"* ]]; then
               echo "::error file=$file,line=1::Not OK - failed backwards compatibility check"
               exit_code=1
             else
