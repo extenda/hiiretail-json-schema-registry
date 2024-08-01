@@ -25,14 +25,14 @@ jobs:
         with:
           files: |
             customer-config/**/**.json
+      - run: echo "jsonsubschema" > requirements.txt
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.8'
-          cache: 'pip'
 
       - name: Install jsonsubschema
-        run: pip install jsonsubschema
+        run: pip install -r requirements.txt
 
       - name: Validate schema
         run: |
