@@ -42,10 +42,10 @@ jobs:
             result=$(python -m jsonsubschema.cli master/$file $file)
 
             if [[ $result == *"LHS <: RHS False"* ]]; then
-              echo "::error Not OK: $file"
+              echo "::error:: Not OK: $file"
               exit_code=1
             else
-              echo "::notice OK $file"
+              echo "::notice:: OK: $file"
             fi
           done
 
