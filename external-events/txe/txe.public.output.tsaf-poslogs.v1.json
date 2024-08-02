@@ -1,5 +1,5 @@
 {
-  "$id": "txe.public.output.tsaf-poslogs.v1+txe.tsaf-poslogs",
+  "$id": "txe.public.output.tsaf-poslogs.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Publishes a PosLog event",
   "description": "Publishes a PosLog event that needs to be transformed to TSAF format and forwarded",
