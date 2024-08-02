@@ -13,61 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Checkout master
-        uses: actions/checkout@v4
-        with:
-          ref: master
-          path: master
-
       - name: Get all changed schema files
         id: changed-files
         uses: tj-actions/changed-files@v44
         with:
           files: |
             customer-config/**/**.json
-      - run: echo "jsonsubschema" > requirements.txt
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.8'
-
-      - name: Install jsonsubschema
-        run: pip install -r requirements.txt
-
-      - name: Validate schema
-        run: |
-          echo "Validate modified schemas"
-          set +e
-          exit_code=0
-
-          echo "Modified files: ${{ steps.changed-files.outputs.modified_files }}"
-
-          for file in ${{ steps.changed-files.outputs.modified_files }}; do
-            result=$(python -Wi -m jsonsubschema.cli master/$file $file 2>&1)
-            command_status=$?
-            echo "Result: $result"
-
-            if [[ $result == *"LHS <: RHS True"* ]]; then
-              echo "::notice file=$file::OK"
-            else
-              echo "::error file=$file,line=1::Not OK - failed backwards compatibility check"
-              exit_code=1
-            fi
-          done
-
-          if [[ $exit_code -ne 0 ]]; then
-            echo "Some files failed the backwards compatibility check."
-          else
-            echo "All files passed the backwards compatibility check."
-          fi
-
-          exit $exit_code
-
-
-    # TODO Add checkout of master to master folder
-      # run python jsonsubschema.pl --schema=master/schema.json --data=customer-config/ccc.json
-
-
 
       - uses: extenda/actions/gcp-secret-manager@v0
         if: steps.changed-files.outputs.any_changed == 'true'

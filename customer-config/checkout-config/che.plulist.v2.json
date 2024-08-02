@@ -71,7 +71,7 @@
         "isRemovable": {
           "description": "If it is possible to remove the content of this PLUList further down the hierarchy",
           "type": "boolean",
-          "example": "false"
+          "example": "true"
         },
         "content": {
           "description": "PLU lists can contain other PLU lists and/or items.",
