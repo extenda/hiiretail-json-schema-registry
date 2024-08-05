@@ -23,7 +23,7 @@ Each directory on `2nd` level contains schemas.
 
 Schema file name has following structure:
 
-```json
+```
 {name-of-entity}      {extention}
 che.receipt-layout.v1.json
 ```
