@@ -51,23 +51,25 @@ describe(`Sync schema action`, () => {
     const toUpdateSchemaValue = JSON.parse(fs.readFileSync(toUpdateKindFileName, 'utf8'));
     const invalidSchemaValue = JSON.parse(fs.readFileSync(invalidSchemaKindFileName, 'utf8'));
 
-    const payload = [
-      {
-        kind: notExistingKind,
-        schemaFile: notExistingKindFileName,
-        schemaValue: notExistingSchemaValue,
-      },
-      {
-        kind: toUpdateKind,
-        schemaFile: toUpdateKindFileName,
-        schemaValue: toUpdateSchemaValue,
-      },
-      {
-        kind: invalidSchemaKind,
-        schemaFile: invalidSchemaKindFileName,
-        schemaValue: invalidSchemaValue,
-      },
-    ];
+    const payload = {
+      schemas: [
+        {
+          kind: notExistingKind,
+          schemaFile: notExistingKindFileName,
+          schemaValue: notExistingSchemaValue,
+        },
+        {
+          kind: toUpdateKind,
+          schemaFile: toUpdateKindFileName,
+          schemaValue: toUpdateSchemaValue,
+        },
+        {
+          kind: invalidSchemaKind,
+          schemaFile: invalidSchemaKindFileName,
+          schemaValue: invalidSchemaValue,
+        },
+      ]
+    };
 
     const response = {
       reports: [

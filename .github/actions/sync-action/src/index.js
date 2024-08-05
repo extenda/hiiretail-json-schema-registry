@@ -47,11 +47,13 @@ async function action() {
     gipTenantId: 'extenda-mdcg6',
   });
 
-  const payload = inputFiles.map((file) => ({
-    kind: file.substring(file.lastIndexOf('/') + 1, file.lastIndexOf('.')),
-    schemaFile: file,
-    schemaValue: JSON.parse(fs.readFileSync(file, 'utf8')),
-  }));
+  const payload = {
+    schemas: inputFiles.map((file) => ({
+      kind: file.substring(file.lastIndexOf('/') + 1, file.lastIndexOf('.')),
+      schemaFile: file,
+      schemaValue: JSON.parse(fs.readFileSync(file, 'utf8')),
+    })),
+  };
 
   const { data } = await axios.post(
     `https://ccc-api.retailsvc.com/api/v1/internal/schemas:sync?dryRun=${dryRun}`,
