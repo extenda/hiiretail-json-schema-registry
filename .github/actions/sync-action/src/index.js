@@ -12,9 +12,7 @@ const run = async (act) => {
 };
 
 function printReport(report) {
-  for (const {
-    kind, messages, warnings, errors,
-  } of report.reports) {
+  for (const { kind, messages, warnings, errors } of report.reports) {
     core.startGroup(`${kind}`);
 
     if (messages) {
