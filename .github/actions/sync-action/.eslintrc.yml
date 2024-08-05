@@ -1,0 +1,25 @@
+parser: "@typescript-eslint/parser"
+parserOptions:
+  sourceType: module
+  extraFileExtensions:
+    - .js
+plugins:
+  - "@typescript-eslint/eslint-plugin"
+  - simple-import-sort
+extends:
+  - plugin:@typescript-eslint/recommended
+  - plugin:prettier/recommended
+root: true
+env:
+  node: true
+  jest: true
+rules:
+  simple-import-sort/imports: "error"
+  simple-import-sort/exports: "error"
+  no-unused-vars: "off"
+  "@typescript-eslint/no-unused-vars":
+    - "warn"
+    - argsIgnorePattern: "^_"
+      varsIgnorePattern: "^_"
+      caughtErrorsIgnorePattern: "^_"
+  "@typescript-eslint/no-var-requires": 0

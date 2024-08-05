@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "oldProp": {
+      "type": "string"
+    },
+    "newProp": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "oldProp",
+    "newProp"
+  ]
+}
