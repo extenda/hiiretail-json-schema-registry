@@ -54,7 +54,7 @@ async function action() {
   }));
 
   const { data } = await axios.post(
-    `https://ccc-api.retailsvc.com/api/v1/internal/schema:sync?dryRun=${dryRun}`,
+    `https://ccc-api.retailsvc.com/api/v1/internal/schemas:sync?dryRun=${dryRun}`,
     payload,
     {
       headers: { Authorization: `Bearer ${token}` },
