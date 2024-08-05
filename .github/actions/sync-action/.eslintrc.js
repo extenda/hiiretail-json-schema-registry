@@ -1,10 +1,3 @@
-const os = require('os');
-const endLineStyle = os.platform() === 'win32'
-  ? 'windows'
-  : 'unix';
-console.log(os.platform());
-console.log(os.EOL);
-console.log(process.platform);
 module.exports = {
   "env": {
     "es6": true,
@@ -23,6 +16,6 @@ module.exports = {
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
     "no-restricted-syntax": 0,
-    "linebreak-style": ["error", endLineStyle]
+    "linebreak-style": ["error", "unix"]
   }
 };
