@@ -55,17 +55,17 @@ describe(`Sync schema action`, () => {
       schemas: [
         {
           kind: notExistingKind,
-          schemaFile: notExistingKindFileName,
+          fileName: notExistingKindFileName,
           schemaValue: notExistingSchemaValue,
         },
         {
           kind: toUpdateKind,
-          schemaFile: toUpdateKindFileName,
+          fileName: toUpdateKindFileName,
           schemaValue: toUpdateSchemaValue,
         },
         {
           kind: invalidSchemaKind,
-          schemaFile: invalidSchemaKindFileName,
+          fileName: invalidSchemaKindFileName,
           schemaValue: invalidSchemaValue,
         },
       ]

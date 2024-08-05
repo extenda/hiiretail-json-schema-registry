@@ -50,7 +50,7 @@ async function action() {
   const payload = {
     schemas: inputFiles.map((file) => ({
       kind: file.substring(file.lastIndexOf('/') + 1, file.lastIndexOf('.')),
-      schemaFile: file,
+      fileName: file,
       schemaValue: JSON.parse(fs.readFileSync(file, 'utf8')),
     })),
   };
