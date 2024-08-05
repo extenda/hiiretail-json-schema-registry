@@ -125,7 +125,7 @@ function mockIdpTokenCall() {
 
 function mockCccSyncCall(payload, response, dryRun = false) {
   const cccNock = nock('https://ccc-api.retailsvc.com')
-    .post('/api/v1/internal/schema:sync', payload)
+    .post('/api/v1/internal/schemas:sync', payload)
     .query({ dryRun })
     .reply(200, response);
   return () => expect(cccNock.isDone()).toEqual(true);
