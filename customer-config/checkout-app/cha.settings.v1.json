@@ -373,11 +373,6 @@
           "default": false,
           "description": "Enables the sco mode."
         },
-        "lockEnabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the sco lockscreen feature."
-        },
         "logoUri": {
           "type": "string",
           "nullable": true,
@@ -418,6 +413,11 @@
           "type": "number",
           "default": 600000,
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
+        },
+        "lock" : {
+          "description": "Lock settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoLockType"
         }
       }
     },
@@ -502,6 +502,25 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
+        }
+      }
+    },
+    "ScoLockType": {
+      "description": "This is a definition of the sco lockscreen settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the sco lockscreen feature."
+        },
+        "timeout": {
+          "type": "number",
+          "default": 15,
+          "description": "Timeout for the appearance of the sco lockscreen. In seconds."
         }
       }
     },
