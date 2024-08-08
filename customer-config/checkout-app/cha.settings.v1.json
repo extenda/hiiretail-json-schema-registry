@@ -141,6 +141,11 @@
           "description": "Logs settings.",
           "type": "object",
           "$ref": "#/$defs/LogsType"
+        },
+        "auto-update": {
+          "description": "Auto-update settings.",
+          "type": "object",
+          "$ref": "#/$defs/AutoUpdateType"
         }
       }
     },
@@ -166,11 +171,77 @@
     "EdgeType": {
       "description": "This is a definition of the edge settings.",
       "type": "object",
-      "required": ["host"],
+      "required": [
+        "host"
+      ],
       "properties": {
         "host": {
           "type": "string",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
+        }
+      }
+    },
+    "AutoUpdateType": {
+      "description": "This is a definition of the app update maintenance window.",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": [
+            "alpha",
+            "beta",
+            "latest"
+          ],
+          "description": "The channel for the update."
+        },
+        "maintenanceExclusion": {
+          "type": "object",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window.",
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2024-01-14T07:00:00.000Z",
+              "description": "The start date and time of the maintenance exclusion. Specify in the UTC time zone."
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2024-01-15T07:00:00.000Z",
+              "description": "The end date and time of the maintenance exclusion. Specify in the UTC time zone."
+            }
+          }
+        },
+        "maintenanceWindow": {
+          "type": "object",
+          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window.",
+          "properties": {
+            "days": {
+              "description": "Days of the week when the maintenance can occur.",
+              "type": "array",
+              "enum": [
+                "MO",
+                "TU",
+                "WE",
+                "TH",
+                "FR",
+                "SA",
+                "SU"
+              ]
+            },
+            "start": {
+              "type": "string",
+              "format": "time",
+              "example": "18:00",
+              "description": "The start time of the maintenance window. Specify in the UTC time zone."
+            },
+            "end": {
+              "type": "string",
+              "format": "time",
+              "example": "24:00",
+              "description": "The end time of the maintenance window. Specify in the UTC time zone."
+            }
+          }
         }
       }
     },
@@ -179,7 +250,7 @@
       "type": "object",
       "properties": {
         "printer": {
-           "$ref": "#/$defs/MposPrinterType"
+          "$ref": "#/$defs/MposPrinterType"
         }
       }
     },
@@ -292,7 +363,10 @@
     "ExternalLinksType": {
       "description": "This is a definition of the External Websites settings.",
       "type": "object",
-      "required": ["enabled", "links"],
+      "required": [
+        "enabled",
+        "links"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -333,7 +407,9 @@
     "VariantSearchType": {
       "description": "This is a definition of the variant search settings.",
       "type": "object",
-      "required": ["enabled"],
+      "required": [
+        "enabled"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -355,7 +431,9 @@
     "LogsType": {
       "description": "This is a definition of the logs settings.",
       "type": "object",
-      "required": ["uploadEnabled"],
+      "required": [
+        "uploadEnabled"
+      ],
       "properties": {
         "uploadEnabled": {
           "type": "boolean",
@@ -366,7 +444,10 @@
     "ScoType": {
       "description": "This is a definition of the SCO settings.",
       "type": "object",
-      "required": ["enabled","sessionKeepAliveInterval"],
+      "required": [
+        "enabled",
+        "sessionKeepAliveInterval"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -414,7 +495,7 @@
           "default": 600000,
           "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
         },
-        "lock" : {
+        "lock": {
           "description": "Lock settings in SCO mode.",
           "type": "object",
           "$ref": "#/$defs/ScoLockType"
@@ -424,7 +505,10 @@
     "ScoLanguageType": {
       "description": "This is a definition language settings in SCO mode.",
       "type": "object",
-      "required": ["availableLanguages", "defaultLanguage"],
+      "required": [
+        "availableLanguages",
+        "defaultLanguage"
+      ],
       "properties": {
         "availableLanguages": {
           "type": "string",
@@ -441,7 +525,9 @@
     "ScoPluType": {
       "description": "This is a definition of the PLU settings in SCO mode.",
       "type": "object",
-      "required": ["enabled"],
+      "required": [
+        "enabled"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -452,7 +538,9 @@
     "ScoBagsType": {
       "description": "This is a definition of the bags settings in SCO mode.",
       "type": "object",
-      "required": ["enabled"],
+      "required": [
+        "enabled"
+      ],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -492,7 +580,9 @@
     "ScoLoyaltyType": {
       "description": "This is a definition Loyalty settings in SCO mode.",
       "type": "object",
-      "required": ["countryCodePrefix"],
+      "required": [
+        "countryCodePrefix"
+      ],
       "properties": {
         "countryCodePrefix": {
           "type": "string",
@@ -527,7 +617,9 @@
     "CfdType": {
       "description": "This is a definition of the cfd settings.",
       "type": "object",
-      "required": ["autoStart"],
+      "required": [
+        "autoStart"
+      ],
       "properties": {
         "autoStart": {
           "type": "boolean",
