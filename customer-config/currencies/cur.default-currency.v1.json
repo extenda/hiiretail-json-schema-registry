@@ -4,12 +4,22 @@
   "title": "DefaultCurrency",
   "description": "Default currency",
   "type": "object",
-  "required": ["defaultCurrency"],
+  "required": [
+    "defaultCurrency",
+    "newProperty"
+  ],
   "properties": {
     "defaultCurrency": {
-      "type": ["null", "string"],
+      "type": [
+        "null",
+        "string"
+      ],
       "description": "Default currency",
       "maxLength": 3
+    },
+    "newProperty": {
+      "type": "string",
+      "description": "New property"
     }
   }
 }
