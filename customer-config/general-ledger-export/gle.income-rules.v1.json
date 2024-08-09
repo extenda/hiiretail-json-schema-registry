@@ -1,8 +1,8 @@
 {
-  "$id": "gle.sales-and-returns-rules.v1.json",
+  "$id": "gle.income-rules.v1.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Sales and Returns Rules",
-  "description": "List of Sales and Returns rules for general ledger accounting and export",
+  "title": "Income Accounting Rules",
+  "description": "List of Income rules for general ledger accounting and export",
   "type": "array",
   "items": {
     "type": "object",
@@ -16,9 +16,7 @@
           "type": {
             "type": "string",
             "enum": [
-              "ITEM",
-              "CATEGORY",
-              "TAX_GROUP_ID",
+              "REASON_CODE",
               "DEFAULT"
             ]
           },
@@ -27,6 +25,12 @@
           },
           "value": {
             "type": "string"
+          },
+          "taxAccountId": {
+            "type": "string"
+          },
+          "taxRate": {
+            "type": "number"
           }
         },
         "required": [
