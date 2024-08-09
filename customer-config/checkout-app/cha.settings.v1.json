@@ -533,7 +533,7 @@
           "type": "boolean",
           "description": "Enables the plu in SCO mode."
         },
-        "favoritesPluEnabled": {
+        "pluShortcutsEnabled": {
           "type": "boolean",
           "default": false,
           "description": "Allows to set favorite PLU items in the main view of SCO mode."
