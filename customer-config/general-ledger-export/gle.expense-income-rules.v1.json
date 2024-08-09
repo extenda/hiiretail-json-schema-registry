@@ -17,6 +17,8 @@
             "type": "string",
             "enum": [
               "REASON_CODE",
+              "PAID_IN",
+              "PAID_OUT",
               "DEFAULT"
             ]
           },
