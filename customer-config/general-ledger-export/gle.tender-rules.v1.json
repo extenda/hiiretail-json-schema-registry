@@ -18,6 +18,7 @@
             "enum": [
               "PROVIDER_ID",
               "INTERNAL_TENDER_ID",
+              "ROUNDING",
               "DEFAULT"
             ]
           },
