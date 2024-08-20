@@ -499,6 +499,25 @@
           "description": "Lock settings in SCO mode.",
           "type": "object",
           "$ref": "#/$defs/ScoLockType"
+        },
+        "attendant": {
+          "description": "Attendant settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoAttendantType"
+        }
+      }
+    },
+    "ScoAttendantType": {
+      "description": "This is a definition of the attendant settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the attendant feature in SCO mode."
         }
       }
     },
