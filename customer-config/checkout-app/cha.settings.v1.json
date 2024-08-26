@@ -196,7 +196,7 @@
             "preview",
             "stable"
           ],
-          "description": "The channel for the update."
+          "description": "The channel for the update. Customers should use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable."
         },
         "maintenanceExclusion": {
           "type": "object",
