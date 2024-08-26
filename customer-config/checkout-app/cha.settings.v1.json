@@ -238,7 +238,9 @@
                 "TU",
                 "WE",
                 "TH"
-              ]
+              ],
+              "uniqueItems": true,
+              "minItems": 1
             },
             "start": {
               "type": "string",
