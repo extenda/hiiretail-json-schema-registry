@@ -196,7 +196,7 @@
         },
         "maintenanceExclusion": {
           "type": "object",
-          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is aplied only for stable channel and only for major and minor updates(from semantic versioning).",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is applied only for stable channel and only for major and minor updates(semantic versioning).",
           "properties": {
             "start": {
               "type": "string",
@@ -215,7 +215,7 @@
         },
         "maintenanceWindow": {
           "type": "object",
-          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window.",
+          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window. The maintenance window is applied to beta and stable channels for major, minor and patch updates(see semantic versioning)",
           "properties": {
             "days": {
               "description": "Days of the week when the maintenance can occur.",
@@ -224,7 +224,7 @@
                 "MO",
                 "TU",
                 "WE",
-                "TH",
+                "TH"
               ]
             },
             "start": {
