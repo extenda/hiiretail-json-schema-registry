@@ -142,7 +142,7 @@
           "type": "object",
           "$ref": "#/$defs/LogsType"
         },
-        "auto-update": {
+        "autoUpdate": {
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/AutoUpdateType"
@@ -184,19 +184,27 @@
     "AutoUpdateType": {
       "description": "This is a definition of the app update maintenance window.",
       "type": "object",
+      "required": [
+        "channel",
+        "maintenanceWindow"
+      ],
       "properties": {
         "channel": {
           "type": "string",
           "enum": [
-            "alpha",
-            "beta",
-            "latest"
+            "internal",
+            "preview",
+            "stable"
           ],
-          "description": "The channel for the update."
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable."
         },
         "maintenanceExclusion": {
           "type": "object",
-          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window.",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is applied only for stable channel and only for major and minor updates(semantic versioning).",
+          "required": [
+            "start",
+            "duration"
+          ],
           "properties": {
             "start": {
               "type": "string",
@@ -204,17 +212,23 @@
               "example": "2024-01-14T07:00:00.000Z",
               "description": "The start date and time of the maintenance exclusion. Specify in the UTC time zone."
             },
-            "end": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2024-01-15T07:00:00.000Z",
-              "description": "The end date and time of the maintenance exclusion. Specify in the UTC time zone."
+            "duration": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "example": "5",
+              "description": "The number of days from the start date for the maintenance exclusion to take precedence."
             }
           }
         },
         "maintenanceWindow": {
           "type": "object",
-          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window.",
+          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window. The maintenance window is applied to preview and stable channels for major, minor and patch updates(see semantic versioning)",
+          "required": [
+            "days",
+            "start",
+            "end"
+          ],
           "properties": {
             "days": {
               "description": "Days of the week when the maintenance can occur.",
@@ -223,10 +237,7 @@
                 "MO",
                 "TU",
                 "WE",
-                "TH",
-                "FR",
-                "SA",
-                "SU"
+                "TH"
               ]
             },
             "start": {
