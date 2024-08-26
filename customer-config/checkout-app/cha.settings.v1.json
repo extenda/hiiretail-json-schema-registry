@@ -142,7 +142,7 @@
           "type": "object",
           "$ref": "#/$defs/LogsType"
         },
-        "auto-update": {
+        "autoUpdate": {
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/AutoUpdateType"
@@ -188,15 +188,15 @@
         "channel": {
           "type": "string",
           "enum": [
-            "alpha",
-            "beta",
-            "latest"
+            "internal",
+            "preview",
+            "stable"
           ],
           "description": "The channel for the update."
         },
         "maintenanceExclusion": {
           "type": "object",
-          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window.",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is aplied only for stable channel and only for major and minor updates(from semantic versioning).",
           "properties": {
             "start": {
               "type": "string",
@@ -205,10 +205,11 @@
               "description": "The start date and time of the maintenance exclusion. Specify in the UTC time zone."
             },
             "end": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2024-01-15T07:00:00.000Z",
-              "description": "The end date and time of the maintenance exclusion. Specify in the UTC time zone."
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "example": "5",
+              "description": "The number of days from the start date for the maintenance exclusion."
             }
           }
         },
@@ -224,9 +225,6 @@
                 "TU",
                 "WE",
                 "TH",
-                "FR",
-                "SA",
-                "SU"
               ]
             },
             "start": {
