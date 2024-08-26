@@ -184,6 +184,9 @@
     "AutoUpdateType": {
       "description": "This is a definition of the app update maintenance window.",
       "type": "object",
+      "required": [
+        "channel"
+      ],
       "properties": {
         "channel": {
           "type": "string",
@@ -197,6 +200,10 @@
         "maintenanceExclusion": {
           "type": "object",
           "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is applied only for stable channel and only for major and minor updates(semantic versioning).",
+          "required": [
+            "start",
+            "end"
+          ],
           "properties": {
             "start": {
               "type": "string",
@@ -216,6 +223,11 @@
         "maintenanceWindow": {
           "type": "object",
           "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window. The maintenance window is applied to beta and stable channels for major, minor and patch updates(see semantic versioning)",
+          "required": [
+            "days",
+            "start",
+            "end"
+          ],
           "properties": {
             "days": {
               "description": "Days of the week when the maintenance can occur.",
