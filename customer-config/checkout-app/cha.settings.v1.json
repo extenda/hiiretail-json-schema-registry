@@ -57,6 +57,11 @@
           "description": "Periperals settings definitions.",
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
+        },
+        "logs": {
+          "description": "Logs settings.",
+          "type": "object",
+          "$ref": "#/$defs/LogsType"
         }
       }
     },
