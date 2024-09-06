@@ -238,12 +238,10 @@
             "days": {
               "description": "Days of the week when the maintenance can occur.",
               "type": "array",
-              "enum": [
-                "MO",
-                "TU",
-                "WE",
-                "TH"
-              ],
+              "items": {
+                "type": "string",
+                "enum": ["MO", "TU", "WE", "TH"]
+              },
               "uniqueItems": true,
               "minItems": 1
             },
