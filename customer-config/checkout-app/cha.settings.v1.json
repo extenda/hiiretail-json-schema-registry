@@ -240,7 +240,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": ["MO", "TU", "WE", "TH"]
+                "enum": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
               },
               "uniqueItems": true,
               "minItems": 1
