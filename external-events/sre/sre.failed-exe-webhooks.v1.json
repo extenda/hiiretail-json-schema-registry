@@ -1,0 +1,28 @@
+{
+  "$id": "sre.failed-exe-webhooks.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Failed EXE Webhooks",
+  "description": "Customer EXE Webhook Failure Notifications",
+  "type": "object",
+  "properties": {
+    "correlationId": {
+      "type": "string",
+      "description": "Correlation id of the event"
+    },
+    "eventId": {
+      "type": "string",
+      "description": "Identifier of the event."
+    },
+    "eventSourceId": {
+      "type": "string",
+      "description": "Identifier for the Event Source"
+    },
+    "eventDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp"
+    }
+  },
+  "required": ["correlationId", "eventId", "eventSourceId", "eventDateTime"],
+  "additionalProperties": false
+}
