@@ -17,6 +17,10 @@
       "type": "string",
       "description": "Identifier for the Event Source"
     },
+    "webhookId": {
+      "type": "string",
+      "description": "Identifier for the webhook"
+    },
     "lastAttemptDateTime": {
       "type": "string",
       "format": "date-time",
