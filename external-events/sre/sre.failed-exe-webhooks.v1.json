@@ -17,10 +17,10 @@
       "type": "string",
       "description": "Identifier for the Event Source"
     },
-    "eventDateTime": {
+    "lastAttemptDateTime": {
       "type": "string",
       "format": "date-time",
-      "description": "Event timestamp"
+      "description": "Timestamp of the last attempted event delivery"
     }
   },
   "required": ["correlationId", "eventId", "eventSourceId", "eventDateTime"],
