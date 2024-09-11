@@ -27,6 +27,6 @@
       "description": "Timestamp of the last attempted event delivery"
     }
   },
-  "required": ["correlationId", "eventId", "eventSourceId", "lastAttemptDateTime"],
+  "required": ["correlationId", "eventId", "eventSourceId", "webhookId", "lastAttemptDateTime"],
   "additionalProperties": false
 }
