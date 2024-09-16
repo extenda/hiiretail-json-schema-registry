@@ -1,0 +1,16 @@
+{
+  "$id": "sng.device-api-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Device API Settings",
+  "description": "Settings for Device API",
+  "type": "object",
+  "properties": {
+    "hhs-minimum-battery-level-required-to-release": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "The minimum battery level required to release a handheld scanner."
+    }
+  },
+  "required": [ "hhs-minimum-battery-level-required-to-release" ]
+}
