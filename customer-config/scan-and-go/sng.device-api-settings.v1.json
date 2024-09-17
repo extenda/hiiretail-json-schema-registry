@@ -5,12 +5,12 @@
   "description": "Settings for Device API",
   "type": "object",
   "properties": {
-    "hhs-minimum-battery-level-required-to-release": {
+    "hhsMinimumBatteryLevelRequiredToRelease": {
       "type": "integer",
       "minimum": 0,
       "maximum": 100,
       "description": "The minimum battery level required to release a handheld scanner."
     }
   },
-  "required": [ "hhs-minimum-battery-level-required-to-release" ]
+  "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
 }
