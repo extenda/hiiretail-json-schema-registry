@@ -1,0 +1,486 @@
+{
+  "$id": "att.private.notification.assistance-requests.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Assist Request events",
+  "description": "This schema describes the structure of the Attendant Assist Request events published by the Attendant service.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "controls": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ChoiceListControlDto"
+        },
+        {
+          "$ref": "#/$defs/AlphaNumericControlDto"
+        },
+        {
+          "$ref": "#/$defs/NumericControlDto"
+        },
+        {
+          "$ref": "#/$defs/PasswordControlDto"
+        },
+        {
+          "$ref": "#/$defs/MonetaryControlDto"
+        },
+        {
+          "$ref": "#/$defs/MessageControlDto"
+        },
+        {
+          "$ref": "#/$defs/ConfirmControlDto"
+        }
+      ]
+    },
+    "workstationId": {
+      "type": "string"
+    },
+    "basketId": {
+      "type": "string"
+    },
+    "title": {
+      "$ref": "#/$defs/TextWithLocaleDto"
+    },
+    "description": {
+      "$ref": "#/$defs/TextWithLocaleDto"
+    },
+    "workstationType": {
+      "nullable": true,
+      "$ref": "#/$defs/WorkstationType"
+    },
+    "requestedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "$ref": "#/$defs/AssistanceRequestStatus"
+    },
+    "performedAction": {
+      "description": "List of actions that performed on the assistance request",
+      "allOf": [
+        {
+          "$ref": "#/$defs/PerformedActionDto"
+        }
+      ]
+    },
+    "payload": {
+      "description": "Payload for the assistance request",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PartialRescanCompletedPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AgeVerificationPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AssistancePayloadDto"
+        },
+        {
+          "$ref": "#/$defs/PartialRescanPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/FullRescanPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AbusePayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AbandonedTransactionPayloadDto"
+        }
+      ]
+    },
+    "inputAllowed": {
+      "type": "boolean"
+    },
+    "cancelAllowed": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "TextWithLocaleDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "locale"
+      ]
+    },
+    "WorkstationType": {
+      "type": "string",
+      "enum": [
+        "SCO",
+        "POS",
+        "MOBILE_POS",
+        "SCAN_GO"
+      ]
+    },
+    "AssistanceRequestStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processed"
+      ]
+    },
+    "PerformedActionDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "payload": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/BaseProcessPayloadDto"
+            },
+            {
+              "$ref": "#/$defs/AgeVerificationProcessPayloadDto"
+            },
+            {
+              "$ref": "#/$defs/RescanProcessPayloadDto"
+            }
+          ]
+        },
+        "attendantId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "label",
+        "payload",
+        "attendantId"
+      ]
+    },
+    "BaseProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "AgeVerificationProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "additionalEntityIds": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "RescanInfoDto": {
+      "type": "object",
+      "properties": {
+        "rescannedItems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RescanProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "rescanInfo": {
+          "$ref": "#/$defs/RescanInfoDto"
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "AssistanceRequestActionDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "isDefault": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "label"
+      ]
+    },
+    "ChoiceListControlDto": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssistanceRequestActionDto"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "CHOICE_LIST"
+          ]
+        }
+      },
+      "required": [
+        "actions",
+        "type"
+      ]
+    },
+    "AlphaNumericControlDto": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AssistanceRequestActionDto"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ALPHA_NUMERIC"
+          ]
+        }
+      },
+      "required": [
+        "action",
+        "type"
+      ]
+    },
+    "NumericControlDto": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AssistanceRequestActionDto"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "NUMERIC"
+          ]
+        }
+      },
+      "required": [
+        "action",
+        "type"
+      ]
+    },
+    "PasswordControlDto": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AssistanceRequestActionDto"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "PASSWORD"
+          ]
+        }
+      },
+      "required": [
+        "action",
+        "type"
+      ]
+    },
+    "MonetaryControlDto": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AssistanceRequestActionDto"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "MONETARY"
+          ]
+        }
+      },
+      "required": [
+        "action",
+        "type"
+      ]
+    },
+    "MessageControlDto": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssistanceRequestActionDto"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "MESSAGE"
+          ]
+        }
+      },
+      "required": [
+        "actions",
+        "type"
+      ]
+    },
+    "ConfirmControlDto": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "minItems": 2,
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssistanceRequestActionDto"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "CONFIRM"
+          ]
+        }
+      },
+      "required": [
+        "actions",
+        "type"
+      ]
+    },
+    "PartialRescanCompletedPayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "PARTIAL_RESCAN_COMPLETED"
+          ]
+        },
+        "barcode": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "barcode"
+      ]
+    },
+    "AgeVerificationPayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "AGE_VERIFICATION"
+          ]
+        },
+        "barcode": {
+          "type": "string"
+        },
+        "requiredAge": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "barcode"
+      ]
+    },
+    "AssistancePayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ASSISTANCE_REQUESTED"
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "PartialRescanPayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "PARTIAL_RESCAN"
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "FullRescanPayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "FULL_RESCAN"
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "AbusePayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ABUSE"
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "AbandonedTransactionPayloadDto": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ABANDONED_TRANSACTION"
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  }
+}
