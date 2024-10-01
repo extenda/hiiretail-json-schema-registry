@@ -87,7 +87,8 @@
               "CancelOrder",
               "ItemComment",
               "TransactionComment",
-              "Complaint"
+              "Complaint",
+              "GoodsReceived"
             ]
           },
           "uniqueItems": true
