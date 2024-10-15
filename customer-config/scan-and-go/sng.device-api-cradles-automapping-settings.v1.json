@@ -1,0 +1,26 @@
+{
+  "$id": "sng.device-api-cradles-automapping-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Configurations for Automapping between Cradles to Entrance Units",
+  "description": "Configurations for Automapping between Cradles to Entrance Units",
+  "type": "object",
+  "properties": {
+    "enableCradleAutomapping": {
+      "type": "boolean",
+      "description": "Enable Automapping between Cradles and Entrance Units."
+    },
+    "cradleDataRowRegex": {
+      "type": "string",
+      "description": "Regular expression pattern to extract the row number from CradleData."
+    },
+    "cradleDataColRegex": {
+      "type": "string",
+      "description": "Regular expression pattern to extract the column number from CradleData."
+    },
+    "cradleDataEuFriendlyNameRegex": {
+      "type": "string",
+      "description": "Regular expression pattern to extract the EU friendly name (WallNo) from CradleData."
+    }
+  },
+  "required": ["enableCradleAutomapping"]
+}
