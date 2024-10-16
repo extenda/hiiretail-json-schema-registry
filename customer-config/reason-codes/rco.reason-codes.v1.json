@@ -88,7 +88,14 @@
               "ItemComment",
               "TransactionComment",
               "Complaint",
-              "GoodsReceived"
+              "GoodsReceived",
+              "PriceOverride",
+              "PostVoidOrder",
+              "PreviousOrderModification",
+              "TaxExempt",
+              "PackageNewPrice",
+              "PackageRedAmnt",
+              "PackageRedPrcnt"
             ]
           },
           "uniqueItems": true
