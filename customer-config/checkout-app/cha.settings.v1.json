@@ -58,6 +58,11 @@
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         },
+        "lock": {
+          "description": "Lock settings.",
+          "type": "object",
+          "$ref": "#/$defs/LockType"
+        },
         "logs": {
           "description": "Logs settings.",
           "type": "object",
