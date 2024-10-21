@@ -7,19 +7,19 @@
   "properties": {
     "enableCradleAutomapping": {
       "type": "boolean",
-      "description": "Enable Automapping between Cradles and Entrance Units."
+      "description": "Enable or disable Automapping between Cradles and Entrance Units."
     },
     "cradleDataRowRegex": {
       "type": "string",
-      "description": "Regular expression pattern to extract the row number from CradleData."
+      "description": "Regular expression to extract the row number from CradleData. Example: `.*;([^;]+);.*` extracts '1' from '100;1;2'."
     },
     "cradleDataColRegex": {
       "type": "string",
-      "description": "Regular expression pattern to extract the column number from CradleData."
+      "description": "Regular expression to extract the column number from CradleData. Example: `.*;.*;([^;]+)` extracts '2' from '100;1;2'."
     },
     "cradleDataEuFriendlyNameRegex": {
       "type": "string",
-      "description": "Regular expression pattern to extract the EU friendly name (WallNo) from CradleData."
+      "description": "Regular expression to extract the EU friendly name from CradleData. Example: `([^;]+);.*;.*` extracts '100' from '100;1;2'."
     }
   },
   "required": ["enableCradleAutomapping"]
