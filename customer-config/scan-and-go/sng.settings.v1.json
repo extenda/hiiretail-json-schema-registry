@@ -10,6 +10,11 @@
       "type": "string",
       "format": "uri",
       "description": "Checkout Engine API URL"
+    },
+    "handoverControlsToSco": {
+      "default": false,
+      "description": "When true, Scan&Go will handover controls to SCO",
+      "type": "boolean"
     }
   }
 }
