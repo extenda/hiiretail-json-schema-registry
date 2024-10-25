@@ -13,7 +13,7 @@
     },
     "handoverControlsToSco": {
       "default": false,
-      "description": "When true, Scan&Go will handover controls to SCO",
+      "description": "When set to true, Scan&Go bypasses basket controls, assuming they are managed externally",
       "type": "boolean"
     }
   }
