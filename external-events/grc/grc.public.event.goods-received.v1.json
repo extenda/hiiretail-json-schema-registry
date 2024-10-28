@@ -1,0 +1,200 @@
+{
+  "$id": "grc.public.event.goods-received.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Goods Received events",
+  "description": "Contains delivery lines submitted by user.",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "uniqueId",
+    "deliveryNoteId",
+    "shipperId",
+    "deliveryDate",
+    "submittedAt",
+    "submittedBy",
+    "lines"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id to indicate the tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id to indicate the business unit"
+    },
+    "uniqueId": {
+      "type": "string",
+      "description": "Unique, internal id to identify the delivery note"
+    },
+    "deliveryNoteId": {
+      "type": "string",
+      "description": "External id to identify the delivery note"
+    },
+    "shipperId": {
+      "type": "string",
+      "description": "Id to indicate the shipper of the delivery"
+    },
+    "deliveryDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date to indicate the delivery date"
+    },
+    "submittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Datetime to indicate when submitted"
+    },
+    "submittedBy": {
+      "type": "string",
+      "description": "User id for the user submitted the delivery lines"
+    },
+    "transportationAmount": {
+      "type": ["null", "number"],
+      "description": "Amount to indicate the transportation cost"
+    },
+    "customsAmount": {
+      "type": ["null", "number"],
+      "description": "Amount to indicate the customs cost"
+    },
+    "comment": {
+      "type": ["null", "string"],
+      "description": "Comment for the delivery note"
+    },
+    "lines": {
+      "type": "array",
+      "description": "Array to indicate the submitted lines",
+      "items": {
+        "$ref": "#/$defs/LineDto"
+      }
+    }
+  },
+  "$defs": {
+    "LineDto": {
+      "type": "object",
+      "required": [
+        "lineId",
+        "itemId",
+        "expectedQuantity",
+        "approvedQuantity",
+        "deltaQuantity",
+        "unitPrice",
+        "currencyCode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "lineId": {
+          "type": "string",
+          "description": "Unique, internal id to identify the delivery line"
+        },
+        "lineNumber": {
+          "type": [ "null", "number"],
+          "description": "External line number to identify the delivery line"
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Id to identify the item"
+        },
+        "orderId": {
+          "type": ["null", "string"],
+          "description": "Id to indicate the order"
+        },
+        "orderLineId": {
+          "type": ["null", "string"],
+          "description": "Id to indicate the order line"
+        },
+        "expectedQuantity": {
+          "type": "number",
+          "description": "Quantity delivered according to the delivery note."
+        },
+        "approvedQuantity": {
+          "type": "number",
+          "description": "Approved delivered quantity by the business unit."
+        },
+        "deltaQuantity": {
+          "type": "number",
+          "description": "Delta between the currently approved quantity, and the approved quantity in previous export if any."
+        },
+        "unitPrice": {
+          "type": "number",
+          "description": "Amount to indicate the unit price"
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "Code to indicate the currency",
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "batchNumber": {
+          "type": ["null", "string"],
+          "description": "The batch number for the delivered items."
+        },
+        "bestBeforeDate": {
+          "type": ["null", "string"],
+          "format": "date-time",
+          "description": "Date to indicate the best before date"
+        },
+        "expirationDate": {
+          "type": ["null", "string"],
+          "format": "date-time",
+          "description": "Date to indicate the expiration date"
+        },
+        "reasonCodes": {
+          "type": ["null", "array"],
+          "description": "Contains an array of reason codes indicating the reason for any quantity not approved",
+          "items": {
+            "$ref": "#/$defs/ReasonCodesDto"
+          }
+        },
+        "containers": {
+          "type": ["null", "array"],
+          "description": "Array to indicate the containers",
+          "items": {
+            "$ref": "#/$defs/ContainerDto"
+          }
+        },
+        "serialNumbers": {
+          "type": ["null", "array"],
+          "description": "Array to indicate the serial numbers",
+          "items": {
+            "type": "string",
+            "description": "String to indicate the serial number"
+          }
+        }
+      }
+    },
+    "ReasonCodesDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "quantity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id to indicate the reason for a deviation"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity/deviation for the related reason code"
+        }
+      }
+    },
+    "ContainerDto": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id to indicate the container"
+        }
+      }
+    }
+  }
+}
