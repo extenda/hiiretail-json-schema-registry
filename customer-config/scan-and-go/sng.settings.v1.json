@@ -10,6 +10,11 @@
       "type": "string",
       "format": "uri",
       "description": "Checkout Engine API URL"
+    },
+    "handoverControlsToSco": {
+      "default": false,
+      "description": "When set to true, Scan&Go bypasses basket controls, assuming they are managed externally",
+      "type": "boolean"
     }
   }
 }
