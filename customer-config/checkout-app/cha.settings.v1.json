@@ -285,8 +285,8 @@
       "type": "object",
       "properties": {
         "provider": {
+          "type": "string",
           "enum": ["viva", "softpay", null],
-          "nullable": true,
           "default": null,
           "description": "Sets the softpos terminal provider."
         }
