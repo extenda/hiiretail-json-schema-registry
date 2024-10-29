@@ -59,7 +59,7 @@
           "$ref": "#/$defs/MposPeripheralType"
         },
         "connect": {
-          "description": "Softpos payment providers settings definitions.",
+          "description": "Soft terminal payment providers settings definitions.",
           "type": "object",
           "$ref": "#/$defs/MposConnectType"
         },
@@ -281,14 +281,14 @@
       }
     },
     "MposConnectType": {
-      "description": "This is a definition of the Mobile softpos payment providers settings.",
+      "description": "This is a definition of the Mobile Soft terminal payment providers settings.",
       "type": "object",
       "properties": {
         "provider": {
           "type": "string",
           "enum": ["viva", "softpay", null],
           "default": null,
-          "description": "Sets the softpos terminal provider."
+          "description": "Sets the Soft terminal provider."
         }
       }
     },
