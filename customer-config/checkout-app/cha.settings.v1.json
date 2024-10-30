@@ -58,6 +58,11 @@
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         },
+        "connect": {
+          "description": "Soft payment terminal providers settings definitions.",
+          "type": "object",
+          "$ref": "#/$defs/MposConnectType"
+        },
         "lock": {
           "description": "Lock settings.",
           "type": "object",
@@ -272,6 +277,18 @@
       "properties": {
         "printer": {
           "$ref": "#/$defs/MposPrinterType"
+        }
+      }
+    },
+    "MposConnectType": {
+      "description": "This is a definition of the Mobile Soft payment terminal providers settings.",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": ["string", "null"],
+          "enum": ["viva", "softpay", null],
+          "default": null,
+          "description": "Sets the Soft terminal provider."
         }
       }
     },
