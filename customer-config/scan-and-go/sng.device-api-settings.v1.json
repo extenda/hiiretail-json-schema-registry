@@ -18,5 +18,5 @@
       "description": "The amount of days after which inactive handheld scanner is removed. Default value 0: scanners won't be removed."
     }
   },
-  "required": [ "hhsMinimumBatteryLevelRequiredToRelease", "scannerInactiveDaysBeforeRemoval"]
+  "required": [ "hhsMinimumBatteryLevelRequiredToRelease", "scannerInactiveDaysBeforeRemoval" ]
 }
