@@ -13,6 +13,7 @@
     },
     "hhsInactiveDaysBeforeRemoval": {
       "type": "integer",
+      "default": 90,
       "minimum": 0,
       "maximum": 180,
       "description": "The amount of days after which inactive handheld scanner is removed. Default value: 90"
