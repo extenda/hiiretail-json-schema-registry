@@ -16,7 +16,7 @@
       "default": 90,
       "minimum": 0,
       "maximum": 180,
-      "description": "The amount of days after which inactive handheld scanner is removed. Default value: 90"
+      "description": "Number of days after which an inactive handheld scanner is removed. The default is set to 90 days."
     }
   },
   "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
