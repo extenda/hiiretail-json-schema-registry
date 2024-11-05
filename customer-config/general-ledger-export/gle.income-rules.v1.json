@@ -16,7 +16,7 @@
           "type": {
             "type": "string",
             "enum": [
-              "REASON_CODE",
+              "REASON_CODE_ID",
               "DEFAULT"
             ]
           },
