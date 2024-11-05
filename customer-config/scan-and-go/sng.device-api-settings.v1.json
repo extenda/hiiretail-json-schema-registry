@@ -10,6 +10,13 @@
       "minimum": 0,
       "maximum": 100,
       "description": "The minimum battery level required to release a handheld scanner."
+    },
+    "hhsInactiveDaysBeforeRemoval": {
+      "type": "integer",
+      "default": 90,
+      "minimum": 0,
+      "maximum": 180,
+      "description": "Number of days after which an inactive handheld scanner is removed. The default is set to 90 days."
     }
   },
   "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
