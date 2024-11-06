@@ -16,8 +16,8 @@
           "type": {
             "type": "string",
             "enum": [
-              "ITEM",
-              "CATEGORY",
+              "ITEM_ID",
+              "CATEGORY_ID",
               "TAX_GROUP_ID",
               "DEFAULT"
             ]
