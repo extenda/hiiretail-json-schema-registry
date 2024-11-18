@@ -1,0 +1,59 @@
+{
+    "id": "gle.public.event.general-ledger.v1",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "GeneralLedgerAccounts",
+    "description": "Aggregating all general ledger accounts for a specific business date and businessUnit",
+    "type": "object",
+    "required": [
+        "businessUnitId",
+        "businessDate",
+        "journalId"
+    ],
+    "properties": {
+        "businessUnitId": {
+            "type": "string",
+            "description": "Id of business unit"
+        },
+        "businessDate": {
+            "type": "string",
+            "format": "date",
+            "description": "The date (not time) this general ledger accounts applies to."
+        },
+        "journalId": {
+            "type": "string",
+            "description": "Unique identifier for the general ledger"
+        },
+        "accounts": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Accounts"
+            },
+            "description": "General ledger accounts"
+        }
+    },
+    "$defs": {
+        "Accounts": {
+            "title": "Accounts",
+            "type": "object",
+            "required": [
+                "accountId",
+                "debitAmount",
+                "creditAmount"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "description": "Account id"
+                },
+                "debitAmount": {
+                    "type": "number",
+                    "description": "Debit amount"
+                },
+                "creditAmount": {
+                    "type": "number",
+                    "description": "Credit amount"
+                }
+            }
+        }
+    }
+}
