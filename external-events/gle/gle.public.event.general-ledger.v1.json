@@ -20,7 +20,7 @@
             "description": "The date (not time) this general ledger accounts applies to."
         },
         "journalId": {
-            "type": "string",
+            "type": "number",
             "description": "Unique identifier for the general ledger"
         },
         "accounts": {
