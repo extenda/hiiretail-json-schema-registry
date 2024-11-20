@@ -421,15 +421,18 @@
       "type": "object",
       "required": [],
       "properties": {
-        "showItemIdentifier": {
-          "type": "boolean",
-          "default": true,
-          "description": "Toggles visibility of the item identifier in the receipt."
+        "identifierType": {
+          "type": "string",
+          "enum": [
+            "id",
+            "barcode"
+          ],
+          "default": "ID",
+          "description": "The type of the identifier to be displayed in the receipt."
         },
-        "showFashionData": {
-          "type": "boolean",
-          "default": true,
-          "description": "Toggles visibility of the fashion data in the receipt."
+        "visibleAttributes": {
+          "type": "array",
+          "description": "Toggles visibility of the listed item attributes in the receipt."
         }
       }
     },
