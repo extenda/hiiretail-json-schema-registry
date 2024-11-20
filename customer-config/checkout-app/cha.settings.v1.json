@@ -432,6 +432,14 @@
         },
         "visibleAttributes": {
           "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "color",
+              "size"
+            ]
+          },
+          "uniqueItems": true,
           "description": "Toggles visibility of the listed item attributes in the receipt."
         }
       }
