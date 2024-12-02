@@ -1,0 +1,73 @@
+{
+    "id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "title": "StockCountCompleted",
+    "description": "Contains details on the completed stock count",
+    "required": [
+        "tenantId",
+        "businessUnitId",
+        "stockCountId",
+        "type",
+        "submittedAt",
+        "submittedBy",
+        "numberOfItemsCounted",
+        "numberOfItemsNotCounted",
+        "items"
+    ],
+    "properties": {
+        "tenantId": {
+            "type": "string",
+            "description": "Id of tenant"
+        },
+        "businessUnitId": {
+            "type": "string",
+            "description": "Id of business unit"
+        },
+        "stockCountId": {
+            "type": "string",
+            "description": "Id of the performed stock count"
+        },
+        "type": {
+            "enum": ["FULL", "CYCLE", "CONTROL", "TEST"],
+            "description": "Type of the stock count"
+        },
+        "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Datetime to indicate when stock count was submitted"
+        },
+        "submittedBy": {
+            "type": "string",
+            "description": "User id for the user who submitted the stock count"
+        },
+        "comment": {
+            "type": "string",
+            "description": "Comment for the stock count"
+        },
+        "numberOfItemsCounted": {
+            "type": "number",
+            "description": "Number of items counted"
+        },
+        "numberOfItemsNotCounted": {
+            "type": "number",
+            "description": "Number of items not counted"
+        },
+        "expectedCostAmount": {
+            "type": "number",
+            "description": "Expected cost amount of stock count"
+        },
+        "actualCostAmount": {
+            "type": "number",
+            "description": "Actual cost amount of stock count"
+        },
+        "items": {
+            "type": "array",
+            "description": "Items being counted",
+            "items": {
+                "$ref": "StockCountItem.schema.json"
+            }
+        }
+    }
+}
