@@ -1,0 +1,28 @@
+{
+  "$id": "cpy.hps-payment-mobile-vipps.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vipps mobile payment configuration",
+  "description": "Vipps mobile payment configuration.",
+  "type": "object",
+  "required": [
+    "environment",
+    "organizationNumber",
+    "swishNumber"
+  ],
+  "properties": {
+    "environment": {
+      "type": "string",
+      "enum": [
+        "MERCHANT_TEST",
+        "MOCK",
+        "PRODUCTION"
+      ]
+    },
+    "merchantSerialNumber": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": "0123456789"
+    }
+  }
+}
