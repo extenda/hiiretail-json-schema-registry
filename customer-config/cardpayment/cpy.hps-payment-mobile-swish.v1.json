@@ -1,0 +1,34 @@
+{
+  "$id": "cpy.hps-payment-mobile-swish.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Swish mobile payment configuration",
+  "description": "Swish mobile payment configuration.",
+  "type": "object",
+  "required": [
+    "environment",
+    "organizationNumber",
+    "swishNumber"
+  ],
+  "properties": {
+    "environment": {
+      "type": "string",
+      "enum": [
+        "SANDBOX",
+        "SIMULATOR",
+        "PRODUCTION"
+      ]
+    },
+    "organizationNumber": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": "0123456789"
+    },
+    "swishNumber": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": "9876543210"
+    }
+  }
+}
