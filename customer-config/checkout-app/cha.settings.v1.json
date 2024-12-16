@@ -250,7 +250,15 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
+                "enum": [
+                  "MO",
+                  "TU",
+                  "WE",
+                  "TH",
+                  "FR",
+                  "SA",
+                  "SU"
+                ]
               },
               "uniqueItems": true,
               "minItems": 1
@@ -285,8 +293,15 @@
       "type": "object",
       "properties": {
         "provider": {
-          "type": ["string", "null"],
-          "enum": ["viva", "softpay", null],
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "viva",
+            "softpay",
+            null
+          ],
           "default": null,
           "description": "Sets the Soft terminal provider."
         }
@@ -395,6 +410,37 @@
           "type": "number",
           "default": 5000,
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
+        },
+        "layout": {
+          "$ref": "#/$defs/ReceiptLayoutType"
+        }
+      }
+    },
+    "ReceiptLayoutType": {
+      "description": "This is a definition of the receipt layout settings.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "identifierType": {
+          "type": "string",
+          "enum": [
+            "id",
+            "barcode"
+          ],
+          "default": "ID",
+          "description": "The type of the identifier to be displayed in the receipt."
+        },
+        "visibleAttributes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "color",
+              "size"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Toggles visibility of the listed item attributes in the receipt."
         }
       }
     },
@@ -487,6 +533,15 @@
         "sessionKeepAliveInterval"
       ],
       "properties": {
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "properties": {
+            "layout": {
+              "$ref": "#/$defs/ReceiptLayoutType"
+            }
+          }
+        },
         "enabled": {
           "type": "boolean",
           "default": false,
