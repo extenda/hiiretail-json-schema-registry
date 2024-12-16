@@ -31,7 +31,7 @@
           "example": "SEK"
         },
         "classCode": {
-          "description": "The group of tenders to which this tender type belongs. Can be\nCash, Check, CreditDebit, ForeignCurrency, GiftCertificate, OrganizationCharge,\\\nElectronicGiftCard, LoyaltyRedemption, Voucher, Coupon, FoodStamp, HouseAccount,\\\nWICCheck, ManufacturerCoupon\n",
+          "description": "The group of tenders to which this tender type belongs. Can be\nCash, Check, CreditDebit, ForeignCurrency, GiftCertificate, OrganizationCharge,\\\nElectronicGiftCard, LoyaltyRedemption, Voucher, Coupon, FoodStamp, HouseAccount,\\\nWICCheck, ManufacturerCoupon, Mobile\n",
           "type": "string",
           "minLength": 1,
           "maxLength": 20,
@@ -50,7 +50,8 @@
             "FOODSTAMP",
             "HOUSEACCOUNT",
             "WICCHECK",
-            "MANUFACTURERCOUPON"
+            "MANUFACTURERCOUPON",
+            "MOBILE"
           ]
         },
         "name": {
