@@ -14,6 +14,9 @@
       },
       {
         "$ref": "#/$defs/ItemSalesProhibitionPeriod"
+      },
+      {
+        "$ref": "#/$defs/DateRestriction"
       }
     ]
   },
@@ -35,9 +38,11 @@
           "maxLength": 20
         },
         "minimumCustomerAge": {
+          "description": "The minimum age of the customer to by an item that references this restriction",
           "type": "integer"
         },
         "minimumEmployeeAge": {
+          "description": "The minimum age of the cashier if the cashier age is known",
           "type": "integer"
         }
       },
@@ -59,13 +64,18 @@
           "maxLength": 20
         },
         "licenseType": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "WEAPON",
+            "ALCOHOL",
+            "TOBACCO"
+          ]
         },
         "description": {
           "type": "string"
         },
         "level": {
-          "type": "integer"
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -102,6 +112,50 @@
         }
       },
       "additionalProperties": false
+    },
+    "DateRestriction": {
+      "description": "Restrict sales within certain dates",
+      "type": "object",
+      "required": [
+        "id",
+        "effectiveDateTime",
+        "expiryDateTime"
+      ],
+      "properties": {
+        "enforcement": {
+          "type": "string",
+          "default": "Strict",
+          "enum": [
+            "Strict",
+            "Overridable",
+            "Warning"
+          ]
+        },
+        "effectiveDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiryDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "itemSelector": {
+          "description": "Referenced items from this restriction",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "description": "The item id",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              }
+            }
+          }
+        }
+      }
     },
     "DayOfWeek": {
       "type": "string",
