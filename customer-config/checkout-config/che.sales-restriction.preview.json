@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.sales-restriction.preview.json",
+  "title": "Sales Restriction API",
+  "description": "The API allows you to define restrictions to when and how items may be sold, such as age or date restriciton",
+  "type": "array",
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "#/$defs/AgeRestriction"
+      },
+      {
+        "$ref": "#/$defs/LicenseSalesRestriction"
+      },
+      {
+        "$ref": "#/$defs/ItemSalesProhibitionPeriod"
+      }
+    ]
+  },
+  "$defs": {
+    "AgeRestriction": {
+      "description": "Restrict sales to a customer or employee being at a minimum age",
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "anyOf": [
+        {"required": ["minimumCustomerAge"]},
+        {"required": ["minimumEmployeeAge"]}
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "minimumCustomerAge": {
+          "type": "integer"
+        },
+        "minimumEmployeeAge": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LicenseSalesRestriction": {
+      "description": "Restrict sales to require a license",
+      "type": "object",
+      "required": [
+        "id",
+        "licenseType",
+        "description",
+        "level"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "licenseType": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ItemSalesProhibitionPeriod": {
+      "description": "Restrict sales on certain time periods",
+      "type": "object",
+      "required": [
+        "id",
+        "startDayOfWeek",
+        "endDayOfWeek",
+        "startTime",
+        "endTime"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "startDayOfWeek": {
+          "$ref": "#/$defs/DayOfWeek"
+        },
+        "endDayOfWeek": {
+          "$ref": "#/$defs/DayOfWeek"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DayOfWeek": {
+      "type": "string",
+      "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    }
+  }
+}
