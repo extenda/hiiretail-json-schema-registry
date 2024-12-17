@@ -124,11 +124,11 @@
       "properties": {
         "enforcement": {
           "type": "string",
-          "default": "Strict",
+          "default": "STRICT",
           "enum": [
-            "Strict",
-            "Overridable",
-            "Warning"
+            "STRICT",
+            "OVERRIDABLE",
+            "WARNING"
           ]
         },
         "effectiveDateTime": {
@@ -159,7 +159,7 @@
     },
     "DayOfWeek": {
       "type": "string",
-      "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
     }
   }
 }
