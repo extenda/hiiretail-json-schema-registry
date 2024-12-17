@@ -119,7 +119,8 @@
       "required": [
         "id",
         "effectiveDateTime",
-        "expiryDateTime"
+        "expiryDateTime",
+        "message"
       ],
       "properties": {
         "enforcement": {
@@ -138,6 +139,10 @@
         "expiryDateTime": {
           "type": "string",
           "format": "date-time"
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 256
         },
         "itemSelector": {
           "description": "Referenced items from this restriction",
