@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.sales-restriction.preview.json",
+  "title": "Sales Restriction API",
+  "description": "The API allows you to define restrictions to when and how items may be sold, such as age or date restriciton",
+  "type": "array",
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "#/$defs/AgeRestriction"
+      },
+      {
+        "$ref": "#/$defs/LicenseSalesRestriction"
+      },
+      {
+        "$ref": "#/$defs/ItemSalesProhibitionPeriod"
+      },
+      {
+        "$ref": "#/$defs/DateRestriction"
+      }
+    ]
+  },
+  "$defs": {
+    "AgeRestriction": {
+      "description": "Restrict sales to a customer or employee being at a minimum age",
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "anyOf": [
+        {"required": ["minimumCustomerAge"]},
+        {"required": ["minimumEmployeeAge"]}
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "minimumCustomerAge": {
+          "description": "The minimum age of the customer to by an item that references this restriction",
+          "type": "integer"
+        },
+        "minimumEmployeeAge": {
+          "description": "The minimum age of the cashier if the cashier age is known",
+          "type": "integer"
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LicenseSalesRestriction": {
+      "description": "Restrict sales to require a license",
+      "type": "object",
+      "required": [
+        "id",
+        "licenseType",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "licenseType": {
+          "type": "string",
+          "enum": [
+            "WEAPON",
+            "ALCOHOL",
+            "TOBACCO"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "level": {
+          "description": "Used by level based licenses. The customer need a license and the level of the license must be equal or higher than the specified level.",
+          "type": "int",
+          "default": 1
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ItemSalesProhibitionPeriod": {
+      "description": "Restrict sales on certain time periods",
+      "type": "object",
+      "required": [
+        "id",
+        "startDayOfWeek",
+        "endDayOfWeek",
+        "startTime",
+        "endTime"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "startDayOfWeek": {
+          "$ref": "#/$defs/DayOfWeek"
+        },
+        "endDayOfWeek": {
+          "$ref": "#/$defs/DayOfWeek"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DateRestriction": {
+      "description": "Restrict sales within certain dates",
+      "type": "object",
+      "required": [
+        "id",
+        "effectiveDateTime",
+        "expiryDateTime"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "enforcement": {
+          "type": "string",
+          "default": "STRICT",
+          "enum": [
+            "STRICT",
+            "OVERRIDABLE",
+            "WARNING"
+          ]
+        },
+        "effectiveDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiryDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "message": {
+          "description": "A message to show in the client when the item is restricted",
+          "type": "string",
+          "maxLength": 255
+        },
+        "itemSelector": {
+          "description": "Referenced items from this restriction",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "description": "The item id",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20
+              }
+            }
+          }
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
+        }
+      }
+    },
+    "DayOfWeek": {
+      "type": "string",
+      "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+    },
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "Disabled": {
+      "description": "Disable to remove from the clients",
+      "type": "boolean"
+    }
+  }
+}
