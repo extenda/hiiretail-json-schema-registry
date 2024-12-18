@@ -33,9 +33,7 @@
       ],
       "properties": {
         "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 20
+          "$ref": "#/$defs/Id"
         },
         "minimumCustomerAge": {
           "description": "The minimum age of the customer to by an item that references this restriction",
@@ -44,6 +42,9 @@
         "minimumEmployeeAge": {
           "description": "The minimum age of the cashier if the cashier age is known",
           "type": "integer"
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
         }
       },
       "additionalProperties": false
@@ -54,14 +55,11 @@
       "required": [
         "id",
         "licenseType",
-        "description",
-        "level"
+        "description"
       ],
       "properties": {
         "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 20
+          "$ref": "#/$defs/Id"
         },
         "licenseType": {
           "type": "string",
@@ -75,7 +73,12 @@
           "type": "string"
         },
         "level": {
-          "type": "string"
+          "description": "Used by level based licenses. The customer need a license and the level of the license must be equal or higher than the specified level.",
+          "type": "int",
+          "default": 1
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
         }
       },
       "additionalProperties": false
@@ -92,9 +95,7 @@
       ],
       "properties": {
         "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 20
+          "$ref": "#/$defs/Id"
         },
         "startDayOfWeek": {
           "$ref": "#/$defs/DayOfWeek"
@@ -109,6 +110,9 @@
         "endTime": {
           "type": "string",
           "format": "time"
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
         }
       },
       "additionalProperties": false
@@ -119,10 +123,12 @@
       "required": [
         "id",
         "effectiveDateTime",
-        "expiryDateTime",
-        "message"
+        "expiryDateTime"
       ],
       "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
         "enforcement": {
           "type": "string",
           "default": "STRICT",
@@ -141,8 +147,9 @@
           "format": "date-time"
         },
         "message": {
+          "description": "A message to show in the client when the item is restricted",
           "type": "string",
-          "maxLength": 256
+          "maxLength": 255
         },
         "itemSelector": {
           "description": "Referenced items from this restriction",
@@ -155,16 +162,28 @@
                 "description": "The item id",
                 "type": "string",
                 "minLength": 1,
-                "maxLength": 40
+                "maxLength": 20
               }
             }
           }
+        },
+        "disabled": {
+          "$ref": "#/$defs/Disabled"
         }
       }
     },
     "DayOfWeek": {
       "type": "string",
       "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+    },
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "Disabled": {
+      "description": "Disable to remove from the clients",
+      "type": "boolean"
     }
   }
 }
