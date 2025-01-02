@@ -1,0 +1,13 @@
+{
+  "$id": "stc.max-quantity-deviation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MaxQuantityDeviation",
+  "description": "Max quantity deviation when doing stock count for maintaining thresholds for warning",
+  "type": "object",
+  "properties": {
+    "maxQuantityDeviation": {
+      "type": ["null", "integer"],
+      "description": "Max quantity deviation when doing stock count for maintaining thresholds for warning"
+    }
+  }
+}
