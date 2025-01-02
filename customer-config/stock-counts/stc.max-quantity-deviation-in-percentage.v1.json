@@ -2,12 +2,12 @@
   "$id": "stc.max-quantity-deviation-in-percentage.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MaxQuantityDeviationInPercentage",
-  "description": "Max quantity deviation in percentage when doing stock count for maintaining thresholds for warning",
+  "description": "Max quantity deviation in percentage allowed, if exceeded, a warning will be displayed when counting.",
   "type": "object",
   "properties": {
     "maxQuantityDeviationInPercentage": {
       "type": ["null", "integer"],
-      "description": "Max quantity deviation in percentage when doing stock count for maintaining thresholds for warning"
+      "description": "Max quantity deviation in percentage allowed, if exceeded, a warning will be displayed when counting."
     }
   }
 }

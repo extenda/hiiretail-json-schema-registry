@@ -2,12 +2,12 @@
   "$id": "stc.max-cost-value-deviation.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MaxCostValueDeviation",
-  "description": "Max cost value deviation when doing stock count for maintaining thresholds for warning",
+  "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting.",
   "type": "object",
   "properties": {
     "maxCostValueDeviation": {
       "type": ["null", "integer"],
-      "description": "Max cost value deviation when doing stock count for maintaining thresholds for warning"
+      "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting."
     }
   }
 }
