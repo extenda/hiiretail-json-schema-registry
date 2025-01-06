@@ -315,6 +315,9 @@
           "type": "boolean",
           "description": "Enables legacy MQTT peripherals instead of gRPC."
         },
+        "scale": {
+          "$ref": "#/$defs/ScaleType"
+        },
         "scanner1": {
           "$ref": "#/$defs/ScannerType"
         },
@@ -323,6 +326,28 @@
         },
         "printer": {
           "$ref": "#/$defs/PrinterType"
+        }
+      }
+    },
+    "ScaleType": {
+      "description": "This is a definition of the scale settings.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "logicalName"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the scale"
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Scale's logical name."
         }
       }
     },
