@@ -98,7 +98,8 @@
               "TaxExempt",
               "PackageNewPrice",
               "PackageRedAmnt",
-              "PackageRedPrcnt"
+              "PackageRedPrcnt",
+              "StockCorrection"
             ]
           },
           "uniqueItems": true
