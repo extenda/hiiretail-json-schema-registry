@@ -1,0 +1,64 @@
+{
+  "id": "scr.public.event.stock-corrections.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "StockCorrections",
+  "description": "Contains details on the stock correction",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "transactionDateTime",
+    "itemId",
+    "quantity",
+    "reasonCode",
+    "userId"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of business unit"
+    },
+    "transactionDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Transaction Time"
+    },
+    "itemId": {
+      "type": "string",
+      "description": "Id of the item"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "The quantity of stock to be adjusted"
+    },
+    "reasonCode": {
+      "type": "string",
+      "description": "Reason code for the stock correction. Indicates why the stock quantity needs adjustment."
+    },
+    "comment": {
+      "type": "string",
+      "description": "Additional remarks or notes related to the stock correction."
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "The serial number of the specific stock item being corrected"
+    },
+    "batchNumber": {
+      "type": "string",
+      "description": "The batch number of the specific stock item being corrected"
+    },
+    "businessPartnerId": {
+      "type": "string",
+      "description": "The unique identifier for the business partner"
+    },
+    "userId": {
+      "type": "string",
+      "description": "Id of user"
+    }
+  }
+}
