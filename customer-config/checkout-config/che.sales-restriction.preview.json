@@ -33,7 +33,7 @@
       ],
       "properties": {
         "id": {
-          "$ref": "#/$defs/Id"
+          "$ref": "#/$defs/ShortId"
         },
         "minimumCustomerAge": {
           "description": "The minimum age of the customer to by an item that references this restriction",
@@ -59,7 +59,7 @@
       ],
       "properties": {
         "id": {
-          "$ref": "#/$defs/Id"
+          "$ref": "#/$defs/ShortId"
         },
         "licenseType": {
           "type": "string",
@@ -95,7 +95,7 @@
       ],
       "properties": {
         "id": {
-          "$ref": "#/$defs/Id"
+          "$ref": "#/$defs/ShortId"
         },
         "startDayOfWeek": {
           "$ref": "#/$defs/DayOfWeek"
@@ -180,6 +180,11 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 32
+    },
+    "ShortId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6
     },
     "Disabled": {
       "description": "Disable to remove from the clients",
