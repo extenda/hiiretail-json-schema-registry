@@ -70,7 +70,8 @@
           ]
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 255
         },
         "level": {
           "description": "Used by level based licenses. The customer need a license and the level of the license must be equal or higher than the specified level.",
