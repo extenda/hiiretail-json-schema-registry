@@ -285,6 +285,24 @@
       "properties": {
         "printer": {
           "$ref": "#/$defs/MposPrinterType"
+        },
+        "cameraScanner": {
+          "type": "object",
+          "description": "Defines whether camera scanning is enabled",
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable camera scanning"
+          },
+          "whitelistedPrompts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "List of prompt codes where camera scanning should be enabled.",
+            "default": []
+          }
         }
       }
     },
