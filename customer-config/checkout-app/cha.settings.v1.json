@@ -161,6 +161,17 @@
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/AutoUpdateType"
+        },
+        "hotKeys": {
+          "description": "Enabled hot keys for the app.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "comboSale"
+            ]
+          }
         }
       }
     },
