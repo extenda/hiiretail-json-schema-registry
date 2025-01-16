@@ -1,0 +1,298 @@
+{
+    "$id": "ssa.public.output.transaction.v1.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Pos Transactions",
+    "type": "object",
+    "required": [
+      "businessUnitId",
+      "posDateTime",
+      "tripId"
+    ],
+    "properties": {
+      "noPosTransaction": {
+        "type": "boolean",
+        "description": "Indicates if this is not a real POS transaction.",
+        "nullable": true
+      },
+      "workStationId": {
+        "type": "string",
+        "description": "POS Id / POS number.",
+        "nullable": true
+      },
+      "tripId": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Trip identificator."
+      },
+      "businessUnitId": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Store identificator."
+      },
+      "posDateTime": {
+        "type": "string",
+        "minLength": 1,
+        "format": "date-time",
+        "description": "Datetime when the MyScan ticket was sent to the POS."
+      },
+      "posType": {
+        "$ref": "#/$defs/PosType"
+      },
+      "numberOfItemsVoided": {
+        "type": "integer",
+        "format": "int32",
+        "description": "Number of items voided at POS.",
+        "nullable": true
+      },
+      "totalSumItemSalesAmount": {
+        "type": "number",
+        "format": "double",
+        "description": "Sum of individual sales amounts including discounts, rounding, and taxes.",
+        "nullable": true
+      },
+      "posDeviceOrigin": {
+        "$ref": "#/$defs/PosDeviceOrigin"
+      },
+      "receiptTransactionId": {
+        "type": "string",
+        "description": "Identifier for the completed transaction.",
+        "nullable": true
+      },
+      "receiptDiscount": {
+        "type": "number",
+        "format": "double",
+        "description": "Discount applied at the receipt level.",
+        "nullable": true
+      },
+      "receiptItems": {
+        "type": "array",
+        "description": "List of POS Items.",
+        "items": {
+          "$ref": "#/$defs/ReceiptItem"
+        },
+        "nullable": true
+      }
+    },
+    "additionalProperties": false,
+    "description": "Receipt data from the POS."
+    ,
+    "$defs": {
+      "PosType": {
+        "type": "string",
+        "enum": [
+          "ERPOS",
+          "DNPOS",
+          "RSPOS",
+          "SUPER",
+          "HIIRETAIL",
+          "UNKNOWN"
+        ],
+        "description": "Types of Point-Of-Sale (POS) systems."
+      },
+      "PosDeviceOrigin": {
+        "type": "string",
+        "enum": [
+          "SCO",
+          "POS",
+          "UNKNOWN"
+        ],
+        "description": "Origin of the POS device."
+      },
+      "ReceiptItem": {
+        "type": "object",
+        "required": [
+          "lineItem",
+          "scanOperation"
+        ],
+        "properties": {
+          "lineItem": {
+            "$ref": "#/$defs/TransactionLineItem"
+          },
+          "scanOperation": {
+            "$ref": "#/$defs/ScanOperation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details of a receipt item."
+      },
+      "TransactionLineItem": {
+        "type": "object",
+        "required": [
+          "itemDescription",
+          "itemId",
+          "itemIdentifierId",
+          "itemIdentifierType",
+          "price",
+          "quantity"
+        ],
+        "properties": {
+          "itemIdentifierId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Value of the ItemIdentifier based on the itemIdentifierType."
+          },
+          "itemIdentifierType": {
+            "$ref": "#/$defs/ItemIdentifierType"
+          },
+          "itemId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique ID or short description identifying the product type."
+          },
+          "itemDescription": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Item short or long description."
+          },
+          "isWeightedItem": {
+            "type": "boolean",
+            "description": "DEPRECATED: Identify if this item is weighted.",
+            "nullable": true
+          },
+          "isRemovedItem": {
+            "type": "boolean",
+            "description": "DEPRECATED: Identify if this item is removed.",
+            "nullable": true
+          },
+          "quantity": {
+            "$ref": "#/$defs/Quantity"
+          },
+          "itemSalesOperationStatus": {
+            "$ref": "#/$defs/TransactionItemSalesOperationStatus"
+          },
+          "price": {
+            "$ref": "#/$defs/TransactionPrice"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Line Item Information."
+      },
+      "ItemIdentifierType": {
+        "type": "string",
+        "enum": [
+          "GTIN",
+          "PLU",
+          "BARCODE"
+        ],
+        "description": "Types of item identifiers used for products."
+      },
+      "Quantity": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of whole items sold."
+          },
+          "units": {
+            "type": "number",
+            "format": "double",
+            "description": "Measured quantity of the unit of measure for this item."
+          },
+          "unitOfMeasureCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionItemSalesOperationStatus": {
+        "type": "string",
+        "enum": [
+          "NORMAL",
+          "VOIDED_POS",
+          "NOT_SCANNABLE_MYSCAN",
+          "ADDITIONAL_SALES",
+          "MARKDOWN_BARCODE"
+        ],
+        "description": "Sales operation status of a transaction item."
+      },
+      "TransactionPrice": {
+        "type": "object",
+        "required": [
+          "extendedAmount"
+        ],
+        "properties": {
+          "regularSalesUnitPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Regular per-unit price before discounts or surcharges.",
+            "nullable": true
+          },
+          "actualSalesUnitPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Actual sales price after discounts and surcharges.",
+            "nullable": true
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount applied to the item.",
+            "nullable": true
+          },
+          "recyclingAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Charges or credits associated with recycling.",
+            "nullable": true
+          },
+          "extendedDiscountAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Total discount applied to a quantity of the item.",
+            "nullable": true
+          },
+          "taxIncludedInPriceFlag": {
+            "type": "boolean",
+            "description": "Flag indicating if taxes are included in the selling price.",
+            "nullable": true
+          },
+          "depositAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Deposit amount including tax if applicable.",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "description": "Currency code in ISO 4217 format (e.g., \"USD\", \"EUR\").",
+            "nullable": true
+          },
+          "regularExtendedUnitPrice": {
+            "type": "number",
+            "format": "double",
+            "description": "Regular extended unit price without discounts.",
+            "nullable": true
+          },
+          "extendedAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Actual extended amount after discounts and surcharges."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScanOperation": {
+        "type": "object",
+        "required": [
+          "scanOperationDateTime",
+          "scanOperationId"
+        ],
+        "properties": {
+          "scanOperationId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique identifier for a specific scan operation."
+          },
+          "scanOperationDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Datetime when the scan operation was performed."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+  
