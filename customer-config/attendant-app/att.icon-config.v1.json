@@ -1,0 +1,29 @@
+{
+  "$id": "att.icon-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "icons": {
+      "type": "object",
+      "description": "Defines the icon configurations.",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "description": "Name of the icon." },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL pointing to the icon's location."
+            }
+          },
+          "required": ["name", "url"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["icons"],
+  "additionalProperties": false
+}
