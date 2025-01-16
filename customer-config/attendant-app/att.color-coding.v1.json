@@ -1,0 +1,49 @@
+{
+  "$id": "att.color-coding.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "colors": {
+      "type": "object",
+      "description": "Defines the color configurations.",
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]+$": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "description": "Name of the color." },
+            "value": {
+              "type": "string",
+              "oneOf": [
+                {
+                  "pattern": "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$",
+                  "description": "Hex color code."
+                },
+                {
+                  "pattern": "^rgba?\\((\\d{1,3},\\s*){2,3}(\\d(\\.\\d+)?|1(\\.0+)?)\\)$",
+                  "description": "RGBA color code."
+                },
+                {
+                  "enum": [
+                    "red",
+                    "blue",
+                    "green",
+                    "yellow",
+                    "black",
+                    "white",
+                    "gray"
+                  ],
+                  "description": "CSS color names."
+                }
+              ]
+            }
+          },
+          "required": ["name", "value"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["colors"],
+  "additionalProperties": false
+}
