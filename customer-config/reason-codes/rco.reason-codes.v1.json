@@ -99,7 +99,8 @@
               "PackageNewPrice",
               "PackageRedAmnt",
               "PackageRedPrcnt",
-              "StockCorrection"
+              "StockCorrection",
+              "CashManagement"
             ]
           },
           "uniqueItems": true
