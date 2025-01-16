@@ -27,6 +27,6 @@
       "additionalProperties": false
     }
   },
-  "required": ["sound-alerts"],
+  "required": ["soundAlerts"],
   "additionalProperties": false
 }
