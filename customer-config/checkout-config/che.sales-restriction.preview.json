@@ -106,11 +106,11 @@
         },
         "startTime": {
           "type": "string",
-          "format": "time"
+          "format": "iso-time"
         },
         "endTime": {
           "type": "string",
-          "format": "time"
+          "format": "iso-time"
         },
         "disabled": {
           "$ref": "#/$defs/Disabled"
