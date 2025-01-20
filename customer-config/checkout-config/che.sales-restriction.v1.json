@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.sales-restriction.preview.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.sales-restriction.v1.json",
   "title": "Sales Restriction API",
   "description": "The API allows you to define restrictions to when and how items may be sold, such as age or date restriction",
   "type": "array",
