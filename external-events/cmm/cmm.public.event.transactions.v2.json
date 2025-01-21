@@ -148,6 +148,13 @@
             "null"
           ],
           "description": "Comment to the transaction"
+        },
+        "reasonCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reason code to the transaction"
         }
       }
     }
