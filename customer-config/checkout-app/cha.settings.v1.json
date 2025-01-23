@@ -285,6 +285,24 @@
       "properties": {
         "printer": {
           "$ref": "#/$defs/MposPrinterType"
+        },
+        "cameraScanner": {
+          "type": "object",
+          "description": "Defines whether camera scanning is enabled",
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable camera scanning buttons in main view and prompts"
+          },
+          "whitelistedPrompts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
+            "default": []
+          }
         }
       }
     },
