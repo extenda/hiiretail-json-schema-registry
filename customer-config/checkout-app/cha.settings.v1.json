@@ -72,6 +72,11 @@
           "description": "Logs settings.",
           "type": "object",
           "$ref": "#/$defs/LogsType"
+        },
+        "externalLinks": {
+          "description": "Checkout App External Websites settings.",
+          "type": "object",
+          "$ref": "#/$defs/ExternalLinksType"
         }
       }
     },
