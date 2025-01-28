@@ -3,7 +3,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "soundAlerts": {
+    "alerts": {
       "type": "object",
       "description": "Defines the sound alert configurations.",
       "patternProperties": {
@@ -27,6 +27,6 @@
       "additionalProperties": false
     }
   },
-  "required": ["soundAlerts"],
+  "required": ["alerts"],
   "additionalProperties": false
 }
