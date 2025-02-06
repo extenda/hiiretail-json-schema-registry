@@ -1,0 +1,21 @@
+{
+  "$id": "stc.stock-thresholds.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StockThresholds",
+  "description": "Update stock thresholds in stock count",
+  "type": "object",
+  "properties": {
+    "maxCostValueDeviation": {
+      "type": ["null", "integer"],
+      "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting."
+    },
+    "maxQuantityDeviationInPercentage": {
+      "type": ["null", "integer"],
+      "description": "Max quantity deviation in percentage allowed, if exceeded, a warning will be displayed when counting."
+    },
+    "maxQuantityDeviation": {
+      "type": ["null", "integer"],
+      "description": "Max quantity deviation allowed, if exceeded, a warning will be displayed when counting."
+    }
+  }
+}
