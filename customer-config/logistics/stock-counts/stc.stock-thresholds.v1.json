@@ -7,15 +7,18 @@
   "properties": {
     "maxCostValueDeviation": {
       "type": ["null", "integer"],
-      "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting."
+      "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting.",
+      "minimum": 0
     },
     "maxQuantityDeviationInPercentage": {
       "type": ["null", "integer"],
-      "description": "Max quantity deviation in percentage allowed, if exceeded, a warning will be displayed when counting."
+      "description": "Max quantity deviation in percentage allowed, if exceeded, a warning will be displayed when counting.",
+      "minimum": 0
     },
     "maxQuantityDeviation": {
       "type": ["null", "integer"],
-      "description": "Max quantity deviation allowed, if exceeded, a warning will be displayed when counting."
+      "description": "Max quantity deviation allowed, if exceeded, a warning will be displayed when counting.",
+      "minimum": 0
     }
   }
 }

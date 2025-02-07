@@ -1,0 +1,14 @@
+{
+  "$id": "stc.max-quantity-deviation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MaxQuantityDeviation",
+  "description": "Max quantity deviation allowed, if exceeded, a warning will be displayed when counting.",
+  "type": "object",
+  "properties": {
+    "maxQuantityDeviation": {
+      "type": ["null", "integer"],
+      "description": "Max quantity deviation allowed, if exceeded, a warning will be displayed when counting.",
+      "minimum": 0
+    }
+  }
+}
