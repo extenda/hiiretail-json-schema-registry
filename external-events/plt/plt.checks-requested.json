@@ -1,0 +1,14 @@
+{
+  "$id": "plt.checks-requested",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["event_id"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for the check request",
+      "format": "uuid"
+    }
+  },
+  "additionalProperties": false
+}
