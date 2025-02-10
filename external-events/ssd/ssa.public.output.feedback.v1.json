@@ -1,373 +1,409 @@
 {
-    "$id": "ssa.public.output.feedback.v1.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Rescan Feedback",
-    "type": "object",
-    "required": [
-      "businessUnitId",
-      "tripId",
-      "tripRescan"
-    ],
-    "properties": {
-      "tripId": {
-        "type": "string",
-        "minLength": 1,
-        "description": "Trip identificator"
-      },
-      "businessUnitId": {
-        "type": "string",
-        "minLength": 1,
-        "description": "Store identificator"
-      },
-      "tripRescan": {
-        "$ref": "#/$defs/Rescan"
-      },
-      "rescanItems": {
-        "type": "array",
-        "description": "List of rescan LineItems",
-        "items": {
-          "$ref": "#/$defs/RescanItemAndScan"
-        },
-        "nullable": true
-      }
+  "$id": "ssa.public.output.feedback.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rescan Feedback",
+  "type": "object",
+  "required": [
+    "businessUnitId",
+    "tripId",
+    "tripRescan"
+  ],
+  "properties": {
+    "tripId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Trip identificator"
     },
-    "additionalProperties": false,
-    "$defs": {
-      "Rescan": {
-        "type": "object",
-        "required": [
-          "numberOfRescanItems",
-          "rescanAction",
-          "rescanActionResult",
-          "rescanDevice",
-          "rescanReason",
-          "rescanType",
-          "totalSumItemRescanAmount"
-        ],
-        "properties": {
-          "rescanAction": {
-            "$ref": "#/$defs/RescanAction"
-          },
-          "rescanActionResult": {
-            "$ref": "#/$defs/RescanActionResult"
-          },
-          "rescanType": {
-            "$ref": "#/$defs/RescanType"
-          },
-          "rescanReason": {
-            "$ref": "#/$defs/RescanReason"
-          },
-          "rescanDevice": {
-            "$ref": "#/$defs/RescanDevice"
-          },
-          "rescanStartDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Start time of a rescan process"
-          },
-          "rescanEndDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Completion time of a rescan process."
-          },
-          "numberOfRescanItems": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Count of Rescanned Items (whole number)"
-          },
-          "totalSumItemRescanAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Sum of regular prices for all items that were rescanned without any discount."
-          },
-          "rescanSkippedReason": {
-            "type": "string",
-            "description": "Defines why a rescan was skipped",
-            "nullable": true
-          }
+    "businessUnitId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Store identificator"
+    },
+    "tripRescan": {
+      "$ref": "#/$defs/Rescan"
+    },
+    "rescanItems": {
+      "type": "array",
+      "description": "List of rescan LineItems",
+      "items": {
+        "$ref": "#/$defs/RescanItemAndScan"
+      },
+      "nullable": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Rescan": {
+      "type": "object",
+      "required": [
+        "numberOfRescanItems",
+        "rescanAction",
+        "rescanActionResult",
+        "rescanDevice",
+        "rescanReason",
+        "rescanType",
+        "totalSumItemRescanAmount"
+      ],
+      "properties": {
+        "rescanAction": {
+          "$ref": "#/$defs/RescanAction"
         },
-        "additionalProperties": false
-      },
-      "RescanAction": {
-        "type": "string",
-        "enum": [
-          "NO_RESCAN",
-          "RESCAN_DONE",
-          "CANCELLED",
-          "SKIPPED"
-        ],
-        "description": "Possible actions for a rescan process."
-      },
-      "RescanActionResult": {
-        "type": "string",
-        "enum": [
-          "UNDER_SCANNED_ITEMS",
-          "OVER_SCANNED_ITEMS",
-          "UNDER_AND_OVER_SCANNED_ITEMS",
-          "SUCCESS"
-        ],
-        "description": "Possible results of a rescan action."
-      },
-      "RescanType": {
-        "type": "string",
-        "enum": [
-          "NO_RESCAN",
-          "FULL_RESCAN",
-          "PARTIAL_RESCAN"
-        ],
-        "description": "Possible types of rescans."
-      },
-      "RescanReason": {
-        "type": "string",
-        "enum": [
-          "FRAUD",
-          "SKIPPED",
-          "NO_RESCAN",
-          "RANDOMIZED_VISIT_COUNT",
-          "TOTAL_SELFSCAN_AMOUNT",
-          "TOTAL_SELFSCAN_COUNT",
-          "SUSPICIOUS_VOIDED_COUNT",
-          "ASST_RESCANNED_WITH_HANDSET",
-          "ASST_SKIPPED_RESCAN",
-          "ASST_ABORTED_RESCAN",
-          "STORE_SKIP_RESCAN",
-          "STORE_BLOCK_RESCAN",
-          "STORE_FORCE_RESCAN",
-          "TEMPORARILY_USED",
-          "ASST_CONFIRMED_RESCAN",
-          "NUMBER_OF_UNKNOWN_ITEMS",
-          "PRESS_SCAN_BUTTON_WITHOUT_SCANNING_ITEM",
-          "TIME_BETWEEN_LAST_ITEM_EOT",
-          "SUSPICIOUS_TOTAL_SHOPPING_TIME",
-          "SCANNED_AMOUNT_PER_HOUR",
-          "SCANNED_ITEMS_PER_HOUR",
-          "RANDOM_N_VISIT",
-          "RANDOM_OTHER",
-          "RANDOMIZER_ON_STORE_LEVEL",
-          "TRUST_LEVEL_RESCAN_PARAMETER",
-          "RESCAN_REQUESTED_ON_SHOPPINGTRIP",
-          "SELFSCAN_MULTIPACKS_ITEMS_COUNT",
-          "USER_ATTRIBUTE_COUNT",
-          "RESCAN_ON_SPECIFIC_ITEM",
-          "OTHER"
-        ],
-        "description": "Possible reasons for triggering a rescan."
-      },
-      "RescanDevice": {
-        "type": "string",
-        "enum": [
-          "MYATTENDANT",
-          "ATTENDANT",
-          "SCO",
-          "POS",
-          "OTHER"
-        ],
-        "description": "Devices involved in performing rescans."
-      },
-      "RescanItemAndScan": {
-        "type": "object",
-        "required": [
-          "lineItem",
-          "rescanItemIndicator",
-          "scanOperation"
-        ],
-        "properties": {
-          "lineItem": {
-            "$ref": "#/$defs/FeedbackLineItem"
-          },
-          "scanOperation": {
-            "$ref": "#/$defs/ScanOperation"
-          },
-          "rescanItemIndicator": {
-            "$ref": "#/$defs/RescanItemIndicator"
-          }
+        "rescanActionResult": {
+          "$ref": "#/$defs/RescanActionResult"
         },
-        "additionalProperties": false,
-        "description": "Contains rescan items information."
-      },
-      "FeedbackLineItem": {
-        "type": "object",
-        "required": [
-          "itemDescription",
-          "itemId",
-          "itemIdentifierId",
-          "itemIdentifierType",
-          "price",
-          "quantity"
-        ],
-        "properties": {
-          "itemIdentifierId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "The value of an ItemIdentifier depends on the itemIdentifierType."
-          },
-          "itemIdentifierType": {
-            "$ref": "#/$defs/ItemIdentifierType"
-          },
-          "itemId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Unique ID or short description identifying the product type."
-          },
-          "itemDescription": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Item short or long description."
-          },
-          "isWeightedItem": {
-            "type": "boolean",
-            "description": "DEPRECATED: Identify if this item is weighted.",
-            "nullable": true
-          },
-          "isRemovedItem": {
-            "type": "boolean",
-            "description": "DEPRECATED: Identify if this item is removed.",
-            "nullable": true
-          },
-          "quantity": {
-            "$ref": "#/$defs/Quantity"
-          },
-          "price": {
-            "$ref": "#/$defs/FeedbackPrice"
-          },
-          "itemSalesOperationStatus": {
-            "$ref": "#/$defs/FeedbackItemSalesOperationStatus"
-          }
+        "rescanType": {
+          "$ref": "#/$defs/RescanType"
         },
-        "additionalProperties": false,
-        "description": "Information about a feedback line item."
-      },
-      "ItemIdentifierType": {
-        "type": "string",
-        "enum": [
-          "GTIN",
-          "PLU",
-          "BARCODE"
-        ],
-        "description": "Types of item identifiers used for products."
-      },
-      "Quantity": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of whole items sold."
-          },
-          "units": {
-            "type": "number",
-            "format": "double",
-            "description": "Measured quantity of the unit of measure for this item."
-          },
-          "unitOfMeasureCode": {
-            "type": "string",
-            "nullable": true
-          }
+        "rescanReason": {
+          "$ref": "#/$defs/RescanReason"
         },
-        "additionalProperties": false
-      },
-      "FeedbackPrice": {
-        "type": "object",
-        "properties": {
-          "regularSalesUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Regular per-unit price before discounts or surcharges.",
-            "nullable": true
-          },
-          "actualSalesUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Actual sales price after discounts and surcharges.",
-            "nullable": true
-          },
-          "discountAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Discount applied to the item.",
-            "nullable": true
-          },
-          "recyclingAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Charges or credits associated with recycling.",
-            "nullable": true
-          },
-          "extendedDiscountAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Total discount applied to a quantity of the item.",
-            "nullable": true
-          },
-          "taxIncludedInPriceFlag": {
-            "type": "boolean",
-            "description": "Flag indicating if taxes are included in the selling price.",
-            "nullable": true
-          },
-          "depositAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Deposit amount including tax if applicable.",
-            "nullable": true
-          },
-          "currencyCode": {
-            "type": "string",
-            "description": "Currency code in ISO 4217 format (e.g., \"USD\", \"EUR\").",
-            "nullable": true
-          },
-          "regularExtendedUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Regular extended unit price without discounts.",
-            "nullable": true
-          },
-          "extendedAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Actual extended amount after discounts and surcharges.",
-            "nullable": true
-          }
+        "rescanDevice": {
+          "$ref": "#/$defs/RescanDevice"
         },
-        "additionalProperties": false
-      },
-      "FeedbackItemSalesOperationStatus": {
-        "type": "string",
-        "enum": [
-          "NORMAL",
-          "NOT_SCANNABLE_MYSCAN"
-        ],
-        "description": "Sales operation status of a feedback item."
-      },
-      "ScanOperation": {
-        "type": "object",
-        "required": [
-          "scanOperationDateTime",
-          "scanOperationId"
-        ],
-        "properties": {
-          "scanOperationId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Unique identifier for a specific scan operation."
-          },
-          "scanOperationDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Datetime when the scan operation was performed."
-          }
+        "rescanStartDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of a rescan process",
+          "nullable": true
         },
-        "additionalProperties": false
+        "rescanEndDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Completion time of a rescan process.",
+          "nullable": true
+        },
+        "numberOfRescanItems": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of Rescanned Items (whole number)"
+        },
+        "totalSumItemRescanAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Sum of regular prices for all items that were rescanned without any discount."
+        },
+        "rescanSkippedReason": {
+          "type": "string",
+          "description": "Defines why a rescan was skipped",
+          "nullable": true
+        },
+        "trustLevelSet": {
+          "type": "string",
+          "description": "Trust Level Set used to identify an audit.",
+          "nullable": true
+        },
+        "triggerDetails": {
+          "$ref": "#/$defs/TriggerDetailsDto"
+        }
       },
-      "RescanItemIndicator": {
-        "type": "string",
-        "enum": [
-          "OVER_SCANNED",
-          "UNDER_SCANNED",
-          "NORMAL",
-          "NOT_SCANNED"
-        ],
-        "description": "Status of an item during a rescan process."
-      }
+      "additionalProperties": false
+    },
+    "RescanAction": {
+      "type": "string",
+      "enum": [
+        "NO_RESCAN",
+        "RESCAN_DONE",
+        "CANCELLED",
+        "SKIPPED"
+      ],
+      "description": "Possible actions for a rescan process."
+    },
+    "RescanActionResult": {
+      "type": "string",
+      "enum": [
+        "UNDER_SCANNED_ITEMS",
+        "OVER_SCANNED_ITEMS",
+        "UNDER_AND_OVER_SCANNED_ITEMS",
+        "SUCCESS"
+      ],
+      "description": "Possible results of a rescan action."
+    },
+    "RescanType": {
+      "type": "string",
+      "enum": [
+        "NO_RESCAN",
+        "FULL_RESCAN",
+        "PARTIAL_RESCAN"
+      ],
+      "description": "Possible types of rescans."
+    },
+    "RescanReason": {
+      "type": "string",
+      "enum": [
+        "FRAUD",
+        "SKIPPED",
+        "NO_RESCAN",
+        "RANDOMIZED_VISIT_COUNT",
+        "TOTAL_SELFSCAN_AMOUNT",
+        "TOTAL_SELFSCAN_COUNT",
+        "SUSPICIOUS_VOIDED_COUNT",
+        "ASST_RESCANNED_WITH_HANDSET",
+        "ASST_SKIPPED_RESCAN",
+        "ASST_ABORTED_RESCAN",
+        "STORE_SKIP_RESCAN",
+        "STORE_BLOCK_RESCAN",
+        "STORE_FORCE_RESCAN",
+        "TEMPORARILY_USED",
+        "ASST_CONFIRMED_RESCAN",
+        "NUMBER_OF_UNKNOWN_ITEMS",
+        "PRESS_SCAN_BUTTON_WITHOUT_SCANNING_ITEM",
+        "TIME_BETWEEN_LAST_ITEM_EOT",
+        "SUSPICIOUS_TOTAL_SHOPPING_TIME",
+        "SCANNED_AMOUNT_PER_HOUR",
+        "SCANNED_ITEMS_PER_HOUR",
+        "RANDOM_N_VISIT",
+        "RANDOM_OTHER",
+        "RANDOMIZER_ON_STORE_LEVEL",
+        "TRUST_LEVEL_RESCAN_PARAMETER",
+        "RESCAN_REQUESTED_ON_SHOPPINGTRIP",
+        "SELFSCAN_MULTIPACKS_ITEMS_COUNT",
+        "USER_ATTRIBUTE_COUNT",
+        "RESCAN_ON_SPECIFIC_ITEM",
+        "OPEN_AUDIT_EXISTS_FOR_CUSTOMER",
+        "OTHER"
+      ],
+      "description": "Possible reasons for triggering a rescan."
+    },
+    "RescanDevice": {
+      "type": "string",
+      "enum": [
+        "MYATTENDANT",
+        "ATTENDANT",
+        "SCO",
+        "POS",
+        "OTHER"
+      ],
+      "description": "Devices involved in performing rescans."
+    },
+    "RescanItemAndScan": {
+      "type": "object",
+      "required": [
+        "lineItem",
+        "rescanItemIndicator",
+        "scanOperation"
+      ],
+      "properties": {
+        "lineItem": {
+          "$ref": "#/$defs/FeedbackLineItem"
+        },
+        "scanOperation": {
+          "$ref": "#/$defs/ScanOperation"
+        },
+        "rescanItemIndicator": {
+          "$ref": "#/$defs/RescanItemIndicator"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Contains rescan items information."
+    },
+    "FeedbackLineItem": {
+      "type": "object",
+      "required": [
+        "itemDescription",
+        "itemId",
+        "itemIdentifierId",
+        "itemIdentifierType",
+        "price",
+        "quantity"
+      ],
+      "properties": {
+        "itemIdentifierId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The value of an ItemIdentifier depends on the itemIdentifierType."
+        },
+        "itemIdentifierType": {
+          "$ref": "#/$defs/ItemIdentifierType"
+        },
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique ID or short description identifying the product type."
+        },
+        "itemDescription": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Item short or long description."
+        },
+        "isWeightedItem": {
+          "type": "boolean",
+          "description": "DEPRECATED: Identify if this item is weighted.",
+          "nullable": true
+        },
+        "isRemovedItem": {
+          "type": "boolean",
+          "description": "DEPRECATED: Identify if this item is removed.",
+          "nullable": true
+        },
+        "quantity": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "price": {
+          "$ref": "#/$defs/FeedbackPrice"
+        },
+        "itemSalesOperationStatus": {
+          "$ref": "#/$defs/FeedbackItemSalesOperationStatus"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Information about a feedback line item."
+    },
+    "ItemIdentifierType": {
+      "type": "string",
+      "enum": [
+        "GTIN",
+        "PLU",
+        "BARCODE"
+      ],
+      "description": "Types of item identifiers used for products."
+    },
+    "Quantity": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of whole items sold."
+        },
+        "units": {
+          "type": "number",
+          "format": "double",
+          "description": "Measured quantity of the unit of measure for this item."
+        },
+        "unitOfMeasureCode": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "FeedbackPrice": {
+      "type": "object",
+      "properties": {
+        "regularSalesUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Regular per-unit price before discounts or surcharges.",
+          "nullable": true
+        },
+        "actualSalesUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Actual sales price after discounts and surcharges.",
+          "nullable": true
+        },
+        "discountAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Discount applied to the item.",
+          "nullable": true
+        },
+        "recyclingAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Charges or credits associated with recycling.",
+          "nullable": true
+        },
+        "extendedDiscountAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Total discount applied to a quantity of the item.",
+          "nullable": true
+        },
+        "taxIncludedInPriceFlag": {
+          "type": "boolean",
+          "description": "Flag indicating if taxes are included in the selling price.",
+          "nullable": true
+        },
+        "depositAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit amount including tax if applicable.",
+          "nullable": true
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "Currency code in ISO 4217 format (e.g., \"USD\", \"EUR\").",
+          "nullable": true
+        },
+        "regularExtendedUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Regular extended unit price without discounts.",
+          "nullable": true
+        },
+        "extendedAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Actual extended amount after discounts and surcharges.",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "FeedbackItemSalesOperationStatus": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "NOT_SCANNABLE_MYSCAN"
+      ],
+      "description": "Sales operation status of a feedback item."
+    },
+    "ScanOperation": {
+      "type": "object",
+      "required": [
+        "scanOperationDateTime",
+        "scanOperationId"
+      ],
+      "properties": {
+        "scanOperationId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for a specific scan operation."
+        },
+        "scanOperationDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the scan operation was performed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "RescanItemIndicator": {
+      "type": "string",
+      "enum": [
+        "OVER_SCANNED",
+        "UNDER_SCANNED",
+        "NORMAL",
+        "NOT_SCANNED"
+      ],
+      "description": "Status of an item during a rescan process."
+    },
+    "TriggerDetailsDto": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "type": "string",
+          "description": "If applicable represents if the actual value was equal or greater then or smaller then ActualValue",
+          "nullable": true
+        },
+        "riskItemType": {
+          "type": "string",
+          "description": "If applicable show if threshold value for a risk item was from what sort of value (monetary, weight or count)",
+          "nullable": true
+        },
+        "thresholdValue": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "actualValue": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
     }
   }
-  
+}
