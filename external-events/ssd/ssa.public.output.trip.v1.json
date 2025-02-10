@@ -1,376 +1,470 @@
 {
-    "$id": "ssa.public.output.trip.v1.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "Customer Trips",
-    "type": "object",
-    "required": [
-      "customer",
-      "trip"
-    ],
-    "properties": {
-      "customer": {
-        "$ref": "#/$defs/CustomerInfo"
-      },
-      "trip": {
-        "$ref": "#/$defs/Trip"
-      }
+  "$id": "ssa.public.output.trip.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Customer Trips",
+  "type": "object",
+  "required": [
+    "customer",
+    "trip"
+  ],
+  "properties": {
+    "customer": {
+      "$ref": "#/$defs/CustomerInfo"
     },
-    "additionalProperties": false,
-    "$defs": {
-      "CustomerInfo": {
-        "type": "object",
-        "required": [
-          "customerType"
-        ],
-        "properties": {
-          "customerType": {
-            "$ref": "#/$defs/CustomerType"
-          },
-          "customerProfileId": {
-            "type": "string",
-            "description": "Profile ID as per Hii Retail guidelines. Required unless customer type is ANONYMOUS.",
-            "nullable": true
-          },
-          "cardNumber": {
-            "type": "string",
-            "description": "Card number associated with the customer.",
-            "nullable": true
-          },
-          "numberOfHistoricalVisits": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Total number of previous visits.",
-            "nullable": true
-          },
-          "profileCreatedDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Datetime when the customer profile was created.",
-            "nullable": true
-          },
-          "profileModifiedDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Datetime when the customer profile was last modified.",
-            "nullable": true
-          },
-          "profileLastUsedDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Datetime when the customer profile was last used.",
-            "nullable": true
-          },
-          "currentTrustLevelId": {
-            "type": "string",
-            "description": "Current trust level ID.",
-            "nullable": true
-          },
-          "currentTrustLevelName": {
-            "type": "string",
-            "description": "Current trust level name.",
-            "nullable": true
-          },
-          "numberOfVisitsToTriggerRescan": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of visits before a rescan is triggered.",
-            "nullable": true
-          },
-          "numberOfRescans": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of rescans the shopper has undergone.",
-            "nullable": true
-          },
-          "profileStatusId": {
-            "type": "string",
-            "description": "DEPRECATED: Current profile status ID.",
-            "nullable": true,
-            "deprecated": true
+    "trip": {
+      "$ref": "#/$defs/Trip"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "CustomerInfo": {
+      "type": "object",
+      "required": [
+        "customerType"
+      ],
+      "properties": {
+        "customerType": {
+          "$ref": "#/$defs/CustomerType"
+        },
+        "customerProfileId": {
+          "type": "string",
+          "description": "Profile ID as per Hii Retail guidelines. Required unless customer type is ANONYMOUS.",
+          "nullable": true
+        },
+        "cardNumber": {
+          "type": "string",
+          "description": "Card number associated with the customer.",
+          "nullable": true
+        },
+        "numberOfHistoricalVisits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total number of previous visits.",
+          "nullable": true
+        },
+        "profileCreatedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the customer profile was created.",
+          "nullable": true
+        },
+        "profileModifiedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the customer profile was last modified.",
+          "nullable": true
+        },
+        "profileLastUsedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the customer profile was last used.",
+          "nullable": true
+        },
+        "currentTrustLevelId": {
+          "type": "string",
+          "description": "Current trust level ID.",
+          "nullable": true
+        },
+        "currentTrustLevelName": {
+          "type": "string",
+          "description": "Current trust level name.",
+          "nullable": true
+        },
+        "numberOfVisitsToTriggerRescan": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of visits before a rescan is triggered.",
+          "nullable": true
+        },
+        "numberOfRescans": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of rescans the shopper has undergone.",
+          "nullable": true
+        },
+        "profileStatusId": {
+          "type": "string",
+          "description": "DEPRECATED: Current profile status ID.",
+          "nullable": true,
+          "deprecated": true
+        }
+      },
+      "additionalProperties": false,
+      "description": "Information about a customer."
+    },
+    "CustomerType": {
+      "type": "string",
+      "enum": [
+        "ANONYMOUS",
+        "REGISTERED",
+        "IDENTIFIED"
+      ],
+      "description": "Type of customer."
+    },
+    "Trip": {
+      "type": "object",
+      "required": [
+        "businessUnitId",
+        "tripBeginDateTime",
+        "tripDeviceOrigin",
+        "tripEndDateTime",
+        "tripId",
+        "tripItems"
+      ],
+      "properties": {
+        "tripId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Trip identificator."
+        },
+        "internalTripId": {
+          "type": "string",
+          "description": "Internal Trip identificator.",
+          "nullable": true
+        },
+        "tripBeginDateTime": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time",
+          "description": "Datetime when the trip started."
+        },
+        "tripEndDateTime": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time",
+          "description": "Datetime when the trip ended."
+        },
+        "businessUnitId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Store identificator."
+        },
+        "scannerwallId": {
+          "type": "string",
+          "description": "Wall-scanner identificator.",
+          "nullable": true
+        },
+        "scannerNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "SelfScan Number.",
+          "nullable": true
+        },
+        "deviceTransactionId": {
+          "type": "string",
+          "description": "Transaction ID of the device.",
+          "nullable": true
+        },
+        "numberOfItemsVoided": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of items voided at scan.",
+          "nullable": true
+        },
+        "tripDeviceOrigin": {
+          "$ref": "#/$defs/TripDeviceOrigin"
+        },
+        "tripCheckoutHandling": {
+          "$ref": "#/$defs/TripCheckoutHandling"
+        },
+        "totalSumItemSalesAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Sum of individual sales amounts including discounts, rounding, and taxes.",
+          "nullable": true
+        },
+        "tripItems": {
+          "type": "array",
+          "description": "Contains Item and ScanOperation details.",
+          "items": {
+            "$ref": "#/$defs/TripItem"
           }
         },
-        "additionalProperties": false,
-        "description": "Information about a customer."
-      },
-      "CustomerType": {
-        "type": "string",
-        "enum": [
-          "ANONYMOUS",
-          "REGISTERED",
-          "IDENTIFIED"
-        ],
-        "description": "Type of customer."
-      },
-      "Trip": {
-        "type": "object",
-        "required": [
-          "businessUnitId",
-          "tripBeginDateTime",
-          "tripDeviceOrigin",
-          "tripEndDateTime",
-          "tripId",
-          "tripItems"
-        ],
-        "properties": {
-          "tripId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Trip identificator."
-          },
-          "internalTripId": {
-            "type": "string",
-            "description": "Internal Trip identificator.",
-            "nullable": true
-          },
-          "tripBeginDateTime": {
-            "type": "string",
-            "minLength": 1,
-            "format": "date-time",
-            "description": "Datetime when the trip started."
-          },
-          "tripEndDateTime": {
-            "type": "string",
-            "minLength": 1,
-            "format": "date-time",
-            "description": "Datetime when the trip ended."
-          },
-          "businessUnitId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Store identificator."
-          },
-          "scannerwallId": {
-            "type": "string",
-            "description": "Wall-scanner identificator.",
-            "nullable": true
-          },
-          "scannerNumber": {
-            "type": "integer",
-            "format": "int32",
-            "description": "SelfScan Number.",
-            "nullable": true
-          },
-          "deviceTransactionId": {
-            "type": "string",
-            "description": "Transaction ID of the device.",
-            "nullable": true
-          },
-          "numberOfItemsVoided": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Number of items voided at scan.",
-            "nullable": true
-          },
-          "tripDeviceOrigin": {
-            "$ref": "#/$defs/TripDeviceOrigin"
-          },
-          "tripCheckoutHandling": {
-            "$ref": "#/$defs/TripCheckoutHandling"
-          },
-          "totalSumItemSalesAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Sum of individual sales amounts including discounts, rounding, and taxes.",
-            "nullable": true
-          },
-          "tripItems": {
-            "type": "array",
-            "description": "Contains Item and ScanOperation details.",
-            "items": {
-              "$ref": "#/$defs/TripItem"
-            }
-          },
-          "tripRounding": {
-            "type": "number",
-            "format": "double",
-            "description": "DEPRECATED: Adjustment made to the total amount during a shopping trip.",
-            "nullable": true,
-            "deprecated": true
-          }
+        "tripRounding": {
+          "type": "number",
+          "format": "double",
+          "description": "DEPRECATED: Adjustment made to the total amount during a shopping trip.",
+          "nullable": true,
+          "deprecated": true
         },
-        "additionalProperties": false
-      },
-      "TripDeviceOrigin": {
-        "type": "string",
-        "enum": [
-          "HANDHELD",
-          "MOBILE",
-          "SCO",
-          "OTHER"
-        ],
-        "description": "Origin of the trip device."
-      },
-      "TripCheckoutHandling": {
-        "type": "string",
-        "enum": [
-          "NORMAL",
-          "QUEUE_BUSTING",
-          "CANCELLED"
-        ],
-        "description": "Handling types for a trip checkout."
-      },
-      "TripItem": {
-        "type": "object",
-        "required": [
-          "lineItem",
-          "scanOperation"
-        ],
-        "properties": {
-          "lineItem": {
-            "$ref": "#/$defs/TripLineItem"
+        "suspiciousItems": {
+          "type": "array",
+          "description": "List of items marked as suspicious during the trip.",
+          "items": {
+            "$ref": "#/$defs/SuspiciousItemDto"
           },
-          "scanOperation": {
-            "$ref": "#/$defs/ScanOperation"
-          }
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "TripDeviceOrigin": {
+      "type": "string",
+      "enum": [
+        "HANDHELD",
+        "MOBILE",
+        "SCO",
+        "OTHER"
+      ],
+      "description": "Origin of the trip device."
+    },
+    "TripCheckoutHandling": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "QUEUE_BUSTING",
+        "CANCELLED"
+      ],
+      "description": "Handling types for a trip checkout."
+    },
+    "TripItem": {
+      "type": "object",
+      "required": [
+        "lineItem",
+        "scanOperation"
+      ],
+      "properties": {
+        "lineItem": {
+          "$ref": "#/$defs/TripLineItem"
         },
-        "additionalProperties": false,
-        "description": "Details of a trip item."
+        "scanOperation": {
+          "$ref": "#/$defs/ScanOperation"
+        }
       },
-      "TripLineItem": {
-        "type": "object",
-        "required": [
-          "itemDescription",
-          "itemId",
-          "itemIdentifierId",
-          "itemIdentifierType",
-          "price",
-          "quantity"
-        ],
-        "properties": {
-          "itemIdentifierId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Value of the ItemIdentifier based on the itemIdentifierType."
-          },
-          "itemIdentifierType": {
-            "$ref": "#/$defs/ItemIdentifierType"
-          },
-          "itemId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Unique ID or short description identifying the product type."
-          },
-          "itemDescription": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Item short or long description."
-          },
-          "isWeightedItem": {
-            "type": "boolean",
-            "description": "DEPRECATED: Identify if this item is weighted.",
-            "nullable": true
-          },
-          "isRemovedItem": {
-            "type": "boolean",
-            "description": "DEPRECATED: Identify if this item is removed.",
-            "nullable": true
-          },
-          "quantity": {
-            "$ref": "#/$defs/Quantity"
-          },
-          "itemSalesOperationStatus": {
-            "$ref": "#/$defs/TripItemSalesOperationStatus"
-          },
-          "price": {
-            "$ref": "#/$defs/TripPrice"
-          }
+      "additionalProperties": false,
+      "description": "Details of a trip item."
+    },
+    "TripLineItem": {
+      "type": "object",
+      "required": [
+        "itemDescription",
+        "itemId",
+        "itemIdentifierId",
+        "itemIdentifierType",
+        "price",
+        "quantity"
+      ],
+      "properties": {
+        "itemIdentifierId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Value of the ItemIdentifier based on the itemIdentifierType."
         },
-        "additionalProperties": false,
-        "description": "Line Item Information."
-      },
-      "TripItemSalesOperationStatus": {
-        "type": "string",
-        "enum": [
-          "NORMAL",
-          "VOIDED"
-        ],
-        "description": "Sales operation status of a trip item."
-      },
-      "TripPrice": {
-        "type": "object",
-        "required": [
-          "extendedAmount"
-        ],
-        "properties": {
-          "regularSalesUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Regular per-unit price before discounts or surcharges.",
-            "nullable": true
-          },
-          "actualSalesUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Actual sales price after discounts and surcharges.",
-            "nullable": true
-          },
-          "discountAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Discount applied to the item.",
-            "nullable": true
-          },
-          "recyclingAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Charges or credits associated with recycling.",
-            "nullable": true
-          },
-          "extendedDiscountAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Total discount applied to a quantity of the item.",
-            "nullable": true
-          },
-          "taxIncludedInPriceFlag": {
-            "type": "boolean",
-            "description": "Flag indicating if taxes are included in the selling price.",
-            "nullable": true
-          },
-          "depositAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Deposit amount including tax if applicable.",
-            "nullable": true
-          },
-          "currencyCode": {
-            "type": "string",
-            "description": "Currency code in ISO 4217 format (e.g., \"USD\", \"EUR\").",
-            "nullable": true
-          },
-          "regularExtendedUnitPrice": {
-            "type": "number",
-            "format": "double",
-            "description": "Regular extended unit price without discounts.",
-            "nullable": true
-          },
-          "extendedAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "Actual extended amount after discounts and surcharges."
-          }
+        "itemIdentifierType": {
+          "$ref": "#/$defs/ItemIdentifierType"
         },
-        "additionalProperties": false
-      },
-      "ScanOperation": {
-        "type": "object",
-        "required": [
-          "scanOperationDateTime",
-          "scanOperationId"
-        ],
-        "properties": {
-          "scanOperationId": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Unique identifier for a specific scan operation."
-          },
-          "scanOperationDateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Datetime when the scan operation was performed."
-          }
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique ID or short description identifying the product type."
         },
-        "additionalProperties": false
-      }
+        "itemDescription": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Item short or long description."
+        },
+        "isWeightedItem": {
+          "type": "boolean",
+          "description": "DEPRECATED: Identify if this item is weighted.",
+          "nullable": true
+        },
+        "isRemovedItem": {
+          "type": "boolean",
+          "description": "DEPRECATED: Identify if this item is removed.",
+          "nullable": true
+        },
+        "quantity": {
+          "$ref": "#/$defs/Quantity"
+        },
+        "itemSalesOperationStatus": {
+          "$ref": "#/$defs/TripItemSalesOperationStatus"
+        },
+        "price": {
+          "$ref": "#/$defs/TripPrice"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Line Item Information."
+    },
+    "TripItemSalesOperationStatus": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "VOIDED"
+      ],
+      "description": "Sales operation status of a trip item."
+    },
+    "TripPrice": {
+      "type": "object",
+      "properties": {
+        "regularSalesUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "The regular or lookup per-unit price for the item before any discounts or surcharges have been applied.",
+          "nullable": true
+        },
+        "actualSalesUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Actual sales price after discounts and surcharges.",
+          "nullable": true
+        },
+        "discountAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Discount applied to the item.",
+          "nullable": true
+        },
+        "recyclingAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Charges or credits associated with recycling.",
+          "nullable": true
+        },
+        "extendedDiscountAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Total discount applied to a quantity of the item.",
+          "nullable": true
+        },
+        "taxIncludedInPriceFlag": {
+          "type": "boolean",
+          "description": "Flag indicating if taxes are included in the selling price.",
+          "nullable": true
+        },
+        "depositAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit amount including tax if applicable.",
+          "nullable": true
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "Currency code in ISO 4217 format (e.g., \"USD\", \"EUR\").",
+          "nullable": true
+        },
+        "regularExtendedUnitPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "Regular extended unit price without discounts.",
+          "nullable": true
+        },
+        "extendedAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "Actual extended amount after discounts and surcharges.",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "ScanOperation": {
+      "type": "object",
+      "required": [
+        "scanOperationDateTime",
+        "scanOperationId"
+      ],
+      "properties": {
+        "scanOperationId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for a specific scan operation."
+        },
+        "scanOperationDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime when the scan operation was performed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "Quantity": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "description": "The number of whole items sold",
+          "format": "int32"
+        },
+        "units": {
+          "type": "number",
+          "description": "The measured quantity of the unit of measure for this item.",
+          "format": "double"
+        },
+        "unitOfMeasureCode": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "ItemIdentifierType": {
+      "type": "string",
+      "enum": [
+        "GTIN",
+        "PLU",
+        "BARCODE"
+      ],
+      "description": "Represents the types of item identifiers used for products."
+    },
+    "SuspiciousItemDto": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the item",
+          "nullable": true
+        },
+        "reason": {
+          "$ref": "#/$defs/ReasonDto"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReasonDto": {
+      "type": "object",
+      "properties": {
+        "suspiciousType": {
+          "$ref": "#/$defs/SuspiciousTypeDto"
+        },
+        "barCode": {
+          "type": "string",
+          "description": "BarCode cannot be null when SuspiciousType is RiskItem",
+          "nullable": true
+        },
+        "riskItemType": {
+          "type": "string",
+          "description": "RiskItemType cannot be null when SuspiciousType is RiskItem",
+          "nullable": true
+        },
+        "thresholdValue": {
+          "type": "number",
+          "format": "double",
+          "description": "ThresholdValue cannot be null when SuspiciousType is RiskItem",
+          "nullable": true
+        },
+        "actualValue": {
+          "type": "string",
+          "description": "ActualValue cannot be null when SuspiciousType is RiskItem",
+          "nullable": true
+        },
+        "score": {
+          "type": "number",
+          "format": "double",
+          "description": "Score cannot be null when SuspiciousType is ItemAffinity",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false,
+      "description": "Describes why an item was marked as suspicious, including details that may be available for specific reasons only."
+    },
+    "SuspiciousTypeDto": {
+      "type": "string",
+      "enum": [
+        "RISKITEM",
+        "ITEMAFFINITY"
+      ],
+      "description": "Possible types of suspicious indicators."
     }
   }
+}
