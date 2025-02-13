@@ -7,7 +7,7 @@
       "type": "object",
       "description": "Defines the icon configurations.",
       "patternProperties": {
-        "^[a-zA-Z0-9_-]+(@d+x)?$": {
+        "^[a-zA-Z0-9_-]+(@\\d+x)?$": {
           "type": "object",
           "properties": {
             "name": { "type": "string", "description": "Name of the icon." },
