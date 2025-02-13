@@ -27,7 +27,7 @@
               "description": "URL pointing to the icon's location."
             }
           },
-          "required": ["name", "url", "url@2x", "url@3x"],
+          "required": ["name", "url"],
           "additionalProperties": false
         }
       },
