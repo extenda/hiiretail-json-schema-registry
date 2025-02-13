@@ -15,9 +15,19 @@
               "type": "string",
               "format": "uri",
               "description": "URL pointing to the icon's location."
+            },
+            "url@2x": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL pointing to the icon's location."
+            },
+            "url@3x": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL pointing to the icon's location."
             }
           },
-          "required": ["name", "url"],
+          "required": ["name", "url", "url@2x", "url@3x"],
           "additionalProperties": false
         }
       },
