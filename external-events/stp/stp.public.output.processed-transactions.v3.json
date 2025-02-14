@@ -109,12 +109,12 @@
       ],
       "description": "The id of the document line that produced this transaction"
     },
-    "supplierId": {
+    "businessPartnerId": {
       "type": [
         "null",
         "string"
       ],
-      "description": "The id of the supplier that is attached to the affected StockItem"
+      "description": "Identifier of the business partner attached to the affected StockItem"
     },
     "batchNumber": {
       "type": [
