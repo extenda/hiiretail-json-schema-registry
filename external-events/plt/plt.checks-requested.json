@@ -2,11 +2,19 @@
   "$id": "plt.checks-requested",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["event_id", "timestamp"],
+  "required": ["event_id", "timestamp", "product", "version"],
   "properties": {
     "event_id": {
       "type": "string",
       "description": "Identifier for the check request"
+    },
+    "product": {
+      "type": "string",
+      "description": "Name of the product being checked"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the product being checked"
     },
     "timestamp": {
       "type": "string",
