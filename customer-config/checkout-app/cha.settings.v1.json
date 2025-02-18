@@ -179,7 +179,7 @@
           "items": {
             "type": "string",
             "enum": [
-              "comboSale"
+              "registerWithQuantity"
             ]
           }
         }
