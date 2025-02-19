@@ -1,0 +1,25 @@
+{
+  "$id": "platform.release.verification-requested",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "eventId",
+    "product",
+    "version"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "description": "Unique identifier for the verification request"
+    },
+    "product": {
+      "type": "string",
+      "description": "Name of the product to verify"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the product to verify"
+    }
+  },
+  "additionalProperties": false
+}
