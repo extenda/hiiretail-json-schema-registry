@@ -1,5 +1,5 @@
 {
-  "$id": "grc.default-reason-code-negetive-corrections.v1",
+  "$id": "grc.default-reason-code-negative-corrections.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DefaultReasonCodeNegativeCorrections",
   "description": "Indicates the reason code to be used if receiving less than expected.",
