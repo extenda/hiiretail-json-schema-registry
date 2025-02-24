@@ -1,6 +1,8 @@
 {
-  "$id": "platform.release.verification-requested",
+  "$id": "plt.private.notification.release-verification-requests.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Release Verification Requests",
+  "description": "Request for tenants to verify a new product release in a safe environment.",
   "type": "object",
   "required": [
     "eventId",
