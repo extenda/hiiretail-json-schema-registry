@@ -1,0 +1,15 @@
+{
+  "$id": "grc.default-reasoncode-positive-corrections.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DefaultReasonCodePositiveCorrections",
+  "description": "Indicates the reason code to be used if receiving more than expected.",
+  "type": "object",
+  "properties": {
+    "defaultReasonCodePositiveCorrections": {
+      "type": ["null", "integer"],
+      "description": "Indicates the reason code to be used if receiving more than expected.",
+      "minimum": 0
+    }
+  }
+}
+
