@@ -5,15 +5,15 @@
   "description": "Indicates the default reason code to be used for goods received operations.",
   "type": "object",
   "properties": {
-    "defaultReasonCodePositiveCorrections": {
-      "type": ["null", "integer"],
+    "defaultReasonCodeIdPositiveCorrections": {
+      "type": ["null", "string"],
       "description": "Indicates the reason code to be used if receiving more than expected.",
-      "minimum": 0
+      "maxLength": 20
     },
-    "defaultReasonCodeNegativeCorrections": {
-      "type": ["null", "integer"],
+    "defaultReasonCodeIdNegativeCorrections": {
+      "type": ["null", "string"],
       "description": "Indicates the reason code to be used if receiving less than expected.",
-      "minimum": 0
+      "maxLength": 20
     }
   }
 }
