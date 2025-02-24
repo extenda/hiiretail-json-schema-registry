@@ -1,7 +1,7 @@
 {
-  "$id": "grc.default-reason-code-corrections.v1",
+  "$id": "grc.default-reason-codes.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DefaultReasonCodeCorrections",
+  "title": "DefaultReasonCodes",
   "description": "Indicates the reason code to be used if receiving more or less than expected.",
   "type": "object",
   "properties": {
