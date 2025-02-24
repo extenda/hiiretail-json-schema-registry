@@ -2,7 +2,7 @@
   "$id": "grc.default-reason-codes.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DefaultReasonCodes",
-  "description": "Indicates the reason code to be used if receiving more or less than expected.",
+  "description": "Indicates the default reason code to be used for goods received operations.",
   "type": "object",
   "properties": {
     "defaultReasonCodePositiveCorrections": {
