@@ -16,7 +16,8 @@
     },
     "product": {
       "type": "string",
-      "description": "Name of the product to verify"
+      "description": "Name of the product to verify",
+      "examples": ["checkout-engine"]
     },
     "version": {
       "type": "string",
