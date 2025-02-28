@@ -286,14 +286,14 @@
             },
             "start": {
               "type": "string",
-              "format": "time",
-              "example": "18:00",
+              "format": "iso-time",
+              "example": "18:00:00",
               "description": "The start time of the maintenance window. Specify in the UTC time zone."
             },
             "end": {
               "type": "string",
-              "format": "time",
-              "example": "24:00",
+              "format": "iso-time",
+              "example": "24:00:00",
               "description": "The end time of the maintenance window. Specify in the UTC time zone."
             }
           }
