@@ -293,7 +293,7 @@
             "end": {
               "type": "string",
               "format": "iso-time",
-              "example": "24:00:00",
+              "example": "23:59:00",
               "description": "The end time of the maintenance window. Specify in the UTC time zone."
             }
           }
