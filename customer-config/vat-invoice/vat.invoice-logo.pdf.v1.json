@@ -1,0 +1,19 @@
+{
+  "$id": "vat.invoice-logo.pdf.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "vat invoice logo pdf configuration",
+  "description": "Vat invoice logo pdf configuration.",
+  "type": "object",
+  "required": [
+    "uri"
+  ],
+  "properties": {
+    "uri": {
+      "type": "string",
+      "description": "URI to a image resource",
+      "pattern": "^(https?):\\/\\/.+$",
+      "maxLength": 2048,
+      "examples": "https://images.example.com"
+    }
+  }
+}
