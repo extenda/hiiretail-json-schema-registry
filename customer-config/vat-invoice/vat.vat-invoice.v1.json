@@ -1,0 +1,20 @@
+{
+  "$id": "vat.vat-invoice.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VAT Invoice",
+  "description": "VAT invoice configuration properties.",
+  "type": "object",
+  "required": [
+    "logoUri"
+  ],
+  "properties": {
+    "logoUri": {
+      "type": "string",
+      "description": "URI of the logo image to be used on the VAT invoice.",
+      "pattern": "^(https?):\\/\\/.+$",
+      "maxLength": 2048,
+      "examples": "https://images.example.com"
+    }
+  },
+  "additionalProperties": false
+}
