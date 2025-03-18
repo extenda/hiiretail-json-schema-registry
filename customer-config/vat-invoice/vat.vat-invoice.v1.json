@@ -1,19 +1,20 @@
 {
-  "$id": "vat.invoice-logo-pdf.v1",
+  "$id": "vat.vat-invoice.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "vat invoice logo pdf configuration",
-  "description": "Vat invoice logo pdf configuration.",
+  "title": "VAT Invoice",
+  "description": "VAT invoice configuration properties.",
   "type": "object",
   "required": [
-    "uri"
+    "logoUri"
   ],
   "properties": {
-    "uri": {
+    "logoUri": {
       "type": "string",
-      "description": "URI to a image resource",
+      "description": "URI of the logo image to be used on the VAT invoice.",
       "pattern": "^(https?):\\/\\/.+$",
       "maxLength": 2048,
       "examples": "https://images.example.com"
     }
-  }
+  },
+  "additionalProperties": false
 }
