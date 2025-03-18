@@ -9,7 +9,10 @@
   ],
   "properties": {
     "logoUri": {
-      "type": "string",
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "URI of the logo image to be used on the VAT invoice.",
       "pattern": "^(https?):\\/\\/.+$",
       "maxLength": 2048,
