@@ -13,7 +13,7 @@
       "description": "URI of the logo image to be used on the VAT invoice.",
       "pattern": "^(https?):\\/\\/.+$",
       "maxLength": 2048,
-      "examples": "https://images.example.com"
+      "example": "https://images.example.com"
     }
   },
   "additionalProperties": false
