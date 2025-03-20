@@ -77,6 +77,15 @@
           "description": "Checkout App External Websites settings.",
           "type": "object",
           "$ref": "#/$defs/ExternalLinksType"
+        },
+        "prompt": {
+          "description": "This is a definition of the prompt settings mobile pos.",
+          "type": "object",
+          "properties": {
+            "keyboardOverrides": {
+              "$ref": "#/$defs/KeyboardOverridesType"
+            }
+          }
         }
       }
     },
@@ -574,6 +583,9 @@
         "integerMonetary": {
           "type": "boolean",
           "description": "Indicates if the monetary input should accept decimals or not."
+        },
+        "keyboardOverrides": {
+          "$ref": "#/$defs/KeyboardOverridesType"
         }
       }
     },
@@ -589,6 +601,16 @@
           "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
         }
       }
+    },
+    "KeyboardOverridesType": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["ALPHA_NUMERIC", "NUMERIC"],
+        "description": "Specifies the keyboard type override for the corresponding prompt code."
+      },
+      "default": {},
+      "description": "Defines specific prompt codes that override the default keyboard type."
     },
     "ScoType": {
       "description": "This is a definition of the SCO settings.",
@@ -627,6 +649,11 @@
           "description": "Language settings in SCO mode.",
           "type": "object",
           "$ref": "#/$defs/ScoLanguageType"
+        },
+        "prompt": {
+          "description": "Prompt settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoPromptType"
         },
         "plu": {
           "description": "Plu settings in SCO mode.",
@@ -696,6 +723,15 @@
           "type": "string",
           "default": "en-GB",
           "description": "Defines the default languages in SCO mode."
+        }
+      }
+    },
+    "ScoPromptType": {
+      "description": "This is a definition of the prompt settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "keyboardOverrides": {
+            "$ref": "#/$defs/KeyboardOverridesType"
         }
       }
     },
