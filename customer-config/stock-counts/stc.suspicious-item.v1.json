@@ -1,7 +1,7 @@
 {
-  "$id": "stc.suspicious-item.v1",
+  "$id": "stc.suspicious-stock-count-generator.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "SuspiciousItem",
+  "title": "SuspiciousStockCountGenerator",
   "description": "Configuration for generating stock count for suspicious items.",
   "type": "object",
   "properties": {
@@ -29,7 +29,7 @@
     "slowSalesFactorThreshold": {
       "type": "number",
       "default": 0.1,
-      "description": "Slow sales factor threshold."
+      "description": "Slow sales factor threshold. Example: factor of 0.1 means that items that sell less than 10% of normal sales for the last 3 days are included in stock count for suspicious items."
     },
     "nameOfStockCountGenerated": {
       "type": "string",
