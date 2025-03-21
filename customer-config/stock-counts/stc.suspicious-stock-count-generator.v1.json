@@ -1,0 +1,41 @@
+{
+  "$id": "stc.suspicious-stock-count-generator.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SuspiciousStockCountGenerator",
+  "description": "Configuration for generating stock count for suspicious items.",
+  "type": "object",
+  "properties": {
+    "doGenerateStockCountForSuspiciousItems": {
+      "type": "boolean",
+      "default": false,
+      "description": "Indicates if stock count should be generated for suspicious items."
+    },
+    "intervalInWeeks": {
+      "type": "integer",
+      "default": 2,
+      "description": "Indicates stock count should be generated every x weeks."
+    },
+    "weekdayToBeGenerated": {
+      "type": "string",
+      "default": "Monday",
+      "description": "Indicates the weekday the stock count should be generated.",
+      "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    },
+    "minNumberOfWeeksSinceLastCount": {
+      "type": "integer",
+      "default": 6,
+      "description": "Minimum number of weeks since last count."
+    },
+    "slowSalesFactorThreshold": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Slow sales factor threshold. Example: factor of 0.1 means that items for the last 3 days sold less than 10% of normal sales are included in the stock count for suspicious items."
+    },
+    "nameOfStockCountGenerated": {
+      "type": "string",
+      "default": "Suspicious",
+      "description": "Name of the stock count generated."
+    }
+  },
+  "additionalProperties": false
+}
