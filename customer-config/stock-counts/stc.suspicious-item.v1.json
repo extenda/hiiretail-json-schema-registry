@@ -2,7 +2,7 @@
   "$id": "stc.suspicious-item.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SuspiciousItem",
-  "description": "Max cost value deviation allowed, if exceeded, a warning will be displayed when counting.",
+  "description": "Configuration for generating stock count for suspicious items.",
   "type": "object",
   "properties": {
     "doGenerateStockCountForSuspiciousItems": {
