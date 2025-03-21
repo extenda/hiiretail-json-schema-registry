@@ -37,6 +37,5 @@
       "description": "Name of the stock count generated."
     }
   },
-  "required": ["doGenerateStockCountForSuspiciousItems"],
   "additionalProperties": false
 }
