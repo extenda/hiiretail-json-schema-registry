@@ -29,7 +29,7 @@
     "slowSalesFactorThreshold": {
       "type": "number",
       "default": 0.1,
-      "description": "Slow sales factor threshold. Example: factor of 0.1 means that items that sell less than 10% of normal sales for the last 3 days are included in stock count for suspicious items."
+      "description": "Slow sales factor threshold. Example: factor of 0.1 means that items for the last 3 days sold less than 10% of normal sales are included in the stock count for suspicious items."
     },
     "nameOfStockCountGenerated": {
       "type": "string",
