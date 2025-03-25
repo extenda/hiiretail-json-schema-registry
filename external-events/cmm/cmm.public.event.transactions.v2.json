@@ -155,6 +155,10 @@
             "null"
           ],
           "description": "Reason code to the transaction"
+        },
+        "sequenceNumber": {
+          "description": "A sequence number on type of transaction",
+          "type": "integer"
         }
       }
     }
