@@ -619,20 +619,16 @@
         "enabled",
         "sessionKeepAliveInterval"
       ],
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "enabled": { "const": false }
-            }
-          },
-          "then": {
-            "properties": {
-              "hybrid": { "const": false }
-            }
-          }
+      "if": {
+        "properties": {
+          "enabled": { "const": false }
         }
-      ],
+      },
+      "then": {
+        "properties": {
+          "hybrid": { "const": false }
+        }
+      },
       "properties": {
         "receipt": {
           "description": "Receipt settings.",
