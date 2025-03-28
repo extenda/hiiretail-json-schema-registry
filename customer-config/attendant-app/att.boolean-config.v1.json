@@ -13,6 +13,5 @@
       "required": ["value"],
       "additionalProperties": false
     }
-  },
-  "additionalProperties": false
+  }
 }
