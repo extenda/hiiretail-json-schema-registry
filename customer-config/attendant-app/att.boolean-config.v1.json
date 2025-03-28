@@ -1,0 +1,18 @@
+{
+  "$id": "att.boolean-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Boolean Config Schema",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "boolean",
+      "description": "The boolean value for this configuration."
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description of what this config does."
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}
