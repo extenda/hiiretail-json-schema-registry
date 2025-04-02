@@ -7,20 +7,25 @@
   "properties": {
     "tenantId": {
       "type": "string",
-      "description": "The tenantId of the gap."
+      "description": "Tenant ID of the missing transaction"
     },
     "businessUnitId": {
       "type": "string",
-      "description": "The businessUnitId of the gap."
+      "description": "Business Unit ID of the missing transaction"
     },
-    "transactionId": {
+    "missingTransactionId": {
       "type": "string",
-      "description": "The transactionId of the gap."
-    }
+      "description": "ID of the missing transaction (comes from `previous-transaction-id` header)"
+    },
+    "nextTransactionId": {
+      "type": "string",
+      "description": "ID of transaction following the missing transaction (comes from `transaction-id` header)"
+    },
   },
   "required": [
     "tenantId",
     "businessUnitId",
-    "transactionId"
+    "missingTransactionId",
+    "nextTransactionId"
   ]
 }
