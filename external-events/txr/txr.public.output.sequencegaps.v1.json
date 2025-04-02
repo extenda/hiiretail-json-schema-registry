@@ -20,7 +20,7 @@
     "nextTransactionId": {
       "type": "string",
       "description": "ID of transaction following the missing transaction (comes from `transaction-id` header)"
-    },
+    }
   },
   "required": [
     "tenantId",
