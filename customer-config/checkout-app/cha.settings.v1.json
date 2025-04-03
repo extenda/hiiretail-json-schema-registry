@@ -179,6 +179,7 @@
         "autoUpdate": {
           "description": "Auto-update settings.",
           "type": "object",
+          "nullable": true,
           "$ref": "#/$defs/AutoUpdateType"
         },
         "hotKeys": {
