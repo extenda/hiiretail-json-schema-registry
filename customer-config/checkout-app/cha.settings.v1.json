@@ -652,7 +652,7 @@
         },
         "logoUri": {
           "type": "string",
-          "nullable": true,
+          "nullable": false,
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for logo in SCO mode."
         },
