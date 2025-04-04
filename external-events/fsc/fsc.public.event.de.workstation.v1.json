@@ -4,7 +4,13 @@
   "title": "Hii Retail Fiscal Germany workstation event",
   "description": "Triggered for a new workstation within Hii Retail Fiscal domain",
   "type": "object",
-  "required": ["correlationId", "businessUnitId", "workstationId","tss", "client"],
+  "required": [
+    "correlationId",
+    "businessUnitId",
+    "workstationId",
+    "tss",
+    "client"
+  ],
   "additionalProperties": false,
   "properties": {
     "correlationId": {
@@ -39,14 +45,20 @@
         },
         "type": {
           "type": "string",
-          "enum": ["TSS"]
+          "enum": [
+            "TSS"
+          ]
         },
         "environment": {
           "$ref": "#/$defs/environment"
         },
         "state": {
           "type": "string",
-          "enum": ["UNINITIALIZED", "INITIALIZED", "DISABLED"],
+          "enum": [
+            "UNINITIALIZED",
+            "INITIALIZED",
+            "DISABLED"
+          ],
           "description": "Current state of the TSS"
         },
         "timeCreated": {
@@ -84,18 +96,27 @@
         },
         "type": {
           "type": "string",
-          "enum": ["CLIENT"]
+          "enum": [
+            "CLIENT"
+          ]
         },
         "environment": {
           "$ref": "#/$defs/environment"
         },
         "state": {
           "type": "string",
-          "enum": ["REGISTERED", "DEREGISTERED"],
+          "enum": [
+            "REGISTERED",
+            "DEREGISTERED"
+          ],
           "description": "Current state of the client"
         },
-        "timeCreated": { "$ref": "#/$defs/timestamp" },
-        "timeUpdated": { "$ref": "#/$defs/timestamp" }
+        "timeCreated": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "timeUpdated": {
+          "$ref": "#/$defs/timestamp"
+        }
       }
     }
   },
@@ -111,7 +132,10 @@
     "environment": {
       "type": "string",
       "description": "Environment in which the entity",
-      "enum": ["TEST", "LIVE"]
+      "enum": [
+        "TEST",
+        "LIVE"
+      ]
     },
     "timestamp": {
       "type": "integer",
