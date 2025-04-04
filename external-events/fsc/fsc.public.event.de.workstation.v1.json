@@ -1,0 +1,121 @@
+{
+  "$id": "fsc.public.event.de.workstation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hii Retail Fiscal Germany workstation event",
+  "description": "Triggered for a new workstation within Hii Retail Fiscal domain",
+  "type": "object",
+  "required": ["correlationId", "businessUnitId", "workstationId","tss", "client"],
+  "additionalProperties": false,
+  "properties": {
+    "correlationId": {
+      "description": "Identifier of the event",
+      "$ref": "#/$defs/identifier"
+    },
+    "businessUnitId": {
+      "description": "Identifier of the business unit",
+      "$ref": "#/$defs/identifier"
+    },
+    "workstationId": {
+      "description": "Identifier of the workstation",
+      "$ref": "#/$defs/identifier"
+    },
+    "tss": {
+      "type": "object",
+      "required": [
+        "id",
+        "serialNumber",
+        "type",
+        "environment",
+        "state",
+        "timeCreated",
+        "timeInitialized"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "serialNumber": {
+          "$ref": "#/$defs/serialNumber"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["TSS"]
+        },
+        "environment": {
+          "$ref": "#/$defs/environment"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["UNINITIALIZED", "INITIALIZED", "DISABLED"],
+          "description": "Current state of the TSS"
+        },
+        "timeCreated": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "timeInitialized": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "timeDisabled": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "client": {
+      "type": "object",
+      "required": [
+        "id",
+        "tssId",
+        "serialNumber",
+        "type",
+        "environment",
+        "state",
+        "timeCreated"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "tssId": {
+          "description": "Identifier of the associated TSS",
+          "$ref": "#/$defs/identifier"
+        },
+        "serialNumber": {
+          "$ref": "#/$defs/serialNumber"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["CLIENT"]
+        },
+        "environment": {
+          "$ref": "#/$defs/environment"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["REGISTERED", "DEREGISTERED"],
+          "description": "Current state of the client"
+        },
+        "timeCreated": { "$ref": "#/$defs/timestamp" },
+        "timeUpdated": { "$ref": "#/$defs/timestamp" }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "description": "Unique identifier"
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "Serial number of the entity"
+    },
+    "environment": {
+      "type": "string",
+      "description": "Environment in which the entity",
+      "enum": ["TEST", "LIVE"]
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp"
+    }
+  }
+}
