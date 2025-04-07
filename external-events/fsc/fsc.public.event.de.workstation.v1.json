@@ -5,7 +5,6 @@
   "description": "Triggered for a new workstation within Hii Retail Fiscal domain",
   "type": "object",
   "required": [
-    "correlationId",
     "businessUnitId",
     "workstationId",
     "tss",
@@ -13,10 +12,6 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "correlationId": {
-      "description": "Identifier of the event",
-      "$ref": "#/$defs/identifier"
-    },
     "businessUnitId": {
       "description": "Identifier of the business unit",
       "$ref": "#/$defs/identifier"
