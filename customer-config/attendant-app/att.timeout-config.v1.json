@@ -1,0 +1,23 @@
+{
+  "$id": "att.timeout-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Timeout Config Schema",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9_-]+$": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
