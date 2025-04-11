@@ -700,6 +700,11 @@
           "type": "object",
           "$ref": "#/$defs/ScoLockType"
         },
+        "sslp": {
+          "description": "SSLP settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoSSLPType"
+        },
         "attendant": {
           "description": "Attendant settings in SCO mode.",
           "type": "object",
@@ -765,6 +770,20 @@
           "type": "boolean",
           "default": false,
           "description": "Allows to set PLU shortcut items in the main view of SCO mode."
+        }
+      }
+    },
+    "ScoSSLPType": {
+      "description": "This is a definition of the SSLP settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the SSLP in SCO mode."
         }
       }
     },
