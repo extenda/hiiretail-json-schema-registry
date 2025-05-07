@@ -51,7 +51,35 @@
             "type": "array",
             "description": "List of items in the store transfer",
             "items": {
-                "$ref": "StoreTransferItem.json"
+                "$ref": "#/$defs/StoreTransferItem"
+            }
+        }
+    },
+    "$defs": {
+        "StoreTransferItem": {
+            "type": "object",
+            "required": [
+                "lineId",
+                "itemId",
+                "quantity"
+            ],
+            "properties": {
+                "lineId": {
+                    "type": "string",
+                    "description": "Identifier of the line info"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Identifier of the item being requested in this line"
+                },
+                "quantity": {
+                    "type": "number",
+                    "description": "Quantity of the item being requested in this line"
+                },
+                "comment": {
+                    "type": ["string", "null"],
+                    "description": "Additional remarks or notes related to the store transfer line"
+                }
             }
         }
     }
