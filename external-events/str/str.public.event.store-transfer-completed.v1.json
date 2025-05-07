@@ -55,7 +55,7 @@
             "type": "array",
             "description": "List of items in the store transfer",
             "items": {
-                "$ref": "StoreTransferLine.schema.json"
+                "$ref": "StoreTransferLine.json"
             }
         }
     }
