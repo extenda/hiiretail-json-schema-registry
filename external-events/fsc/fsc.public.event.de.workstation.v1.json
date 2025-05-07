@@ -7,6 +7,7 @@
   "required": [
     "businessUnitId",
     "workstationId",
+    "serialNumberCommissioningTime",
     "tss",
     "client"
   ],
@@ -19,6 +20,10 @@
     "workstationId": {
       "description": "Identifier of the workstation",
       "$ref": "#/$defs/identifier"
+    },
+    "serialNumberCommissioningTime": {
+      "description": "Epoch seconds of when serial number was first created",
+      "$ref": "#/$defs/timestamp"
     },
     "tss": {
       "type": "object",
