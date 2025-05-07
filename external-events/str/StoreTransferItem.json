@@ -1,5 +1,5 @@
 {
-    "id": "hiiretail.contracts.logistics.stc.StoreTransferItem",
+    "id": "hiiretail.contracts.logistics.str.StoreTransferItem",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "StoreTransferItem",
     "description": "Represents a line for an item being transferred",
