@@ -1,0 +1,58 @@
+{
+    "id": "hiiretail.contracts.logistics.str.public.event.store-transfer-initiated.v1",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "title": "StoreTransferInitiated",
+    "description": "Contains details on the stock transfer",
+    "required": [
+        "tenantId",
+        "fromBusinessUnitId",
+        "toBusinessUnitId",
+        "storeTransferId",
+        "requestedDateTime",
+        "items"
+    ],
+    "properties": {
+        "tenantId": {
+            "type": "string",
+            "description": "Id of tenant"
+        },
+        "fromBusinessUnitId": {
+            "type": "string",
+            "description": "The ID of the shipper store (the store sending the items)"
+        },
+        "toBusinessUnitId": {
+            "type": "string",
+            "description": "The ID of the receiver store (the store receiving the items)"
+        },
+        "storeTransferId": {
+            "type": "string",
+            "description": "Id of the store transfer"
+        },
+        "requestedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the store transfer was requested"
+        },
+        "comment": {
+            "type": ["string", "null"],
+            "description": "Additional remarks or notes related to the store transfer"
+        },
+        "createdBy": {
+            "type": ["string", "null"],
+            "description": "ID of the user who initiated or processed the store transfer"
+        },
+        "requestedBy": {
+            "type": ["string", "null"],
+            "description": "ID of the user who requested the store transfer"
+        },
+        "items": {
+            "type": "array",
+            "description": "List of items in the store transfer",
+            "items": {
+                "$ref": "StoreTransferItem.schema.json"
+            }
+        }
+    }
+}
