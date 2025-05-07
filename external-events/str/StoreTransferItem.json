@@ -1,0 +1,35 @@
+{
+    "id": "hiiretail.contracts.logistics.stc.StoreTransferItem",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "StoreTransferItem",
+    "description": "Represents a line for an item being transferred",
+    "unevaluatedProperties": false,
+    "allOf": [
+        {
+            "type": "object",
+            "required": [
+                "lineId",
+                "itemId",
+                "quantity"
+            ],
+            "properties": {
+                "lineId": {
+                    "type": "string",
+                    "description": "Identifier of the line info"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Identifier of the item being requested in this line"
+                },
+                "quantity": {
+                    "type": "number",
+                    "description": "Quantity of the item being requested in this line"
+                },
+                "comment": {
+                    "type": ["string", "null"],
+                    "description": "Additional remarks or notes related to the store transfer line"
+                }
+            }
+        }
+    ]
+}
