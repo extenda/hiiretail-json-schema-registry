@@ -55,7 +55,83 @@
             "type": "array",
             "description": "List of items in the store transfer",
             "items": {
-                "$ref": "StoreTransferLine.json"
+                "$ref": "#/$defs/StoreTransferLine"
+            }
+        }
+    },
+    "$defs": {
+        "StoreTransferLine": {
+            "type": "object",
+            "required": [
+                "lineId",
+                "itemId",
+                "quantityRequested",
+                "quantityApproved",
+                "lineInfos"
+            ],
+            "properties": {
+                "lineId": {
+                    "type": "string",
+                    "description": "Identifier of the line"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Identifier of the item being transferred in this line"
+                },
+                "quantityRequested": {
+                    "type": "number",
+                    "description": "Requested quantity of the item being transferred in this line"
+                },
+                "quantityApproved": {
+                    "type": ["number", "null"],
+                    "description": "Approved quantity of the item being transferred in this line"
+                },
+                "comment": {
+                    "type": ["string", "null"],
+                    "description": "Additional remarks or notes related to the store transfer line"
+                },
+                "lineInfos": {
+                    "type": "array",
+                    "description": "A list of detailed transfer information for the line item, such as quantity and tracking details",
+                    "items": {
+                        "$ref": "#/$defs/StoreTransferLineInfo"
+                    }
+                }
+            }
+        },
+        "StoreTransferLineInfo": {
+            "type": "object",
+            "required": [
+                "lineInfoId",
+                "quantity"
+            ],
+            "properties": {
+                "lineInfoId": {
+                    "type": "string",
+                    "description": "Identifier of the line info"
+                },
+                "quantity": {
+                    "type": "number",
+                    "description": "Quantity of the item being transferred in this line info"
+                },
+                "batchNumber": {
+                    "type": ["string", "null"],
+                    "description": "Batch number of the item being transferred in this line info"
+                },
+                "serialNumber": {
+                    "type": ["string", "null"],
+                    "description": "Serial number of the item being transferred in this line info"
+                },
+                "bestBeforeDate": {
+                    "type": ["null", "string"],
+                    "format": "date",
+                    "description": "Date to indicate the best before date"
+                },
+                "expirationDate": {
+                    "type": ["null", "string"],
+                    "format": "date",
+                    "description": "Date to indicate the expiration date"
+                }
             }
         }
     }
