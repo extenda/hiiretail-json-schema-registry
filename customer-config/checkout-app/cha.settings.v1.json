@@ -487,6 +487,11 @@
         },
         "layout": {
           "$ref": "#/$defs/ReceiptLayoutType"
+        },
+        "promotionBarsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables visual linking of related promotion items with color bars in the active receipt view."
         }
       }
     },
