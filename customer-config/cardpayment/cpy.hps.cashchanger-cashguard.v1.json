@@ -14,5 +14,6 @@
       "maxLength": 40,
       "example": "COM1"
     }
-  }
+  },
+  "additionalProperties": false
 }
