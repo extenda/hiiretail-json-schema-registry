@@ -181,7 +181,13 @@
           "type": "object",
           "$ref": "#/$defs/AutoUpdateType"
         },
+        "hotKeysV2": {
+          "description": "Settings for POS keybindings and fast commands.",
+          "type": "object",
+          "$ref": "#/$defs/HotKeysV2Type"
+        },
         "hotKeys": {
+          "deprecated": true,
           "description": "Enabled hot keys for the app.",
           "type": "array",
           "uniqueItems": true,
@@ -191,6 +197,131 @@
               "registerWithQuantity",
               "comboSale"
             ]
+          }
+        }
+      }
+    },
+    "KeyBindingType": {
+      "description": "This is a definition of the POS keybindings.",
+      "type": "object",
+      "properties": {
+        "altKey": {
+          "keyCode": {
+            "type": "string",
+            "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+          },
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Alt key should be pressed"
+        },
+        "ctrlKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Control key should be pressed"
+        },
+        "shiftKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Shift key should be pressed"
+        },
+        "metaKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Meta/Command key should be pressed"
+        }
+      }
+    },
+    "HotKeysV2Type": {
+      "description": "This is a definition of the POS keybindings and fast commands.",
+      "type": "object",
+      "properties": {
+        "keyBindings": {
+          "type": "object",
+          "description": "Settings for POS keybindings.",
+          "properties": {
+            "primaryAction": {
+              "type": "object",
+              "description": "Used to set the primary action keybinding. It will trigger the submission of the prompts shown in the POS or other action that considered as primary on the current application screen (i.e. sumbit login form)",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "secondaryAction": {
+              "type": "object",
+              "description": "Used to set the secondary action keybinding. It will trigger the cancel of the prompts shown in the POS or other action that considered as secondary on the current application screen (i.e. open pin setup on login screen)",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "lock": {
+              "type": "object",
+              "description": "Used to set the lock keybinding. It will trigger the opening of the lock confirmation dialog.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "secondaryPaymentMethod": {
+              "type": "object",
+              "description": "Used to set the secondary payment method keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "primaryPaymentMethod": {
+              "type": "object",
+              "description": "Used to set the primary payment method keybinding. In the POS application primary payment method is assigned to the highlited button in the payment menu.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openPLU": {
+              "type": "object",
+              "description": "Used to set the open PLU keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openTransactionsSearch": {
+              "type": "object",
+              "description": "Used to set the open transactions search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openWebBrowser": {
+              "type": "object",
+              "description": "Used to set the open embedded web browser keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openVariantSearch": {
+              "type": "object",
+              "description": "Used to set the open variant search keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openRescans": {
+              "type": "object",
+              "description": "Used to set the open rescan keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openItemSearch": {
+              "type": "object",
+              "description": "Used to set the open item search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "addItem": {
+              "type": "object",
+              "description": "Used to set the add item keybinding. It will trigger the addition of the item with selected barcode to the receipt",
+              "patternProperties": {
+                "^[0-9]+$": {
+                  "type": "object",
+                  "description": "Key binding for the barcode number.",
+                  "$ref": "#/$defs/KeyBindingType"
+                }
+              }
+            }
+          }
+        },
+        "fastCommands": {
+          "type": "object",
+          "description": "Enables fast commands for the POS.",
+          "properties": {
+            "registerWithQuantity": {
+              "type": "object",
+              "description": "Settings for register with quantity fast command.",
+              "properties": {
+                "enabled": {
+                  "default": false,
+                  "type": "boolean",
+                  "description": "Enables register with quantity for the POS."
+                }
+              }
+            }
           }
         }
       }
