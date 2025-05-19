@@ -1,5 +1,5 @@
 {
-  "$id": "cpy.hps.cashchanger-cashguard.v1",
+  "$id": "cpy.hps-cashchanger-cashguard.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CashChanger Cashguard configuration",
   "description": "CashChanger Cashguard configuration.",
