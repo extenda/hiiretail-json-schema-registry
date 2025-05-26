@@ -181,10 +181,10 @@
           "type": "object",
           "$ref": "#/$defs/AutoUpdateType"
         },
-        "hotKeysV2": {
+        "keyboardShortcuts": {
           "description": "Settings for POS keybindings and fast commands.",
           "type": "object",
-          "$ref": "#/$defs/HotKeysV2Type"
+          "$ref": "#/$defs/KeyboardShortcutsType"
         },
         "hotKeys": {
           "deprecated": true,
@@ -231,7 +231,7 @@
         }
       }
     },
-    "HotKeysV2Type": {
+    "KeyboardShortcutsType": {
       "description": "This is a definition of the POS keybindings and fast commands.",
       "type": "object",
       "properties": {
@@ -737,7 +737,10 @@
       "type": "object",
       "additionalProperties": {
         "type": "string",
-        "enum": ["ALPHA_NUMERIC", "NUMERIC"],
+        "enum": [
+          "ALPHA_NUMERIC",
+          "NUMERIC"
+        ],
         "description": "Specifies the keyboard type override for the corresponding prompt code."
       },
       "default": {},
@@ -752,12 +755,16 @@
       ],
       "if": {
         "properties": {
-          "enabled": { "const": false }
+          "enabled": {
+            "const": false
+          }
         }
       },
       "then": {
         "properties": {
-          "hybrid": { "const": false }
+          "hybrid": {
+            "const": false
+          }
         }
       },
       "properties": {
