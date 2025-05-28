@@ -14,7 +14,7 @@
       "description": "Refund rules.",
       "type": "object",
       "required": [
-        "id",,
+        "id",
         "refundPeriodLength"
       ],
       "properties": {
