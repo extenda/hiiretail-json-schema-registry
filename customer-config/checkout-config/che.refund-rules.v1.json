@@ -28,13 +28,13 @@
           "description": "The default number of days allowed for a refund, calculated from the original transaction date.",
           "type": "integer"
         },
-        "overrideStartDate": {
-          "description": "The date on which a custom refund period begins, overriding the default Refund Period Length. This override is only in effect if the transaction date falls within the override start and end date.",
+        "extendedPeriodStartDate": {
+          "description": "The date on which a extended custom refund period begins, overriding the default Refund Period Length. This override is only in effect if the transaction date falls within the extended period start and end date.",
           "type": "string",
           "format": "date"
         },
-        "overrideEndDate": {
-          "description": "The date on which the custom refund period ends. If the calculated default refund date (based on 'Refund Period Length') is later than this date, the later default date will be used. This date defines the end of the time period where the 'Override Start Date' is in effect..",
+        "extendedPeriodEndDate": {
+          "description": "The date on which the extended custom refund period ends. If the calculated default refund date (based on 'Refund Period Length') is later than this date, the later default date will be used. This date defines the end of the time period where the 'Extended Period Start Date' is in effect.",
           "type": "string",
           "format": "date"
         },
