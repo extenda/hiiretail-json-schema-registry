@@ -24,7 +24,7 @@
           "minLength": 1,
           "maxLength": 32
         },
-        "refundPeriodLength": {
+        "refundPeriodDays": {
           "description": "The default number of days allowed for a refund, calculated from the original transaction date.",
           "type": "integer"
         },
