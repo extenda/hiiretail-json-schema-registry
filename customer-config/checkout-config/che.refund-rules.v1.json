@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.refund-rules.preview.json",
+  "title": "Refund rules API",
+  "description": "The API allows you to define one set of refund rules for POS, e.g. for how long you are allowed to refund an item you bought",
+  "type": "array",
+  "minItems": 0,
+  "maxItems": 1,
+  "items": {
+    "$ref": "#/$defs/RefundRules"
+  },
+  "$defs": {
+    "RefundRules": {
+      "description": "Refund rules.",
+      "type": "object",
+      "required": [
+        "id",
+        "refundPeriodLength"
+      ],
+      "properties": {
+        "id": {
+          "description": "Refund rules id",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "refundPeriodDays": {
+          "description": "The default number of days allowed for a refund, calculated from the original transaction date.",
+          "type": "integer"
+        },
+        "extendedPeriodStartDate": {
+          "description": "The date on which a extended custom refund period begins, overriding the default Refund Period Length. This override is only in effect if the transaction date falls within the extended period start and end date.",
+          "type": "string",
+          "format": "date"
+        },
+        "extendedPeriodEndDate": {
+          "description": "The date on which the extended custom refund period ends. If the calculated default refund date (based on 'Refund Period Length') is later than this date, the later default date will be used. This date defines the end of the time period where the 'Extended Period Start Date' is in effect.",
+          "type": "string",
+          "format": "date"
+        },
+        "disabled": {
+          "description": "Disable to remove from the clients",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
