@@ -15,7 +15,7 @@
       "type": "object",
       "required": [
         "id",
-        "refundPeriodLength"
+        "refundPeriodDays"
       ],
       "properties": {
         "id": {
