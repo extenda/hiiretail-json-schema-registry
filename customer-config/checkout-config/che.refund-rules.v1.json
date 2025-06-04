@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.refund-rules.preview.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.refund-rules.v1.json",
   "title": "Refund rules API",
   "description": "The API allows you to define one set of refund rules for POS, e.g. for how long you are allowed to refund an item you bought",
   "type": "array",
