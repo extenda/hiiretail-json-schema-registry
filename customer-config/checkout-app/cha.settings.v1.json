@@ -1079,29 +1079,6 @@
               "format": "time",
               "example": "17:00:00",
               "description": "Closing time in HH:MM:SS format (24-hour)"
-            },
-            "break": {
-              "type": "object",
-              "description": "Break settings for the corresponding period of week.",
-              "additionalProperties": false,
-              "required": [
-                "start",
-                "end"
-              ],
-              "properties": {
-                "start": {
-                  "type": "string",
-                  "format": "time",
-                  "example": "09:00:00",
-                  "description": "Opening time in HH:MM:SS format (24-hour)"
-                },
-                "end": {
-                  "type": "string",
-                  "format": "time",
-                  "example": "17:00:00",
-                  "description": "Closing time in HH:MM:SS format (24-hour)"
-                }
-              }
             }
           },
           "required": [
