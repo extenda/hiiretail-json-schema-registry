@@ -709,6 +709,15 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the variant search."
+        },
+        "whitelistedFilters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
+          "default": []
         }
       }
     },
