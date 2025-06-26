@@ -101,12 +101,12 @@
         "fullscreen",
         "kiosk"
       ],
-      "schedule": {
-        "description": "This is a definition of the POS schedule settings",
-        "type": "object",
-        "$ref": "#/$defs/ScheduleType"
-      },
       "properties": {
+        "schedule": {
+          "description": "This is a definition of the POS schedule settings",
+          "type": "object",
+          "$ref": "#/$defs/ScheduleType"
+        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
