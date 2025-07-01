@@ -4,6 +4,10 @@
   "title": "Settings",
   "description": "Checkout App settings.",
   "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pos"
+  ],
   "properties": {
     "mpos": {
       "description": "MPOS settings.",
@@ -98,6 +102,11 @@
         "kiosk"
       ],
       "properties": {
+        "schedule": {
+          "description": "This is a definition of the POS schedule settings",
+          "type": "object",
+          "$ref": "#/$defs/ScheduleType"
+        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
@@ -607,6 +616,7 @@
     "ReceiptType": {
       "description": "This is a definition of the receipt settings.",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "clearTimeout"
       ],
@@ -724,6 +734,7 @@
     "PromptType": {
       "description": "This is a definition of the prompt settings.",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "integerMonetary": {
           "type": "boolean",
@@ -931,6 +942,7 @@
       "required": [
         "enabled"
       ],
+      "additionalProperties": false,
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -1038,6 +1050,36 @@
         "welcomeMessage": {
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
+        }
+      }
+    },
+    "ScheduleType": {
+      "description": "This is a definition of the schedule settings",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKING_DAYS|WEEKEND)$": {
+          "type": "object",
+          "description": "Schedule settings for the corresponding period of week.",
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "time",
+              "example": "09:00:00",
+              "description": "Opening time in HH:MM:SS format (24-hour)"
+            },
+            "end": {
+              "type": "string",
+              "format": "time",
+              "example": "17:00:00",
+              "description": "Closing time in HH:MM:SS format (24-hour)"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ]
         }
       }
     },
