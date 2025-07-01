@@ -40,6 +40,10 @@
         "id": {
           "$ref": "#/$defs/identifier"
         },
+        "bsiId": {
+          "description": "Certification id from the German Federal Office for Information Security (BSI)",
+          "$ref": "#/$defs/identifier"
+        },
         "serialNumber": {
           "$ref": "#/$defs/serialNumber"
         },
