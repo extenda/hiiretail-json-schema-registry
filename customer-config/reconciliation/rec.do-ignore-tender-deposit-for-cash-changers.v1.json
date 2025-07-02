@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-ignore-tender-deposit-for-cash-changers.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoIgnoreTenderDepositForCashChangers",
+  "description": "Indicates whether tender deposit for cash changers should be ignored during reconciliation",
+  "type": "object",
+  "required": ["doIgnoreTenderDepositForCashChangers"],
+  "properties": {
+    "doIgnoreTenderDepositForCashChangers": {
+      "type": "boolean",
+      "description": "Indicates whether tender deposit for cash changers should be ignored during reconciliation"
+    }
+  }
+}
