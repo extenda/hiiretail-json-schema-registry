@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-ignore-tender-loan-for-cash-changers.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DoIgnoreTenderLoanForCashChangers",
+  "description": "Indicates whether tender loan for cash changers should be ignored during reconciliation",
+  "type": "object",
+  "required": ["doIgnoreTenderLoanForCashChangers"],
+  "properties": {
+    "doIgnoreTenderLoanForCashChangers": {
+      "type": "boolean",
+      "description": "Indicates whether tender loan for cash changers should be ignored during reconciliation"
+    }
+  }
+}
