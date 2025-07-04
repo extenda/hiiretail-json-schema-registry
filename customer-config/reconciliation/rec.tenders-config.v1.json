@@ -71,7 +71,11 @@
             "defaultInitialBalance": {
               "type": ["null", "number"],
               "description": "The value that will be used by default for the initial balance"
-            }
+            },
+            "isNegativeAmountAllowed": {
+                "type": ["null", "boolean"],
+                "description": "If this is set to true reconciliation will allow negative amount for processing"
+              }
           }
         }
       }
