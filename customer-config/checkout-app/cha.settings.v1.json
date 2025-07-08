@@ -102,11 +102,6 @@
         "kiosk"
       ],
       "properties": {
-        "schedule": {
-          "description": "This is a definition of the POS schedule settings",
-          "type": "object",
-          "$ref": "#/$defs/ScheduleType"
-        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
@@ -793,6 +788,11 @@
         }
       },
       "properties": {
+        "schedule": {
+          "description": "This is a definition of the SCO schedule settings.",
+          "type": "object",
+          "$ref": "#/$defs/ScheduleType"
+        },
         "receipt": {
           "description": "Receipt settings.",
           "type": "object",
@@ -1057,6 +1057,13 @@
       "description": "This is a definition of the schedule settings",
       "type": "object",
       "additionalProperties": false,
+      "properties": {
+        "logoutTimeout": {
+          "type": "number",
+          "description": "The number of minutes after which the SCO will lock even if it has a pending transaction",
+          "default": 30
+        }
+      },
       "patternProperties": {
         "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKING_DAYS|WEEKEND)$": {
           "type": "object",
