@@ -1060,12 +1060,12 @@
       "properties": {
         "logoutTimeout": {
           "type": "number",
-          "description": "The number of minutes after which the SCO will lock even if it has a pending transaction",
+          "description": "The number of minutes after which the SCO will lock even if it has an ongoing transaction",
           "default": 30
         }
       },
       "patternProperties": {
-        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKING_DAYS|WEEKEND)$": {
+        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKDAYS|WEEKEND)$": {
           "type": "object",
           "description": "Schedule settings for the corresponding period of week.",
           "additionalProperties": false,
