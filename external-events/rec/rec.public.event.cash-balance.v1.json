@@ -1,0 +1,61 @@
+{
+  "id": "rec.public.event.cash-balance.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CashBalances",
+  "description": "Expected cash balances at end-of-day for all cash drawers and cash changers in each store for each currency under a tenant",
+  "type": "object",
+  "required": ["tenantId", "businessDate", "cashBalances"],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Unique identifier of the tenant"
+    },
+    "businessDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The date (not time) for the cash balances"
+    },
+    "cashBalances": {
+      "type": "array",
+      "description": "Expected cash balances for cash drawers and cash changers for each business unit (store)",
+      "items": {
+        "$ref": "#/$defs/StoreCashBalance"
+      }
+    }
+  },
+  "$defs": {
+    "StoreCashBalance": {
+      "type": "object",
+      "required": ["businessUnitId", "amounts"],
+      "properties": {
+        "businessUnitId": {
+          "type": "string",
+          "description": "Identifier of the business unit (store)"
+        },
+        "amounts": {
+          "type": "array",
+          "description": "List of cash amounts by currency",
+          "items": {
+            "$ref": "#/$defs/CurrencyAmount"
+          }
+        }
+      }
+    },
+    "CurrencyAmount": {
+      "type": "object",
+      "required": ["currencyId", "amount"],
+      "properties": {
+        "currencyId": {
+          "type": "string",
+          "description": "Three-letter ISO currency code",
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "amount": {
+          "type": "number",
+          "description": "Expected cash balances at end-of-day for all cash drawers and cash changers in each store for each currency under a tenant"
+        }
+      }
+    }
+  }
+}
