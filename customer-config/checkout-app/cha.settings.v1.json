@@ -4,6 +4,9 @@
   "title": "Settings",
   "description": "Checkout App settings.",
   "type": "object",
+  "required": [
+    "pos"
+  ],
   "properties": {
     "mpos": {
       "description": "MPOS settings.",
@@ -607,6 +610,7 @@
     "ReceiptType": {
       "description": "This is a definition of the receipt settings.",
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "clearTimeout"
       ],
@@ -724,6 +728,7 @@
     "PromptType": {
       "description": "This is a definition of the prompt settings.",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "integerMonetary": {
           "type": "boolean",
@@ -782,6 +787,11 @@
         }
       },
       "properties": {
+        "schedule": {
+          "description": "This is a definition of the SCO schedule settings.",
+          "type": "object",
+          "$ref": "#/$defs/ScheduleType"
+        },
         "receipt": {
           "description": "Receipt settings.",
           "type": "object",
@@ -931,6 +941,7 @@
       "required": [
         "enabled"
       ],
+      "additionalProperties": false,
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -1038,6 +1049,43 @@
         "welcomeMessage": {
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
+        }
+      }
+    },
+    "ScheduleType": {
+      "description": "This is a definition of the schedule settings",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "logoutTimeout": {
+          "type": "number",
+          "description": "The number of minutes after which the SCO will lock even if it has an ongoing transaction",
+          "default": 30
+        }
+      },
+      "patternProperties": {
+        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKDAYS|WEEKEND)$": {
+          "type": "object",
+          "description": "Schedule settings for the corresponding period of week.",
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "time",
+              "example": "09:00:00",
+              "description": "Opening time in HH:MM:SS format (24-hour)"
+            },
+            "end": {
+              "type": "string",
+              "format": "time",
+              "example": "17:00:00",
+              "description": "Closing time in HH:MM:SS format (24-hour)"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ]
         }
       }
     },
