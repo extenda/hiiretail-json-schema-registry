@@ -511,12 +511,12 @@
           "$ref": "#/$defs/PrinterType"
         },
         "cashchanger": {
-          "$ref": "#/$defs/CashGuardType"
+          "$ref": "#/$defs/CashChangerType"
         }
       }
     },
-    "CashGuardType": {
-      "description": "This is a definition of the CashGuard CashGuard settings.",
+    "CashChangerType": {
+      "description": "This is a definition of the CashChanger settings.",
       "type": "object",
       "required": [
         "enabled"
@@ -524,7 +524,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables the CashGuard"
+          "description": "Enables the CashChanger."
         }
       }
     },
