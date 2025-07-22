@@ -516,7 +516,7 @@
       }
     },
     "CashGuardType": {
-      "description": "This is a definition of the CashGuard settings.",
+      "description": "This is a definition of the CashGuard CashGuard settings.",
       "type": "object",
       "required": [
         "enabled"
@@ -524,15 +524,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables the Cash Changer"
-        },
-        "autoConnect": {
-          "type": "boolean",
-          "description": "Enables the auto connect."
-        },
-        "logicalName": {
-          "type": "string",
-          "description": "CashChanger's logical name."
+          "description": "Enables the CashGuard"
         }
       }
     },
