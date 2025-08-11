@@ -1065,6 +1065,11 @@
         "welcomeMessage": {
           "type": "string",
           "description": "Welcome message to display on the customer facing display."
+        },
+        "loyalty": {
+          "description": "Loyalty settings for CFD.",
+          "type": "object",
+          "$ref": "#/$defs/CfdLoyaltyType"
         }
       }
     },
@@ -1126,6 +1131,16 @@
       ],
       "default": 1,
       "description": "The zoom factor for the application."
+    },
+    "CfdLoyaltyType": {
+      "description": "This is a definition of the loyalty settings for CFD.",
+      "type": "object",
+      "properties": {
+        "showLoyaltyCard": {
+          "type": "boolean",
+          "description": "Defines whether to show the loyalty card on the CFD."
+        }
+      }
     }
   }
 }
