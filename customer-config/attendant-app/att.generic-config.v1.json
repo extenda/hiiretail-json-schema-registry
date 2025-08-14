@@ -1,0 +1,24 @@
+{
+  "$id": "att.generic-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Generic Config Schema",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9_-]+$": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "oneOf": [
+            { "type": "boolean" },
+            { "type": "number" },
+            { "type": "string" }
+          ]
+        },
+        "description": { "type": "string" }
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
