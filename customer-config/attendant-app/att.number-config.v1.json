@@ -1,0 +1,18 @@
+{
+  "$id": "att.number-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Number Config Schema",
+  "type": "object",
+  "patternProperties": {
+    "receiptHistoryCount": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "number", "minimum": 1, "maximum": 999 },
+        "description": { "type": "string" }
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
