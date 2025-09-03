@@ -1023,6 +1023,29 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
+        },
+        "qrCode": {
+          "description": "QR code settings",
+          "type": "object",
+          "$ref": "#/$defs/ScoLoyaltyQRCodeType"
+        }
+      }
+    },
+    "ScoLoyaltyQRCodeType": {
+      "description": "This is a definition for loyalty QR code settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the SCO QR info feature."
+        },
+        "data": {
+          "type": "string",
+          "description": "Loyalty info data(URL) to be encoded in the QR code."
         }
       }
     },
