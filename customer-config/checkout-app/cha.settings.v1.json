@@ -201,6 +201,11 @@
               "comboSale"
             ]
           }
+        },
+        "eva": {
+          "description": "EVA integration settings",
+          "type": "object",
+          "$ref": "#/$defs/EvaIntegrationType"
         }
       }
     },
@@ -1162,6 +1167,19 @@
         "showLoyaltyCard": {
           "type": "boolean",
           "description": "Defines whether to show the loyalty card on the CFD."
+        }
+      }
+    },
+    "EvaIntegrationType": {
+      "description": "This is a definition of the EVA integration settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "description": "Enable or disable the age verification feature.",
+          "type": "boolean"
         }
       }
     }
