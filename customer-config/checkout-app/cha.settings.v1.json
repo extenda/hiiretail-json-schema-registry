@@ -204,7 +204,8 @@
         },
         "eva": {
           "description": "EVA integration settings",
-          "$ref": "eva-integration.json"
+          "type": "object",
+          "$ref": "#/$defs/EvaIntegrationType"
         }
       }
     },
@@ -1166,6 +1167,23 @@
         "showLoyaltyCard": {
           "type": "boolean",
           "description": "Defines whether to show the loyalty card on the CFD."
+        }
+      }
+    },
+    "EvaIntegrationType": {
+      "description": "This is a definition of the EVA integration settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "description": "Enable or disable the age verification feature.",
+          "type": "boolean"
+        },
+        "promptCode": {
+          "description": "*experimental* Prompt code to enable age verification by scanning a QR code inside a CE prompt *experimental*",
+          "type": "string"
         }
       }
     }
