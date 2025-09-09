@@ -1,0 +1,24 @@
+{
+  "$id": "cha.eva.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EVA Integration",
+  "description": "Checkout App EVA Integration settings",
+  "type": "object",
+  "properties": {
+    "ageVerification": {
+      "description": "Age verification settings.",
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "description": "Enable or disable the age verification feature.",
+          "type": "boolean"
+        },
+        "promptCode": {
+          "description": "*experimental* Prompt code to enable age verification by scanning a QR code inside a CE prompt *experimental*",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
