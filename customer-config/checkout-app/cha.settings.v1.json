@@ -206,6 +206,9 @@
           "description": "EVA integration settings",
           "type": "object",
           "$ref": "#/$defs/EvaIntegrationType"
+        },
+        "tx": {
+          "$ref": "#/$defs/TxType"
         }
       }
     },
@@ -1182,6 +1185,54 @@
           "type": "boolean"
         }
       }
+    },
+    "TxType": {
+      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+      "type": "object",
+      "properties": {
+        "internal": {
+          "type": "object",
+          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "description": "Regular expression for internal transaction numbers.",
+              "minLength": 1,
+              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+            }
+          },
+          "required": [
+            "pattern"
+          ],
+          "additionalProperties": false
+        },
+        "external": {
+          "type": "object",
+          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+              "default": false
+            },
+            "pattern": {
+              "type": "string",
+              "description": "Regular expression for external transaction numbers. Write it as a JSON string, backslashes must be escaped (e.g. '\\d{6}''), without leading/trailing slashes (/../).",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "enabled",
+            "pattern"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "internal",
+        "external"
+      ],
+      "additionalProperties": false
     }
   }
 }
