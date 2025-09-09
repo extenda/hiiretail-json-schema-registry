@@ -204,7 +204,6 @@
         },
         "eva": {
           "description": "EVA integration settings",
-          "type": "object",
           "$ref": "eva-integration.json"
         }
       }
