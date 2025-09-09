@@ -201,6 +201,11 @@
               "comboSale"
             ]
           }
+        },
+        "eva": {
+          "description": "EVA integration settings",
+          "type": "object",
+          "$ref": "cha.eva.v1.json"
         }
       }
     },
