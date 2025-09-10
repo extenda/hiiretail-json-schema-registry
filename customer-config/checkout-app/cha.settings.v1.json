@@ -1173,13 +1173,19 @@
     "EvaIntegrationType": {
       "description": "This is a definition of the EVA integration settings.",
       "type": "object",
-      "required": [
-        "enabled"
-      ],
       "properties": {
-        "enabled": {
-          "description": "Enable or disable the age verification feature.",
-          "type": "boolean"
+        "ageVerification": {
+          "description": "Settings for age verification feature.",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "description": "Enable or disable the age verification feature.",
+              "type": "boolean"
+            }
+          }
         }
       }
     }
