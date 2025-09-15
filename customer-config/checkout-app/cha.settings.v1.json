@@ -89,6 +89,9 @@
               "$ref": "#/$defs/KeyboardOverridesType"
             }
           }
+        },
+        "tx": {
+          "$ref": "#/$defs/TxType"
         }
       }
     },
