@@ -5,26 +5,41 @@
   "description": "Configurations for Automapping between Cradles to Entrance Units",
   "type": "object",
   "properties": {
-    "enableCradleAutomapping": {
-      "title": "Enable Automatic Cradle Mapping",
-      "type": "boolean",
-      "description": "Enable or disable Automapping between Cradles and Entrance Units."
-    },
-    "cradleDataRowRegex": {
-      "title": "Cradle Data Row Pattern (Regex)",
-      "type": "string",
-      "description": "Regular expression to extract the row number from CradleData. Example: '(?<=;).*?(?=;)' extracts '1' from '100;1;2'."
-    },
-    "cradleDataColRegex": {
-      "title": "Cradle Data Column Pattern (Regex)",
-      "type": "string",
-      "description": "Regular expression to extract the column number from CradleData. Example: '[^;]+$' extracts '2' from '100;1;2'."
-    },
-    "cradleDataEuFriendlyNameRegex": {
-      "title": "Cradle Data EU-Friendly Name Pattern (Regex)",
-      "type": "string",
-      "description": "Regular expression to extract the EU friendly name from CradleData. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
+    "deviceApiCradlesAutomapping": {
+      "description": "Configurations for Automapping between Cradles to Entrance Units",
+      "type": "object",
+      "$ref": "#/$defs/deviceApiCradlesAutomappingType"
     }
   },
-  "required": ["enableCradleAutomapping"]
+  "$defs": {
+    "deviceApiCradlesAutomappingType": {
+      "description": "This is a definition of cradles automapping settings.",
+      "type": "object",
+      "required": [
+        "enableCradleAutomapping"
+      ],
+      "properties": {
+        "enableCradleAutomapping": {
+          "title": "Enable Automatic Cradle Mapping",
+          "type": "boolean",
+          "description": "Enable or disable Automapping between Cradles and Entrance Units."
+        },
+        "cradleDataRowRegex": {
+          "title": "Cradle Data Row Pattern (Regex)",
+          "type": "string",
+          "description": "Regular expression to extract the row number from CradleData. Example: '(?<=;).*?(?=;)' extracts '1' from '100;1;2'."
+        },
+        "cradleDataColRegex": {
+          "title": "Cradle Data Column Pattern (Regex)",
+          "type": "string",
+          "description": "Regular expression to extract the column number from CradleData. Example: '[^;]+$' extracts '2' from '100;1;2'."
+        },
+        "cradleDataEuFriendlyNameRegex": {
+          "title": "Cradle Data EU-Friendly Name Pattern (Regex)",
+          "type": "string",
+          "description": "Regular expression to extract the EU friendly name from CradleData. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
+        }
+      }
+    }
+  }
 }
