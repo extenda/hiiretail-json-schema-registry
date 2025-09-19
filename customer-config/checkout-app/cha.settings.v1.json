@@ -90,7 +90,7 @@
             }
           }
         },
-        "tx": {
+        "transactions": {
           "$ref": "#/$defs/TxType"
         }
       }
@@ -210,7 +210,7 @@
           "type": "object",
           "$ref": "#/$defs/EvaIntegrationType"
         },
-        "tx": {
+        "transactions": {
           "$ref": "#/$defs/TxType"
         }
       }
