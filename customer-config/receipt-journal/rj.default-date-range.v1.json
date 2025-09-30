@@ -1,0 +1,15 @@
+{
+  "$id": "rj.default-date-range.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DefaultDateRange",
+  "description": "Default selected date range to filter receipts for the receipt journal.",
+  "type": "object",
+  "properties": {
+    "defaultDateRange": {
+      "type": ["null", "integer"],
+      "description": "Default selected date range to filter receipts for the receipt journal.",
+      "minimum": 1,
+      "default": 14
+    }
+  }
+}
