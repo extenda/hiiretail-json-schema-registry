@@ -1237,10 +1237,6 @@
           "additionalProperties": false
         }
       },
-      "required": [
-        "internal",
-        "external"
-      ],
       "additionalProperties": false
     }
   }
