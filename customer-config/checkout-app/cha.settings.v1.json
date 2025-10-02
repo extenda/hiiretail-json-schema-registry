@@ -92,6 +92,11 @@
         },
         "transactions": {
           "$ref": "#/$defs/TxType"
+        },
+        "autoUpdate": {
+          "description": "Auto-update settings.",
+          "type": "object",
+          "$ref": "#/$defs/MposAutoUpdateType"
         }
       }
     },
@@ -452,6 +457,24 @@
               "description": "The end time of the maintenance window. Specify in the UTC time zone."
             }
           }
+        }
+      }
+    },
+    "MposAutoUpdateType": {
+      "description": "This is a definition of the app auto update.",
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "preview",
+            "stable"
+          ],
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable."
         }
       }
     },
