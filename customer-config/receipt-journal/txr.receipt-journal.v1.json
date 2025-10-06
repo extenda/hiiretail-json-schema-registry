@@ -1,0 +1,16 @@
+{
+  "$id": "txr.receipt-journal.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Receipt Journal",
+  "description": "A schema for receipt journal kind for Customer Controlled Config service.",
+  "type": "object",
+  "properties": {
+    "defaultDateRange": {
+      "type": "integer",
+      "description": "Default date range for the receipt journal.",
+      "default": 14,
+      "minimum": 1,
+      "maximum": 30
+    }
+  }
+}
