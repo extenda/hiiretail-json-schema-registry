@@ -3,6 +3,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "IntegrationTypeMapping",
   "oneOf": [
+    {"type": "null"},
     {
       "type": "object",
       "properties": {
