@@ -1,0 +1,15 @@
+{
+  "$id": "txr.in-store.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "In-Store",
+  "description": "A schema for in-store kind for Customer Controlled Config service.",
+  "type": "object",
+  "properties": {
+    "inactivityTimeout": {
+      "type": "integer",
+      "description": "Timeout duration in minutes for the inactivity timeout.",
+      "default": null,
+      "minimum": 5
+    }
+  }
+}
