@@ -20,10 +20,6 @@
         }
       },
       "type": "object"
-    },
-    "onDemand": {
-      "additionalProperties": false,
-      "type": "object"
     }
   },
   "type": "object"
