@@ -1,14 +1,16 @@
 {
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/transaction-repository/txr.digital-receipt-consumers.v1.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/transaction-repository/txr.digital-receipt-targets.v1.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
-    "externalEvents": {
+    "default": {
       "additionalProperties": false,
+      "description": "Default implementation, processed internally",
       "type": "object"
     },
     "kivra": {
       "additionalProperties": false,
+      "description": "Sent to kivra.se",
       "properties": {
         "environment": {
           "default": "production",
