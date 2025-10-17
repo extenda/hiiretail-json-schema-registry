@@ -1,0 +1,9 @@
+{
+  "$id": "iam.inactivity-logout.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Inactivity-logout",
+  "description": "A schema for ui inactivity logout kind for Customer Controlled Config service.",
+  "type": "number",
+  "default": 2880,
+  "minimum": 5
+}
