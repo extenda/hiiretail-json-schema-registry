@@ -1,0 +1,53 @@
+{
+	"$id": "cpy.hiiconnect-worldline-tapi.v1",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Worldline TAPI card payment configuration",
+	"description": "Worldline TAPI card payment configuration.",
+	"type": "object",
+	"required": [
+		"environment",
+		"apiKey",
+		"umid",
+		"utid"
+	],
+	"properties": {
+		"environment": {
+			"description": "Environment for the requests. Use 'INTEGRATION' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions"
+			"type": "string",
+			"enum": [
+				"INTEGRATION",
+				"MOCK",
+				"PRODUCTION"
+			]
+		},
+		"apiKey": {
+			"description": "JWT used to authenticate requests with the third party server"
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 512,
+			"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbnZpcm9ubWVudCI6Im1vY2sifQ.KWOTandmRroYu96HkDsaWSsxsnsSaN_UULnLf2yecok"
+		},
+		"umid": {
+			"description": "Unique merchant identifier",
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 50,
+			"example": "SMP-65446955"
+		},
+		"utid": {
+			"description": "Unique terminal identifier",
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 50,
+			"example": "247PHU831851"
+		},
+		"receiptLineWidth": {
+			"description": "Line width for the merchant and customer receipts",
+			"type": "integer",
+			"minLength": 1,
+			"maxLength": 2,
+			"default": 42,
+			"example": "42"
+		}
+	}
+}
