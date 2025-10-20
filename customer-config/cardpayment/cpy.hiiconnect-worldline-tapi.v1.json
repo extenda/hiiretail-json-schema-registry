@@ -12,7 +12,7 @@
 	],
 	"properties": {
 		"environment": {
-			"description": "Environment for the requests. Use 'INTEGRATION' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions"
+			"description": "Environment for the requests. Use 'INTEGRATION' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions",
 			"type": "string",
 			"enum": [
 				"INTEGRATION",
@@ -21,7 +21,7 @@
 			]
 		},
 		"apiKey": {
-			"description": "JWT used to authenticate requests with the third party server"
+			"description": "JWT used to authenticate requests with the third party server",
 			"type": "string",
 			"minLength": 1,
 			"maxLength": 512,
