@@ -3,7 +3,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Inactivity-logout",
   "description": "A schema for ui inactivity logout kind for Customer Controlled Config service.",
-  "type": "number",
-  "default": 2880,
-  "minimum": 5
+  "type": "object",
+  "properties": {
+    "minutes": {
+      "type": "integer",
+      "description": "Number of minutes of inactivity before logout.",
+      "default": 2880,
+      "minimum": 10
+    }
+  }
 }
