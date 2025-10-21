@@ -1,5 +1,5 @@
 {
-  "$id": "eva.integration-config.v1",
+  "$id": "loy.integration-transaction.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "IntegrationTypeMapping",
   "oneOf": [
