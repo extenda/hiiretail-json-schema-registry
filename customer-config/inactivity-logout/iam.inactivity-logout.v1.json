@@ -4,8 +4,9 @@
   "title": "Inactivity-logout",
   "description": "A schema for ui inactivity logout kind for Customer Controlled Config service.",
   "type": "object",
+  "required": ["timeoutMinutes"],
   "properties": {
-    "minutes": {
+    "timeoutMinutes": {
       "type": "integer",
       "description": "Number of minutes of inactivity before logout.",
       "default": 2880,
