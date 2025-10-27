@@ -1,5 +1,5 @@
 {
-  "$id": "loy.integration-member.v1",
+  "$id": "loy.external-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "IntegrationTypeMapping",
   "oneOf": [
