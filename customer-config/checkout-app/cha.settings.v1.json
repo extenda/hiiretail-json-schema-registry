@@ -260,11 +260,13 @@
           "properties": {
             "primaryAction": {
               "type": "object",
+              "deprecated": true,
               "description": "Used to set the primary action keybinding. It will trigger the submission of the prompts shown in the POS or other action that considered as primary on the current application screen (i.e. sumbit login form)",
               "$ref": "#/$defs/KeyBindingType"
             },
             "secondaryAction": {
               "type": "object",
+              "deprecated": true,
               "description": "Used to set the secondary action keybinding. It will trigger the cancel of the prompts shown in the POS or other action that considered as secondary on the current application screen (i.e. open pin setup on login screen)",
               "$ref": "#/$defs/KeyBindingType"
             },
