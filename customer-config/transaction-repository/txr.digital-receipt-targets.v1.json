@@ -11,16 +11,6 @@
     "kivra": {
       "additionalProperties": false,
       "description": "Sent to kivra.se",
-      "properties": {
-        "environment": {
-          "default": "production",
-          "enum": [
-            "production",
-            "sandbox"
-          ],
-          "type": "string"
-        }
-      },
       "type": "object"
     }
   },

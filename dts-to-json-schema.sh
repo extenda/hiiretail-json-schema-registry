@@ -19,7 +19,7 @@ fi
 OUTPUT="$(dirname "$INPUT")/$(basename "$INPUT" .d.ts).json"
 ID="https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/$OUTPUT"
 
-npx ts-json-schema-generator \
+npx -y ts-json-schema-generator \
   --no-top-ref \
   --path "$INPUT" \
   --id "$ID" \
