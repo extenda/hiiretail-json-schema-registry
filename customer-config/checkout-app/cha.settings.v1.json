@@ -386,7 +386,7 @@
       "description": "This is a definition of the auth settings.",
       "type": "object",
       "properties": {
-        "cardId": {
+        "operatorIdCard": {
           "type": "object",
           "description": "Allows login by scanning a card Id. Set a configurable pattern to distinguish between standard product barcode.",
           "properties": {
@@ -394,8 +394,7 @@
               "type": "string",
               "description": "The pattern for the employee card Id. Must have one capturing group for operatorId."
             }
-          },
-          "required": ["pattern"]
+          }
         }
       }
     },
