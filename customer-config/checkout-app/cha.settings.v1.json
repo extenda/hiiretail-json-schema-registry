@@ -109,6 +109,11 @@
         "kiosk"
       ],
       "properties": {
+        "auth": {
+          "description": "Auth settings",
+          "type": "object",
+          "$ref": "#/$defs/AuthType"
+        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
@@ -364,6 +369,22 @@
         "host": {
           "type": "string",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
+        }
+      }
+    },
+    "AuthType": {
+      "description": "This is a definition of the auth settings.",
+      "type": "object",
+      "properties": {
+        "operatorIdCard": {
+          "type": "object",
+          "description": "Allows login by scanning a card Id. Set a configurable pattern to distinguish between standard product barcode.",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "description": "The pattern for the employee card Id. Must have one capturing group for operatorId."
+            }
+          }
         }
       }
     },
