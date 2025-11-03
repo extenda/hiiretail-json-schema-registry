@@ -1,0 +1,216 @@
+{
+  "$id": "loy.external-api.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IntegrationTypeMapping",
+  "oneOf": [
+    {
+      "title": "HttpIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "http" }
+      },
+      "required": ["url", "timeout", "authenticationType"],
+      "additionalProperties": false
+    },
+    {
+      "title": "HttpBasicAuthIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "basic" },
+        "authenticationConfig": {
+          "type": "object",
+          "properties": {
+            "username": { "type": "string" },
+            "password": { "type": "string" }
+          },
+          "required": ["username", "password"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "url",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "OAuthIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "oauth2" },
+        "authenticationConfig": {
+          "oneOf": [
+            {
+              "title": "OAuthClientCredentialConfig",
+              "type": "object",
+              "properties": {
+                "tokenUrl": { "type": "string", "format": "uri" },
+                "clientId": { "type": "string" },
+                "clientSecret": { "type": "string" },
+                "grantType": { "const": "client_credentials" },
+                "type": { "const": "client_credentials" },
+                "scope": { "type": "string" },
+                "authTimeout": { "type": "number", "minimum": 0 }
+              },
+              "required": [
+                "tokenUrl",
+                "clientId",
+                "clientSecret",
+                "grantType",
+                "type"
+              ]
+            },
+            {
+              "title": "OAuthImplicitConfig",
+              "type": "object",
+              "properties": {
+                "tokenUrl": { "type": "string", "format": "uri" },
+                "clientId": { "type": "string" },
+                "accessToken": { "type": "string" },
+                "tokenType": { "type": "string" },
+                "grantType": { "const": "implicit" },
+                "type": { "const": "implicit" },
+                "scope": { "type": "string" },
+                "authTimeout": { "type": "number", "minimum": 0 }
+              },
+              "required": [
+                "tokenUrl",
+                "clientId",
+                "accessToken",
+                "tokenType",
+                "grantType",
+                "type"
+              ]
+            },
+            {
+              "title": "OAuthPasswordConfig",
+              "type": "object",
+              "properties": {
+                "tokenUrl": { "type": "string", "format": "uri" },
+                "clientId": { "type": "string" },
+                "userName": { "type": "string" },
+                "password": { "type": "string" },
+                "grantType": { "const": "password" },
+                "type": { "const": "password" },
+                "scope": { "type": "string" },
+                "authTimeout": { "type": "number", "minimum": 0 }
+              },
+              "required": [
+                "tokenUrl",
+                "clientId",
+                "userName",
+                "password",
+                "grantType",
+                "type"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "url",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "ClientCertificateIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "certificate" },
+        "authenticationConfig": {
+          "type": "object",
+          "properties": {
+            "certificate": { "type": ["string", "null"] },
+            "privateKey": { "type": ["string"] },
+            "passphrase": { "type": ["string", "null"] }
+          },
+          "required": ["privateKey"]
+        }
+      },
+      "required": [
+        "url",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "HttpBasicAuthClientCertificateIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "basic:certificate" },
+        "authenticationConfig": {
+          "type": "object",
+          "properties": {
+            "username": { "type": "string" },
+            "password": { "type": "string" },
+            "certificate": { "type": ["string", "null"] },
+            "privateKey": { "type": "string" },
+            "passphrase": { "type": ["string", "null"] }
+          },
+          "required": ["username", "password", "privateKey"]
+        }
+      },
+      "required": [
+        "url",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "OAuthClientCertificateIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "authenticationType": { "const": "oauth2:certificate" },
+        "authenticationConfig": {
+          "allOf": [
+            {
+              "oneOf": [
+                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/0" },
+                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/1" },
+                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/2" }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "certificate": { "type": ["string", "null"] },
+                "privateKey": { "type": "string" },
+                "passphrase": { "type": ["string", "null"] }
+              },
+              "required": ["privateKey"]
+            }
+          ]
+        }
+      },
+      "required": [
+        "url",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig"
+      ],
+      "additionalProperties": false
+    },
+    { "type": "null" }
+  ]
+}
