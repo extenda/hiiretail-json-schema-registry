@@ -380,11 +380,16 @@
           "type": "object",
           "description": "Allows login by scanning a card Id. Set a configurable pattern to distinguish between standard product barcode.",
           "properties": {
-            "pattern": {
+            "prefix": {
               "type": "string",
-              "description": "The pattern for the employee card Id. Must have one capturing group for operatorId."
+              "description": "Unique starting pattern for the employee card Id. Can be a regex pattern or a fixed string."
+            },
+            "suffix": {
+              "type": "string",
+              "description": "Unique ending pattern for the employee card Id. Can be a regex pattern or a fixed string."
             }
-          }
+          },
+          "required": ["prefix", "suffix"]
         }
       }
     },
