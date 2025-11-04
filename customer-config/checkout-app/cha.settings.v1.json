@@ -388,7 +388,8 @@
               "type": "string",
               "description": "Unique ending pattern for the employee card Id. Can be a regex pattern or a fixed string."
             }
-          }
+          },
+          "required": ["prefix", "suffix"]
         }
       }
     },
