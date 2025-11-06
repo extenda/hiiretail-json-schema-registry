@@ -1,7 +1,7 @@
 {
   "$id": "loy.external-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "IntegrationTypeMapping",
+  "title": "Http Integration Configuration",
   "oneOf": [
     {
       "title": "HttpIntegrationConfig",
@@ -56,17 +56,11 @@
                 "clientId": { "type": "string" },
                 "clientSecret": { "type": "string" },
                 "grantType": { "const": "client_credentials" },
-                "type": { "const": "client_credentials" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
-              "required": [
-                "tokenUrl",
-                "clientId",
-                "clientSecret",
-                "grantType",
-                "type"
-              ]
+              "required": ["tokenUrl", "clientId", "clientSecret", "grantType"],
+              "additionalProperties": false
             },
             {
               "title": "OAuthImplicitConfig",
@@ -77,7 +71,6 @@
                 "accessToken": { "type": "string" },
                 "tokenType": { "type": "string" },
                 "grantType": { "const": "implicit" },
-                "type": { "const": "implicit" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
@@ -86,9 +79,9 @@
                 "clientId",
                 "accessToken",
                 "tokenType",
-                "grantType",
-                "type"
-              ]
+                "grantType"
+              ],
+              "additionalProperties": false
             },
             {
               "title": "OAuthPasswordConfig",
@@ -99,7 +92,6 @@
                 "userName": { "type": "string" },
                 "password": { "type": "string" },
                 "grantType": { "const": "password" },
-                "type": { "const": "password" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
@@ -108,9 +100,9 @@
                 "clientId",
                 "userName",
                 "password",
-                "grantType",
-                "type"
-              ]
+                "grantType"
+              ],
+              "additionalProperties": false
             }
           ]
         }
@@ -137,7 +129,8 @@
             "privateKey": { "type": ["string"] },
             "passphrase": { "type": ["string", "null"] }
           },
-          "required": ["privateKey"]
+          "required": ["privateKey"],
+          "additionalProperties": false
         }
       },
       "required": [
