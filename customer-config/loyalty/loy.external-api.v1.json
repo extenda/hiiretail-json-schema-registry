@@ -7,18 +7,18 @@
       "title": "HttpIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "http" }
       },
-      "required": ["url", "timeout", "authenticationType"],
+      "required": ["baseUrl", "timeout", "authenticationType"],
       "additionalProperties": false
     },
     {
       "title": "HttpBasicAuthIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "basic" },
         "authenticationConfig": {
@@ -32,7 +32,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -43,7 +43,7 @@
       "title": "OAuthIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "oauth2" },
         "authenticationConfig": {
@@ -108,7 +108,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -119,7 +119,7 @@
       "title": "ClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "certificate" },
         "authenticationConfig": {
@@ -134,7 +134,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -145,7 +145,7 @@
       "title": "HttpBasicAuthClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "basic:certificate" },
         "authenticationConfig": {
@@ -161,7 +161,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -172,7 +172,7 @@
       "title": "OAuthClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "oauth2:certificate" },
         "authenticationConfig": {
@@ -197,7 +197,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
