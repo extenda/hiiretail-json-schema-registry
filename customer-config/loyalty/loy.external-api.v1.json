@@ -1,24 +1,24 @@
 {
   "$id": "loy.external-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "IntegrationTypeMapping",
+  "title": "Http Integration Configuration",
   "oneOf": [
     {
       "title": "HttpIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "http" }
       },
-      "required": ["url", "timeout", "authenticationType"],
+      "required": ["baseUrl", "timeout", "authenticationType"],
       "additionalProperties": false
     },
     {
       "title": "HttpBasicAuthIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "basic" },
         "authenticationConfig": {
@@ -32,7 +32,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -43,7 +43,7 @@
       "title": "OAuthIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "oauth2" },
         "authenticationConfig": {
@@ -56,17 +56,11 @@
                 "clientId": { "type": "string" },
                 "clientSecret": { "type": "string" },
                 "grantType": { "const": "client_credentials" },
-                "type": { "const": "client_credentials" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
-              "required": [
-                "tokenUrl",
-                "clientId",
-                "clientSecret",
-                "grantType",
-                "type"
-              ]
+              "required": ["tokenUrl", "clientId", "clientSecret", "grantType"],
+              "additionalProperties": false
             },
             {
               "title": "OAuthImplicitConfig",
@@ -77,7 +71,6 @@
                 "accessToken": { "type": "string" },
                 "tokenType": { "type": "string" },
                 "grantType": { "const": "implicit" },
-                "type": { "const": "implicit" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
@@ -86,9 +79,9 @@
                 "clientId",
                 "accessToken",
                 "tokenType",
-                "grantType",
-                "type"
-              ]
+                "grantType"
+              ],
+              "additionalProperties": false
             },
             {
               "title": "OAuthPasswordConfig",
@@ -99,7 +92,6 @@
                 "userName": { "type": "string" },
                 "password": { "type": "string" },
                 "grantType": { "const": "password" },
-                "type": { "const": "password" },
                 "scope": { "type": "string" },
                 "authTimeout": { "type": "number", "minimum": 0 }
               },
@@ -108,15 +100,15 @@
                 "clientId",
                 "userName",
                 "password",
-                "grantType",
-                "type"
-              ]
+                "grantType"
+              ],
+              "additionalProperties": false
             }
           ]
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -127,7 +119,7 @@
       "title": "ClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "certificate" },
         "authenticationConfig": {
@@ -137,11 +129,12 @@
             "privateKey": { "type": ["string"] },
             "passphrase": { "type": ["string", "null"] }
           },
-          "required": ["privateKey"]
+          "required": ["privateKey"],
+          "additionalProperties": false
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -152,7 +145,7 @@
       "title": "HttpBasicAuthClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "basic:certificate" },
         "authenticationConfig": {
@@ -168,7 +161,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
@@ -179,7 +172,7 @@
       "title": "OAuthClientCertificateIntegrationConfig",
       "type": "object",
       "properties": {
-        "url": { "type": "string", "format": "uri" },
+        "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
         "authenticationType": { "const": "oauth2:certificate" },
         "authenticationConfig": {
@@ -204,7 +197,7 @@
         }
       },
       "required": [
-        "url",
+        "baseUrl",
         "timeout",
         "authenticationType",
         "authenticationConfig"
