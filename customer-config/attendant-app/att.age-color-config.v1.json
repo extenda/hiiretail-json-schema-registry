@@ -1,4 +1,5 @@
 {
+  "$id": "att.age-color-config.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Age Range Color Configuration",
   "type": "object",
