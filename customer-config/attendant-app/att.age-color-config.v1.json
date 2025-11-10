@@ -11,7 +11,10 @@
         "range": {
           "type": "array",
           "description": "Defines the age range [min, max]. Only the minimum must be >= 0.",
-          "items": [{ "type": "integer", "minimum": 0 }, { "type": ["integer", "null"] }],
+          "items": [
+            { "type": "number", "minimum": 0 },
+            { "type": "number", "maximum": 999 }
+          ],
           "minItems": 2,
           "maxItems": 2
         },
@@ -29,7 +32,10 @@
         "range": {
           "type": "array",
           "description": "Defines the age range [min, max]. Only the minimum must be >= 0.",
-          "items": [{ "type": "integer", "minimum": 0 }, { "type": ["integer", "null"] }],
+          "items": [
+            { "type": "number", "minimum": 0 },
+            { "type": "number", "maximum": 999 }
+          ],
           "minItems": 2,
           "maxItems": 2
         },
@@ -47,7 +53,10 @@
         "range": {
           "type": "array",
           "description": "Defines the age range [min, max]. Only the minimum must be >= 0.",
-          "items": [{ "type": "integer", "minimum": 0 }, { "type": ["integer", "null"] }],
+          "items": [
+            { "type": "number", "minimum": 0 },
+            { "type": "number", "maximum": 999 }
+          ],
           "minItems": 2,
           "maxItems": 2
         },
