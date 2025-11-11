@@ -11,6 +11,14 @@
     "kivra": {
       "additionalProperties": false,
       "description": "Sent to kivra.se",
+      "properties": {
+        "chainId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "chainId"
+      ],
       "type": "object"
     }
   },
