@@ -12,7 +12,8 @@
         "minItems": 2,
         "maxItems": 2,
         "items": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 0
         }
       },
       "color": {
