@@ -5,7 +5,7 @@
   "properties": {
     "default": {
       "additionalProperties": false,
-      "description": "Default implementation, processed internally",
+      "description": "Default implementation (processed internally)",
       "type": "object"
     },
     "kivra": {
