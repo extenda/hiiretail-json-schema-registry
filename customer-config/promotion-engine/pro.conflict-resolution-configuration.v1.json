@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.conflict-resolution-configuration.v1.json",
+  "title": "Promotion Engine conflict resolution configuration",
+  "description": "Promotion Engine conflict resolution configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "Type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "Relation": {
+      "type": "object",
+      "required": [ "left", "right", "strategy" ],
+      "properties": {
+        "left": { "$ref": "#/$defs/Type" },
+        "right": { "$ref": "#/$defs/Type" },
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "LEFT_BEFORE_RIGHT",
+            "LEFT_DISQUALIFIES_RIGHT"
+          ]
+        }
+      }
+    }
+  },
+  "required": [ "types", "relations" ],
+  "properties": {
+    "types": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/Type" }
+    },
+    "relations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/Relation" }
+    }
+  }
+}
