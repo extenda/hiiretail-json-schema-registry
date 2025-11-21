@@ -36,11 +36,12 @@
       }
     }
   },
-  "required": [ "types", "relations" ],
+  "required": [ "types", "relations", "validFrom" ],
   "properties": {
     "types": {
       "description": "List of all promotion types that can appear in conflict relations.",
       "type": "array",
+      "uniqueItems": true,
       "minItems": 1,
       "maxItems": 100,
       "items": { "$ref": "#/$defs/Type" }
@@ -48,9 +49,15 @@
     "relations": {
       "description": "Pairwise relations describing how conflicts between promotion types should be resolved.",
       "type": "array",
+      "uniqueItems": true,
       "minItems": 1,
       "maxItems": 100,
       "items": { "$ref": "#/$defs/Relation" }
+    },
+    "validFrom": {
+      "description": "The date and time from which this configuration is valid.",
+      "type": "string",
+      "format": "date-time"
     }
   }
 }
