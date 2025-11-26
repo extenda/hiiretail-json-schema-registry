@@ -12,10 +12,10 @@
 	],
 	"properties": {
 		"environment": {
-			"description": "Environment for the requests. Use 'INTEGRATION' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions",
+			"description": "Environment for the requests. Use 'SANDBOX' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions",
 			"type": "string",
 			"enum": [
-				"INTEGRATION",
+				"SANDBOX",
 				"MOCK",
 				"PRODUCTION"
 			]
