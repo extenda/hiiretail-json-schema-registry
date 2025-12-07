@@ -154,10 +154,10 @@
           "type": "object",
           "$ref": "#/$defs/ExternalLinksType"
         },
-        "variantSearch": {
-          "description": "Variant search settings.",
+        "itemSearch": {
+          "description": "Item search settings.",
           "type": "object",
-          "$ref": "#/$defs/VariantSearchType"
+          "$ref": "#/$defs/ItemSearchType"
         },
         "wallpaperUri": {
           "type": "string",
@@ -295,7 +295,7 @@
             },
             "openVariantSearch": {
               "type": "object",
-              "description": "Used to set the open variant search keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "description": "Used to set the open item search keybinding. Note: it requires the corresponding feature flag to be enabled.",
               "$ref": "#/$defs/KeyBindingType"
             },
             "openRescans": {
@@ -768,8 +768,8 @@
         }
       }
     },
-    "VariantSearchType": {
-      "description": "This is a definition of the variant search settings.",
+    "ItemSearchType": {
+      "description": "This is a definition of the item search (formerly variant search) settings.",
       "type": "object",
       "required": [
         "enabled"
@@ -778,7 +778,7 @@
         "enabled": {
           "type": "boolean",
           "default": false,
-          "description": "Enables the variant search."
+          "description": "Enables the item search."
         },
         "whitelistedFilters": {
           "type": "array",
@@ -786,7 +786,7 @@
             "type": "string"
           },
           "uniqueItems": true,
-          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
+          "description": "Whitelisted filters for the item search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
           "default": []
         }
       }
