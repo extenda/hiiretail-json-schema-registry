@@ -780,6 +780,11 @@
           "default": false,
           "description": "Enables the variant search."
         },
+        "openFromQuickSearch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables a footer button in Quick Search list that redirects to Item Search."
+        },
         "whitelistedFilters": {
           "type": "array",
           "items": {
