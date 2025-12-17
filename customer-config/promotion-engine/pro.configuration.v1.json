@@ -40,7 +40,7 @@
       }
     }
   },
-  "required": [ "conflictResolution" ],
+  "required": [],
   "properties": {
     "conflictResolution": {
       "description": "Conflict resolution configuration for the Promotion Engine.",
