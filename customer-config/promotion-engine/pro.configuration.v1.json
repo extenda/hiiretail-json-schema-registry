@@ -15,8 +15,12 @@
     "Relation": {
       "description": "Defines how conflicts between two promotion types are handled.",
       "type": "object",
-      "required": [ "left", "right", "strategy" ],
+      "required": [ "id", "left", "right", "strategy" ],
       "properties": {
+        "id": {
+          "description": "The identifier of the relation",
+          "type": "string"
+        },
         "left": {
           "description": "The left-hand promotion type in the relation.",
           "$ref": "#/$defs/Type"
