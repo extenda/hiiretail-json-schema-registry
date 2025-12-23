@@ -97,6 +97,9 @@
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/MposAutoUpdateType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -222,6 +225,9 @@
         },
         "transactions": {
           "$ref": "#/$defs/TxType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -1277,6 +1283,11 @@
         }
       },
       "additionalProperties": false
+    },
+    "TrainingModeType": {
+      "type": "boolean",
+      "default": true,
+      "description": "Control the availability of training mode"
     }
   }
 }
