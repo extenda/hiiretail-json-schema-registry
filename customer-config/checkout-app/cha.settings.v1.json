@@ -1019,6 +1019,28 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the SSLP in SCO mode."
+        },
+        "rescan": {
+          "type": "object",
+          "$ref": "#/$defs/ScoSSLPRescanType",
+          "description": "Settings for the rescan functionality in attendable SCO mode."
+        }
+      }
+    },
+    "ScoSSLPRescanType": {
+      "description": "This is a definition of the rescan settings in SCO mode.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "indicateScanStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "Toggles the indication of the item scan status. E.g. quantity mismatch, etc."
+        },
+        "clearBasketOnSwitch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Resets scanning basket when partail rescan switches to full rescan mode manually or automatically."
         }
       }
     },
