@@ -1,22 +1,25 @@
 {
   "$id": "cmm.safe-audits-mandatory-properties.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "SafeAuditsMandatoryProperties",
-  "description": "Schema defining mandatory property attributes for safe audits",
-  "type": "object",
-  "required": ["id", "name", "isMandatory"],
-  "properties": {
-    "id": {
-      "type": "string",
-      "description": "The unique identifier for the property"
-    },
-    "name": {
-      "type": "string",
-      "description": "The display name of the property"
-    },
-    "isMandatory": {
-      "type": "boolean",
-      "description": "Indicates if the property is required for the audit"
+  "title": "SafeAuditsMandatoryPropertiesList",
+  "description": "An array of mandatory property definitions for safe audits",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "isMandatory"],
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "The unique identifier for the property"
+      },
+      "name": {
+        "type": "string",
+        "description": "The display name of the property"
+      },
+      "isMandatory": {
+        "type": "boolean",
+        "description": "Indicates if the property is required for the audit"
+      }
     }
   }
 }
