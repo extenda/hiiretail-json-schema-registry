@@ -19,6 +19,7 @@
               "PROVIDER_ID",
               "INTERNAL_TENDER_ID",
               "ROUNDING",
+              "PAYMENT_METHOD_NAME",
               "DEFAULT"
             ]
           },
