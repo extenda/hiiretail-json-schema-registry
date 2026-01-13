@@ -978,7 +978,7 @@
           "$ref": "#/$defs/KeyboardOverridesType"
         },
         "whitelistedPrompts": {
-          "$ref": "#/$defs/WhitelistedSCOPromptsType"
+          "$ref": "#/$defs/SCOWhitelistedPromptsType"
         }
       }
     },
@@ -1299,7 +1299,7 @@
       },
       "additionalProperties": false
     },
-    "WhitelistedSCOPromptsType": {
+    "SCOWhitelistedPromptsType": {
       "type": "array",
       "items": {
         "type": "object",
