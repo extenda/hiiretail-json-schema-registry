@@ -976,6 +976,9 @@
       "properties": {
         "keyboardOverrides": {
           "$ref": "#/$defs/KeyboardOverridesType"
+        },
+        "whitelistedPrompts": {
+          "$ref": "#/$defs/WhitelistedSCOPromptsType"
         }
       }
     },
@@ -1295,6 +1298,26 @@
         }
       },
       "additionalProperties": false
+    },
+    "WhitelistedSCOPromptsType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "whitelisted"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The prompt code to whitelist, will act as an identifier."
+          },
+          "whitelisted": {
+            "type": "boolean",
+            "description": "Indicates if the prompt is whitelisted or not."
+          }
+        }
+      }
     }
   }
 }
