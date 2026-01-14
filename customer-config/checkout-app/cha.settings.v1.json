@@ -114,6 +114,11 @@
           "type": "object",
           "$ref": "#/$defs/AuthType"
         },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "type": "object",
+          "$ref": "#/$defs/CustomerOrderType"
+        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
@@ -390,6 +395,17 @@
             }
           },
           "required": ["prefix"]
+        }
+      }
+    },
+    "CustomerOrderType": {
+      "description": "This is a definition of the customer order settings.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the customer order functionality in the POS."
         }
       }
     },
