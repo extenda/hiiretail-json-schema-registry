@@ -402,6 +402,7 @@
       "description": "This is a definition of the customer order settings.",
       "type": "object",
       "required": [],
+      "additionalProperties": false,
       "properties": {
         "enabled": {
           "type": "boolean",
