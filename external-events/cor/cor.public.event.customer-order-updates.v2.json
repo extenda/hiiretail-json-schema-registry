@@ -1,0 +1,327 @@
+{
+  "id": "cor.public.event.customer-order-updates.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomerOrderV2PublishEvent",
+  "description": "Customer Order V2 publish event",
+  "type": "object",
+  "required": ["customerOrder"],
+  "additionalProperties": false,
+  "properties": {
+    "customerOrder": {
+      "$ref": "#/$defs/CustomerOrder"
+    }
+  },
+  "$defs": {
+    "ExternalId": {
+      "type": "object",
+      "required": ["providerName", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "providerName": {
+          "type": "string",
+          "description": "Provider setting the ID"
+        },
+        "id": {
+          "type": "string",
+          "description": "External Id"
+        }
+      }
+    },
+
+    "OrderStatus": {
+      "type": "object",
+      "required": ["status", "changedDateTime"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
+          "description": "Order status"
+        },
+        "changedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when status changed"
+        }
+      }
+    },
+
+    "Loyalty": {
+      "type": "object",
+      "required": ["loyaltyCustomerId"],
+      "additionalProperties": false,
+      "properties": {
+        "loyaltyCustomerId": { "type": "string" },
+        "loyaltyProgramId": { "type": "string" },
+        "loyaltyCardNumber": { "type": "string" },
+        "bonusEligible": { "type": "boolean" }
+      }
+    },
+
+    "Quantity": {
+      "type": "object",
+      "required": ["value"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number" },
+        "unitOfMeasure": {
+          "type": "string",
+          "enum": [
+            "EA","CMK","CMQ","YDQ","FTQ","INQ","CMT","MTQ","FOT","GRM",
+            "INH","KGM","LBR","LTR","MMT","MTR","MMK","OZI","OZA",
+            "FTK","INK","MTK","YDK","YRD"
+          ]
+        }
+      }
+    },
+
+    "UnitDiscount": {
+      "type": "object",
+      "required": ["rewardType", "discountId", "discountAmount", "discountText"],
+      "additionalProperties": false,
+      "properties": {
+        "rewardType": {
+          "type": "string",
+          "enum": [
+            "GLOBAL_ABSOLUTE","NET_PRICE","PRICE_REDUCTION","COMBO_REDUCTION",
+            "COMBO","GLOBAL_PERCENTAGE","PERCENTAGE","COMBO_PERCENTAGE"
+          ]
+        },
+        "discountId": { "type": "string" },
+        "discountAmount": { "type": "number" },
+        "discountText": { "type": "string" },
+        "discountPercentage": { "type": "number" }
+      }
+    },
+
+    "AdditionalProperties": {
+      "type": "object",
+      "required": ["key", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+
+    "LineItem": {
+      "type": "object",
+      "required": ["lineItemId", "itemId"],
+      "additionalProperties": false,
+      "properties": {
+        "lineItemId": { "type": "string" },
+        "externalLineIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "itemId": { "type": "string" },
+        "itemType": {
+          "type": "string",
+          "enum": ["STOCK","SERVICE","MODEL","DEPOSIT","SERIALIZED"]
+        },
+        "itemName": { "type": "string" },
+        "quantity": { "$ref": "#/$defs/Quantity" },
+        "unitPrice": { "type": "number" },
+        "taxableGroupId": { "type": "string" },
+        "depositAndFeeRuleIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "itemCategoryId": { "type": "string" },
+        "groupId": { "type": "string" },
+        "requiredDownpaymentUnitAmount": { "type": "number" },
+        "paidDownpaymentUnitAmount": { "type": "number" },
+        "refundedDownpaymentTotalAmount": { "type": "number" },
+        "isSubsidized": { "type": "boolean" },
+        "isBonusEligible": { "type": "boolean" },
+        "cancelledQuantity": { "type": "number" },
+        "discounts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/UnitDiscount" }
+        },
+        "additionalProperties": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AdditionalProperties" }
+        }
+      }
+    },
+
+    "FulfillmentStatus": {
+      "type": "object",
+      "required": ["status", "changedDateTime"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["CREATED","READY_FOR_PICKUP","CANCELLED","FULFILLED"]
+        },
+        "changedDateTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+
+    "FulfillmentLineItem": {
+      "type": "object",
+      "required": [
+        "lineItemId",
+        "quantity",
+        "quantityPacked",
+        "quantityPackedRemaining",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "lineItemId": { "type": "string" },
+        "quantity": { "type": "number" },
+        "quantityPacked": { "type": "number" },
+        "quantityPackedRemaining": { "type": "number" },
+        "readyForPickupDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": { "$ref": "#/$defs/FulfillmentStatus" }
+      }
+    },
+
+    "Address": {
+      "type": "object",
+      "required": ["name","line1","city","countryCode","postalCode"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "line1": { "type": "string" },
+        "streetNumber": { "type": "string" },
+        "apartmentNumber": { "type": "string" },
+        "city": { "type": "string" },
+        "countryCode": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "postalCode": { "type": "string" },
+        "daytimePhoneNumber": { "type": "string" },
+        "eveningPhoneNumber": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+
+    "Fulfillment": {
+      "type": "object",
+      "required": ["fulfillmentId", "fulfillmentMethod"],
+      "additionalProperties": false,
+      "properties": {
+        "fulfillmentId": { "type": "string" },
+        "externalFulfillmentIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "fulfillmentMethodId": { "type": "string" },
+        "fulfillmentMethod": {
+          "type": "string",
+          "enum": [
+            "PICKUP_IN_STORE",
+            "HOME_DELIVERY_FROM_STORE",
+            "HOME_DELIVERY_FROM_WAREHOUSE"
+          ]
+        },
+        "fulfillmentBusinessUnitId": { "type": "string" },
+        "status": { "$ref": "#/$defs/FulfillmentStatus" },
+        "shipmentTrackingNumber": { "type": "string" },
+        "shipmentTrackingLink": { "type": "string" },
+        "lineItems": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FulfillmentLineItem" }
+        },
+        "tenderLineItems": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FulfillmentTenderLineItem" }
+        },
+        "deliveryAddress": { "$ref": "#/$defs/Address" }
+      }
+    },
+
+    "FulfillmentTenderLineItem": {
+      "type": "object",
+      "required": ["tenderLineItemId", "allocatedAmount"],
+      "additionalProperties": false,
+      "properties": {
+        "tenderLineItemId": { "type": "string" },
+        "allocatedAmount": { "type": "number" }
+      }
+    },
+
+    "Customer": {
+      "type": "object",
+      "required": ["customerId", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "customerId": { "type": "string" },
+        "externalCustomerIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "customerIdentification": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "name": { "type": "string" },
+        "address": { "$ref": "#/$defs/Address" },
+        "territory": { "type": "string" }
+      }
+    },
+
+    "Tender": {
+      "type": "object",
+      "required": ["tenderLineItemId", "tenderId", "amount"],
+      "additionalProperties": false,
+      "properties": {
+        "tenderLineItemId": { "type": "string" },
+        "tenderId": { "type": "string" },
+        "externalTenderIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "customerAccountId": { "type": "string" },
+        "amount": { "type": "number" }
+      }
+    },
+
+    "CustomerOrder": {
+      "type": "object",
+      "required": ["customerOrderId", "status", "currencyId", "items", "fulfillments"],
+      "additionalProperties": false,
+      "properties": {
+        "customerOrderId": { "type": "string" },
+        "externalCustomerOrderIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "status": { "$ref": "#/$defs/OrderStatus" },
+        "currencyId": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code"
+        },
+        "orderOrigin": { "type": "string" },
+        "businessUnitId": { "type": "string" },
+        "cartId": { "type": "string" },
+        "cartName": { "type": "string" },
+        "operatorId": { "type": "string" },
+        "isReadOnly": { "type": "boolean" },
+        "loyalty": { "$ref": "#/$defs/Loyalty" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/LineItem" }
+        },
+        "fulfillments": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Fulfillment" }
+        },
+        "tenders": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Tender" }
+        },
+        "customer": { "$ref": "#/$defs/Customer" }
+      }
+    }
+  }
+}
