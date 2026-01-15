@@ -1086,6 +1086,11 @@
         "countryCodePrefix"
       ],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the loyalty card feature in SCO mode."
+        },
         "countryCodePrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
