@@ -222,6 +222,10 @@
         },
         "transactions": {
           "$ref": "#/$defs/TxType"
+        },
+        "hideOSK": {
+          "type": "boolean",
+          "description": "Hide on-screen keyboard by default."
         }
       }
     },
