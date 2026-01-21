@@ -719,11 +719,7 @@
         "visibleAttributes": {
           "type": "array",
           "items": {
-            "type": "string",
-            "enum": [
-              "color",
-              "size"
-            ]
+            "type": "string"
           },
           "uniqueItems": true,
           "description": "Toggles visibility of the listed item attributes in the receipt."
@@ -986,6 +982,9 @@
       "properties": {
         "keyboardOverrides": {
           "$ref": "#/$defs/KeyboardOverridesType"
+        },
+        "whitelistedPrompts": {
+          "$ref": "#/$defs/SCOWhitelistedPromptsType"
         }
       }
     },
@@ -1310,6 +1309,26 @@
       "type": "boolean",
       "default": true,
       "description": "Control the availability of training mode"
+    },
+    "SCOWhitelistedPromptsType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "whitelisted"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The prompt code to whitelist, will act as an identifier."
+          },
+          "whitelisted": {
+            "type": "boolean",
+            "description": "Indicates if the prompt is whitelisted or not."
+          }
+        }
+      }
     }
   }
 }
