@@ -38,6 +38,10 @@
         "sortOrderKey": {
           "type": "number",
           "description": "Indicates the sequence the dynamics fields should be displayed in the UI"
+        },
+        "isMandatory": {
+          "type": "boolean",
+          "description": "If true, this indicates that the field is required"
         }
       }
     }
