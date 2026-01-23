@@ -1,0 +1,14 @@
+{
+  "$id": "rec.show-reconciliation-deviations-before-comment.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShowReconciliationDeviationsBeforeComment",
+  "description": "Parameter to define if reconciliation shows deviations before comment",
+  "type": "object",
+  "required": ["showReconciliationDeviationsBeforeComment"],
+  "properties": {
+    "showReconciliationDeviationsBeforeComment": {
+      "type": "boolean",
+      "description": "Parameter to define if reconciliation shows deviations before comment"
+    }
+  }
+}
