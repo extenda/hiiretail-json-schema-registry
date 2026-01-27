@@ -804,7 +804,7 @@
       "description": "This is a definition of the on-screen keyboard settings.",
       "type": "object",
       "properties": {
-        "autofocus": {
+        "visibility": {
           "type": "string",
           "enum": [
             "auto",
