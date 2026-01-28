@@ -223,6 +223,9 @@
           "type": "object",
           "$ref": "#/$defs/EvaIntegrationType"
         },
+        "osk": {
+          "$ref": "#/$defs/OSKType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -794,6 +797,21 @@
           "uniqueItems": true,
           "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
           "default": []
+        }
+      }
+    },
+    "OSKType": {
+      "description": "This is a definition of the on-screen keyboard settings.",
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "default": "auto",
+          "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
         }
       }
     },
