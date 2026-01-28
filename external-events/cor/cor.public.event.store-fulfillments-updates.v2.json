@@ -1,0 +1,198 @@
+{
+  "id": "cor.public.event.store-fulfillments-updates.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fulfillment",
+  "description": "Fulfillment details for a customer order",
+  "type": "object",
+  "required": [
+    "fulfillmentId",
+    "fulfillmentMethod",
+    "status",
+    "lineItems"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "fulfillmentId": {
+      "type": "string",
+      "description": "Unique identifier for the fulfillment."
+    },
+    "externalFulfillmentIds": {
+      "type": "array",
+      "description": "External identifiers for the fulfillment",
+      "items": {
+        "$ref": "#/$defs/ExternalId"
+      }
+    },
+    "fulfillmentMethodId": {
+      "type": "string",
+      "description": "Identifier for fulfillment method."
+    },
+    "fulfillmentMethod": {
+      "type": "string",
+      "description": "Method of fulfillment.",
+      "enum": [
+        "SHIP_TO_HOME",
+        "CLICK_AND_COLLECT",
+        "STORE_FULFILLMENT"
+      ]
+    },
+    "fulfillmentBusinessUnitId": {
+      "type": "string",
+      "description": "Identifier for the business unit responsible for fulfillment."
+    },
+    "status": {
+      "$ref": "#/$defs/FulfillmentStatus"
+    },
+    "shipmentTrackingNumber": {
+      "type": "string",
+      "description": "Tracking number from external shipping provider"
+    },
+    "shipmentTrackingLink": {
+      "type": "string",
+      "description": "Tracking link for external shipping provider"
+    },
+    "lineItems": {
+      "type": "array",
+      "description": "Line items fulfilled",
+      "items": {
+        "$ref": "#/$defs/FulfillmentLineItem"
+      }
+    },
+    "tenderLineItems": {
+      "type": "array",
+      "description": "Tender line items for the fulfillment",
+      "items": {
+        "$ref": "#/$defs/FulfillmentTenderLineItem"
+      }
+    },
+    "deliveryAddress": {
+      "$ref": "#/$defs/Address"
+    },
+    "userProfileAddressId": {
+      "type": "string",
+      "description": "Address id from user profile"
+    }
+  },
+  "$defs": {
+    "ExternalId": {
+      "title": "ExternalId",
+      "description": "External system identifier",
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "External id type"
+        },
+        "value": {
+          "type": "string",
+          "description": "External id value"
+        }
+      }
+    },
+    "FulfillmentStatus": {
+      "title": "FulfillmentStatus",
+      "description": "Status of the fulfillment",
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Fulfillment status code",
+          "enum": [
+            "CREATED",
+            "IN_PROGRESS",
+            "SHIPPED",
+            "DELIVERED",
+            "CANCELLED"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Status last updated timestamp (UTC)"
+        }
+      }
+    },
+    "FulfillmentLineItem": {
+      "title": "FulfillmentLineItem",
+      "description": "Fulfilled order line item",
+      "type": "object",
+      "required": [
+        "lineItemId",
+        "quantity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "lineItemId": {
+          "type": "string",
+          "description": "Line item identifier"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity fulfilled"
+        }
+      }
+    },
+    "FulfillmentTenderLineItem": {
+      "title": "FulfillmentTenderLineItem",
+      "description": "Tender line item related to fulfillment",
+      "type": "object",
+      "required": [
+        "tenderType",
+        "amount"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tenderType": {
+          "type": "string",
+          "description": "Type of tender"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Tender amount"
+        }
+      }
+    },
+    "Address": {
+      "title": "Address",
+      "description": "Delivery address",
+      "type": "object",
+      "required": [
+        "line1",
+        "city",
+        "country"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "line1": {
+          "type": "string",
+          "description": "Address line 1"
+        },
+        "line2": {
+          "type": "string",
+          "description": "Address line 2"
+        },
+        "city": {
+          "type": "string",
+          "description": "City"
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Postal code"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country"
+        }
+      }
+    }
+  }
+}

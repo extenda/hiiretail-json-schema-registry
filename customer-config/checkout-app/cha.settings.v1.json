@@ -97,6 +97,9 @@
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/MposAutoUpdateType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -220,8 +223,14 @@
           "type": "object",
           "$ref": "#/$defs/EvaIntegrationType"
         },
+        "osk": {
+          "$ref": "#/$defs/OSKType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -686,6 +695,10 @@
           "default": 5000,
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         },
+        "displayInvalidatedItems": {
+          "type": "boolean",
+          "description": "Defines whether voided items should be rendered on the Active Receipt or not."
+        },
         "layout": {
           "$ref": "#/$defs/ReceiptLayoutType"
         },
@@ -784,6 +797,21 @@
           "uniqueItems": true,
           "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
           "default": []
+        }
+      }
+    },
+    "OSKType": {
+      "description": "This is a definition of the on-screen keyboard settings.",
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "default": "auto",
+          "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
         }
       }
     },
@@ -1303,6 +1331,11 @@
         }
       },
       "additionalProperties": false
+    },
+    "TrainingModeType": {
+      "type": "boolean",
+      "default": true,
+      "description": "Control the availability of training mode"
     },
     "SCOWhitelistedPromptsType": {
       "type": "array",
