@@ -826,17 +826,12 @@
               "items": {
                 "type": "object",
                 "required": [
-                  "id",
-                  "tags"
+                  "id"                
                 ],
                 "properties": {
                   "id": {
                     "type": "string",
                     "description": "The label value to be shown in the suggestions."
-                  },
-                  "tags": {
-                    "type": "string",
-                    "description": "Suggestion configuration per text content type e.g. email."
                   }
                 }
               }
