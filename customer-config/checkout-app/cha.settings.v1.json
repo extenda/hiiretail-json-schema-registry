@@ -812,6 +812,31 @@
           ],
           "default": "auto",
           "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
+        },
+        "suggestions": {
+          "type":"object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enables word suggestions on the on-screen keyboard."
+            },
+            "items": {
+              "type": "array",
+              "description": "List of suggestions to show on the on-screen keyboard e.g. email domain.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id"                
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The label value to be shown in the suggestions."
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
