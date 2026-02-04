@@ -5,12 +5,20 @@
   "properties": {
     "default": {
       "additionalProperties": false,
-      "description": "Default implementation, processed internally",
+      "description": "Default implementation (processed internally)",
       "type": "object"
     },
     "kivra": {
       "additionalProperties": false,
       "description": "Sent to kivra.se",
+      "properties": {
+        "chainId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "chainId"
+      ],
       "type": "object"
     }
   },

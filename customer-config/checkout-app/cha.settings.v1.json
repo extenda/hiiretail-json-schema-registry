@@ -97,6 +97,9 @@
           "description": "Auto-update settings.",
           "type": "object",
           "$ref": "#/$defs/MposAutoUpdateType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -220,8 +223,14 @@
           "type": "object",
           "$ref": "#/$defs/EvaIntegrationType"
         },
+        "osk": {
+          "$ref": "#/$defs/OSKType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -389,7 +398,7 @@
               "description": "Unique ending pattern for the employee card Id. Can be a regex pattern or a fixed string."
             }
           },
-          "required": ["prefix", "suffix"]
+          "required": ["prefix"]
         }
       }
     },
@@ -686,6 +695,10 @@
           "default": 5000,
           "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
         },
+        "displayInvalidatedItems": {
+          "type": "boolean",
+          "description": "Defines whether voided items should be rendered on the Active Receipt or not."
+        },
         "layout": {
           "$ref": "#/$defs/ReceiptLayoutType"
         },
@@ -713,11 +726,7 @@
         "visibleAttributes": {
           "type": "array",
           "items": {
-            "type": "string",
-            "enum": [
-              "color",
-              "size"
-            ]
+            "type": "string"
           },
           "uniqueItems": true,
           "description": "Toggles visibility of the listed item attributes in the receipt."
@@ -788,6 +797,21 @@
           "uniqueItems": true,
           "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
           "default": []
+        }
+      }
+    },
+    "OSKType": {
+      "description": "This is a definition of the on-screen keyboard settings.",
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "default": "auto",
+          "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
         }
       }
     },
@@ -980,6 +1004,9 @@
       "properties": {
         "keyboardOverrides": {
           "$ref": "#/$defs/KeyboardOverridesType"
+        },
+        "whitelistedPrompts": {
+          "$ref": "#/$defs/SCOWhitelistedPromptsType"
         }
       }
     },
@@ -1013,6 +1040,28 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the SSLP in SCO mode."
+        },
+        "rescan": {
+          "type": "object",
+          "$ref": "#/$defs/ScoSSLPRescanType",
+          "description": "Settings for the rescan functionality in attendable SCO mode."
+        }
+      }
+    },
+    "ScoSSLPRescanType": {
+      "description": "This is a definition of the rescan settings in SCO mode.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "indicateScanStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "Toggles the indication of the item scan status. E.g. quantity mismatch, etc."
+        },
+        "clearBasketOnSwitch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Resets scanning basket when partail rescan switches to full rescan mode manually or automatically."
         }
       }
     },
@@ -1065,6 +1114,11 @@
         "countryCodePrefix"
       ],
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the loyalty card feature in SCO mode."
+        },
         "countryCodePrefix": {
           "type": "string",
           "description": "Defines the loyalty card prefix in SCO mode."
@@ -1277,6 +1331,31 @@
         }
       },
       "additionalProperties": false
+    },
+    "TrainingModeType": {
+      "type": "boolean",
+      "default": true,
+      "description": "Control the availability of training mode"
+    },
+    "SCOWhitelistedPromptsType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "whitelisted"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The prompt code to whitelist, will act as an identifier."
+          },
+          "whitelisted": {
+            "type": "boolean",
+            "description": "Indicates if the prompt is whitelisted or not."
+          }
+        }
+      }
     }
   }
 }
