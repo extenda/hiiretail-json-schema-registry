@@ -1,21 +1,21 @@
 {
   "$id": "loy.external-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Http Integration Configuration",
+  "title": "Loyalty Integration Configuration",
   "oneOf": [
     {
-      "title": "HttpIntegrationConfig",
+      "title": "IntegrationConfig",
       "type": "object",
       "properties": {
         "baseUrl": { "type": "string", "format": "uri" },
         "timeout": { "type": "number", "minimum": 0 },
-        "authenticationType": { "const": "http" }
+        "authenticationType": { "const": "none" }
       },
       "required": ["baseUrl", "timeout", "authenticationType"],
       "additionalProperties": false
     },
     {
-      "title": "HttpBasicAuthIntegrationConfig",
+      "title": "BasicAuthIntegrationConfig",
       "type": "object",
       "properties": {
         "baseUrl": { "type": "string", "format": "uri" },
@@ -103,95 +103,6 @@
                 "grantType"
               ],
               "additionalProperties": false
-            }
-          ]
-        }
-      },
-      "required": [
-        "baseUrl",
-        "timeout",
-        "authenticationType",
-        "authenticationConfig"
-      ],
-      "additionalProperties": false
-    },
-    {
-      "title": "ClientCertificateIntegrationConfig",
-      "type": "object",
-      "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
-        "authenticationType": { "const": "certificate" },
-        "authenticationConfig": {
-          "type": "object",
-          "properties": {
-            "certificate": { "type": ["string", "null"] },
-            "privateKey": { "type": ["string"] },
-            "passphrase": { "type": ["string", "null"] }
-          },
-          "required": ["privateKey"],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "baseUrl",
-        "timeout",
-        "authenticationType",
-        "authenticationConfig"
-      ],
-      "additionalProperties": false
-    },
-    {
-      "title": "HttpBasicAuthClientCertificateIntegrationConfig",
-      "type": "object",
-      "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
-        "authenticationType": { "const": "basic:certificate" },
-        "authenticationConfig": {
-          "type": "object",
-          "properties": {
-            "username": { "type": "string" },
-            "password": { "type": "string" },
-            "certificate": { "type": ["string", "null"] },
-            "privateKey": { "type": "string" },
-            "passphrase": { "type": ["string", "null"] }
-          },
-          "required": ["username", "password", "privateKey"]
-        }
-      },
-      "required": [
-        "baseUrl",
-        "timeout",
-        "authenticationType",
-        "authenticationConfig"
-      ],
-      "additionalProperties": false
-    },
-    {
-      "title": "OAuthClientCertificateIntegrationConfig",
-      "type": "object",
-      "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
-        "authenticationType": { "const": "oauth2:certificate" },
-        "authenticationConfig": {
-          "allOf": [
-            {
-              "oneOf": [
-                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/0" },
-                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/1" },
-                { "$ref": "#/oneOf/2/properties/authenticationConfig/oneOf/2" }
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "certificate": { "type": ["string", "null"] },
-                "privateKey": { "type": "string" },
-                "passphrase": { "type": ["string", "null"] }
-              },
-              "required": ["privateKey"]
             }
           ]
         }
