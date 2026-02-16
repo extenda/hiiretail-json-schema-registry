@@ -1,0 +1,14 @@
+{
+  "$id": "rec.show-reconciliation-spot-balance-comment.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "showReconciliationSpotBalanceComment",
+  "description": "Parameter to define if reconciliation shows spot balance comment",
+  "type": "object",
+  "required": ["showReconciliationSpotBalanceComment"],
+  "properties": {
+    "showReconciliationSpotBalanceComment": {
+      "type": "boolean",
+      "description": "Parameter to define if reconciliation shows spot balance comment"
+    }
+  }
+}
