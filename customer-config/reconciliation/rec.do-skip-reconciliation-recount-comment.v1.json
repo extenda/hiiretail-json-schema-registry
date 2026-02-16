@@ -1,0 +1,14 @@
+{
+  "$id": "rec.do-skip-reconciliation-recount-comment.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "doSkipReconciliationRecountComment",
+  "description": "Parameter to define if reconciliation skips recount comment",
+  "type": "object",
+  "required": ["doSkipReconciliationRecountComment"],
+  "properties": {
+    "doSkipReconciliationRecountComment": {
+      "type": "boolean",
+      "description": "Parameter to define if reconciliation skips recount comment"
+    }
+  }
+}
