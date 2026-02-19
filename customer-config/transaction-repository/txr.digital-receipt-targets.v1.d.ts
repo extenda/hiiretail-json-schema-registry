@@ -5,5 +5,12 @@ export type DigitalReceiptTargets = {
   default?: {},
 
   /** Sent to kivra.se */
-  kivra?: { chainId: string },
+  kivra?: {
+    chainId: string,
+
+    /**
+     * @default true
+     */
+    enabled?: boolean
+  },
 }
