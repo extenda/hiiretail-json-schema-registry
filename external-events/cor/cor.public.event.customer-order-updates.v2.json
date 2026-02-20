@@ -35,7 +35,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
+          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED", "PAYMENT_PENDING"],
           "description": "Order status"
         },
         "changedDateTime": {
