@@ -487,6 +487,11 @@
                           "SA",
                           "SU"
                         ]
+                      },
+                      "deleted": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Soft-delete flag. When true, this day is excluded from the maintenance window."
                       }
                     },
                     "additionalProperties": false
