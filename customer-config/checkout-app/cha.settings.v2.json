@@ -1,0 +1,1413 @@
+{
+  "$id": "cha.settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Settings",
+  "description": "Checkout App settings.",
+  "type": "object",
+  "required": [
+    "pos"
+  ],
+  "properties": {
+    "mpos": {
+      "description": "MPOS settings.",
+      "type": "object",
+      "$ref": "#/$defs/MposType"
+    },
+    "pos": {
+      "description": "POS settings.",
+      "type": "object",
+      "$ref": "#/$defs/PosType"
+    },
+    "sco": {
+      "description": "SCO settings.",
+      "type": "object",
+      "$ref": "#/$defs/ScoType"
+    },
+    "cfd": {
+      "description": "Customer facing display settings.",
+      "type": "object",
+      "$ref": "#/$defs/CfdType"
+    }
+  },
+  "$defs": {
+    "MposType": {
+      "description": "This is a definition of the MPOS settings.",
+      "type": "object",
+      "required": [
+        "server"
+      ],
+      "properties": {
+        "server": {
+          "description": "Server settings.",
+          "type": "object",
+          "$ref": "#/$defs/ServerType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "wallpaperUri": {
+          "type": "string",
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customization of the app."
+        },
+        "peripherals": {
+          "description": "Periperals settings definitions.",
+          "type": "object",
+          "$ref": "#/$defs/MposPeripheralType"
+        },
+        "connect": {
+          "description": "Soft payment terminal providers settings definitions.",
+          "type": "object",
+          "$ref": "#/$defs/MposConnectType"
+        },
+        "lock": {
+          "description": "Lock settings.",
+          "type": "object",
+          "$ref": "#/$defs/LockType"
+        },
+        "logs": {
+          "description": "Logs settings.",
+          "type": "object",
+          "$ref": "#/$defs/LogsType"
+        },
+        "externalLinks": {
+          "description": "Checkout App External Websites settings.",
+          "type": "object",
+          "$ref": "#/$defs/ExternalLinksType"
+        },
+        "prompt": {
+          "description": "This is a definition of the prompt settings mobile pos.",
+          "type": "object",
+          "properties": {
+            "keyboardOverrides": {
+              "$ref": "#/$defs/KeyboardOverridesType"
+            }
+          }
+        },
+        "transactions": {
+          "$ref": "#/$defs/TxType"
+        },
+        "autoUpdate": {
+          "description": "Auto-update settings.",
+          "type": "object",
+          "$ref": "#/$defs/MposAutoUpdateType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
+        }
+      }
+    },
+    "PosType": {
+      "description": "This is a definition of the POS settings.",
+      "type": "object",
+      "required": [
+        "server",
+        "fullscreen",
+        "kiosk"
+      ],
+      "properties": {
+        "auth": {
+          "description": "Auth settings",
+          "type": "object",
+          "$ref": "#/$defs/AuthType"
+        },
+        "zoomFactor": {
+          "description": "The zoom factor for the pos and sco application.",
+          "type": "number",
+          "#ref": "#/$defs/ZoomFactorType"
+        },
+        "server": {
+          "description": "Server settings.",
+          "type": "object",
+          "$ref": "#/$defs/ServerType"
+        },
+        "edge": {
+          "description": "Edge settings.",
+          "type": "object",
+          "$ref": "#/$defs/EdgeType"
+        },
+        "peripherals": {
+          "description": "Periperals settings.",
+          "type": "object",
+          "$ref": "#/$defs/PeripheralsType"
+        },
+        "lock": {
+          "description": "Lock settings.",
+          "type": "object",
+          "$ref": "#/$defs/LockType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "$ref": "#/$defs/ReceiptType"
+        },
+        "prompt": {
+          "description": "Prompt settings.",
+          "type": "object",
+          "$ref": "#/$defs/PromptType"
+        },
+        "externalLinks": {
+          "description": "Checkout App External Websites settings.",
+          "type": "object",
+          "$ref": "#/$defs/ExternalLinksType"
+        },
+        "variantSearch": {
+          "description": "Variant search settings.",
+          "type": "object",
+          "$ref": "#/$defs/VariantSearchType"
+        },
+        "wallpaperUri": {
+          "type": "string",
+          "nullable": true,
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for the wallaper image."
+        },
+        "theme": {
+          "type": "object",
+          "description": "Theme object for customisation of the app."
+        },
+        "fullscreen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Sets whether the application should open in full screen by default."
+        },
+        "kiosk": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hides the settings button from drawer."
+        },
+        "itemPicturesEnabled": {
+          "type": "boolean",
+          "description": "Enables showing of item images in receipt and search."
+        },
+        "priceVerificationEnabled": {
+          "type": "boolean",
+          "description": "Displays price verification button in PLU and item search, only for countries that do not require a control transaction for that."
+        },
+        "logs": {
+          "description": "Logs settings.",
+          "type": "object",
+          "$ref": "#/$defs/LogsType"
+        },
+        "autoUpdate": {
+          "description": "Auto-update settings.",
+          "type": "object",
+          "$ref": "#/$defs/AutoUpdateType"
+        },
+        "keyboardShortcuts": {
+          "description": "Settings for POS keybindings and fast commands.",
+          "type": "object",
+          "$ref": "#/$defs/KeyboardShortcutsType"
+        },
+        "hotKeys": {
+          "deprecated": true,
+          "description": "Enabled hot keys for the app.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "registerWithQuantity",
+              "comboSale"
+            ]
+          }
+        },
+        "eva": {
+          "description": "EVA integration settings",
+          "type": "object",
+          "$ref": "#/$defs/EvaIntegrationType"
+        },
+        "osk": {
+          "$ref": "#/$defs/OSKType"
+        },
+        "transactions": {
+          "$ref": "#/$defs/TxType"
+        },
+        "trainingModeAvailable": {
+          "$ref": "#/$defs/TrainingModeType"
+        }
+      }
+    },
+    "KeyBindingType": {
+      "description": "This is a definition of the POS keybindings.",
+      "type": "object",
+      "properties": {
+        "altKey": {
+          "keyCode": {
+            "type": "string",
+            "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+          },
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Alt key should be pressed"
+        },
+        "ctrlKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Control key should be pressed"
+        },
+        "shiftKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Shift key should be pressed"
+        },
+        "metaKey": {
+          "type": "boolean",
+          "default": false,
+          "description": "Defines whether the Meta/Command key should be pressed"
+        }
+      }
+    },
+    "KeyboardShortcutsType": {
+      "description": "This is a definition of the POS keybindings and fast commands.",
+      "type": "object",
+      "properties": {
+        "keyBindings": {
+          "type": "object",
+          "description": "Settings for POS keybindings.",
+          "properties": {
+            "lock": {
+              "type": "object",
+              "description": "Used to set the lock keybinding. It will trigger the opening of the lock confirmation dialog.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "secondaryPaymentMethod": {
+              "type": "object",
+              "description": "Used to set the secondary payment method keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "primaryPaymentMethod": {
+              "type": "object",
+              "description": "Used to set the primary payment method keybinding. In the POS application primary payment method is assigned to the highlited button in the payment menu.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openPLU": {
+              "type": "object",
+              "description": "Used to set the open PLU keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openTransactionsSearch": {
+              "type": "object",
+              "description": "Used to set the open transactions search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openWebBrowser": {
+              "type": "object",
+              "description": "Used to set the open embedded web browser keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openVariantSearch": {
+              "type": "object",
+              "description": "Used to set the open variant search keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openRescans": {
+              "type": "object",
+              "description": "Used to set the open rescan keybinding. Note: it requires the corresponding feature flag to be enabled.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openItemSearch": {
+              "type": "object",
+              "description": "Used to set the open item search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "addItem": {
+              "type": "object",
+              "description": "Used to set the add item keybinding. It will trigger the addition of the item with selected barcode to the receipt",
+              "patternProperties": {
+                "^[0-9]+$": {
+                  "type": "object",
+                  "description": "Key binding for the barcode number.",
+                  "$ref": "#/$defs/KeyBindingType"
+                }
+              }
+            }
+          }
+        },
+        "fastCommands": {
+          "type": "object",
+          "description": "Enables fast commands for the POS.",
+          "properties": {
+            "registerWithQuantity": {
+              "type": "object",
+              "description": "Settings for register with quantity fast command.",
+              "properties": {
+                "enabled": {
+                  "default": false,
+                  "type": "boolean",
+                  "description": "Enables register with quantity for the POS."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ServerType": {
+      "description": "This is a definition of the server settings.",
+      "type": "object",
+      "required": [
+        "host",
+        "networkCallTimeout"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Checkout Engine API URL."
+        },
+        "networkCallTimeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "The timeout for network calls. In milliseconds."
+        }
+      }
+    },
+    "EdgeType": {
+      "description": "This is a definition of the edge settings.",
+      "type": "object",
+      "required": [
+        "host"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
+        }
+      }
+    },
+    "AuthType": {
+      "description": "This is a definition of the auth settings.",
+      "type": "object",
+      "properties": {
+        "operatorIdCard": {
+          "type": "object",
+          "description": "Allows login by scanning a card Id. Set a configurable pattern to distinguish between standard product barcode.",
+          "properties": {
+            "prefix": {
+              "type": "string",
+              "description": "Unique starting pattern for the employee card Id. Can be a regex pattern or a fixed string."
+            },
+            "suffix": {
+              "type": "string",
+              "description": "Unique ending pattern for the employee card Id. Can be a regex pattern or a fixed string."
+            }
+          },
+          "required": [
+            "prefix"
+          ]
+        }
+      }
+    },
+    "AutoUpdateType": {
+      "description": "This is a definition of the app update maintenance window.",
+      "type": "object",
+      "required": [
+        "channel",
+        "maintenanceWindow"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "preview",
+            "stable"
+          ],
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable."
+        },
+        "maintenanceExclusion": {
+          "type": "object",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is applied only for stable channel and only for major and minor updates(semantic versioning).",
+          "required": [
+            "start",
+            "duration"
+          ],
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2024-01-14T07:00:00.000Z",
+              "description": "The start date and time of the maintenance exclusion. Specify in the UTC time zone."
+            },
+            "duration": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "example": "5",
+              "description": "The number of days from the start date for the maintenance exclusion to take precedence."
+            }
+          }
+        },
+        "maintenanceWindow": {
+          "type": "object",
+          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window. The maintenance window is applied to preview and stable channels for major, minor and patch updates(see semantic versioning)",
+          "required": [
+            "days",
+            "start",
+            "end"
+          ],
+          "properties": {
+            "days": {
+              "description": "Days of the week when the maintenance can occur.",
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "MO",
+                      "TU",
+                      "WE",
+                      "TH",
+                      "FR",
+                      "SA",
+                      "SU"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "enum": [
+                          "MO",
+                          "TU",
+                          "WE",
+                          "TH",
+                          "FR",
+                          "SA",
+                          "SU"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "start": {
+              "type": "string",
+              "format": "iso-time",
+              "example": "18:00:00",
+              "description": "The start time of the maintenance window. Specify in the UTC time zone."
+            },
+            "end": {
+              "type": "string",
+              "format": "iso-time",
+              "example": "23:59:00",
+              "description": "The end time of the maintenance window. Specify in the UTC time zone."
+            }
+          }
+        }
+      }
+    },
+    "MposAutoUpdateType": {
+      "description": "This is a definition of the app auto update.",
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "preview",
+            "stable"
+          ],
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable."
+        }
+      }
+    },
+    "MposPeripheralType": {
+      "description": "This is a definition of the Mobile POS peripherals settings.",
+      "type": "object",
+      "properties": {
+        "printer": {
+          "$ref": "#/$defs/MposPrinterType"
+        },
+        "cameraScanner": {
+          "type": "object",
+          "description": "Defines whether camera scanning is enabled",
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable camera scanning buttons in main view and prompts"
+          },
+          "whitelistedPrompts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
+            "default": []
+          }
+        }
+      }
+    },
+    "MposConnectType": {
+      "description": "This is a definition of the Mobile Soft payment terminal providers settings.",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "viva",
+            "softpay",
+            null
+          ],
+          "default": null,
+          "description": "Sets the Soft terminal provider."
+        }
+      }
+    },
+    "PeripheralsType": {
+      "description": "This is a definition of the peripherals properties settings.",
+      "type": "object",
+      "properties": {
+        "legacy": {
+          "type": "boolean",
+          "description": "Enables legacy MQTT peripherals instead of gRPC."
+        },
+        "scale": {
+          "$ref": "#/$defs/ScaleType"
+        },
+        "scanner1": {
+          "$ref": "#/$defs/ScannerType"
+        },
+        "scanner2": {
+          "$ref": "#/$defs/ScannerType"
+        },
+        "printer": {
+          "$ref": "#/$defs/PrinterType"
+        },
+        "cashchanger": {
+          "$ref": "#/$defs/CashChangerType"
+        }
+      }
+    },
+    "CashChangerType": {
+      "description": "This is a definition of the CashChanger settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the CashChanger."
+        }
+      }
+    },
+    "ScaleType": {
+      "description": "This is a definition of the scale settings.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "logicalName"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the scale"
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Scale's logical name."
+        }
+      }
+    },
+    "ScannerType": {
+      "description": "This is a definition of the scanner settings.",
+      "type": "object",
+      "required": [
+        "logicalName",
+        "autoConnect"
+      ],
+      "properties": {
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Scanner's logical name."
+        }
+      }
+    },
+    "PrinterType": {
+      "description": "This is a definition of the printer settings.",
+      "type": "object",
+      "required": [
+        "logicalName",
+        "enabled",
+        "autoConnect"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Enables the auto connect."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Printer's logical name."
+        },
+        "cashdrawerEnabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "cashdrawerLogicalName": {
+          "type": "string",
+          "description": "Cashdrawer's logical name."
+        }
+      }
+    },
+    "MposPrinterType": {
+      "type": "object",
+      "description": "Printer configurations",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the printing."
+        }
+      }
+    },
+    "LockType": {
+      "description": "This is a definition of the lock settings.",
+      "type": "object",
+      "required": [
+        "timeout"
+      ],
+      "properties": {
+        "timeout": {
+          "type": "number",
+          "default": 0,
+          "description": "The number of seconds the register is idle before it is autolocked."
+        }
+      }
+    },
+    "ReceiptType": {
+      "description": "This is a definition of the receipt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clearTimeout"
+      ],
+      "properties": {
+        "clearTimeout": {
+          "type": "number",
+          "default": 5000,
+          "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
+        },
+        "displayInvalidatedItems": {
+          "type": "boolean",
+          "description": "Defines whether voided items should be rendered on the Active Receipt or not."
+        },
+        "layout": {
+          "$ref": "#/$defs/ReceiptLayoutType"
+        },
+        "linkedPromotionsIndicatorEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables visual linking of related promotion items with color bars in the active receipt view."
+        }
+      }
+    },
+    "ReceiptLayoutType": {
+      "description": "This is a definition of the receipt layout settings.",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "identifierType": {
+          "type": "string",
+          "enum": [
+            "id",
+            "barcode"
+          ],
+          "default": "ID",
+          "description": "The type of the identifier to be displayed in the receipt."
+        },
+        "visibleAttributes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Toggles visibility of the listed item attributes in the receipt."
+        }
+      }
+    },
+    "ExternalLinksType": {
+      "description": "This is a definition of the External Websites settings.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "links"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the external links."
+        },
+        "links": {
+          "description": "External links list.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "url",
+              "name"
+            ],
+            "properties": {
+              "url": {
+                "description": "External web page urls.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the web site to display in the choice list in app.",
+                "type": "string"
+              },
+              "shareAuthorizationToken": {
+                "description": "Set true to share authorization token with this website.",
+                "type": "boolean"
+              },
+              "shareRetailInformation": {
+                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "VariantSearchType": {
+      "description": "This is a definition of the variant search settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the variant search."
+        },
+        "whitelistedFilters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
+          "default": []
+        }
+      }
+    },
+    "OSKType": {
+      "description": "This is a definition of the on-screen keyboard settings.",
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "default": "auto",
+          "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
+        },
+        "suggestions": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enables word suggestions on the on-screen keyboard."
+            },
+            "items": {
+              "type": "array",
+              "description": "List of suggestions to show on the on-screen keyboard e.g. email domain.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The label value to be shown in the suggestions."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "PromptType": {
+      "description": "This is a definition of the prompt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "integerMonetary": {
+          "type": "boolean",
+          "description": "Indicates if the monetary input should accept decimals or not."
+        },
+        "keyboardOverrides": {
+          "$ref": "#/$defs/KeyboardOverridesType"
+        }
+      }
+    },
+    "LogsType": {
+      "description": "This is a definition of the logs settings.",
+      "type": "object",
+      "required": [
+        "uploadEnabled"
+      ],
+      "properties": {
+        "uploadEnabled": {
+          "type": "boolean",
+          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
+        }
+      }
+    },
+    "KeyboardOverridesType": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "ALPHA_NUMERIC",
+          "NUMERIC"
+        ],
+        "description": "Specifies the keyboard type override for the corresponding prompt code."
+      },
+      "default": {},
+      "description": "Defines specific prompt codes that override the default keyboard type."
+    },
+    "ScoType": {
+      "description": "This is a definition of the SCO settings.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "sessionKeepAliveInterval"
+      ],
+      "if": {
+        "properties": {
+          "enabled": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "hybrid": {
+            "const": false
+          }
+        }
+      },
+      "properties": {
+        "schedule": {
+          "description": "This is a definition of the SCO schedule settings.",
+          "type": "object",
+          "$ref": "#/$defs/ScheduleType"
+        },
+        "receipt": {
+          "description": "Receipt settings.",
+          "type": "object",
+          "properties": {
+            "layout": {
+              "$ref": "#/$defs/ReceiptLayoutType"
+            }
+          }
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the sco mode."
+        },
+        "hybrid": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the hybrid mode."
+        },
+        "logoUri": {
+          "type": "string",
+          "nullable": true,
+          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+          "description": "URI for logo in SCO mode."
+        },
+        "bags": {
+          "description": "Bags settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagsType"
+        },
+        "language": {
+          "description": "Language settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoLanguageType"
+        },
+        "prompt": {
+          "description": "Prompt settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoPromptType"
+        },
+        "plu": {
+          "description": "Plu settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoPluType"
+        },
+        "loyalty": {
+          "description": "Loyalty settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoLoyaltyType"
+        },
+        "callAssistantEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the call assistant button in SCO mode."
+        },
+        "decreaseEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allows for item's quantity decrease in SCO mode."
+        },
+        "sessionKeepAliveInterval": {
+          "type": "number",
+          "default": 600000,
+          "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
+        },
+        "lock": {
+          "description": "Lock settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoLockType"
+        },
+        "sslp": {
+          "description": "SSLP settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoSSLPType"
+        },
+        "attendant": {
+          "description": "Attendant settings in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoAttendantType"
+        }
+      }
+    },
+    "ScoAttendantType": {
+      "description": "This is a definition of the attendant settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the attendant feature in SCO mode."
+        }
+      }
+    },
+    "ScoLanguageType": {
+      "description": "This is a definition language settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "availableLanguages",
+        "defaultLanguage"
+      ],
+      "properties": {
+        "availableLanguages": {
+          "type": "string",
+          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO",
+          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
+        },
+        "defaultLanguage": {
+          "type": "string",
+          "default": "en-GB",
+          "description": "Defines the default languages in SCO mode."
+        }
+      }
+    },
+    "ScoPromptType": {
+      "description": "This is a definition of the prompt settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "keyboardOverrides": {
+          "$ref": "#/$defs/KeyboardOverridesType"
+        },
+        "whitelistedPrompts": {
+          "$ref": "#/$defs/SCOWhitelistedPromptsType"
+        }
+      }
+    },
+    "ScoPluType": {
+      "description": "This is a definition of the PLU settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the plu in SCO mode."
+        },
+        "shortcutsEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allows to set PLU shortcut items in the main view of SCO mode."
+        }
+      }
+    },
+    "ScoSSLPType": {
+      "description": "This is a definition of the SSLP settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the SSLP in SCO mode."
+        },
+        "rescan": {
+          "type": "object",
+          "$ref": "#/$defs/ScoSSLPRescanType",
+          "description": "Settings for the rescan functionality in attendable SCO mode."
+        }
+      }
+    },
+    "ScoSSLPRescanType": {
+      "description": "This is a definition of the rescan settings in SCO mode.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "indicateScanStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "Toggles the indication of the item scan status. E.g. quantity mismatch, etc."
+        },
+        "clearBasketOnSwitch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Resets scanning basket when partail rescan switches to full rescan mode manually or automatically."
+        }
+      }
+    },
+    "ScoBagsType": {
+      "description": "This is a definition of the bags settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the bags screen in SCO mode."
+        },
+        "paperBag": {
+          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
+        },
+        "plasticBag": {
+          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType"
+        }
+      }
+    },
+    "ScoBagType": {
+      "description": "This is a definition of the bag.",
+      "type": "object",
+      "required": [
+        "ean",
+        "title"
+      ],
+      "properties": {
+        "ean": {
+          "type": "string",
+          "description": "Defines the EAN of the bag."
+        },
+        "title": {
+          "type": "string",
+          "description": "Defines the name of the bag."
+        }
+      }
+    },
+    "ScoLoyaltyType": {
+      "description": "This is a definition Loyalty settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "countryCodePrefix"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the loyalty card feature in SCO mode."
+        },
+        "countryCodePrefix": {
+          "type": "string",
+          "description": "Defines the loyalty card prefix in SCO mode."
+        },
+        "cardReminderEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the loyalty card reminder dialog in SCO mode."
+        },
+        "qrCode": {
+          "description": "QR code settings",
+          "type": "object",
+          "$ref": "#/$defs/ScoLoyaltyQRCodeType"
+        }
+      }
+    },
+    "ScoLoyaltyQRCodeType": {
+      "description": "This is a definition for loyalty QR code settings in SCO mode.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the SCO QR info feature."
+        },
+        "data": {
+          "type": "string",
+          "description": "Loyalty info data(URL) to be encoded in the QR code."
+        }
+      }
+    },
+    "ScoLockType": {
+      "description": "This is a definition of the sco lockscreen settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the sco lockscreen feature."
+        },
+        "timeout": {
+          "type": "number",
+          "default": 15,
+          "description": "Timeout for the appearance of the sco lockscreen. In seconds."
+        }
+      }
+    },
+    "CfdType": {
+      "description": "This is a definition of the cfd settings.",
+      "type": "object",
+      "required": [
+        "autoStart"
+      ],
+      "properties": {
+        "zoomFactor": {
+          "description": "The zoom factor for the cfd application.",
+          "type": "number",
+          "#ref": "#/$defs/ZoomFactorType"
+        },
+        "autoStart": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables auto start of customer faced display."
+        },
+        "welcomeMessage": {
+          "type": "string",
+          "description": "Welcome message to display on the customer facing display."
+        },
+        "loyalty": {
+          "description": "Loyalty settings for CFD.",
+          "type": "object",
+          "$ref": "#/$defs/CfdLoyaltyType"
+        }
+      }
+    },
+    "ScheduleType": {
+      "description": "This is a definition of the schedule settings",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "logoutTimeout": {
+          "type": "number",
+          "description": "The number of minutes after which the SCO will lock even if it has an ongoing transaction",
+          "default": 30
+        }
+      },
+      "patternProperties": {
+        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKDAYS|WEEKEND)$": {
+          "type": "object",
+          "description": "Schedule settings for the corresponding period of week.",
+          "additionalProperties": false,
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "time",
+              "example": "09:00:00",
+              "description": "Opening time in HH:MM:SS format (24-hour)"
+            },
+            "end": {
+              "type": "string",
+              "format": "time",
+              "example": "17:00:00",
+              "description": "Closing time in HH:MM:SS format (24-hour)"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ]
+        }
+      }
+    },
+    "ZoomFactorType": {
+      "type": "number",
+      "enum": [
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2
+      ],
+      "default": 1,
+      "description": "The zoom factor for the application."
+    },
+    "CfdLoyaltyType": {
+      "description": "This is a definition of the loyalty settings for CFD.",
+      "type": "object",
+      "properties": {
+        "showLoyaltyCard": {
+          "type": "boolean",
+          "description": "Defines whether to show the loyalty card on the CFD."
+        }
+      }
+    },
+    "EvaIntegrationType": {
+      "description": "This is a definition of the EVA integration settings.",
+      "type": "object",
+      "properties": {
+        "ageVerification": {
+          "description": "Settings for age verification feature.",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "description": "Enable or disable the age verification feature.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "TxType": {
+      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+      "type": "object",
+      "properties": {
+        "internal": {
+          "type": "object",
+          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "description": "Regular expression for internal transaction numbers.",
+              "minLength": 1,
+              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+            }
+          },
+          "required": [
+            "pattern"
+          ],
+          "additionalProperties": false
+        },
+        "external": {
+          "type": "object",
+          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+              "default": false
+            },
+            "pattern": {
+              "type": "string",
+              "description": "Regular expression for external transaction numbers. Write it as a JSON string, backslashes must be escaped (e.g. '\\d{6}''), without leading/trailing slashes (/../).",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "enabled",
+            "pattern"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "TrainingModeType": {
+      "type": "boolean",
+      "default": true,
+      "description": "Control the availability of training mode"
+    },
+    "SCOWhitelistedPromptsType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "whitelisted"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The prompt code to whitelist, will act as an identifier."
+          },
+          "whitelisted": {
+            "type": "boolean",
+            "description": "Indicates if the prompt is whitelisted or not."
+          }
+        }
+      }
+    }
+  }
+}
