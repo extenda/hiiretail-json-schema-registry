@@ -398,7 +398,9 @@
               "description": "Unique ending pattern for the employee card Id. Can be a regex pattern or a fixed string."
             }
           },
-          "required": ["prefix"]
+          "required": [
+            "prefix"
+          ]
         }
       }
     },
@@ -571,6 +573,22 @@
         },
         "cashchanger": {
           "$ref": "#/$defs/CashChangerType"
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType"
+        }
+      }
+    },
+    "IcdType": {
+      "description": "Settings for integration with ICD.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ICD."
         }
       }
     },
@@ -814,7 +832,7 @@
           "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
         },
         "suggestions": {
-          "type":"object",
+          "type": "object",
           "properties": {
             "enabled": {
               "type": "boolean",
@@ -826,7 +844,7 @@
               "items": {
                 "type": "object",
                 "required": [
-                  "id"                
+                  "id"
                 ],
                 "properties": {
                   "id": {
