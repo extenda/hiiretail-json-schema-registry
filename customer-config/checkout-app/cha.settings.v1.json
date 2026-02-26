@@ -529,6 +529,10 @@
             "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
             "default": []
           }
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType",
+          "description": "Settings for integration with ICD, only for Tablet devices."
         }
       }
     },
