@@ -1,0 +1,15 @@
+{
+  "$id": "icd.settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Settings",
+  "description": "Interactive Customer Display settings.",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "welcomeMessage": {
+      "type": "string",
+      "description": "The welcome message to display on the Interactive Customer Display."
+    }
+  },
+  "$defs": {}
+}
