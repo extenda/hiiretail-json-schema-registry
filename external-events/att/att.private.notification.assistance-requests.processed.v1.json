@@ -1,0 +1,161 @@
+{
+  "$id": "att.private.notification.assistance-requests.processed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Assist Request processed events",
+  "description": "This schema describes the structure of the Attendant Assist Request processed events published by the Attendant service when an assistance request is processed.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the assistance request"
+    },
+    "workstationId": {
+      "type": "string",
+      "description": "The workstation where the assistance request was created"
+    },
+    "basketId": {
+      "type": "string",
+      "description": "The basket associated with the assistance request"
+    },
+    "status": {
+      "$ref": "#/$defs/AssistanceRequestStatus"
+    },
+    "processedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "When the assistance request was processed"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit that the assistance request belongs to"
+    },
+    "value": {
+      "type": "string",
+      "description": "The action value that was performed"
+    },
+    "label": {
+      "$ref": "#/$defs/TextWithLocaleDto",
+      "description": "The label of the action that was performed"
+    },
+    "payload": {
+      "description": "The payload of the performed action",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BaseProcessPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AssistanceProcessPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/AgeVerificationProcessPayloadDto"
+        },
+        {
+          "$ref": "#/$defs/RescanProcessPayloadDto"
+        }
+      ]
+    },
+    "attendantId": {
+      "type": "string",
+      "description": "The ID of the attendant who processed the request"
+    }
+  },
+  "required": [
+    "businessUnitId",
+    "value",
+    "label",
+    "payload",
+    "attendantId"
+  ],
+  "$defs": {
+    "TextWithLocaleDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "locale"
+      ]
+    },
+    "AssistanceRequestStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processed"
+      ]
+    },
+    "BaseProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "AssistanceProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "entityId": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "AgeVerificationProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "entityIds": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "response"
+      ]
+    },
+    "RescanInfoDto": {
+      "type": "object",
+      "properties": {
+        "rescannedItems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RescanProcessPayloadDto": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "rescanInfo": {
+          "$ref": "#/$defs/RescanInfoDto"
+        }
+      },
+      "required": [
+        "response"
+      ]
+    }
+  }
+}
