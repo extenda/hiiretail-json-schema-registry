@@ -1,0 +1,28 @@
+{
+  "$id": "att.private.notification.assistance-requests.deleted.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Assist Request deleted events",
+  "description": "This schema describes the structure of the Attendant Assist Request deleted events published by the Attendant service when an assistance request is deleted.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the deleted assistance request"
+    },
+    "workstationId": {
+      "type": "string",
+      "description": "The workstation where the assistance request was created"
+    },
+    "basketId": {
+      "type": "string",
+      "description": "The basket associated with the assistance request"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit that the assistance request belonged to"
+    }
+  },
+  "required": [
+    "businessUnitId"
+  ]
+}
