@@ -1,0 +1,54 @@
+{
+  "$id": "mys.device-api-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Device API Settings",
+  "description": "Settings for Device API",
+  "type": "object",
+  "properties": {
+    "hhsMinimumBatteryLevelRequiredToRelease": {
+      "title": "Minimum Battery Level to Release HHS",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "The minimum battery level required to release a handheld scanner."
+    },
+    "hhsInactiveDaysBeforeRemoval": {
+      "title": "Inactive Days Before HHS Removal",
+      "type": "integer",
+      "default": 90,
+      "minimum": 0,
+      "maximum": 180,
+      "description": "Number of days after which an inactive handheld scanner is removed. The default is set to 90 days."
+    },
+    "enableConcurrentHhsLimitPerShopper": {
+      "title": "Enable Concurrent HHS Limit Per Shopper",
+      "default": false,
+      "description": "When set to true, it limits the number of active handheld scanners a shopper can have at the same time.",
+      "type": "boolean" 
+    },
+    "maximumConcurrentHhsAllowedPerShopper": {
+      "title": "Maximum Concurrent HHS Devices Per Shopper",
+      "type": "integer",
+      "default": 1,
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Number of active handheld scanners a shopper can have at the same time."
+    },
+    "concurrentHhsCountExpiry": {
+      "title": "Concurrent HHS Count Expiry Time",
+      "type": "integer",
+      "default": 1440,
+      "minimum": 1,
+      "maximum": 30240,
+      "description": "Time to live (in minutes) for shopper active handheld scanners count. This is the duration after which the count of active handheld scanners for a shopper is reset. The default is set to 1440 minutes (24 hours)."
+    },
+    "euStatusThresholds": {
+      "title": "EU Status Thresholds",
+      "type": "string",
+      "pattern": "^[0-9]+,[0-9]+,[0-9]+,[0-9]+$",
+      "default": "10,20,50,80",
+      "description": "Percentage thresholds for Entrance Unit (EU) status calculation. Format: {Low},{Normal},{High},{Full}. Values must be increasing integers between 0 and 100."
+    }
+  },
+  "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
+}
