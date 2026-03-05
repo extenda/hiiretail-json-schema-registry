@@ -572,6 +572,9 @@
         "scanner2": {
           "$ref": "#/$defs/ScannerType"
         },
+        "scannerAudio": {
+          "$ref": "#/$defs/ScannerAudioType"
+        },
         "printer": {
           "$ref": "#/$defs/PrinterType"
         },
@@ -648,6 +651,28 @@
           "description": "Scanner's logical name."
         }
       }
+    },
+    "ScannerAudioType": {
+      "description": "Audio feedback configuration for item scanning results.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables audio feedback for barcode scan results.",
+          "default": false
+        },
+        "positiveScan": {
+          "type": "boolean",
+          "description": "Play sound when a barcode scan successfully adds an item.",
+          "default": false
+        },
+        "negativeScan": {
+          "type": "boolean",
+          "description": "Play sound when a barcode scan fails or triggers an error/prompt.",
+          "default": true
+        }
+      },
+      "additionalProperties": false
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
