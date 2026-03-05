@@ -572,6 +572,9 @@
         "scanner2": {
           "$ref": "#/$defs/ScannerType"
         },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
+        },
         "printer": {
           "$ref": "#/$defs/PrinterType"
         },
@@ -648,6 +651,42 @@
           "description": "Scanner's logical name."
         }
       }
+    },
+    "ScanAlertType": {
+      "description": "Configuration for item scan feedback events.",
+      "type": "object",
+      "properties": {
+        "audio": {
+          "description": "Audio feedback configuration for scan events.",
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enables audio alert for barcode scan success.",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable audio alert for barcode scan failure",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
