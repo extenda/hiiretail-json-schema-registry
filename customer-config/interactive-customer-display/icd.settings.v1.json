@@ -9,9 +9,13 @@
     "layouts": {
       "description": "Widget layouts per display state.",
       "type": "object",
-      "required": ["idle", "hasTransaction"],
+      "required": ["grid", "idle", "hasTransaction"],
       "additionalProperties": false,
       "properties": {
+        "grid": {
+          "description": "Grid dimensions shared across all display states.",
+          "$ref": "#/$defs/GridType"
+        },
         "idle": {
           "description": "Layout shown when the display is idle (no customer interaction).",
           "$ref": "#/$defs/IdleLayoutType"
@@ -92,22 +96,15 @@
     "WelcomeMessageWidgetType": {
       "description": "Displays a welcome message to the customer.",
       "type": "object",
-      "required": ["position", "props"],
+      "required": ["position", "message"],
       "additionalProperties": false,
       "properties": {
         "position": {
           "$ref": "#/$defs/PositionType"
         },
-        "props": {
-          "type": "object",
-          "required": ["message"],
-          "additionalProperties": false,
-          "properties": {
-            "message": {
-              "description": "The welcome message text to display.",
-              "type": "string"
-            }
-          }
+        "message": {
+          "description": "The welcome message text to display.",
+          "type": "string"
         }
       }
     },
@@ -120,27 +117,18 @@
         "position": {
           "$ref": "#/$defs/PositionType"
         },
-        "props": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "displayInvalidatedEntities": {
-              "description": "Whether to display invalidated (voided/cancelled) entities on the receipt.",
-              "type": "boolean"
-            }
-          }
+        "displayInvalidatedEntities": {
+          "description": "Whether to display invalidated (voided/cancelled) entities on the receipt.",
+          "type": "boolean"
         }
       }
     },
     "IdleLayoutType": {
-      "description": "Grid layout for the idle state. Allowed widgets: welcomeMessage.",
+      "description": "Layout for the idle state. Allowed widgets: welcomeMessage.",
       "type": "object",
-      "required": ["grid", "widgets"],
+      "required": ["widgets"],
       "additionalProperties": false,
       "properties": {
-        "grid": {
-          "$ref": "#/$defs/GridType"
-        },
         "widgets": {
           "type": "object",
           "additionalProperties": false,
@@ -153,14 +141,11 @@
       }
     },
     "HasTransactionLayoutType": {
-      "description": "Grid layout for the hasTransaction state. Allowed widgets: receipt.",
+      "description": "Layout for the hasTransaction state. Allowed widgets: receipt.",
       "type": "object",
-      "required": ["grid", "widgets"],
+      "required": ["widgets"],
       "additionalProperties": false,
       "properties": {
-        "grid": {
-          "$ref": "#/$defs/GridType"
-        },
         "widgets": {
           "type": "object",
           "additionalProperties": false,
@@ -173,14 +158,11 @@
       }
     },
     "NoTransactionLayoutType": {
-      "description": "Grid layout for the noTransaction state. Allowed widgets: welcomeMessage.",
+      "description": "Layout for the noTransaction state. Allowed widgets: welcomeMessage.",
       "type": "object",
-      "required": ["grid", "widgets"],
+      "required": ["widgets"],
       "additionalProperties": false,
       "properties": {
-        "grid": {
-          "$ref": "#/$defs/GridType"
-        },
         "widgets": {
           "type": "object",
           "additionalProperties": false,
