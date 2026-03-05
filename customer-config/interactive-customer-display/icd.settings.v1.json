@@ -92,12 +92,9 @@
     "WelcomeMessageWidgetType": {
       "description": "Displays a welcome message to the customer.",
       "type": "object",
-      "required": ["id", "position", "props"],
+      "required": ["position", "props"],
       "additionalProperties": false,
       "properties": {
-        "id": {
-          "const": "welcomeMessage"
-        },
         "position": {
           "$ref": "#/$defs/PositionType"
         },
@@ -117,12 +114,9 @@
     "ReceiptWidgetType": {
       "description": "Displays the transaction receipt.",
       "type": "object",
-      "required": ["id", "position"],
+      "required": ["position"],
       "additionalProperties": false,
       "properties": {
-        "id": {
-          "const": "receipt"
-        },
         "position": {
           "$ref": "#/$defs/PositionType"
         },
@@ -148,11 +142,12 @@
           "$ref": "#/$defs/GridType"
         },
         "widgets": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "$ref": "#/$defs/WelcomeMessageWidgetType" }
-            ]
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "welcomeMessage": {
+              "$ref": "#/$defs/WelcomeMessageWidgetType"
+            }
           }
         }
       }
@@ -167,11 +162,12 @@
           "$ref": "#/$defs/GridType"
         },
         "widgets": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "$ref": "#/$defs/ReceiptWidgetType" }
-            ]
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "receipt": {
+              "$ref": "#/$defs/ReceiptWidgetType"
+            }
           }
         }
       }
@@ -186,11 +182,12 @@
           "$ref": "#/$defs/GridType"
         },
         "widgets": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "$ref": "#/$defs/WelcomeMessageWidgetType" }
-            ]
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "welcomeMessage": {
+              "$ref": "#/$defs/WelcomeMessageWidgetType"
+            }
           }
         }
       }
