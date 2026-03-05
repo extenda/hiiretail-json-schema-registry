@@ -9,24 +9,24 @@
     "layouts": {
       "description": "Widget layouts per display state.",
       "type": "object",
-      "required": ["grid", "idle", "hasTransaction"],
+      "required": ["idle", "midOrder"],
       "additionalProperties": false,
       "properties": {
         "grid": {
           "description": "Grid dimensions shared across all display states.",
-          "$ref": "#/$defs/GridType"
+          "$ref": "#/$defs/GridType",
+          "default": {
+            "columns": 12,
+            "rows": 12
+          }
         },
         "idle": {
           "description": "Layout shown when the display is idle (no customer interaction).",
           "$ref": "#/$defs/IdleLayoutType"
         },
-        "hasTransaction": {
+        "midOrder": {
           "description": "Layout shown during an active transaction.",
-          "$ref": "#/$defs/HasTransactionLayoutType"
-        },
-        "noTransaction": {
-          "description": "Layout shown when a customer is present but no transaction is active. Falls back to idle if not configured.",
-          "$ref": "#/$defs/NoTransactionLayoutType"
+          "$ref": "#/$defs/MidOrderLayoutType"
         }
       }
     }
@@ -140,8 +140,8 @@
         }
       }
     },
-    "HasTransactionLayoutType": {
-      "description": "Layout for the hasTransaction state. Allowed widgets: receipt.",
+    "MidOrderLayoutType": {
+      "description": "Layout for the midOrder state. Allowed widgets: receipt.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -152,23 +152,6 @@
           "properties": {
             "receipt": {
               "$ref": "#/$defs/ReceiptWidgetType"
-            }
-          }
-        }
-      }
-    },
-    "NoTransactionLayoutType": {
-      "description": "Layout for the noTransaction state. Allowed widgets: welcomeMessage.",
-      "type": "object",
-      "required": ["widgets"],
-      "additionalProperties": false,
-      "properties": {
-        "widgets": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "welcomeMessage": {
-              "$ref": "#/$defs/WelcomeMessageWidgetType"
             }
           }
         }
