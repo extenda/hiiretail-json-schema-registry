@@ -123,8 +123,66 @@
         }
       }
     },
+    "ImageSourceType": {
+      "description": "A single image source entry.",
+      "type": "object",
+      "required": ["src", "active"],
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "description": "Image URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "active": {
+          "description": "Whether this image is included in the rotation.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ImageWidgetType": {
+      "description": "Rotates through a set of images",
+      "type": "object",
+      "required": ["position", "sources"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "sources": {
+          "description": "List of image sources. Only entries with active: true are displayed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImageSourceType"
+          },
+          "minItems": 1
+        },
+        "interval": {
+          "description": "Rotation interval in milliseconds. Only used with multiple active sources.",
+          "type": "integer",
+          "minimum": 1000,
+          "default": 5000
+        }
+      }
+    },
+    "VideoWidgetType": {
+      "description": "Plays a video on loop (muted, auto-play).",
+      "type": "object",
+      "required": ["position", "src"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "src": {
+          "description": "Video URL.",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
     "IdleLayoutType": {
-      "description": "Layout for the idle state. Allowed widgets: welcomeMessage.",
+      "description": "Layout for the idle state. Allowed widgets: welcomeMessage, image, video.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -135,23 +193,36 @@
           "properties": {
             "welcomeMessage": {
               "$ref": "#/$defs/WelcomeMessageWidgetType"
+            },
+            "image": {
+              "$ref": "#/$defs/ImageWidgetType"
+            },
+            "video": {
+              "$ref": "#/$defs/VideoWidgetType"
             }
           }
         }
       }
     },
     "MidOrderLayoutType": {
-      "description": "Layout for the midOrder state. Allowed widgets: receipt.",
+      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
       "properties": {
         "widgets": {
           "type": "object",
+          "required": ["receipt"],
           "additionalProperties": false,
           "properties": {
             "receipt": {
               "$ref": "#/$defs/ReceiptWidgetType"
+            },
+            "image": {
+              "$ref": "#/$defs/ImageWidgetType"
+            },
+            "video": {
+              "$ref": "#/$defs/VideoWidgetType"
             }
           }
         }
