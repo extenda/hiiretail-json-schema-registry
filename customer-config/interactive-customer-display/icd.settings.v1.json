@@ -126,11 +126,11 @@
     "ImageSourceType": {
       "description": "A single image source entry.",
       "type": "object",
-      "required": ["src", "active"],
+      "required": ["id", "active"],
       "additionalProperties": false,
       "properties": {
-        "src": {
-          "description": "Image URL.",
+        "id": {
+          "description": "Image URL, will act as an identifier.",
           "type": "string",
           "format": "uri"
         },
