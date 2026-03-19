@@ -1,5 +1,5 @@
 {
-  "$id": "cha.settings.v2",
+  "$id": "cha.settings.v1-test",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Settings",
   "description": "Checkout App settings for testing purposes only. Don't use this kind in production.",
