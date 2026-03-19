@@ -457,45 +457,15 @@
               "description": "Days of the week when the maintenance can occur.",
               "type": "array",
               "items": {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "enum": [
-                      "MO",
-                      "TU",
-                      "WE",
-                      "TH",
-                      "FR",
-                      "SA",
-                      "SU"
-                    ]
-                  },
-                  {
-                    "type": "object",
-                    "required": [
-                      "id"
-                    ],
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "enum": [
-                          "MO",
-                          "TU",
-                          "WE",
-                          "TH",
-                          "FR",
-                          "SA",
-                          "SU"
-                        ]
-                      },
-                      "deleted": {
-                        "type": "boolean",
-                        "default": false,
-                        "description": "Soft-delete flag. When true, this day is excluded from the maintenance window."
-                      }
-                    },
-                    "additionalProperties": false
-                  }
+                "type": "string",
+                "enum": [
+                  "MO",
+                  "TU",
+                  "WE",
+                  "TH",
+                  "FR",
+                  "SA",
+                  "SU"
                 ]
               },
               "uniqueItems": true,
@@ -559,6 +529,10 @@
             "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
             "default": []
           }
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType",
+          "description": "Settings for integration with ICD, only for Tablet devices."
         }
       }
     },
@@ -603,6 +577,22 @@
         },
         "cashchanger": {
           "$ref": "#/$defs/CashChangerType"
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType"
+        }
+      }
+    },
+    "IcdType": {
+      "description": "Settings for integration with ICD.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ICD."
         }
       }
     },
