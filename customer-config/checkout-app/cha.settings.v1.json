@@ -457,15 +457,44 @@
               "description": "Days of the week when the maintenance can occur.",
               "type": "array",
               "items": {
-                "type": "string",
-                "enum": [
-                  "MO",
-                  "TU",
-                  "WE",
-                  "TH",
-                  "FR",
-                  "SA",
-                  "SU"
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "MO",
+                      "TU",
+                      "WE",
+                      "TH",
+                      "FR",
+                      "SA",
+                      "SU"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "enum": [
+                          "MO",
+                          "TU",
+                          "WE",
+                          "TH",
+                          "FR",
+                          "SA",
+                          "SU"
+                        ]
+                      },
+                      "deleted": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Soft-delete flag. When true, this day is excluded from the maintenance window."
+                      }
+                    }
+                  }
                 ]
               },
               "uniqueItems": true,
