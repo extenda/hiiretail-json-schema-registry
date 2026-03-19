@@ -4,12 +4,158 @@
   "title": "Settings",
   "description": "Interactive Customer Display settings.",
   "type": "object",
-  "required": [],
+  "additionalProperties": false,
   "properties": {
-    "welcomeMessage": {
-      "type": "string",
-      "description": "The welcome message to display on the Interactive Customer Display."
+    "layouts": {
+      "description": "Widget layouts per display state.",
+      "type": "object",
+      "required": ["idle", "midOrder"],
+      "additionalProperties": false,
+      "properties": {
+        "grid": {
+          "description": "Grid dimensions shared across all display states.",
+          "$ref": "#/$defs/GridType",
+          "default": {
+            "columns": 12,
+            "rows": 12
+          }
+        },
+        "idle": {
+          "description": "Layout shown when the display is idle (no customer interaction).",
+          "$ref": "#/$defs/IdleLayoutType"
+        },
+        "midOrder": {
+          "description": "Layout shown during an active transaction.",
+          "$ref": "#/$defs/MidOrderLayoutType"
+        }
+      }
     }
   },
-  "$defs": {}
+  "$defs": {
+    "GridType": {
+      "description": "Grid dimensions defining the layout grid.",
+      "type": "object",
+      "required": ["columns", "rows"],
+      "additionalProperties": false,
+      "properties": {
+        "columns": {
+          "description": "Number of columns in the grid.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "rows": {
+          "description": "Number of rows in the grid.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "gap": {
+          "description": "Uniform gap between rows and columns in pixels. Overridden by rowGap/columnGap.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "rowGap": {
+          "description": "Gap between rows in pixels. Takes precedence over gap.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "columnGap": {
+          "description": "Gap between columns in pixels. Takes precedence over gap.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "PositionType": {
+      "description": "Widget position and span within the grid (1-based indices).",
+      "type": "object",
+      "required": ["col", "row", "colSpan", "rowSpan"],
+      "additionalProperties": false,
+      "properties": {
+        "col": {
+          "description": "Column start position (1-based).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "row": {
+          "description": "Row start position (1-based).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "colSpan": {
+          "description": "Number of columns the widget spans.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "rowSpan": {
+          "description": "Number of rows the widget spans.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "WelcomeMessageWidgetType": {
+      "description": "Displays a welcome message to the customer.",
+      "type": "object",
+      "required": ["position", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "message": {
+          "description": "The welcome message text to display.",
+          "type": "string"
+        }
+      }
+    },
+    "ReceiptWidgetType": {
+      "description": "Displays the transaction receipt.",
+      "type": "object",
+      "required": ["position"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "displayInvalidatedEntities": {
+          "description": "Whether to display invalidated (voided/cancelled) entities on the receipt.",
+          "type": "boolean"
+        }
+      }
+    },
+    "IdleLayoutType": {
+      "description": "Layout for the idle state. Allowed widgets: welcomeMessage.",
+      "type": "object",
+      "required": ["widgets"],
+      "additionalProperties": false,
+      "properties": {
+        "widgets": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "welcomeMessage": {
+              "$ref": "#/$defs/WelcomeMessageWidgetType"
+            }
+          }
+        }
+      }
+    },
+    "MidOrderLayoutType": {
+      "description": "Layout for the midOrder state. Allowed widgets: receipt.",
+      "type": "object",
+      "required": ["widgets"],
+      "additionalProperties": false,
+      "properties": {
+        "widgets": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "receipt": {
+              "$ref": "#/$defs/ReceiptWidgetType"
+            }
+          }
+        }
+      }
+    }
+  }
 }

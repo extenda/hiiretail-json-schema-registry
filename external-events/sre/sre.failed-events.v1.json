@@ -9,26 +9,29 @@
       "type": "string",
       "description": "Unique identifier for the event"
     },
-    "entityType": {
-      "type": "string",
-      "enum": ["ITEM", "PRICE_SPECIFICATION", "COMPLETE_ITEM", "PROMOTION"],
-      "description": "The entity type of the event."
-    },
-    "businessUnitGroupId": {
-      "type": "string",
-      "description": "Identifier for the business unit group"
-    },
     "businessUnitId": {
       "type": "string",
       "description": "Identifier for the specific business unit"
     },
-    "status": {
+    "title": {
       "type": "string",
-      "description": "Status of the event",
-      "enum": ["FAILED", "NOT_DELIVERED"],
-      "minLength": 0
+      "description": "Human readable title describing the failure"
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Human readable explanation of the failure. If a translation cannot be found, a generic message is returned.",
+      "default": "Specific error could not be determined."
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Identifier of the entity that failed to process"
+    },
+    "entityType": {
+      "type": "string",
+      "description": "The entity type of the failed event",
+      "enum": ["Item", "Promotion", "Plulist"]
     }
   },
-  "required": ["correlationId", "entityType", "businessUnitGroupId", "businessUnitId", "reason"],
+  "required": ["correlationId", "businessUnitId", "title", "errorMessage", "entityId", "entityType"],
   "additionalProperties": false
 }
