@@ -530,6 +530,9 @@
             "default": []
           }
         },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
+        },
         "icd": {
           "$ref": "#/$defs/IcdType",
           "description": "Settings for integration with ICD, only for Tablet devices."
@@ -660,6 +663,11 @@
           "description": "Audio feedback configuration for scan events.",
           "type": "object",
           "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enables audio alerts for barcode scanning.",
+              "default": false
+            },
             "success": {
               "type": "object",
               "properties": {
