@@ -1226,6 +1226,26 @@
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
         },
+        "cardReminderTriggers": {
+          "type": "object",
+          "properties": {
+            "startTrip": {
+              "type": "boolean",
+              "default": true,
+              "description": "Trigger loyalty card reminder straight after the trip starts in SCO mode."
+            },
+            "startPayment": {
+              "type": "boolean",
+              "default": false,
+              "description": "Trigger loyalty card reminder by clicking the 'Pay' button in SCO mode."
+            }
+          },
+          "default": {
+            "startTrip": true,
+            "startPayment": false
+          },
+          "description": "Defines when to show the loyalty card reminder dialog in SCO mode."
+        },
         "qrCode": {
           "description": "QR code settings",
           "type": "object",
