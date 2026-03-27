@@ -130,8 +130,9 @@
       "additionalProperties": false,
       "properties": {
         "id": {
-          "description": "Unique identifier for the image source.",
-          "type": "string"
+          "description": "Unique numeric identifier for the image source. Must contain only digits.",
+          "type": "string",
+          "pattern": "^[0-9]+$"
         },
         "url": {
           "description": "Image URL.",
