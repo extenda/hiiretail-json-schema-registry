@@ -126,16 +126,20 @@
     "ImageSourceType": {
       "description": "A single image source entry.",
       "type": "object",
-      "required": ["id", "active"],
+      "required": ["id", "url"],
       "additionalProperties": false,
       "properties": {
         "id": {
-          "description": "Image URL, will act as an identifier.",
+          "description": "Unique identifier for the image source.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Image URL.",
           "type": "string",
           "format": "uri"
         },
-        "active": {
-          "description": "Whether this image is included in the rotation.",
+        "deleted": {
+          "description": "Whether this image source has been soft-deleted.",
           "type": "boolean"
         }
       }
@@ -150,7 +154,7 @@
           "$ref": "#/$defs/PositionType"
         },
         "sources": {
-          "description": "List of image sources. Only entries with active: true are displayed.",
+          "description": "List of image sources. Entries with deleted: true are excluded from rotation.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/ImageSourceType"
