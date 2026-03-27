@@ -29,28 +29,6 @@
       "$ref": "#/$defs/CfdType"
     }
   },
-  "if": {
-    "properties": {
-      "sco": {
-        "properties": {
-          "enabled": {
-            "const": true
-          }
-        }
-      }
-    }
-  },
-  "then": {
-    "properties": {
-      "cfd": {
-        "properties": {
-          "autoStart": {
-            "const": false
-          }
-        }
-      }
-    }
-  },
   "$defs": {
     "MposType": {
       "description": "This is a definition of the MPOS settings.",
