@@ -1,0 +1,55 @@
+{
+  "$id": "sre.software-statements.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Software Statements",
+  "description": "Software Statement Expiry Notifications",
+  "type": "object",
+  "properties": {
+    "softwareStatementId": {
+      "type": "string",
+      "description": "Unique identifier of the software statement",
+      "example": "abc123"
+    },
+    "softwareId": {
+      "type": "string",
+      "description": "Software product identifier",
+      "example": "sw-abc"
+    },
+    "softwareVersion": {
+      "type": "string",
+      "description": "Version of the software",
+      "example": "1.0.0"
+    },
+    "softwareStatementExpiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the software statement expires",
+      "example": "2030-01-01T00:00:00.000Z"
+    },
+    "isGlobalTemplate": {
+      "type": "boolean",
+      "description": "Whether this is a global template statement",
+      "example": false
+    },
+    "title": {
+      "type": "string",
+      "description": "Human readable title describing the expiry status",
+      "example": "Software statement abc123 for sw-abc is expiring on 2030-01-01T00:00:00.000Z"
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Actionable recommendation for the tenant regarding the expiring or expired software statement",
+      "example": "Your software statement expires on 2030-01-01T00:00:00.000Z. Please create a new software statement before the expiry date."
+    }
+  },
+  "required": [
+    "softwareStatementId",
+    "softwareId",
+    "softwareVersion",
+    "softwareStatementExpiresAt",
+    "isGlobalTemplate",
+    "title",
+    "recommendation"
+  ],
+  "additionalProperties": false
+}
