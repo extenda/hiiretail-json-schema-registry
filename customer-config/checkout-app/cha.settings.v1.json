@@ -90,6 +90,11 @@
             }
           }
         },
+        "plu": {
+          "description": "Plu settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -151,6 +156,11 @@
           "description": "Prompt settings.",
           "type": "object",
           "$ref": "#/$defs/PromptType"
+        },
+        "plu": {
+          "description": "Plu settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -905,6 +915,17 @@
         }
       }
     },
+    "PluType": {
+      "description": "This is a definition of the PLU settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the plu."
+        }
+      }
+    },
     "LogsType": {
       "description": "This is a definition of the logs settings.",
       "type": "object",
@@ -1404,6 +1425,11 @@
             "pattern"
           ],
           "additionalProperties": false
+        },
+        "shortcutsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the Transaction search shortcut."
         }
       },
       "additionalProperties": false
