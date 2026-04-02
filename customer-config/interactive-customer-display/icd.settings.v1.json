@@ -170,6 +170,17 @@
         }
       }
     },
+    "LoyaltyWidgetType": {
+      "description": "Displays loyalty program information.",
+      "type": "object",
+      "required": ["position"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        }
+      }
+    },
     "VideoWidgetType": {
       "description": "Plays a video on loop (muted, auto-play).",
       "type": "object",
@@ -210,7 +221,7 @@
       }
     },
     "MidOrderLayoutType": {
-      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video.",
+      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video, loyalty.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -228,6 +239,9 @@
             },
             "video": {
               "$ref": "#/$defs/VideoWidgetType"
+            },
+            "loyalty": {
+              "$ref": "#/$defs/LoyaltyWidgetType"
             }
           }
         }
