@@ -1389,6 +1389,11 @@
       "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
       "type": "object",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the Transaction search shortcut."
+        },
         "internal": {
           "type": "object",
           "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
@@ -1425,11 +1430,6 @@
             "pattern"
           ],
           "additionalProperties": false
-        },
-        "shortcutsEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables the Transaction search shortcut."
         }
       },
       "additionalProperties": false
