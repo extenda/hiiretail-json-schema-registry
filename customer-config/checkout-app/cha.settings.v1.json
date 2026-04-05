@@ -1242,6 +1242,48 @@
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
         },
+        "cardReminderTriggers": {
+          "type": "object",
+          "properties": {
+            "startTrip": {
+              "type": "boolean",
+              "default": true,
+              "description": "Trigger loyalty card reminder straight after the trip starts in SCO mode."
+            },
+            "startPayment": {
+              "type": "boolean",
+              "default": false,
+              "description": "Trigger loyalty card reminder by clicking the 'Pay' button in SCO mode."
+            }
+          },
+          "default": {
+            "startTrip": true,
+            "startPayment": false
+          },
+          "description": "Defines when to show the loyalty card reminder dialog in SCO mode."
+        },
+        "cardReminderMediaContent": {
+          "description": "Defines the media content of the loyalty card reminder dialog in SCO mode.",
+          "type": "object",
+          "required": [
+            "type",
+            "sourceUrl"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "image",
+                "video"
+              ],
+              "description": "The type of the media content."
+            },
+            "sourceUrl": {
+              "type": "string",
+              "description": "The source URL of the media content. A direct link to the media file should be provided. For example, if the media content is an image, the URL should end with .jpg or .png. If the media content is a video, the URL should end with .mp4."
+            }
+          }
+        },
         "qrCode": {
           "description": "QR code settings",
           "type": "object",
