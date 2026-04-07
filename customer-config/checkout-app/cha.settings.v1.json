@@ -90,6 +90,11 @@
             }
           }
         },
+        "plu": {
+          "description": "Plu settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -156,6 +161,11 @@
           "description": "Prompt settings.",
           "type": "object",
           "$ref": "#/$defs/PromptType"
+        },
+        "plu": {
+          "description": "Plu settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -922,6 +932,17 @@
         }
       }
     },
+    "PluType": {
+      "description": "This is a definition of the PLU settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the plu."
+        }
+      }
+    },
     "LogsType": {
       "description": "This is a definition of the logs settings.",
       "type": "object",
@@ -1427,6 +1448,11 @@
       "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
       "type": "object",
       "properties": {
+        "shortcutsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the Transaction search shortcut."
+        },
         "internal": {
           "type": "object",
           "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
