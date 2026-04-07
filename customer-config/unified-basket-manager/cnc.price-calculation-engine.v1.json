@@ -1,14 +1,14 @@
 {
-  "$id": "ubm.engine.v1",
+  "$id": "ubm.price-calculation-engine.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Engine",
+  "title": "PriceCalculationEngine",
   "description": "Fetch price & promotional details for items added to cart.",
   "type": "object",
   "required": [
-    "engine"
+    "priceCalculationEngine"
   ],
   "properties": {
-    "engine": {
+    "priceCalculationEngine": {
       "type": "string",
       "enum": [
         "PROMOTION",
