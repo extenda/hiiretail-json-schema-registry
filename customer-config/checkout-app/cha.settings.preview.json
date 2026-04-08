@@ -1,8 +1,8 @@
 {
-  "$id": "cha.settings.v1",
+  "$id": "cha.settings.preview",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Settings",
-  "description": "Checkout App settings.",
+  "description": "Checkout App settings for testing purposes only. Don't use this kind in production.",
   "type": "object",
   "required": [
     "pos"
@@ -493,8 +493,7 @@
                         "default": false,
                         "description": "Soft-delete flag. When true, this day is excluded from the maintenance window."
                       }
-                    },
-                    "additionalProperties": false
+                    }
                   }
                 ]
               },
@@ -559,6 +558,10 @@
             "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
             "default": []
           }
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType",
+          "description": "Settings for integration with ICD, only for Tablet devices."
         }
       }
     },
@@ -603,6 +606,22 @@
         },
         "cashchanger": {
           "$ref": "#/$defs/CashChangerType"
+        },
+        "icd": {
+          "$ref": "#/$defs/IcdType"
+        }
+      }
+    },
+    "IcdType": {
+      "description": "Settings for integration with ICD.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ICD."
         }
       }
     },
@@ -1184,6 +1203,48 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the loyalty card reminder dialog in SCO mode."
+        },
+        "cardReminderTriggers": {
+          "type": "object",
+          "properties": {
+            "startTrip": {
+              "type": "boolean",
+              "default": true,
+              "description": "Trigger loyalty card reminder straight after the trip starts in SCO mode."
+            },
+            "startPayment": {
+              "type": "boolean",
+              "default": false,
+              "description": "Trigger loyalty card reminder by clicking the 'Pay' button in SCO mode."
+            }
+          },
+          "default": {
+            "startTrip": true,
+            "startPayment": false
+          },
+          "description": "Defines when to show the loyalty card reminder dialog in SCO mode."
+        },
+        "cardReminderMediaContent": {
+          "description": "Defines the media content of the loyalty card reminder dialog in SCO mode.",
+          "type": "object",
+          "required": [
+            "type",
+            "sourceUrl"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "image",
+                "video"
+              ],
+              "description": "The type of the media content."
+            },
+            "sourceUrl": {
+              "type": "string",
+              "description": "The source URL of the media content. A direct link to the media file should be provided. For example, if the media content is an image, the URL should end with .jpg or .png. If the media content is a video, the URL should end with .mp4."
+            }
+          }
         },
         "qrCode": {
           "description": "QR code settings",

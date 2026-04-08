@@ -123,8 +123,82 @@
         }
       }
     },
+    "ImageSourceType": {
+      "description": "A single image source entry.",
+      "type": "object",
+      "required": ["id", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Unique numeric identifier for the image source. Must contain only digits.",
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "url": {
+          "description": "Image URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "deleted": {
+          "description": "Whether this image source has been soft-deleted.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ImageWidgetType": {
+      "description": "Rotates through a set of images",
+      "type": "object",
+      "required": ["position", "sources"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "sources": {
+          "description": "List of image sources. Entries with deleted: true are excluded from rotation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImageSourceType"
+          },
+          "minItems": 1
+        },
+        "interval": {
+          "description": "Rotation interval in milliseconds. Only used with multiple active sources.",
+          "type": "integer",
+          "minimum": 1000,
+          "default": 5000
+        }
+      }
+    },
+    "LoyaltyWidgetType": {
+      "description": "Displays loyalty program information.",
+      "type": "object",
+      "required": ["position"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        }
+      }
+    },
+    "VideoWidgetType": {
+      "description": "Plays a video on loop (muted, auto-play).",
+      "type": "object",
+      "required": ["position", "src"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        },
+        "src": {
+          "description": "Video URL.",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
     "IdleLayoutType": {
-      "description": "Layout for the idle state. Allowed widgets: welcomeMessage.",
+      "description": "Layout for the idle state. Allowed widgets: welcomeMessage, image, video.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -135,23 +209,39 @@
           "properties": {
             "welcomeMessage": {
               "$ref": "#/$defs/WelcomeMessageWidgetType"
+            },
+            "image": {
+              "$ref": "#/$defs/ImageWidgetType"
+            },
+            "video": {
+              "$ref": "#/$defs/VideoWidgetType"
             }
           }
         }
       }
     },
     "MidOrderLayoutType": {
-      "description": "Layout for the midOrder state. Allowed widgets: receipt.",
+      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video, loyalty.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
       "properties": {
         "widgets": {
           "type": "object",
+          "required": ["receipt"],
           "additionalProperties": false,
           "properties": {
             "receipt": {
               "$ref": "#/$defs/ReceiptWidgetType"
+            },
+            "image": {
+              "$ref": "#/$defs/ImageWidgetType"
+            },
+            "video": {
+              "$ref": "#/$defs/VideoWidgetType"
+            },
+            "loyalty": {
+              "$ref": "#/$defs/LoyaltyWidgetType"
             }
           }
         }
