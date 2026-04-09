@@ -1093,6 +1093,11 @@
           "type": "object",
           "$ref": "#/$defs/ScoLoyaltyType"
         },
+        "manualSearch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables manual search (by barcode) shortcut in SCO mode."
+        },
         "callAssistantEnabled": {
           "type": "boolean",
           "default": false,
