@@ -6,6 +6,18 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "kiosk": {
+      "description": "Kiosk mode settings.",
+      "type": "object",
+      "required": ["enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "description": "Whether kiosk mode is enabled. In kiosk mode. The display is locked to the ICD application and cannot be used for other purposes.",
+          "type": "boolean"
+        }
+      }
+    },
     "layouts": {
       "description": "Widget layouts per display state.",
       "type": "object",
