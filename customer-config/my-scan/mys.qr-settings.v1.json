@@ -1,0 +1,30 @@
+{
+  "$id": "mys.qr-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QR Code Settings",
+  "description": "Settings for QR code generation and validation",
+  "type": "object",
+  "properties": {
+    "qrCodeExpirationMinutes": {
+      "title": "QR Code Expiration Minutes",
+      "type": "integer",
+      "default": 60,
+      "minimum": 1,
+      "maximum": 1440,
+      "description": "The number of minutes before a generated QR code expires. The default is set to 60 minutes (1 hour)."
+    },
+    "enableQrCodeStoreValidation": {
+      "title": "Enable QR Code Store Validation",
+      "type": "boolean",
+      "default": true,
+      "description": "When set to true, validates that the store ID in the QR code generation request matches the authenticated business unit."
+    },
+    "enableQrCodeExpirationValidation": {
+      "title": "Enable QR Code Expiration Validation",
+      "type": "boolean",
+      "default": true,
+      "description": "When set to true, validates that the QR code has not expired during validation requests."
+    }
+  },
+  "required": ["qrCodeExpirationMinutes", "enableQrCodeStoreValidation", "enableQrCodeExpirationValidation"]
+}
