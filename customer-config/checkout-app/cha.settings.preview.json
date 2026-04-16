@@ -1037,6 +1037,11 @@
           "description": "Attendant settings in SCO mode.",
           "type": "object",
           "$ref": "#/$defs/ScoAttendantType"
+        },
+        "spotCheckEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the spot check message in SCO welcome screen."
         }
       }
     },
