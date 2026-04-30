@@ -1,0 +1,93 @@
+{
+  "$id": "cpy.hiiconnect-adyen-local-config.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adyen TAPI local card payment configuration",
+  "description": "Adyen TAPI local card payment configuration.",
+  "type": "object",
+  "required": [
+    "environment",
+    "encryptionKeyVersion",
+    "encryptionKeyIdentifier",
+    "encryptionKeyPassphrase",
+    "receiptLineWidth",
+    "webhookPort",
+    "webhookUsername",
+    "webhookPassword"
+  ],
+  "properties": {
+    "environment": {
+      "description": "Environment for the requests. Use 'SANDBOX' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions",
+      "type": "string",
+      "default": "PRODUCTION",
+      "enum": [
+        "SANDBOX",
+        "MOCK",
+        "PRODUCTION"
+      ]
+    },
+    "encryptionKeyVersion": {
+      "description": "Device encryption key version",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10,
+      "example": "1"
+    },
+    "encryptionKeyIdentifier": {
+      "description": "Device encryption key identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10,
+      "example": "key-identifier"
+    },
+    "encryptionKeyPassphrase": {
+      "description": "Device encryption key passphrase",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10,
+      "example": "key-passphrase"
+    },
+    "poiId": {
+      "description": "Unique terminal identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "example": "e285p-402070915"
+    },
+    "terminalAddress": {
+      "description": "IP terminal address",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "example": "192.168.69.116"
+    },
+    "receiptLineWidth": {
+      "description": "Line width for the merchant and customer receipts",
+      "type": "integer",
+      "minLength": 1,
+      "maxLength": 2,
+      "default": 42,
+      "example": "42"
+    },
+    "webhookPort": {
+      "description": "Webhook port",
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 4,
+      "example": "8888"
+    },
+    "webhookUsername": {
+      "description": "Webhook username",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "example": "adyen-webhook-user"
+    },
+    "webhookPassword": {
+      "description": "Webhook password",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "example": "secure-password-here"
+    }
+  }
+}

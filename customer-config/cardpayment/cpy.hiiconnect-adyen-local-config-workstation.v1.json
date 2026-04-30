@@ -1,0 +1,24 @@
+{
+	"$id": "cpy.hiiconnect-adyen-local-config.v1.json",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Adyen TAPI local card payment configuration for workstation",
+	"description": "Adyen TAPI local card payment configuration for workstation.",
+	"type": "object",
+  "required": ["terminalId", "terminalIpAddress"],
+  "properties": {
+    "terminalId": {
+      "description": "Unique terminal identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "example": "e285p-402070915"
+    },
+    "terminalIpAddress": {
+      "description": "IP terminal address",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "example": "192.168.69.116"
+    }
+  }
+}
