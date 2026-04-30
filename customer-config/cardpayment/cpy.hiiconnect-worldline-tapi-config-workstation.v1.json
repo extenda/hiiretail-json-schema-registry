@@ -1,0 +1,19 @@
+{
+	"$id": "cpy.hiiconnect-worldline-tapi-config-workstation.v1",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Worldline TAPI card payment configuration for workstation",
+	"description": "Worldline TAPI card payment configuration for workstation.",
+	"type": "object",
+	"required": [
+		"utid"
+	],
+	"properties": {
+		"utid": {
+			"description": "Unique terminal identifier",
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 50,
+			"example": "247PHU831851"
+		}
+	}
+}
