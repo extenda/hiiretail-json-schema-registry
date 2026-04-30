@@ -1,5 +1,5 @@
 {
-	"$id": "cpy.hiiconnect-adyen-local-config.v1.json",
+	"$id": "cpy.hiiconnect-adyen-local-config-workstation.v1.json",
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "Adyen TAPI local card payment configuration for workstation",
 	"description": "Adyen TAPI local card payment configuration for workstation.",
