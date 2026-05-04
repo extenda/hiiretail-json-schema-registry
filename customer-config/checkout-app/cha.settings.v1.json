@@ -970,6 +970,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "decimalMonetary": {
+          "type": "boolean",
+          "description": "Enables the decimal monetary input mode, which allows interactive character-by-character editing of monetary values with a fixed decimal point. When true, replaces the scaled-integer transform approach. Defaults to false."
+        },
         "integerMonetary": {
           "type": "boolean",
           "description": "Indicates if the monetary input should accept decimals or not."
