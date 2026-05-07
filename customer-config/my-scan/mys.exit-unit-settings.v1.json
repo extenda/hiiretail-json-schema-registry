@@ -1,0 +1,200 @@
+{
+  "$id": "mys.exit-unit-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Exit Unit Settings",
+  "description": "Display settings for the MyScan Exit Unit application.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "logoUrl": {
+      "title": "Logo URL",
+      "description": "HTTPS URL for the logo image displayed above the QR code.",
+      "$ref": "#/$defs/ImageUrl"
+    },
+    "backgroundUrl": {
+      "title": "Background URL",
+      "description": "HTTPS URL for the full-screen background image.",
+      "$ref": "#/$defs/ImageUrl"
+    },
+    "theme": {
+      "title": "Theme",
+      "type": "object",
+      "description": "Material Design 3 color roles for theming the Exit Unit UI.",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "title": "Primary",
+          "description": "Primary brand color, used for key UI elements such as buttons and active indicators.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onPrimary": {
+          "title": "On Primary",
+          "description": "Color for text and icons displayed on top of the primary color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "primaryContainer": {
+          "title": "Primary Container",
+          "description": "Tonal variant of primary, used for less prominent containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onPrimaryContainer": {
+          "title": "On Primary Container",
+          "description": "Color for text and icons on top of the primary container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "secondary": {
+          "title": "Secondary",
+          "description": "Secondary accent color for less prominent UI elements.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSecondary": {
+          "title": "On Secondary",
+          "description": "Color for text and icons displayed on top of the secondary color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "secondaryContainer": {
+          "title": "Secondary Container",
+          "description": "Tonal variant of secondary, used for less prominent containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSecondaryContainer": {
+          "title": "On Secondary Container",
+          "description": "Color for text and icons on top of the secondary container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "tertiary": {
+          "title": "Tertiary",
+          "description": "Tertiary accent color for contrasting elements.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onTertiary": {
+          "title": "On Tertiary",
+          "description": "Color for text and icons displayed on top of the tertiary color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "tertiaryContainer": {
+          "title": "Tertiary Container",
+          "description": "Tonal variant of tertiary, used for less prominent containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onTertiaryContainer": {
+          "title": "On Tertiary Container",
+          "description": "Color for text and icons on top of the tertiary container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "error": {
+          "title": "Error",
+          "description": "Color indicating error states.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onError": {
+          "title": "On Error",
+          "description": "Color for text and icons displayed on top of the error color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "errorContainer": {
+          "title": "Error Container",
+          "description": "Tonal variant of error, used for less prominent error containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onErrorContainer": {
+          "title": "On Error Container",
+          "description": "Color for text and icons on top of the error container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "warning": {
+          "title": "Warning",
+          "description": "Color indicating warning states.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onWarning": {
+          "title": "On Warning",
+          "description": "Color for text and icons displayed on top of the warning color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "warningContainer": {
+          "title": "Warning Container",
+          "description": "Tonal variant of warning, used for less prominent warning containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onWarningContainer": {
+          "title": "On Warning Container",
+          "description": "Color for text and icons on top of the warning container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "success": {
+          "title": "Success",
+          "description": "Color indicating success states.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSuccess": {
+          "title": "On Success",
+          "description": "Color for text and icons displayed on top of the success color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "successContainer": {
+          "title": "Success Container",
+          "description": "Tonal variant of success, used for less prominent success containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSuccessContainer": {
+          "title": "On Success Container",
+          "description": "Color for text and icons on top of the success container color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "background": {
+          "title": "Background",
+          "description": "Page background color.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onBackground": {
+          "title": "On Background",
+          "description": "Color for text and icons displayed on the background.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "surface": {
+          "title": "Surface",
+          "description": "Surface color for cards and containers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSurface": {
+          "title": "On Surface",
+          "description": "Color for text and icons displayed on surfaces.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "surfaceVariant": {
+          "title": "Surface Variant",
+          "description": "Alternative surface color for visual differentiation.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "onSurfaceVariant": {
+          "title": "On Surface Variant",
+          "description": "Color for text and icons on surface variant backgrounds.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "outline": {
+          "title": "Outline",
+          "description": "Color for borders and dividers.",
+          "$ref": "#/$defs/HexColor"
+        },
+        "outlineVariant": {
+          "title": "Outline Variant",
+          "description": "Subtler outline color for decorative borders.",
+          "$ref": "#/$defs/HexColor"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ImageUrl": {
+      "type": "string",
+      "pattern": "^https:\\/\\/[^\\s]+\\.(jpg|jpeg|png|gif|webp|bmp|svg|JPG|JPEG|PNG|GIF|WEBP|BMP|SVG)$",
+      "description": "HTTPS URL ending with a supported image format (JPEG, PNG, GIF, WebP, BMP, SVG)."
+    },
+    "HexColor": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$",
+      "description": "Six-digit hex color code (e.g. #FF5733)."
+    }
+  }
+}
