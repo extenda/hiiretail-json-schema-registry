@@ -11,8 +11,7 @@
     "encryptionKeyPassphrase",
     "receiptLineWidth",
     "webhookPort",
-    "webhookUsername",
-    "webhookPassword"
+    "apiKey"
   ],
   "properties": {
     "environment": {
@@ -20,9 +19,9 @@
       "type": "string",
       "default": "PRODUCTION",
       "enum": [
-        "SANDBOX",
         "MOCK",
-        "PRODUCTION"
+        "PRODUCTION",
+        "SANDBOX"
       ]
     },
     "encryptionKeyVersion": {
@@ -36,22 +35,15 @@
       "description": "Device encryption key identifier",
       "type": "string",
       "minLength": 1,
-      "maxLength": 10,
+      "maxLength": 256,
       "example": "key-identifier"
     },
     "encryptionKeyPassphrase": {
       "description": "Device encryption key passphrase",
       "type": "string",
-      "minLength": 1,
-      "maxLength": 10,
+      "minLength": 12,
+      "maxLength": 256,
       "example": "key-passphrase"
-    },
-    "poiId": {
-      "description": "Unique terminal identifier",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 50,
-      "example": "e285p-402070915"
     },
     "receiptLineWidth": {
       "description": "Line width for the merchant and customer receipts",
@@ -62,25 +54,18 @@
       "example": "42"
     },
     "webhookPort": {
-      "description": "Webhook port",
+      "description": "Webhook port for receiving notifications",
       "type": "string",
       "minLength": 4,
       "maxLength": 4,
       "example": "8888"
     },
-    "webhookUsername": {
-      "description": "Webhook username",
+    "apiKey": {
+      "description": "API Key for managing notifications setup",
       "type": "string",
       "minLength": 1,
       "maxLength": 256,
-      "example": "adyen-webhook-user"
-    },
-    "webhookPassword": {
-      "description": "Webhook password",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256,
-      "example": "secure-password-here"
+      "example": "apiKey"
     }
   }
 }
