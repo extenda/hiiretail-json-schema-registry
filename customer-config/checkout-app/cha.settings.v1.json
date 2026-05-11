@@ -1513,7 +1513,7 @@
           "type": "string",
           "enum": ["iam", "ocms"],
           "default": "iam",
-          "description": "The authorization provider used for transaction lookups."
+          "description": "The authorization provider used for transaction lookups. Default: `iam`"
         },
         "shortcutsEnabled": {
           "type": "boolean",
