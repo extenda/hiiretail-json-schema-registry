@@ -29,6 +29,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 10,
+      "default": "1",
       "example": "1"
     },
     "encryptionKeyIdentifier": {
