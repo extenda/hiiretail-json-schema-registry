@@ -54,7 +54,21 @@
         },
         "theme": {
           "type": "object",
-          "description": "Theme object for customization of the app."
+          "description": "Theme object for customization of the app.",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "This is a deprecated free-shape theme definition for backward compatibility. Don't use it for updating theme, as it will be removed in the future.",
+              "deprecated": true
+            },
+            {
+              "type": "object",
+              "$ref": "#/$defs/ThemeType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "peripherals": {
           "description": "Periperals settings definitions.",
@@ -223,7 +237,21 @@
         },
         "theme": {
           "type": "object",
-          "description": "Theme object for customisation of the app."
+          "description": "Theme object for customisation of the app.",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "This is a deprecated free-shape theme definition for backward compatibility. Don't use it for updating theme, as it will be removed in the future.",
+              "deprecated": true
+            },
+            {
+              "type": "object",
+              "$ref": "#/$defs/ThemeType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "fullscreen": {
           "type": "boolean",
@@ -512,6 +540,128 @@
           },
           "required": [
             "prefix"
+          ]
+        }
+      }
+    },
+    "ColorType": {
+      "oneOf": [
+        {
+          "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+          "type": "string",
+          "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "FontFamilyType": {
+      "oneOf": [
+        {
+          "description": "Font family name. The font must be installed on the device, e.g. \"Inter Systemet\".",
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ThemeType": {
+      "description": "This is a definition of the theme settings.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "type": "object",
+          "description": "Theme settings",
+          "additionalProperties": false,
+          "properties": {
+            "accent": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "error": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "errorDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "errorLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "secondary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "success": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "successDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "successLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "text": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textContrast": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textDisabled": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textSecondary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textSelected": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "warning": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "warningLight": {
+              "$ref": "#/$defs/ColorType"
+            }
+          }
+        },
+        "fonts": {
+          "type": "object",
+          "description": "Font settings. Applied in SCO mode only. Fonts that are not set keep the default font.",
+          "additionalProperties": false,
+          "properties": {
+            "heading": {
+              "$ref": "#/$defs/FontFamilyType",
+              "description": "Font family for header titles. Replaces Dystopian."
+            },
+            "default": {
+              "$ref": "#/$defs/FontFamilyType",
+              "description": "Font family for all other text. Replaces Inter."
+            },
+            "monospace": {
+              "$ref": "#/$defs/FontFamilyType",
+              "description": "Font family for monospaced text. Replaces JetBrainsMono."
+            }
+          }
+        },
+        "roundness": {
+          "oneOf": [
+            {
+              "type": "number",
+              "description": "The roundness of the UI elements in the app theme.",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       }
