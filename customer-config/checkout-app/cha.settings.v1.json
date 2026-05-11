@@ -1512,6 +1512,7 @@
         "auth": {
           "type": "string",
           "enum": ["iam", "ocms"],
+          "default": "iam",
           "description": "The authorization provider used for transaction lookups."
         },
         "shortcutsEnabled": {
