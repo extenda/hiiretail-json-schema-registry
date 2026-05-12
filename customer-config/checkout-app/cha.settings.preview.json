@@ -1424,6 +1424,17 @@
       "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
       "type": "object",
       "properties": {
+        "auth": {
+          "type": "string",
+          "enum": ["iam", "ocms"],
+          "default": "iam",
+          "description": "The authorization provider used for transaction lookups. Default: `iam`"
+        },
+        "shortcutsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the Transaction search shortcut."
+        },
         "internal": {
           "type": "object",
           "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
