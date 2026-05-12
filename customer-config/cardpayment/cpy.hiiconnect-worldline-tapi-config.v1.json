@@ -1,5 +1,5 @@
 {
-	"$id": "cpy.hiiconnect-worldline-tapi.v1",
+	"$id": "cpy.hiiconnect-worldline-tapi-config.v1",
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "Worldline TAPI card payment configuration",
 	"description": "Worldline TAPI card payment configuration.",
