@@ -1,0 +1,312 @@
+{
+  "$id": "xzr.public.output.eod-reports.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes EOD report v2",
+  "description": "Publishes generated JSON EOD report from the BigQuery-backed EoD data delivery worker job (hiiretail-eod-data-delivery-worker-job)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Deterministic report ID in format {businessUnitId}-{reportDate}-{reportNumber}"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The business unit identifier the report belongs to."
+    },
+    "operatorIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Operator IDs that handled transactions during the report period."
+    },
+    "workstationIds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Workstation IDs active during the report period."
+    },
+    "reportDate": {
+      "type": "string",
+      "description": "Business date of the report in YYYY-MM-DD format."
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "Generation timestamp in ISO 8601 format."
+    },
+    "cashSales": {
+      "$ref": "#/$defs/CashSalesReportDto",
+      "description": "Sales totals broken down by item groups and payment methods."
+    },
+    "cashReturns": {
+      "$ref": "#/$defs/CashSalesReportDto",
+      "description": "Return totals broken down by item groups and payment methods."
+    },
+    "taxes": {
+      "$ref": "#/$defs/TaxesReportDto"
+    },
+    "aggregatedStats": {
+      "$ref": "#/$defs/AggregatedStatsReportDto"
+    },
+    "corrections": {
+      "$ref": "#/$defs/CorrectionsReportDto"
+    },
+    "grandTotals": {
+      "$ref": "#/$defs/GrandTotalsReportDto"
+    },
+    "giftCards": {
+      "$ref": "#/$defs/GiftCardsReportDto"
+    },
+    "cardTerminals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CardTerminalDto" },
+      "description": "Per-terminal card payment totals including a summary row with id='Total'."
+    },
+    "eft": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/EftDto" },
+      "description": "EFT payment summary per terminal including a summary row with id='Total'."
+    },
+    "mobilePayments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/MobilePaymentDto" },
+      "description": "Mobile payment totals per provider including a summary row with provider='Total'."
+    },
+    "paymentTotals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PaymentTotalDto" },
+      "description": "Net payment totals grouped by payment category including a summary row with category='Total'."
+    },
+    "cardSubTenders": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CardSubTenderDto" },
+      "description": "Card sub-tender breakdown at the adapter level (e.g. Visa, Mastercard, Swish)."
+    }
+  },
+  "required": [
+    "id",
+    "businessUnitId",
+    "operatorIds",
+    "workstationIds",
+    "reportDate",
+    "createdAt",
+    "cashSales",
+    "cashReturns",
+    "taxes",
+    "aggregatedStats",
+    "corrections",
+    "grandTotals",
+    "giftCards"
+  ],
+  "$defs": {
+    "TotalAndNumberDto": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "number" },
+        "number": { "type": "number" }
+      },
+      "required": ["total", "number"]
+    },
+    "GiftCardPaymentDto": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "number" },
+        "number": { "type": "number" },
+        "brand": { "type": "string", "description": "Gift card brand (falls back to provider name if not set)." },
+        "product": { "type": "string", "description": "Gift card product (falls back to provider name if not set)." }
+      },
+      "required": ["total", "number", "brand", "product"]
+    },
+    "GiftCardsReportDto": {
+      "type": "object",
+      "properties": {
+        "sales": {
+          "type": "object",
+          "description": "Always an empty object in v2 — issuance totals are not tracked separately.",
+          "additionalProperties": false
+        },
+        "payments": {
+          "type": "object",
+          "description": "Keys are gift card provider names. Values include total, count, brand, and product.",
+          "additionalProperties": { "$ref": "#/$defs/GiftCardPaymentDto" }
+        }
+      },
+      "required": ["sales", "payments"]
+    },
+    "CorrectionsReportDto": {
+      "type": "object",
+      "properties": {
+        "Post Void": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "Price Look Up": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "Void Items": { "$ref": "#/$defs/TotalAndNumberDto" }
+      },
+      "required": ["Post Void", "Price Look Up", "Void Items"]
+    },
+    "GrandTotalsReportDto": {
+      "type": "object",
+      "properties": {
+        "sales": { "type": "number" },
+        "returns": { "type": "number" },
+        "net": { "type": "number" }
+      },
+      "required": ["sales", "returns", "net"]
+    },
+    "AggregatedStatsReportDto": {
+      "type": "object",
+      "properties": {
+        "saleReceipts": { "type": "number" },
+        "saleReceiptsTotal": { "type": "number" },
+        "cashBoxOpenings": { "type": "number" },
+        "copyReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "suspendedReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "returnReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "canceledReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "discounts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "canceledSales": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "deliveryReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "trainingReceipts": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "postVoid": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "voidItems": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "priceLookUp": { "$ref": "#/$defs/TotalAndNumberDto" }
+      },
+      "required": [
+        "saleReceipts",
+        "cashBoxOpenings",
+        "copyReceipts",
+        "suspendedReceipts",
+        "returnReceipts",
+        "discounts",
+        "canceledSales",
+        "deliveryReceipts",
+        "trainingReceipts"
+      ]
+    },
+    "VatBreakdownItemDto": {
+      "type": "object",
+      "properties": {
+        "taxPercentage": { "type": "string" },
+        "taxLabel": { "type": "string" },
+        "count": { "type": "string" },
+        "vatAmount": { "type": "string" }
+      },
+      "required": ["taxPercentage", "taxLabel", "count", "vatAmount"]
+    },
+    "TaxesReportDto": {
+      "type": "object",
+      "properties": {
+        "freeFromVatNumber": { "type": "number" },
+        "subjectToVat": { "$ref": "#/$defs/TotalAndNumberDto" },
+        "subjectToVatByRate": {
+          "type": "object",
+          "description": "Keys are tax rate percentages as strings (e.g. '25', '6'). Values are total and count at that rate.",
+          "additionalProperties": { "$ref": "#/$defs/TotalAndNumberDto" }
+        },
+        "vatBreakdown": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/VatBreakdownItemDto" },
+          "description": "Ordered list of VAT breakdown entries per tax rate."
+        }
+      },
+      "required": ["freeFromVatNumber", "subjectToVat", "subjectToVatByRate"]
+    },
+    "SubTenderDto": {
+      "type": "object",
+      "properties": {
+        "adapter": { "type": "string" },
+        "id": { "type": "string" },
+        "total": { "type": "number" },
+        "number": { "type": "number" }
+      },
+      "required": ["id", "total", "number"]
+    },
+    "MeansOfPaymentDto": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "number" },
+        "number": { "type": "number" },
+        "byOperator": {
+          "type": "object",
+          "description": "Keys are operator IDs. Values are total and count for that operator.",
+          "additionalProperties": { "$ref": "#/$defs/TotalAndNumberDto" }
+        },
+        "bySubTender": {
+          "type": "object",
+          "description": "Keys are sub-tender names (e.g. 'Visa', 'SWE', 'AMX'). Present only for card payment methods.",
+          "additionalProperties": { "$ref": "#/$defs/SubTenderDto" }
+        }
+      },
+      "required": ["total", "number"]
+    },
+    "CashSalesReportDto": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "number" },
+        "byGroups": {
+          "type": "object",
+          "description": "Keys are item group names (e.g. 'Sellable Goods'). Values are total and count.",
+          "additionalProperties": { "$ref": "#/$defs/TotalAndNumberDto" }
+        },
+        "byMeansOfPayment": {
+          "type": "object",
+          "description": "Keys are payment method names (e.g. 'Cash', 'Credit Debit', 'Mobile', 'Customer Account', 'Check', 'Coupon').",
+          "additionalProperties": { "$ref": "#/$defs/MeansOfPaymentDto" }
+        }
+      },
+      "required": ["total", "byGroups", "byMeansOfPayment"]
+    },
+    "CardTerminalDto": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Terminal ID or 'Total' for the summary row." },
+        "paymentMethod": { "type": "string" },
+        "noOfPayments": { "type": "number" },
+        "sumOfPayments": { "type": "number" },
+        "noOfRefunds": { "type": "number" },
+        "sumOfRefunds": { "type": "number" },
+        "netAmount": { "type": "number" }
+      },
+      "required": ["id", "paymentMethod", "noOfPayments", "sumOfPayments", "noOfRefunds", "sumOfRefunds", "netAmount"]
+    },
+    "EftDto": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Terminal ID or 'Total' for the summary row." },
+        "name": { "type": "string" },
+        "number": { "type": "number" },
+        "amount": { "type": "number" }
+      },
+      "required": ["id", "name", "number", "amount"]
+    },
+    "MobilePaymentDto": {
+      "type": "object",
+      "properties": {
+        "provider": { "type": "string", "description": "Provider name (e.g. 'Swish') or 'Total' for the summary row." },
+        "noOfPayments": { "type": "number" },
+        "sumOfPayments": { "type": "number" },
+        "noOfRefunds": { "type": "number" },
+        "sumOfRefunds": { "type": "number" },
+        "netAmount": { "type": "number" }
+      },
+      "required": ["provider", "noOfPayments", "sumOfPayments", "noOfRefunds", "sumOfRefunds", "netAmount"]
+    },
+    "PaymentTotalDto": {
+      "type": "object",
+      "properties": {
+        "category": { "type": "string", "description": "Payment category (e.g. 'CardTerminal', 'Cash', 'Mobile', 'Customer Account') or 'Total' for the summary row." },
+        "txnCount": { "type": "number" },
+        "netAmount": { "type": "number" }
+      },
+      "required": ["category", "txnCount", "netAmount"]
+    },
+    "CardSubTenderDto": {
+      "type": "object",
+      "properties": {
+        "tenderName": { "type": "string" },
+        "paymentMethodId": { "type": "string" },
+        "authorizingAdapter": { "type": ["string", "null"] },
+        "salesTotal": { "type": "string" },
+        "salesCount": { "type": "number" },
+        "returnsTotal": { "type": "string" },
+        "returnsCount": { "type": "number" }
+      },
+      "required": ["tenderName", "paymentMethodId", "salesTotal", "salesCount", "returnsTotal", "returnsCount"]
+    }
+  }
+}
