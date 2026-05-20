@@ -25,10 +25,12 @@
     },
     "reportDate": {
       "type": "string",
+      "format": "date",
       "description": "Business date of the report in YYYY-MM-DD format."
     },
     "createdAt": {
       "type": "string",
+      "format": "date-time",
       "description": "Generation timestamp in ISO 8601 format."
     },
     "cashSales": {
