@@ -209,8 +209,19 @@
         }
       }
     },
+    "SurveyWidgetType": {
+      "description": "Displays a customer survey.",
+      "type": "object",
+      "required": ["position"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/PositionType"
+        }
+      }
+    },
     "IdleLayoutType": {
-      "description": "Layout for the idle state. Allowed widgets: welcomeMessage, image, video.",
+      "description": "Layout for the idle state. Allowed widgets: welcomeMessage, image, video, survey.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -227,13 +238,16 @@
             },
             "video": {
               "$ref": "#/$defs/VideoWidgetType"
+            },
+            "survey": {
+              "$ref": "#/$defs/SurveyWidgetType"
             }
           }
         }
       }
     },
     "MidOrderLayoutType": {
-      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video, loyalty.",
+      "description": "Layout for the midOrder state. Allowed widgets: receipt (required), image, video, loyalty, survey.",
       "type": "object",
       "required": ["widgets"],
       "additionalProperties": false,
@@ -254,6 +268,9 @@
             },
             "loyalty": {
               "$ref": "#/$defs/LoyaltyWidgetType"
+            },
+            "survey": {
+              "$ref": "#/$defs/SurveyWidgetType"
             }
           }
         }
