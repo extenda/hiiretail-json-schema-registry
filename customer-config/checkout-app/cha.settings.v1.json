@@ -124,8 +124,15 @@
         },
         "customerOrder": {
           "description": "Customer order settings",
-          "type": "object",
-          "$ref": "#/$defs/CustomerOrderType"
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
@@ -420,14 +427,18 @@
       }
     },
     "CustomerOrderType": {
-      "description": "This is a definition of the customer order settings.",
+      "description": "Customer order settings",
       "type": "object",
       "required": [],
       "additionalProperties": false,
       "properties": {
+        "searchEnabled": {
+          "type": "boolean",
+          "description": "Enables the customer order search functionality in the POS."
+        },
         "enabled": {
           "type": "boolean",
-          "description": "Enables the customer order functionality in the POS."
+          "description": "Allows to create customer orders from the POS."
         }
       }
     },
