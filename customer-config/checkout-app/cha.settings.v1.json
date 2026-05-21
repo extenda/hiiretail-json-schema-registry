@@ -427,7 +427,7 @@
       }
     },
     "CustomerOrderType": {
-      "description": "Customer order settings",
+      "description": "This is a definition of the customer order settings.",
       "type": "object",
       "required": [],
       "additionalProperties": false,
@@ -438,7 +438,7 @@
         },
         "enabled": {
           "type": "boolean",
-          "description": "Allows to create customer orders from the POS."
+          "description": "Allows creating customer orders from the POS."
         }
       }
     },
