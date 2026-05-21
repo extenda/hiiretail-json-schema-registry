@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/transaction-repository/txr.sequence-gap-grace-period.v1.json",
+  "title": "TXR Sequence Gap Grace Period",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "gapGracePeriodMinutes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1440
+    }
+  }
+}
