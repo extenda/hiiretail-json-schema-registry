@@ -1,0 +1,34 @@
+{
+  "$id": "mcp.private.event.age-received.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Age Received Event",
+  "description": "This schema describes the structure of the age received events.",
+  "type": "object",
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "The tenant identifier"
+    },
+    "receiptId": {
+      "type": "string",
+      "description": "The receipt identifier associated with the event"
+    },
+    "transactionId": {
+      "type": "string",
+      "description": "The transaction identifier associated with the event"
+    },
+    "idsToRemove": {
+      "type": "array",
+      "description": "List of identifiers to remove",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "tenantId",
+    "receiptId",
+    "transactionId",
+    "idsToRemove"
+  ]
+}

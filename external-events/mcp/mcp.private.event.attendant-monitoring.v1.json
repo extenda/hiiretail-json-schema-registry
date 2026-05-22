@@ -1,0 +1,296 @@
+{
+  "$id": "mcp.private.event.attendant-monitoring.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Attendant Monitoring Event",
+  "description": "This schema describes the structure of the attendant monitoring events published by the MCPE service when a basket is updated.",
+  "type": "object",
+  "properties": {
+    "workstationId": {
+      "type": "string",
+      "description": "The workstation or device identifier (short basket ID)"
+    },
+    "locale": {
+      "type": "string",
+      "description": "The ICU locale string (e.g. svSE)"
+    },
+    "status": {
+      "$ref": "#/$defs/BasketStatus",
+      "description": "The current status of the basket"
+    },
+    "itemCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The number of items in the basket"
+    },
+    "totalAmount": {
+      "type": "number",
+      "description": "The total monetary amount of the basket"
+    },
+    "totalDiscount": {
+      "type": "number",
+      "description": "The total discount amount (can be positive, negative, or zero)"
+    },
+    "voidedItems": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The number of voided items in the basket"
+    },
+    "receipt": {
+      "$ref": "#/$defs/ReceiptContent",
+      "description": "The full receipt content"
+    },
+    "currency": {
+      "type": "string",
+      "description": "The ISO 4217 currency code (e.g. SEK)"
+    }
+  },
+  "required": [
+    "workstationId",
+    "locale",
+    "status",
+    "itemCount",
+    "totalAmount",
+    "totalDiscount",
+    "voidedItems",
+    "receipt"
+  ],
+  "$defs": {
+    "BasketStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "CANCELLED",
+        "SUSPENDED",
+        "FINALIZED",
+        "RESUMED",
+        "PAYMENT",
+        "IMPORTED",
+        "ERROR"
+      ]
+    },
+    "EntityType": {
+      "type": "string",
+      "enum": [
+        "SALE_ITEM",
+        "GLOBAL_PROMOTION",
+        "LOYALTY",
+        "TENDER",
+        "DECORATOR",
+        "EXTENSION",
+        "COUPON",
+        "CUSTOMER",
+        "RESCAN",
+        "RETROSPECTIVE_LOYALTY",
+        "REFUND_ITEM",
+        "ITEMPACKAGE"
+      ]
+    },
+    "ReceiptContent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The basket/receipt identifier"
+        },
+        "status": {
+          "$ref": "#/$defs/BasketStatus",
+          "description": "The current status of the receipt"
+        },
+        "delta": {
+          "type": "boolean",
+          "description": "Whether this is a delta update (always false)"
+        },
+        "selectedEntity": {
+          "type": "integer",
+          "description": "The currently selected entity ID"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the basket was started"
+        },
+        "itemCount": {
+          "type": "integer",
+          "description": "The number of items in the receipt"
+        },
+        "totals": {
+          "$ref": "#/$defs/Totals",
+          "description": "The monetary totals of the receipt"
+        },
+        "transactionId": {
+          "type": ["string", "null"],
+          "description": "The transaction identifier"
+        },
+        "rescanRequired": {
+          "type": "boolean",
+          "description": "Whether a rescan is required"
+        },
+        "entities": {
+          "type": "array",
+          "description": "The line items in the receipt",
+          "items": {
+            "$ref": "#/$defs/Entity"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "startTime",
+        "itemCount",
+        "totals",
+        "entities"
+      ]
+    },
+    "Totals": {
+      "type": "object",
+      "properties": {
+        "amountDue": {
+          "type": "number",
+          "description": "The amount due"
+        },
+        "roundedAmountDue": {
+          "type": "number",
+          "description": "The rounded amount due"
+        },
+        "orderAmount": {
+          "type": "number",
+          "description": "The order amount"
+        },
+        "discountAmount": {
+          "type": "number",
+          "description": "The total discount amount"
+        },
+        "taxableAmount": {
+          "type": "number",
+          "description": "The taxable amount"
+        },
+        "extraBonusAmount": {
+          "type": "number",
+          "description": "The extra bonus amount"
+        }
+      },
+      "required": [
+        "amountDue",
+        "discountAmount"
+      ]
+    },
+    "Entity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The entity identifier"
+        },
+        "type": {
+          "$ref": "#/$defs/EntityType",
+          "description": "The entity type"
+        },
+        "input": {
+          "type": "boolean",
+          "description": "Whether the entity was inputted"
+        },
+        "invalidated": {
+          "type": "boolean",
+          "description": "Whether the entity was invalidated/deleted"
+        },
+        "createdTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the entity was created"
+        },
+        "layoutType": {
+          "type": "string",
+          "description": "The layout type of the entity"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "Whether the entity is visible"
+        },
+        "rows": {
+          "type": "array",
+          "description": "The display rows for the entity",
+          "items": {
+            "type": "object"
+          }
+        },
+        "saleItem": {
+          "$ref": "#/$defs/SaleItem",
+          "description": "The sale item details"
+        },
+        "promotion": {
+          "type": ["object", "null"],
+          "description": "The promotion details"
+        },
+        "requiredAge": {
+          "type": "integer",
+          "description": "The required age for age-restricted items"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "input",
+        "invalidated",
+        "layoutType",
+        "visible",
+        "rows",
+        "saleItem"
+      ]
+    },
+    "SaleItem": {
+      "type": "object",
+      "properties": {
+        "originalPOSIdentity": {
+          "type": "string",
+          "description": "The barcode or item identity"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the sale item"
+        },
+        "quantity": {
+          "$ref": "#/$defs/Quantity",
+          "description": "The quantity of the sale item"
+        },
+        "actualUnitPrice": {
+          "type": "number",
+          "description": "The actual unit price of the item"
+        },
+        "extendedAmount": {
+          "type": "number",
+          "description": "The extended amount"
+        },
+        "weightValidationRule": {
+          "type": "string",
+          "description": "The weight validation rule"
+        }
+      },
+      "required": [
+        "originalPOSIdentity",
+        "name",
+        "quantity",
+        "actualUnitPrice",
+        "extendedAmount",
+        "weightValidationRule"
+      ]
+    },
+    "Quantity": {
+      "type": "object",
+      "properties": {
+        "unitOfMeasure": {
+          "type": "string",
+          "description": "The unit of measure for the quantity"
+        },
+        "value": {
+          "type": "number",
+          "description": "The quantity value"
+        }
+      },
+      "required": [
+        "unitOfMeasure",
+        "value"
+      ]
+    }
+  }
+}
