@@ -1,0 +1,31 @@
+{
+  "$id": "processed-age-control",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Processed Age Control Event",
+  "description": "This schema describes the structure of the processed age control events published by the MCPE service after an age control response has been processed.",
+  "type": "object",
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "description": "The receipt identifier associated with the age control request"
+    },
+    "processedReceiptId": {
+      "type": "string",
+      "description": "The transaction identifier of the processed receipt"
+    },
+    "status": {
+      "type": "string",
+      "description": "The status of the age control processing",
+      "enum": ["Pending", "Ok", "Updated", "Error"]
+    },
+    "message": {
+      "type": "string",
+      "description": "Comma-separated list of item IDs that were removed during age control processing"
+    }
+  },
+  "required": [
+    "receiptId",
+    "processedReceiptId",
+    "status"
+  ]
+}
