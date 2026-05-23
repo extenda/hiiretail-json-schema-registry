@@ -314,6 +314,11 @@
               "description": "Used to set the open PLU keybinding.",
               "$ref": "#/$defs/KeyBindingType"
             },
+            "openCustomerOrderSearch": {
+              "type": "object",
+              "description": "Used to set the open customer order search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
             "openTransactionsSearch": {
               "type": "object",
               "description": "Used to set the open transactions search keybinding.",
