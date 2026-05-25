@@ -35,7 +35,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED", "PAYMENT_PENDING"],
+          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
           "description": "Order status"
         },
         "changedDateTime": {
@@ -269,6 +269,84 @@
       }
     },
 
+    "ProviderInfo": {
+      "type": "object",
+      "required": ["providerId", "terminalId", "merchantId"],
+      "additionalProperties": false,
+      "properties": {
+        "providerId": { "type": "string", "description": "Identifier for the payment provider." },
+        "terminalId": { "type": "string", "description": "Identifier for the payment terminal." },
+        "merchantId": { "type": "string", "description": "Identifier for the merchant." }
+      }
+    },
+
+    "CardInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accountNumber": { "type": "string", "description": "Masked account number." },
+        "expirationDate": { "type": "string", "format": "date", "description": "Card expiration date." },
+        "cardNumberAlias": { "type": "string", "description": "Alias for the card number." }
+      }
+    },
+
+    "GiftCardType": {
+      "type": "object",
+      "required": ["id", "cardProductName"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Identifier for the gift card type." },
+        "cardProductName": { "type": "string", "description": "Name of the gift card product." },
+        "virtualFlag": { "type": "boolean", "description": "Indicates if the gift card is virtual." },
+        "cardTypeCode": { "type": "string", "description": "Code for the gift card type." }
+      }
+    },
+
+    "GiftCardInfo": {
+      "type": "object",
+      "required": ["giftCardActionType"],
+      "additionalProperties": false,
+      "properties": {
+        "currentBalance": { "type": "number", "description": "Current balance on the gift card." },
+        "giftCardActionType": {
+          "type": "string",
+          "enum": ["REDEEM", "ACTIVATE", "RECHARGE", "BALANCE_INQUIRY"],
+          "description": "Action performed on the gift card."
+        },
+        "giftCardType": { "$ref": "#/$defs/GiftCardType" }
+      }
+    },
+
+    "AuthorizationData": {
+      "type": "object",
+      "required": ["success", "transactionType", "date", "amount"],
+      "additionalProperties": false,
+      "properties": {
+        "authorizationDataId": { "type": "string", "description": "Identifier for authorization data." },
+        "externalAuthorizationIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ExternalId" }
+        },
+        "success": { "type": "boolean", "description": "Indicates if the authorization was successful." },
+        "authorizationCode": { "type": "string", "description": "The authorization code." },
+        "transactionType": {
+          "type": "string",
+          "enum": ["PURCHASE", "RESERVATION", "CAPTURE", "REFUND"],
+          "description": "Type of transaction."
+        },
+        "verificationMethod": { "type": "string", "description": "Method used for verification (e.g., PIN)." },
+        "authorizationMethod": { "type": "string", "description": "Method used for authorization (e.g., PHONE)." },
+        "date": { "type": "string", "format": "date-time", "description": "Date and time of authorization." },
+        "amount": { "type": "number", "description": "The authorized amount." },
+        "referenceNumber": { "type": "string", "description": "Reference number for the authorization." },
+        "providerInfo": { "$ref": "#/$defs/ProviderInfo" },
+        "cardInfo": { "$ref": "#/$defs/CardInfo" },
+        "giftCardInfo": { "$ref": "#/$defs/GiftCardInfo" },
+        "merchantReceiptText": { "type": "string", "description": "Text to be printed on the merchant receipt." },
+        "cardHolderReceiptText": { "type": "string", "description": "Text to be printed on the cardholder receipt." }
+      }
+    },
+
     "Tender": {
       "type": "object",
       "required": ["tenderLineItemId", "tenderId", "amount"],
@@ -281,7 +359,12 @@
           "items": { "$ref": "#/$defs/ExternalId" }
         },
         "customerAccountId": { "type": "string" },
-        "amount": { "type": "number" }
+        "amount": { "type": "number" },
+        "authorizationData": { "$ref": "#/$defs/AuthorizationData" },
+        "additionalProperties": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AdditionalProperties" }
+        }
       }
     },
 
@@ -320,7 +403,11 @@
           "type": "array",
           "items": { "$ref": "#/$defs/Tender" }
         },
-        "customer": { "$ref": "#/$defs/Customer" }
+        "customer": { "$ref": "#/$defs/Customer" },
+        "projectId": {
+          "type": "string",
+          "description": "Project identifier associated with the order."
+        }
       }
     }
   }
