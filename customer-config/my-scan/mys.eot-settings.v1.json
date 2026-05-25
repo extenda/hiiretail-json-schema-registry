@@ -1,0 +1,30 @@
+{
+  "$id": "mys.eot-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EOT Code Settings",
+  "description": "Configuration settings for dynamic EOT code generation and validation.",
+  "type": "object",
+  "properties": {
+    "dynamicEotCodeExpirationMinutes": {
+      "title": "EOT Code Expiration Minutes",
+      "type": "integer",
+      "default": 15,
+      "minimum": 1,
+      "maximum": 1440,
+      "description": "The number of minutes before a generated dynamic EOT code expires. Default is 15 minutes."
+    },
+    "enableDynamicEotCodeStoreValidation": {
+      "title": "Enable EOT Code Store Validation",
+      "type": "boolean",
+      "default": true,
+      "description": "When true, validates that the store ID in the dynamic EOT code generation request matches the authenticated business unit."
+    },
+    "enableDynamicEotCodeExpirationValidation": {
+      "title": "Enable EOT Code Expiration Validation",
+      "type": "boolean",
+      "default": true,
+      "description": "When true, validates that the dynamic EOT code has not expired during validation requests."
+    }
+  },
+  "required": ["dynamicEotCodeExpirationMinutes", "enableDynamicEotCodeStoreValidation", "enableDynamicEotCodeExpirationValidation"]
+}
