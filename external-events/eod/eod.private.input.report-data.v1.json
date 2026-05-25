@@ -1,5 +1,5 @@
 {
-  "$id": "xzr.public.output.eod-reports.v2",
+  "$id": "eod.private.input.report-data.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Publishes EOD report v2",
   "description": "Publishes generated JSON EOD report from the BigQuery-backed EoD data delivery worker job (hiiretail-eod-data-delivery-worker-job)",
