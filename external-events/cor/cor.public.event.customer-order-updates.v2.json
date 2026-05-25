@@ -35,7 +35,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
+          "enum": ["CREATED", "PAYMENT_PENDING", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
           "description": "Order status"
         },
         "changedDateTime": {
@@ -208,7 +208,7 @@
 
     "Fulfillment": {
       "type": "object",
-      "required": ["fulfillmentId", "fulfillmentMethod", "lineItems"],
+      "required": ["fulfillmentId", "fulfillmentMethod", "lineItems", "status"],
       "additionalProperties": false,
       "properties": {
         "fulfillmentId": { "type": "string" },
@@ -258,7 +258,6 @@
 
     "Customer": {
       "type": "object",
-      "required": ["customerId", "name"],
       "additionalProperties": false,
       "properties": {
         "customerId": { "type": "string" },
