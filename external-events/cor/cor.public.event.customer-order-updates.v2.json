@@ -106,7 +106,7 @@
 
     "LineItem": {
       "type": "object",
-      "required": ["lineItemId", "itemId"],
+      "required": ["lineItemId", "itemId", "quantity", "unitPrice"],
       "additionalProperties": false,
       "properties": {
         "lineItemId": { "type": "string" },
@@ -135,7 +135,7 @@
         "isSubsidized": { "type": "boolean" },
         "isBonusEligible": { "type": "boolean" },
         "cancelledQuantity": { "type": "number" },
-        "discounts": {
+        "unitDiscounts": {
           "type": "array",
           "items": { "$ref": "#/$defs/UnitDiscount" }
         },
@@ -208,7 +208,7 @@
 
     "Fulfillment": {
       "type": "object",
-      "required": ["fulfillmentId", "fulfillmentMethod"],
+      "required": ["fulfillmentId", "fulfillmentMethod", "lineItems"],
       "additionalProperties": false,
       "properties": {
         "fulfillmentId": { "type": "string" },
@@ -237,7 +237,12 @@
           "type": "array",
           "items": { "$ref": "#/$defs/FulfillmentTenderLineItem" }
         },
-        "deliveryAddress": { "$ref": "#/$defs/Address" }
+        "deliveryAddress": { "$ref": "#/$defs/Address" },
+        "pickupDatetime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Scheduled pickup datetime for the fulfillment."
+        }
       }
     },
 
