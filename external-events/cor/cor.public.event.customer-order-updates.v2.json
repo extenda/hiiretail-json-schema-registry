@@ -265,7 +265,6 @@
           "type": "array",
           "items": { "$ref": "#/$defs/ExternalId" }
         },
-        "customerIdentification": { "type": "string" },
         "accountNumber": { "type": "string" },
         "name": { "type": "string" },
         "address": { "$ref": "#/$defs/Address" },
@@ -289,7 +288,7 @@
       "additionalProperties": false,
       "properties": {
         "accountNumber": { "type": "string", "description": "Masked account number." },
-        "expirationDate": { "type": "string", "format": "date", "description": "Card expiration date." },
+        "expirationDate": { "type": "string", "format": "date-time", "description": "Card expiration date-time." },
         "cardNumberAlias": { "type": "string", "description": "Alias for the card number." }
       }
     },
