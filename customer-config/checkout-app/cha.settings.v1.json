@@ -124,8 +124,15 @@
         },
         "customerOrder": {
           "description": "Customer order settings",
-          "type": "object",
-          "$ref": "#/$defs/CustomerOrderType"
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
@@ -346,6 +353,11 @@
                   "$ref": "#/$defs/KeyBindingType"
                 }
               }
+            },
+            "openCustomerOrderSearch": {
+              "type": "object",
+              "description": "Used to set the open customer order search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
             }
           }
         },
@@ -429,9 +441,17 @@
       "required": [],
       "additionalProperties": false,
       "properties": {
+        "searchEnabled": {
+          "type": "boolean",
+          "description": "Enables the customer order search functionality in the POS."
+        },
+        "cancelAllowed": {
+          "type": "boolean",
+          "description": "Allows canceling customer orders from the POS."
+        },
         "enabled": {
           "type": "boolean",
-          "description": "Enables the customer order functionality in the POS."
+          "description": "Allows creating customer orders from the POS."
         }
       }
     },
@@ -1515,7 +1535,10 @@
       "properties": {
         "auth": {
           "type": "string",
-          "enum": ["iam", "ocms"],
+          "enum": [
+            "iam",
+            "ocms"
+          ],
           "default": "iam",
           "description": "The authorization provider used for transaction lookups. Default: `iam`"
         },
