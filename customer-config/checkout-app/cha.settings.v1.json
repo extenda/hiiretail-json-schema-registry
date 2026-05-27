@@ -253,6 +253,10 @@
       "description": "This is a definition of the POS keybindings.",
       "type": "object",
       "properties": {
+        "keyCode": {
+          "type": "string",
+          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+        },
         "altKey": {
           "keyCode": {
             "type": "string",
