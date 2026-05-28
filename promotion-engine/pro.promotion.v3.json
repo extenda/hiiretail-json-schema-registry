@@ -199,6 +199,33 @@
           },
           "maxItems": 100
         },
+        "additionalProperties": {
+          "description": "Arbitrary tenant-defined key-value pairs attached to this promotion.\nThese values are not evaluated as promotion conditions.\nThey are passed through unchanged onto every Discount produced when\nthis promotion fires, enabling POSLog enrichment.\n",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "value"
+            ],
+            "properties": {
+              "id": {
+                "description": "Property identifier",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 250
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 250
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 20
+        },
         "activators": {
           "description": "Defines conditions that must be met to activate the promotion.\nIf multiple properties are set, they are combined with a logical AND.\n",
           "type": "object",
@@ -233,7 +260,7 @@
               }
             },
             "b2b": {
-              "description": "Business to business qualification; exactly one of the alternatives must be provided.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+              "description": "Business to business qualification. At least one of the properties must be provided.\nWhen multiple properties are set, all of them must match (AND logic).\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
               "type": "object",
               "properties": {
                 "agreementId": {
@@ -248,15 +275,21 @@
                   "minLength": 1,
                   "maxLength": 250
                 },
+                "projectId": {
+                  "description": "A specific B2B project identifier. Can be combined with any other B2B property;\nwhen multiple properties are set, the basket must match all of them (AND logic).\n",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 250
+                },
                 "isB2B": {
                   "description": "A general condition that applies to all B2B customers",
                   "type": "boolean"
                 }
               },
-              "oneOf": [
+              "anyOf": [
                 {
                   "required": [
-                    "agreementId"
+                    "isB2B"
                   ]
                 },
                 {
@@ -266,7 +299,12 @@
                 },
                 {
                   "required": [
-                    "isB2B"
+                    "agreementId"
+                  ]
+                },
+                {
+                  "required": [
+                    "projectId"
                   ]
                 }
               ]
@@ -654,6 +692,15 @@
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0
+                      },
+                      "contributorDistribution": {
+                        "description": "Controls how the reward value is distributed across contributing items.\nOnly meaningful on unit rewards, which scope the discount to a reward\ntarget item set. Total rewards always distribute across all\ncondition-matched items and therefore do not accept this field.\n  * `ONLY_REWARD` (default): distributed only across the items in the\n    reward's target item set. Matches legacy behaviour.\n  * `ALL_CONTRIBUTORS`: distributed proportionately across all items\n    contributing to the offer's conditions.\n",
+                        "type": "string",
+                        "default": "ONLY_REWARD",
+                        "enum": [
+                          "ONLY_REWARD",
+                          "ALL_CONTRIBUTORS"
+                        ]
                       }
                     },
                     "oneOf": [
