@@ -1,0 +1,24 @@
+{
+  "$id": "mys.abandoned-trip-settings.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Abandoned Trip Settings",
+  "description": "Configuration settings for abandoned trip handling.",
+  "type": "object",
+  "properties": {
+    "abandonedTripInactivityMinutes": {
+      "title": "Abandoned Trip Inactivity Minutes",
+      "type": "integer",
+      "default": 120,
+      "minimum": 30,
+      "maximum": 240,
+      "description": "Number of inactive minutes after which a trip is marked as abandoned. Allowed range is 30 to 240 minutes."
+    },
+    "enableCustomerBlockingForAbandonedTrips": {
+      "title": "Enable Customer Blocking For Abandoned Trips",
+      "type": "boolean",
+      "default": false,
+      "description": "When true, customers with abandoned trips are blocked."
+    }
+  },
+  "required": ["abandonedTripInactivityMinutes", "enableCustomerBlockingForAbandonedTrips"]
+}
