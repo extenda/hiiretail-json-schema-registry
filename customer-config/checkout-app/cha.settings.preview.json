@@ -609,6 +609,54 @@
         },
         "icd": {
           "$ref": "#/$defs/IcdType"
+        },
+        "itab": {
+          "$ref": "#/$defs/ItabType"
+        }
+      }
+    },
+    "ItabType": {
+      "description": "Settings for integration with ITAB.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB."
+        },
+        "lightTowerComPort": {
+          "type": "string",
+          "description": "COM port for the light tower."
+        },
+        "articleHandlingTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for article handling."
+        },
+        "messageTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for messages."
+        },
+        "responseTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for responses."
+        },
+        "connectionTimeout": {
+          "type": "integer",
+          "description": "Connection timeout in milliseconds."
+        },
+        "connectionReconnectTime": {
+          "type": "integer",
+          "description": "Reconnect delay in milliseconds."
+        },
+        "highestApiVersion": {
+          "type": "string",
+          "description": "Highest supported ITAB API version."
+        },
+        "lightStrategy": {
+          "type": "string",
+          "description": "Light strategy to use."
         }
       }
     },
