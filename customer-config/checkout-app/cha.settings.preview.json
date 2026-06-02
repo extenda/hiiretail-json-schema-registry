@@ -634,7 +634,7 @@
           "type": "integer",
           "description": "Timeout in milliseconds for article handling."
         },
-        "messageTimeOutMilliseconds": {
+        "messageTimeoutMilliseconds": {
           "type": "integer",
           "description": "Timeout in milliseconds for messages."
         },
