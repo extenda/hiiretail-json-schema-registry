@@ -657,7 +657,9 @@
         "lightStrategy": {
           "type": "string",
           "description": "Light strategy to use."
-        },
+        }
+      }
+    },
     "IcdType": {
       "description": "Settings for integration with ICD.",
       "type": "object",
