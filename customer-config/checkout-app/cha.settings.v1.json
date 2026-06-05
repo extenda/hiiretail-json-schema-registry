@@ -1275,17 +1275,12 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the bags screen in SCO mode."
-        },
-        "paperBag": {
-          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
-        },
-        "plasticBag": {
-          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
         }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "$ref": "#/$defs/ScoBagType",
+        "description": "Defines the bag types available in SCO mode."
       }
     },
     "ScoBagType": {
@@ -1303,6 +1298,10 @@
         "title": {
           "type": "string",
           "description": "Defines the name of the bag."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Defines the icon URL of the bag."
         }
       }
     },

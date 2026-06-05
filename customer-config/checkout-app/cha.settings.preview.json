@@ -1238,7 +1238,7 @@
           "type": "string",
           "description": "Defines the name of the bag."
         },
-        "iconUrl": {
+        "imageUrl": {
           "type": "string",
           "description": "Defines the icon URL of the bag."
         }
