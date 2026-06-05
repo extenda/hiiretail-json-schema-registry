@@ -61,6 +61,18 @@
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "connect": {
           "description": "Soft payment terminal providers settings definitions.",
           "type": "object",
