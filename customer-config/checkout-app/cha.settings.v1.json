@@ -1303,7 +1303,6 @@
           "type": "string",
           "description": "Defines the image URL of the bag."
         }
-        }
       }
     },
     "ScoLoyaltyType": {
