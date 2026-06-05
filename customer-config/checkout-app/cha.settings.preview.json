@@ -1240,7 +1240,7 @@
         },
         "imageUrl": {
           "type": "string",
-          "description": "Defines the icon URL of the bag."
+          "description": "Defines the image URL of the bag."
         }
       }
     },
