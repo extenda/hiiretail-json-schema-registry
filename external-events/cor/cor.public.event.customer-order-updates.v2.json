@@ -188,8 +188,8 @@
         },
         "substituteOfLineItemId": {
           "type": "string",
-          "description": "For substitute lines, the line_item_id of the original line this row was picked in place of."
-        },
+          "description": "For substitute lines, the lineItemId of the original line item that this line was picked in place of."
+        }
         "readyForPickupDateTime": {
           "type": "string",
           "format": "date-time"
