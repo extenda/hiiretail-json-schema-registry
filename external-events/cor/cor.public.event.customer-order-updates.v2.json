@@ -189,7 +189,7 @@
         "substituteOfLineItemId": {
           "type": "string",
           "description": "For substitute lines, the lineItemId of the original line item that this line was picked in place of."
-        }
+        },
         "readyForPickupDateTime": {
           "type": "string",
           "format": "date-time"
