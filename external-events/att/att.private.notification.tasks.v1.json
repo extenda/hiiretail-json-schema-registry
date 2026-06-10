@@ -1,0 +1,143 @@
+{
+  "$id": "att.private.notification.tasks.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Task events",
+  "description": "This schema describes the structure of the Attendant Task events published by the Attendant service when a task is created or updated.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "vendor": {
+      "type": "string"
+    },
+    "title": {
+      "$ref": "#/$defs/TextWithLocaleDto"
+    },
+    "description": {
+      "$ref": "#/$defs/TextWithLocaleDto"
+    },
+    "device": {
+      "nullable": true,
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TaskDeviceDto"
+        }
+      ]
+    },
+    "controls": {
+      "nullable": true,
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/ConfirmControlDto"
+        }
+      ]
+    },
+    "status": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/TaskStatus"
+        }
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requestedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "processedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    }
+  },
+  "$defs": {
+    "ConfirmControlDto": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "minItems": 2,
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AssistanceRequestActionDto"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "CONFIRM"
+          ]
+        }
+      },
+      "required": [
+        "actions",
+        "type"
+      ]
+    },
+    "AssistanceRequestActionDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/TextWithLocaleDto"
+        },
+        "isDefault": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "label"
+      ]
+    },
+    "TaskDeviceDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "TaskStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processed"
+      ]
+    },
+    "TextWithLocaleDto": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "locale"
+      ]
+    }
+  }
+}

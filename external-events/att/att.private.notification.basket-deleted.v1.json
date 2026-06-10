@@ -1,0 +1,12 @@
+{
+  "$id": "att.private.notification.basket-deleted.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Basket deleted events",
+  "description": "This schema describes the structure of the Attendant Basket deleted events published by the Attendant service when a basket is deleted.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    }
+  }
+}

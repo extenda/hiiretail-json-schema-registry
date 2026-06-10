@@ -1,0 +1,156 @@
+{
+  "$id": "att.private.notification.workstations.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Workstation events",
+  "description": "This schema describes the structure of the Attendant Workstation events published by the Attendant service when a workstation is created or updated.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "businessUnitId": {
+      "type": "string"
+    },
+    "state": {
+      "example": "IDLE",
+      "allOf": [
+        {
+          "$ref": "#/$defs/WorkstationState"
+        }
+      ]
+    },
+    "type": {
+      "example": "SCO",
+      "allOf": [
+        {
+          "$ref": "#/$defs/WorkstationType"
+        }
+      ]
+    },
+    "channel": {
+      "nullable": true,
+      "example": "SUPERPOS",
+      "allOf": [
+        {
+          "$ref": "#/$defs/WorkstationChannel"
+        }
+      ]
+    },
+    "currentBasket": {
+      "nullable": true,
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/CurrentBasket"
+        }
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "monitored": {
+      "type": "boolean",
+      "default": false
+    },
+    "manualRescanInProgress": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "$defs": {
+    "CurrentBasket": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "voidedItems": {
+          "type": "number"
+        },
+        "itemsCount": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number"
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/BasketStatus"
+            }
+          ]
+        },
+        "currency": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": [
+        "id",
+        "voidedItems",
+        "itemsCount",
+        "createdAt",
+        "totalAmount",
+        "status",
+        "currency"
+      ]
+    },
+    "BasketStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "CANCELLED",
+        "SUSPENDED",
+        "FINALIZED",
+        "RESUMED",
+        "PAYMENT",
+        "IMPORTED",
+        "ERROR"
+      ]
+    },
+    "WorkstationChannel": {
+      "type": "string",
+      "enum": [
+        "SCANNGO",
+        "MYSCAN",
+        "ERPOS",
+        "SUPERPOS",
+        "HIICHECKOUT",
+        "MCPE"
+      ]
+    },
+    "WorkstationState": {
+      "type": "string",
+      "enum": [
+        "CLOSED",
+        "IDLE",
+        "ACTIVE",
+        "FINALIZED",
+        "RESCAN",
+        "ERROR",
+        "PAYMENT",
+        "IMPORTED",
+        "ACTION_NEEDED",
+        "CANCELLED"
+      ]
+    },
+    "WorkstationType": {
+      "type": "string",
+      "enum": [
+        "SCO",
+        "POS",
+        "MOBILE_POS",
+        "SCAN_GO"
+      ]
+    }
+  }
+}
