@@ -35,7 +35,7 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["CREATED", "PAYMENT_PENDING", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
+          "enum": ["CREATED", "IN_PROGRESS", "CANCELLED", "FULFILLED"],
           "description": "Order status"
         },
         "changedDateTime": {
@@ -166,17 +166,30 @@
       "type": "object",
       "required": [
         "lineItemId",
+        "itemId",
+        "orderedQuantity",
         "quantity",
-        "quantityPacked",
-        "quantityPackedRemaining",
         "status"
       ],
       "additionalProperties": false,
       "properties": {
         "lineItemId": { "type": "string" },
-        "quantity": { "type": "number" },
-        "quantityPacked": { "type": "number" },
-        "quantityPackedRemaining": { "type": "number" },
+        "itemId": {
+          "type": "string",
+          "description": "Identifier for the product/item on this fulfillment line."
+        },
+        "orderedQuantity": {
+          "type": "number",
+          "description": "The synced/allocated (ordered) quantity for this fulfillment line."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The picked quantity for this fulfillment line."
+        },
+        "substituteOfLineItemId": {
+          "type": "string",
+          "description": "For substitute lines, the lineItemId of the original line item that this line was picked in place of."
+        },
         "readyForPickupDateTime": {
           "type": "string",
           "format": "date-time"
@@ -187,7 +200,7 @@
 
     "Address": {
       "type": "object",
-      "required": ["name","line1","city","countryCode","postalCode"],
+      "required": ["name", "line1", "city", "countryCode", "postalCode"],
       "additionalProperties": false,
       "properties": {
         "name": { "type": "string" },
