@@ -1,0 +1,8 @@
+{
+  "$id": "att.private.notification.workstation-deleted.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Workstation deleted events",
+  "description": "This schema describes the structure of the Attendant Workstation deleted events published by the Attendant service when a workstation is deleted.",
+  "type": "object",
+  "properties": {}
+}

@@ -1,0 +1,15 @@
+{
+  "$id": "att.private.notification.task-deleted.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Task deleted events",
+  "description": "This schema describes the structure of the Attendant Task deleted events published by the Attendant service when a task is deleted.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

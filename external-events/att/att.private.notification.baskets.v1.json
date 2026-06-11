@@ -1,0 +1,93 @@
+{
+  "$id": "att.private.notification.baskets.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Basket events",
+  "description": "This schema describes the structure of the Attendant Basket events published by the Attendant service when a basket is created or updated.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "workstationId": {
+      "type": "string"
+    },
+    "workstationChannel": {
+      "nullable": true,
+      "allOf": [
+        {
+          "$ref": "#/$defs/WorkstationChannel"
+        }
+      ]
+    },
+    "locale": {
+      "type": "string",
+      "description": "ICU locale",
+      "example": "en-US"
+    },
+    "status": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/BasketStatus"
+        }
+      ]
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4127 currency name",
+      "example": "EUR"
+    },
+    "itemCount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "totalAmount": {
+      "type": "number"
+    },
+    "totalDiscount": {
+      "type": "number",
+      "description": "Can be positive or negative (or zero). The format depends on the producer of the receipt."
+    },
+    "voidedItems": {
+      "type": "number",
+      "minimum": 0
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "receipt": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "BasketStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "CANCELLED",
+        "SUSPENDED",
+        "FINALIZED",
+        "RESUMED",
+        "PAYMENT",
+        "IMPORTED",
+        "ERROR"
+      ]
+    },
+    "WorkstationChannel": {
+      "type": "string",
+      "enum": [
+        "SCANNGO",
+        "MYSCAN",
+        "ERPOS",
+        "SUPERPOS",
+        "HIICHECKOUT",
+        "MCPE"
+      ]
+    }
+  }
+}
