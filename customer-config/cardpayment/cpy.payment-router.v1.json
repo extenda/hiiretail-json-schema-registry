@@ -1,0 +1,64 @@
+{
+  "$id": "cpy.payment-router.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Payment Router configuration",
+  "description": "Payment Router configuration.",
+  "type": "object",
+  "properties": {
+    "card": {
+      "type": "object",
+      "required": [
+        "provider"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": [
+            "ADYEN",
+            "NETS",
+            "VIVA"
+          ],
+          "example": "ADYEN"
+        }
+      }
+    },
+
+    "giftcard": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "provider",
+          "range"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "SVS",
+              "RETAIN24"
+            ],
+            "example": "SVS"
+          },
+          "range": {
+            "type": "object",
+            "required": [
+              "minValue",
+              "maxValue"
+            ],
+            "properties": {
+              "minValue": {
+                "type": "number",
+                "example": 1111
+              },
+              "maxValue": {
+                "type": "number",
+                "example": 9999
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
