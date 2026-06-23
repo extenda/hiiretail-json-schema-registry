@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.campaign-price-limits.v1.json",
+  "title": "Campaign Price Limits",
+  "description": "Controls which campaign prices the promotion UI will accept or warn about.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "maxDiscountPercent": {
+      "description": "Maximum allowed discount as a percentage of the item's current price (0–100).",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "maxDiscountPercentSeverity": {
+      "description": "Whether exceeding maxDiscountPercent is a hard block or a soft warning.",
+      "type": "string",
+      "enum": ["error", "warn"],
+      "default": "error"
+    },
+    "minMarginPercent": {
+      "description": "Minimum required margin as a percentage above purchase price. E.g. 10 means campaign price must be ≥ purchasePrice × 1.10.",
+      "type": "number",
+      "minimum": 0
+    },
+    "minMarginPercentSeverity": {
+      "description": "Whether violating minMarginPercent is a hard block or a soft warning.",
+      "type": "string",
+      "enum": ["error", "warn"],
+      "default": "error"
+    }
+  }
+}
