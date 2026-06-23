@@ -1,0 +1,80 @@
+{
+  "$id": "svi.omnium-oms-connector-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Omnium OMS Connector Configuration",
+  "description": "Configuration used by the Omnium OMS Connector for statuses, shipment methods, tender types, UOMs, rewards, and transactions.",
+  "type": "object",
+  "properties": {
+    "OrderStatusMapping": {
+      "type": "object",
+      "description": "Order Status mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "TenderIdMapping": {
+      "type": "object",
+      "description": "TenderId mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ItemTypeMapping": {
+      "type": "object",
+      "description": "Item Type mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "UOMMapping": {
+      "type": "object",
+      "description": "UOM mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ShipmentMethodMapping": {
+      "type": "object",
+      "description": "Shipment Method mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ShipmentStatusMapping": {
+      "type": "object",
+      "description": "Shipment Status mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "RewardTypeMapping": {
+      "type": "object",
+      "description": "Reward Type mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "TransactionTypeMapping": {
+      "type": "object",
+      "description": "Transaction Type mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "AuthorizationStatusMapping": {
+      "type": "object",
+      "description": "Authorization Status mapping for Omnium and HiiRetail Customer Order.",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "TenderWithoutAuthorizationData": {
+      "type": "array",
+      "description": "List of tender types that do not require authorization data during processing.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+} 
