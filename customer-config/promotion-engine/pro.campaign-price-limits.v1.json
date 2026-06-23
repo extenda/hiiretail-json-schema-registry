@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.campaign-price-limits.v1.json",
-  "title": "CampaignPriceLimits",
+  "title": "Campaign Price Limits",
   "description": "Controls which campaign prices the promotion UI will accept or warn about.",
   "type": "object",
   "additionalProperties": false,
