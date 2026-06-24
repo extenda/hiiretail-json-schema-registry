@@ -1,0 +1,2101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/promotion-engine/pro.dynamic-promotion.v3.json",
+  "title": "DynamicPromotion",
+  "description": "The internal Dynamic Promotion entity with the apiVersion. Distinct from the DynamicPromotion\nso that the customer does not need to bother with the actual version of the schema that\nis embedded in external APIs.\n",
+  "allOf": [
+    {
+      "description": "Promotion entity that can be used for dynamic promotions, where the business unit is given\nfrom the Basket, where it is contained.\n",
+      "allOf": [
+        {
+          "description": "Common properties for both local and group promotions.\n",
+          "type": "object",
+          "required": [
+            "id",
+            "revision",
+            "conflictResolutionType",
+            "validFrom",
+            "status",
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "description": "The unique identifier of the promotion.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "revision": {
+              "description": "The revision of the entity. Must be updated when there is a change to the entity. The\nnew revision must have a larger numeric value than the previous revision of the entity.\nIf the revision number is smaller than the previous one, then the input will be\nconsidered as outdated and will be ignored since there is already a newer version of it\nin our system.\n\nThe revision property is used to validate the version of an entity. In Hii Retail we\nwill automatically use an EPOCH timestamp with millisecond precision if not provided.\nWe also strongly recommend external systems to provide the revision as an EPOCH numeric\nvalue with millisecond precision. This approach ensures precise versioning and\nsimplifies comparison, validation and sorting of entity versions.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "reportingId": {
+              "description": "If provided, the reportingId will get added to the POSLog to support aggregation of separate promotions.\nIf you for example have a recurring campaign where the offers differ from time to time, this allows you to follow up\nthe performance of the campaign rather than the individual promotions and offers.\n",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "conflictResolutionType": {
+              "description": "Determines how this promotion competes with other promotions.\nThe enum is configurable per tenant. Each type has a configurable relationship to all other types\nwhere the individual relationship defines how the system shall resolve a conflict between the two types.\nNote that promotions with the same conflictResolutionType will always apply BESTDEAL as resolution strategy if they would conflict.\n",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "status": {
+              "description": "The current status of the promotion.",
+              "type": "string",
+              "enum": [
+                "ACTIVE",
+                "DELETED"
+              ]
+            },
+            "name": {
+              "description": "Default text shown in frontend applications.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "receiptText": {
+              "description": "Text shown on printed receipt as a label to the rewarded discount.\nIf not set, name will be used.\n",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            },
+            "validFrom": {
+              "description": "The start date and time for the promotion.\nIf the time is left out, 00:00:00.000 is assumed\n",
+              "type": "string",
+              "format": "date-time"
+            },
+            "validTo": {
+              "description": "The end date and time for the promotion.\nIf the time is left out, 23:59:59.999 is assumed.\n",
+              "type": "string",
+              "format": "date-time"
+            },
+            "schedule": {
+              "description": "Controls when the promotion is active within the validFrom/validTo window using a\ncron-like expression. All evaluation happens in UTC; pre-shift the expression if you\nneed a store-local window.\n\nFormat (5 space-separated fields): \"minute hour day-of-month month day-of-week\"\n- Field ranges:\n  - minute: 0-59\n  - hour: 0-23 (24-hour clock)\n  - day-of-month: 1-31\n  - month: 1-12 (January = 1)\n  - day-of-week: 0-7 (cron convention, Saturday = 6; both 0 and 7 mean Sunday)\n- Supported tokens (per field):\n  - \"*\": every value in the field's range\n  - \"N\": a single value\n  - \"N-M\": inclusive range, requires N <= M (example: \"9-14\" means hours 09:00:00\n    through 14:59:59, exclusive of 15:00)\n  - \"N,M,...\": comma-separated list of values or ranges\n  - \"*/S\": every Sth value across the full range, S >= 1 (example: \"*/5\" in the\n    minute field means every five minutes)\n  - \"N-M/S\": every Sth value across the range [N, M]\n- The minute field IS evaluated. Use \"*\" for \"every minute\"; \"0\" restricts to the\n  top of the hour only.\n- Named tokens are accepted in two fields only: day-of-week\n  (SUN, MON, TUE, WED, THU, FRI, SAT) and month (JAN, FEB, ... DEC). Names are\n  three-letter and case-insensitive (\"Mon\" == \"MON\" == \"mon\"). Day-of-week names\n  follow the same cron convention as the numbers (SUN = 0). Within a single range\n  the two endpoints must be both-named (\"MON-FRI\") or both-numeric (\"1-5\") — they\n  may not be mixed (\"MON-5\" is rejected). The step value after \"/\" is always\n  numeric, so a named range may still be stepped (\"MON-FRI/2\" is valid).\n  minute, hour, and day-of-month accept numbers only.\n- Day-of-week and month ranges wrap around: in these two fields a descending range\n  crosses the field's top back to its bottom instead of being rejected. \"FRI-TUE\"\n  (\"5-2\") means Fri, Sat, Sun, Mon, Tue; \"FRI-SUN\" (\"5-0\") means Fri, Sat, Sun;\n  \"DEC-APR\" (\"12-4\") means Dec, Jan, Feb, Mar, Apr; \"JUN-JAN\" (\"6-1\") means Jun through\n  Dec plus Jan. A non-descending range is unchanged, so \"SUN-SUN\" (\"0-0\") and \"DEC-DEC\"\n  (\"12-12\") stay a single value. Wrap-around applies to the day-of-week and month\n  fields only; descending minute, hour, and day-of-month ranges are rejected.\n- Aliases such as \"@daily\"/\"@weekly\", full names (\"MONDAY\"), and the unix-cron\n  extensions \"L\", \"W\", \"#\", \"?\" are NOT supported.\n\nEvaluation rules:\n- If a field is \"*\", the entire span of that field is considered (that is,\n  \"* * 1 1 *\" means the whole day on Jan 1).\n- When BOTH day-of-month and day-of-week are restricted (neither is \"*\"), they are\n  combined with AND: the promotion fires only on dates matching both. (This differs\n  from classical unix cron, which ORs the two fields.)\n\nTimezone / DST (worked example): there is no timezone awareness, so a store-local\nwindow must be pre-shifted to UTC by the store's current offset AND re-edited when\nthat offset changes at a daylight-saving boundary. A Europe/Stockholm store wanting\n\"15:00-15:59 local\" writes \"* 13 * * *\" in summer (CEST = UTC+2; 15:00 local =\n13:00 UTC) but \"* 14 * * *\" in winter (CET = UTC+1; 15:00 local = 14:00 UTC). The\nsummer expression \"* 13 * * *\" matches 2026-06-04T13:30:00Z (15:30 local) but not\n2026-06-04T14:00:00Z (16:00 local), and would fire an hour early in local terms once\nthe store falls back to UTC+1.\n",
+              "type": "string",
+              "examples": [
+                {
+                  "Always active (same as no schedule)": {
+                    "value": "* * * * *"
+                  }
+                },
+                {
+                  "Weekday happy hour (16:00–19:59 UTC, Mon–Fri)": {
+                    "value": "* 16-19 * * 1-5"
+                  }
+                },
+                {
+                  "Weekday happy hour by name (same as \"* 16-19 * * 1-5\")": {
+                    "value": "* 16-19 * * MON-FRI"
+                  }
+                },
+                {
+                  "Weekends only (every minute Sat and Sun)": {
+                    "value": "* * * * 0,6"
+                  }
+                },
+                {
+                  "Weekend span Fri–Sun by name (same as \"* * * * 5-7\")": {
+                    "value": "* * * * FRI-SUN"
+                  }
+                },
+                {
+                  "Winter season spanning the year boundary (Dec–Apr)": {
+                    "value": "* * * DEC-APR *"
+                  }
+                },
+                {
+                  "Every 15 minutes during weekday opening (08:00–17:59)": {
+                    "value": "*/15 8-17 * * 1-5"
+                  }
+                },
+                {
+                  "Midnight on the 1st of every month": {
+                    "value": "0 0 1 * *"
+                  }
+                },
+                {
+                  "Midnight on the 1st or 15th, only if a Monday": {
+                    "value": "0 0 1,15 * 1"
+                  }
+                },
+                {
+                  "Lunch hour every weekday (11:00–12:59)": {
+                    "value": "* 11-12 * * 1-5"
+                  }
+                },
+                {
+                  "Stockholm 15:00–15:59 local, summer (CEST = UTC+2)": {
+                    "value": "* 13 * * *"
+                  }
+                },
+                {
+                  "Stockholm 15:00–15:59 local, winter (CET = UTC+1)": {
+                    "value": "* 14 * * *"
+                  }
+                },
+                {
+                  "Black Friday only (assuming 2026-11-27), scoped by validFrom/validTo": {
+                    "value": "* * 27 11 *"
+                  }
+                }
+              ]
+            },
+            "upsellRules": {
+              "description": "List of upsell information; relevant only if upsell properties\nare set on conditions.\n",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "oneOf": [
+                  {
+                    "required": [
+                      "thresholdAmount"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "thresholdQuantity"
+                    ]
+                  }
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "description": "The id that is referenced from conditions",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 250
+                  },
+                  "thresholdAmount": {
+                    "description": "The amount that triggers the upsell message. Example, if you have a promotion \"Buy for 500 get 20% off\",\nyou can set thresholdAmount to 300 to show an upsell message when the customer has gone over 300 but not before.\n",
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0
+                  },
+                  "thresholdQuantity": {
+                    "description": "The quantity that triggers the upsell message. Example, if you have a promotion \"Buy 3 for 2\",\nyou can set thresholdQuantity to 1 or 2 to show an upsell message when the customer has bought 1 or 2.\n",
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0
+                  },
+                  "channels": {
+                    "description": "Restrict to target sales channels so that a particular message is only shown in Scan&Go for instance.\nNo restriction if left out.\n",
+                    "type": "array",
+                    "items": {
+                      "description": "The sales channel identifier.\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "maxItems": 100,
+                    "example": [
+                      "SCAN_GO",
+                      "SCO"
+                    ]
+                  },
+                  "upsellDisplayMessage": {
+                    "description": "Optional upsell message to be shown to the user.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 250,
+                    "example": "Buy another to unlock extra savings!"
+                  },
+                  "upsellImageUrl": {
+                    "description": "Optional image URL to show an image in the upsell message.",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                }
+              },
+              "maxItems": 100
+            },
+            "additionalProperties": {
+              "description": "Arbitrary tenant-defined key-value pairs attached to this promotion.\nThese values are not evaluated as promotion conditions.\nThey are passed through unchanged onto every Discount produced when\nthis promotion fires, enabling POSLog enrichment.\n",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "value"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Property identifier",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 250
+                  },
+                  "value": {
+                    "description": "Property value",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 250
+                  }
+                }
+              },
+              "minItems": 1,
+              "maxItems": 20
+            },
+            "activators": {
+              "description": "Defines conditions that must be met to activate the promotion.\nIf multiple properties are set, they are combined with a logical AND.\n",
+              "type": "object",
+              "properties": {
+                "discountCode": {
+                  "description": "Specific discount code that must be provided by the customer.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 250,
+                  "example": "VIP20"
+                },
+                "coupon": {
+                  "description": "Physical or digital coupon code requirement.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "description": "The coupon ID or coupon code.\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250
+                    },
+                    "providerId": {
+                      "description": "If multiple providers are used for coupons, this optional providerId is used to uniquely\ndistinguish between coupon IDs and to denote which provider to redeem the coupon against.\nInformation about the providerId is included in the POSLog.\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250,
+                      "example": "ProviderName"
+                    }
+                  }
+                },
+                "b2b": {
+                  "description": "Business to business qualification. At least one of the properties must be provided.\nWhen multiple properties are set, all of them must match (AND logic).\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+                  "type": "object",
+                  "properties": {
+                    "agreementId": {
+                      "description": "Allows this specific promotion to serve as a price agreement where a B2B customer may have\nseveral price agreements. For a B2B customer to get access to a specific agreement it must be\npart of the customer's profile.\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250
+                    },
+                    "customerId": {
+                      "description": "A specific B2B customer",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250
+                    },
+                    "projectId": {
+                      "description": "A specific B2B project identifier. Can be combined with any other B2B property;\nwhen multiple properties are set, the basket must match all of them (AND logic).\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250
+                    },
+                    "isB2B": {
+                      "description": "A general condition that applies to all B2B customers",
+                      "type": "boolean"
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "required": [
+                        "isB2B"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "customerId"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "agreementId"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "projectId"
+                      ]
+                    }
+                  ]
+                },
+                "loyalty": {
+                  "description": "Loyalty qualification.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\nEither the segment or the active flag should be set.\n",
+                  "type": "object",
+                  "properties": {
+                    "active": {
+                      "description": "If true, the promotion is only available to loyalty customers.\n",
+                      "type": "boolean"
+                    },
+                    "segment": {
+                      "description": "A customer segment that is defined on the loyalty system. Some examples are geographical,\ndemographical and spend level segments.\n",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250,
+                      "example": "platinum"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "active"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "segment"
+                      ]
+                    }
+                  ]
+                },
+                "staff": {
+                  "description": "Staff member qualification.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+                  "type": "object",
+                  "properties": {
+                    "active": {
+                      "description": "If true, the promotion is only available to staff members.\n",
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                },
+                "tender": {
+                  "description": "Future-use tender-based qualification.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+                  "type": "object",
+                  "required": [
+                    "tenderId",
+                    "percentOfTotal"
+                  ],
+                  "properties": {
+                    "tenderId": {
+                      "description": "Enum defined by Tender configuration.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 250
+                    },
+                    "percentOfTotal": {
+                      "type": "number",
+                      "format": "double",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  }
+                },
+                "channels": {
+                  "description": "Restricts the promotion to specific sales channels or application types within the businessUnit.\nIf empty or left out, the promotion applies to all channels.\n",
+                  "type": "array",
+                  "items": {
+                    "description": "The sales channel identifier.\n",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "maxItems": 100,
+                  "example": [
+                    "SCAN_GO",
+                    "SCO"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "offers": {
+              "description": "A list of offers that can be applied to this promotion. Discounts can be constructed\nusing either this 'offers' structure or the simpler 'campaignPrices' structure.\nNote that offers within a promotion that conflict with each other\n(e.g. offer A: 20% off on shirts, offer B: 30% off on shirts) will apply BESTDEAL as resolution.\nI.e. the offer with the highest monetary value for the customer will be applied.\n",
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "description": "Container for a specific set of conditions and resulting reward within a promotion.\n",
+                    "required": [
+                      "id",
+                      "conditions",
+                      "reward"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "description": "The id of the offer. The id shall be unique within the promotion but does not necessarily\nhave to be globally unique. The id will be reported back in the POSLog.\n",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250
+                      },
+                      "conditions": {
+                        "description": "Conditions required to qualify for this offer.",
+                        "type": "array",
+                        "items": {
+                          "description": "A single condition that must be met for the associated reward to be applied.\nMultiple conditions within an offer will have an AND relationship.\n",
+                          "type": "object",
+                          "properties": {
+                            "totalAmount": {
+                              "type": "object",
+                              "required": [
+                                "minAmount"
+                              ],
+                              "properties": {
+                                "minAmount": {
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                },
+                                "upsellRule": {
+                                  "type": "string",
+                                  "description": "Reference to a rule that is defined on Promotion level\n",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                }
+                              }
+                            },
+                            "itemSet": {
+                              "type": "object",
+                              "description": "Conditions the offer to a defined set of items with an optional minimum quantity or amount. This allows the creation\nof both simple offers like \"20% off on all items in category 'shirt'\" as well as more complex constructs like \"buy 4 chairs\n(itemSet with a minimum quantity 4) and 1 table (separate itemSet with minimum quantity 1) and get the table at half price\".\nA condition without `filters` set will automatically match all items.\n",
+                              "required": [
+                                "itemSetId"
+                              ],
+                              "properties": {
+                                "itemSetId": {
+                                  "description": "Identifier for the item set. Can be used as target from a reward.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                },
+                                "filters": {
+                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n",
+                                  "type": "array",
+                                  "maxItems": 100,
+                                  "items": {
+                                    "type": "object",
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "itemCategories"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "itemIds"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "gtinPrefixes"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "modelIds"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "brands"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "colors"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "sizes"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "seasons"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "additionalProperties"
+                                        ]
+                                      }
+                                    ],
+                                    "properties": {
+                                      "filterMode": {
+                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
+                                        "type": "string",
+                                        "default": "INCLUDE",
+                                        "enum": [
+                                          "INCLUDE",
+                                          "EXCLUDE"
+                                        ]
+                                      },
+                                      "itemCategories": {
+                                        "description": "List of item categories to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "itemIds": {
+                                        "description": "List of specific item IDs to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "gtinPrefixes": {
+                                        "description": "List of GTIN prefix values. These prefixes are only used for promotions provided in\nthe Basket (dynamic promotions). They are ignored for promotions sent via the Promotion\nInput API.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "modelIds": {
+                                        "description": "List of model IDs to filter by. Represented by a Model item link in the Item Link API.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "brands": {
+                                        "description": "List of brands to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "colors": {
+                                        "description": "List of colors to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "sizes": {
+                                        "description": "List of sizes to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "seasons": {
+                                        "description": "List of seasons to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "additionalProperties": {
+                                        "description": "Additional properties (for example Pos.extra.MyProperty).",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "required": [
+                                            "id",
+                                            "value"
+                                          ],
+                                          "properties": {
+                                            "id": {
+                                              "description": "Property identifier",
+                                              "type": "string",
+                                              "minLength": 1,
+                                              "maxLength": 250
+                                            },
+                                            "value": {
+                                              "description": "Property value",
+                                              "type": "string",
+                                              "minLength": 1,
+                                              "maxLength": 250
+                                            }
+                                          }
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "gs1ApplicationIdentifiers": {
+                                        "description": "GS1 application identifier based restrictions.\nIf set, we do not send this to third party integrations, like shelf labels.\n",
+                                        "type": "object",
+                                        "properties": {
+                                          "bestBeforeDateDaysRemaining": {
+                                            "description": "BEST BEFORE DATE (less than days left).",
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 0
+                                          },
+                                          "expirationDateDaysRemaining": {
+                                            "description": "EXPIRATION DATE (less than days left).",
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 0
+                                          },
+                                          "batchNumber": {
+                                            "description": "BATCH number.",
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "maxLength": 250
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "upsellRule": {
+                                  "description": "Reference to an upsell rule that is defined on Promotion level",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                },
+                                "minQuantity": {
+                                  "description": "In general only relevant for unit type items but can be used for example in 'buy at least\n3 kg of ...' type offers.\nIf greater than 1, we do not send this to third party integrations, like shelf labels.\n",
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                },
+                                "minAmount": {
+                                  "description": "Minimum monetary spend required to fulfill itemSet.\nIf set, we do not send this to third party integrations, like shelf labels.\n",
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      },
+                      "reward": {
+                        "type": "object",
+                        "description": "Reward granted when this offer's conditions are met.\n",
+                        "properties": {
+                          "maxRepeat": {
+                            "description": "Defines allowed number of repetitions the conditions can be fulfilled and result in a reward.\nThis allows for limitations such as \"only 2 per customer\".\nNo limit if not set.\n",
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0
+                          },
+                          "contributorDistribution": {
+                            "description": "Controls how the reward value is distributed across contributing items.\nOnly meaningful on unit rewards, which scope the discount to a reward\ntarget item set. Total rewards always distribute across all\ncondition-matched items and therefore do not accept this field.\n  * `ONLY_REWARD` (default): distributed only across the items in the\n    reward's target item set. Matches legacy behaviour.\n  * `ALL_CONTRIBUTORS`: distributed proportionately across all items\n    contributing to the offer's conditions.\n",
+                            "type": "string",
+                            "default": "ONLY_REWARD",
+                            "enum": [
+                              "ONLY_REWARD",
+                              "ALL_CONTRIBUTORS"
+                            ]
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "title": "Discounted Price",
+                                "type": "object",
+                                "required": [
+                                  "discountedPrice"
+                                ],
+                                "properties": {
+                                  "discountedPrice": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "amount",
+                                      "targetItemSet"
+                                    ],
+                                    "properties": {
+                                      "amount": {
+                                        "description": "The new discounted price to set as the unit price of the targeted items.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "quantityLimit": {
+                                        "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "targetItemSet": {
+                                        "description": "Reference to an itemSetId.\n",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 250
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Package Price",
+                                "type": "object",
+                                "required": [
+                                  "packagePrice"
+                                ],
+                                "properties": {
+                                  "packagePrice": {
+                                    "type": "object",
+                                    "required": [
+                                      "amount",
+                                      "targetItemSets"
+                                    ],
+                                    "properties": {
+                                      "amount": {
+                                        "description": "The new total price of the package. A package is all of the targeted items. The amount\nwill be distributed proportionally over those items.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "targetItemSets": {
+                                        "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 250
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Reduced Amount",
+                                "type": "object",
+                                "required": [
+                                  "reducedAmount"
+                                ],
+                                "properties": {
+                                  "reducedAmount": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "amount",
+                                      "targetItemSets"
+                                    ],
+                                    "properties": {
+                                      "amount": {
+                                        "description": "The amount to reduce the unit price, if the quantityLimit is 1, or the package price\nif quantityLimit is greater than 1.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "quantityLimit": {
+                                        "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "targetItemSets": {
+                                        "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 250
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Reduced Percent",
+                                "type": "object",
+                                "required": [
+                                  "reducedPercent"
+                                ],
+                                "properties": {
+                                  "reducedPercent": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "percent",
+                                      "targetItemSets"
+                                    ],
+                                    "properties": {
+                                      "percent": {
+                                        "description": "The percent to reduce the item by.",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0,
+                                        "maximum": 100
+                                      },
+                                      "amountLimit": {
+                                        "description": "Optional cap on total reward amount.",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "quantityLimit": {
+                                        "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      },
+                                      "targetItemSets": {
+                                        "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 250
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Markup Percent",
+                                "type": "object",
+                                "required": [
+                                  "markupPercentOnPurchasePrice"
+                                ],
+                                "properties": {
+                                  "markupPercentOnPurchasePrice": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "percent"
+                                    ],
+                                    "properties": {
+                                      "percent": {
+                                        "description": "The percentage value that should be applied on top of the purchase price to give the\ndiscounted sales price.\n",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0,
+                                        "maximum": 100
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Retroactive",
+                                "type": "object",
+                                "required": [
+                                  "retroactive"
+                                ],
+                                "properties": {
+                                  "retroactive": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "value"
+                                    ],
+                                    "properties": {
+                                      "value": {
+                                        "description": "Populates the transaction with information to be consumed by other applications.",
+                                        "type": "string",
+                                        "enum": [
+                                          "GIFT_CARD",
+                                          "CHARITY",
+                                          "VOUCHER"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Informative",
+                                "type": "object",
+                                "required": [
+                                  "informative"
+                                ],
+                                "properties": {
+                                  "informative": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "header",
+                                      "body"
+                                    ],
+                                    "properties": {
+                                      "header": {
+                                        "description": "Information header.",
+                                        "type": "string",
+                                        "maxLength": 100
+                                      },
+                                      "body": {
+                                        "description": "Information body.",
+                                        "type": "string",
+                                        "maxLength": 250
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "title": "Incremental Tiers",
+                            "type": "object",
+                            "properties": {
+                              "incrementalTiers": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "description": "Represents a single level within a tiered reward structure.\nEach tier combines a mandatory qualification threshold — either a minimum item quantity (thresholdQuantity)\nor a monetary spend (thresholdAmount) — with a specific resulting reward.\n\nIf the reward (TotalReward or UnitReward) contains a quantityLimit, it should only be (optionally)\nset on the last tier to provide a total cap on the tiers.\n\nTiered Total Offers:\nFor total-based rewards, the threshold is typically based on total spend (thresholdAmount)\nto trigger a total discount.\nExample: Buy for 100€ and get 10€ total discount.\n\nTiered Item Offers:\nFor item-based rewards, the tier must be associated with an item set (via targetItemSets in the reward).\nThe threshold can be either quantity-based (thresholdQuantity) or amount-based (thresholdAmount).\nExample: Buy more than 5 from itemSet X and get 10% discount.\n\nRecursive declarations of tiered rewards are not allowed.\n",
+                                  "allOf": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "thresholdAmount": {
+                                          "description": "Minimum monetary spend required to qualify for this tier.\n",
+                                          "type": "number",
+                                          "format": "double",
+                                          "minimum": 0
+                                        },
+                                        "thresholdQuantity": {
+                                          "description": "Minimum quantity required to qualify for this tier.\n",
+                                          "type": "number",
+                                          "format": "double",
+                                          "minimum": 0
+                                        },
+                                        "maxRepeat": {
+                                          "description": "Defines allowed number of repetitions the conditions can be fulfilled and result in a reward.\nThis allows for limitations such as \"only 2 per customer\".\nNo limit if not set.\n",
+                                          "type": "integer",
+                                          "format": "int32",
+                                          "minimum": 0
+                                        }
+                                      },
+                                      "anyOf": [
+                                        {
+                                          "required": [
+                                            "thresholdAmount"
+                                          ]
+                                        },
+                                        {
+                                          "required": [
+                                            "thresholdQuantity"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "oneOf": [
+                                        {
+                                          "oneOf": [
+                                            {
+                                              "title": "Total reduced amount",
+                                              "type": "object",
+                                              "required": [
+                                                "totalReducedAmount"
+                                              ],
+                                              "properties": {
+                                                "totalReducedAmount": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "Absolute reduction on total.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Total reduced percent",
+                                              "type": "object",
+                                              "required": [
+                                                "totalReducedPercent"
+                                              ],
+                                              "properties": {
+                                                "totalReducedPercent": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "Percentage discount on total.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "oneOf": [
+                                            {
+                                              "title": "Discounted Price",
+                                              "type": "object",
+                                              "required": [
+                                                "discountedPrice"
+                                              ],
+                                              "properties": {
+                                                "discountedPrice": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSet"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The new discounted price to set as the unit price of the targeted items.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSet": {
+                                                      "description": "Reference to an itemSetId.\n",
+                                                      "type": "string",
+                                                      "minLength": 1,
+                                                      "maxLength": 250
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Package Price",
+                                              "type": "object",
+                                              "required": [
+                                                "packagePrice"
+                                              ],
+                                              "properties": {
+                                                "packagePrice": {
+                                                  "type": "object",
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The new total price of the package. A package is all of the targeted items. The amount\nwill be distributed proportionally over those items.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Reduced Amount",
+                                              "type": "object",
+                                              "required": [
+                                                "reducedAmount"
+                                              ],
+                                              "properties": {
+                                                "reducedAmount": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The amount to reduce the unit price, if the quantityLimit is 1, or the package price\nif quantityLimit is greater than 1.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Reduced Percent",
+                                              "type": "object",
+                                              "required": [
+                                                "reducedPercent"
+                                              ],
+                                              "properties": {
+                                                "reducedPercent": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "The percent to reduce the item by.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    },
+                                                    "amountLimit": {
+                                                      "description": "Optional cap on total reward amount.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Markup Percent",
+                                              "type": "object",
+                                              "required": [
+                                                "markupPercentOnPurchasePrice"
+                                              ],
+                                              "properties": {
+                                                "markupPercentOnPurchasePrice": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "The percentage value that should be applied on top of the purchase price to give the\ndiscounted sales price.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Retroactive",
+                                              "type": "object",
+                                              "required": [
+                                                "retroactive"
+                                              ],
+                                              "properties": {
+                                                "retroactive": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "value"
+                                                  ],
+                                                  "properties": {
+                                                    "value": {
+                                                      "description": "Populates the transaction with information to be consumed by other applications.",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "GIFT_CARD",
+                                                        "CHARITY",
+                                                        "VOUCHER"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Informative",
+                                              "type": "object",
+                                              "required": [
+                                                "informative"
+                                              ],
+                                              "properties": {
+                                                "informative": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "header",
+                                                    "body"
+                                                  ],
+                                                  "properties": {
+                                                    "header": {
+                                                      "description": "Information header.",
+                                                      "type": "string",
+                                                      "maxLength": 100
+                                                    },
+                                                    "body": {
+                                                      "description": "Information body.",
+                                                      "type": "string",
+                                                      "maxLength": 250
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "minItems": 1,
+                                "maxItems": 100
+                              }
+                            },
+                            "required": [
+                              "incrementalTiers"
+                            ]
+                          },
+                          {
+                            "title": "Threshold Tiers",
+                            "type": "object",
+                            "properties": {
+                              "thresholdTiers": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "description": "Represents a single level within a tiered reward structure.\nEach tier combines a mandatory qualification threshold — either a minimum item quantity (thresholdQuantity)\nor a monetary spend (thresholdAmount) — with a specific resulting reward.\n\nIf the reward (TotalReward or UnitReward) contains a quantityLimit, it should only be (optionally)\nset on the last tier to provide a total cap on the tiers.\n\nTiered Total Offers:\nFor total-based rewards, the threshold is typically based on total spend (thresholdAmount)\nto trigger a total discount.\nExample: Buy for 100€ and get 10€ total discount.\n\nTiered Item Offers:\nFor item-based rewards, the tier must be associated with an item set (via targetItemSets in the reward).\nThe threshold can be either quantity-based (thresholdQuantity) or amount-based (thresholdAmount).\nExample: Buy more than 5 from itemSet X and get 10% discount.\n\nRecursive declarations of tiered rewards are not allowed.\n",
+                                  "allOf": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "thresholdAmount": {
+                                          "description": "Minimum monetary spend required to qualify for this tier.\n",
+                                          "type": "number",
+                                          "format": "double",
+                                          "minimum": 0
+                                        },
+                                        "thresholdQuantity": {
+                                          "description": "Minimum quantity required to qualify for this tier.\n",
+                                          "type": "number",
+                                          "format": "double",
+                                          "minimum": 0
+                                        },
+                                        "maxRepeat": {
+                                          "description": "Defines allowed number of repetitions the conditions can be fulfilled and result in a reward.\nThis allows for limitations such as \"only 2 per customer\".\nNo limit if not set.\n",
+                                          "type": "integer",
+                                          "format": "int32",
+                                          "minimum": 0
+                                        }
+                                      },
+                                      "anyOf": [
+                                        {
+                                          "required": [
+                                            "thresholdAmount"
+                                          ]
+                                        },
+                                        {
+                                          "required": [
+                                            "thresholdQuantity"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "oneOf": [
+                                        {
+                                          "oneOf": [
+                                            {
+                                              "title": "Total reduced amount",
+                                              "type": "object",
+                                              "required": [
+                                                "totalReducedAmount"
+                                              ],
+                                              "properties": {
+                                                "totalReducedAmount": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "Absolute reduction on total.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Total reduced percent",
+                                              "type": "object",
+                                              "required": [
+                                                "totalReducedPercent"
+                                              ],
+                                              "properties": {
+                                                "totalReducedPercent": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "Percentage discount on total.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "oneOf": [
+                                            {
+                                              "title": "Discounted Price",
+                                              "type": "object",
+                                              "required": [
+                                                "discountedPrice"
+                                              ],
+                                              "properties": {
+                                                "discountedPrice": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSet"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The new discounted price to set as the unit price of the targeted items.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSet": {
+                                                      "description": "Reference to an itemSetId.\n",
+                                                      "type": "string",
+                                                      "minLength": 1,
+                                                      "maxLength": 250
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Package Price",
+                                              "type": "object",
+                                              "required": [
+                                                "packagePrice"
+                                              ],
+                                              "properties": {
+                                                "packagePrice": {
+                                                  "type": "object",
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The new total price of the package. A package is all of the targeted items. The amount\nwill be distributed proportionally over those items.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Reduced Amount",
+                                              "type": "object",
+                                              "required": [
+                                                "reducedAmount"
+                                              ],
+                                              "properties": {
+                                                "reducedAmount": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "amount",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "amount": {
+                                                      "description": "The amount to reduce the unit price, if the quantityLimit is 1, or the package price\nif quantityLimit is greater than 1.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Reduced Percent",
+                                              "type": "object",
+                                              "required": [
+                                                "reducedPercent"
+                                              ],
+                                              "properties": {
+                                                "reducedPercent": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent",
+                                                    "targetItemSets"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "The percent to reduce the item by.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    },
+                                                    "amountLimit": {
+                                                      "description": "Optional cap on total reward amount.",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "quantityLimit": {
+                                                      "description": "How many of the eligible items in the targeted itemSets that shall be discounted.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0
+                                                    },
+                                                    "targetItemSets": {
+                                                      "description": "Reference to one or more itemSetId. Targeting more than one item set from\nthe reward is useful for distributed discounts.\n",
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string",
+                                                        "minLength": 1,
+                                                        "maxLength": 250
+                                                      },
+                                                      "minItems": 1,
+                                                      "maxItems": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Markup Percent",
+                                              "type": "object",
+                                              "required": [
+                                                "markupPercentOnPurchasePrice"
+                                              ],
+                                              "properties": {
+                                                "markupPercentOnPurchasePrice": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "percent"
+                                                  ],
+                                                  "properties": {
+                                                    "percent": {
+                                                      "description": "The percentage value that should be applied on top of the purchase price to give the\ndiscounted sales price.\n",
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "minimum": 0,
+                                                      "maximum": 100
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Retroactive",
+                                              "type": "object",
+                                              "required": [
+                                                "retroactive"
+                                              ],
+                                              "properties": {
+                                                "retroactive": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "value"
+                                                  ],
+                                                  "properties": {
+                                                    "value": {
+                                                      "description": "Populates the transaction with information to be consumed by other applications.",
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "GIFT_CARD",
+                                                        "CHARITY",
+                                                        "VOUCHER"
+                                                      ]
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "title": "Informative",
+                                              "type": "object",
+                                              "required": [
+                                                "informative"
+                                              ],
+                                              "properties": {
+                                                "informative": {
+                                                  "type": "object",
+                                                  "additionalProperties": false,
+                                                  "required": [
+                                                    "header",
+                                                    "body"
+                                                  ],
+                                                  "properties": {
+                                                    "header": {
+                                                      "description": "Information header.",
+                                                      "type": "string",
+                                                      "maxLength": 100
+                                                    },
+                                                    "body": {
+                                                      "description": "Information body.",
+                                                      "type": "string",
+                                                      "maxLength": 250
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "minItems": 1,
+                                "maxItems": 100
+                              }
+                            },
+                            "required": [
+                              "thresholdTiers"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "description": "Container for a specific set of conditions and resulting reward within a promotion.\n",
+                    "required": [
+                      "id",
+                      "reward"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "description": "The id of the offer. The id shall be unique within the promotion but does not necessarily\nhave to be globally unique. The id will be reported back in the POSLog.\n",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250
+                      },
+                      "conditions": {
+                        "description": "Conditions required to qualify for this offer.",
+                        "type": "array",
+                        "items": {
+                          "description": "A single condition that must be met for the associated reward to be applied.\nMultiple conditions within an offer will have an AND relationship.\n",
+                          "type": "object",
+                          "properties": {
+                            "totalAmount": {
+                              "type": "object",
+                              "required": [
+                                "minAmount"
+                              ],
+                              "properties": {
+                                "minAmount": {
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                },
+                                "upsellRule": {
+                                  "type": "string",
+                                  "description": "Reference to a rule that is defined on Promotion level\n",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                }
+                              }
+                            },
+                            "itemSet": {
+                              "type": "object",
+                              "description": "Conditions the offer to a defined set of items with an optional minimum quantity or amount. This allows the creation\nof both simple offers like \"20% off on all items in category 'shirt'\" as well as more complex constructs like \"buy 4 chairs\n(itemSet with a minimum quantity 4) and 1 table (separate itemSet with minimum quantity 1) and get the table at half price\".\nA condition without `filters` set will automatically match all items.\n",
+                              "required": [
+                                "itemSetId"
+                              ],
+                              "properties": {
+                                "itemSetId": {
+                                  "description": "Identifier for the item set. Can be used as target from a reward.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                },
+                                "filters": {
+                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n",
+                                  "type": "array",
+                                  "maxItems": 100,
+                                  "items": {
+                                    "type": "object",
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "itemCategories"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "itemIds"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "gtinPrefixes"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "modelIds"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "brands"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "colors"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "sizes"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "seasons"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "additionalProperties"
+                                        ]
+                                      }
+                                    ],
+                                    "properties": {
+                                      "filterMode": {
+                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
+                                        "type": "string",
+                                        "default": "INCLUDE",
+                                        "enum": [
+                                          "INCLUDE",
+                                          "EXCLUDE"
+                                        ]
+                                      },
+                                      "itemCategories": {
+                                        "description": "List of item categories to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "itemIds": {
+                                        "description": "List of specific item IDs to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "gtinPrefixes": {
+                                        "description": "List of GTIN prefix values. These prefixes are only used for promotions provided in\nthe Basket (dynamic promotions). They are ignored for promotions sent via the Promotion\nInput API.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "modelIds": {
+                                        "description": "List of model IDs to filter by. Represented by a Model item link in the Item Link API.\n",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "brands": {
+                                        "description": "List of brands to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "colors": {
+                                        "description": "List of colors to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "sizes": {
+                                        "description": "List of sizes to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "seasons": {
+                                        "description": "List of seasons to filter by",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "minLength": 1,
+                                          "maxLength": 100
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "additionalProperties": {
+                                        "description": "Additional properties (for example Pos.extra.MyProperty).",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "required": [
+                                            "id",
+                                            "value"
+                                          ],
+                                          "properties": {
+                                            "id": {
+                                              "description": "Property identifier",
+                                              "type": "string",
+                                              "minLength": 1,
+                                              "maxLength": 250
+                                            },
+                                            "value": {
+                                              "description": "Property value",
+                                              "type": "string",
+                                              "minLength": 1,
+                                              "maxLength": 250
+                                            }
+                                          }
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                      },
+                                      "gs1ApplicationIdentifiers": {
+                                        "description": "GS1 application identifier based restrictions.\nIf set, we do not send this to third party integrations, like shelf labels.\n",
+                                        "type": "object",
+                                        "properties": {
+                                          "bestBeforeDateDaysRemaining": {
+                                            "description": "BEST BEFORE DATE (less than days left).",
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 0
+                                          },
+                                          "expirationDateDaysRemaining": {
+                                            "description": "EXPIRATION DATE (less than days left).",
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 0
+                                          },
+                                          "batchNumber": {
+                                            "description": "BATCH number.",
+                                            "type": "string",
+                                            "minLength": 1,
+                                            "maxLength": 250
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "upsellRule": {
+                                  "description": "Reference to an upsell rule that is defined on Promotion level",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 250
+                                },
+                                "minQuantity": {
+                                  "description": "In general only relevant for unit type items but can be used for example in 'buy at least\n3 kg of ...' type offers.\nIf greater than 1, we do not send this to third party integrations, like shelf labels.\n",
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                },
+                                "minAmount": {
+                                  "description": "Minimum monetary spend required to fulfill itemSet.\nIf set, we do not send this to third party integrations, like shelf labels.\n",
+                                  "type": "number",
+                                  "format": "double",
+                                  "minimum": 0
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                      },
+                      "reward": {
+                        "type": "object",
+                        "description": "Reward granted when this offer's conditions are met.\n",
+                        "properties": {
+                          "maxRepeat": {
+                            "description": "Defines allowed number of repetitions the conditions can be fulfilled and result in a reward.\nThis allows for limitations such as \"only 2 per customer\".\nNo limit if not set.\n",
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0
+                          }
+                        },
+                        "oneOf": [
+                          {
+                            "oneOf": [
+                              {
+                                "title": "Total reduced amount",
+                                "type": "object",
+                                "required": [
+                                  "totalReducedAmount"
+                                ],
+                                "properties": {
+                                  "totalReducedAmount": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "amount"
+                                    ],
+                                    "properties": {
+                                      "amount": {
+                                        "description": "Absolute reduction on total.",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "title": "Total reduced percent",
+                                "type": "object",
+                                "required": [
+                                  "totalReducedPercent"
+                                ],
+                                "properties": {
+                                  "totalReducedPercent": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "percent"
+                                    ],
+                                    "properties": {
+                                      "percent": {
+                                        "description": "Percentage discount on total.",
+                                        "type": "number",
+                                        "format": "double",
+                                        "minimum": 0,
+                                        "maximum": 100
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "maxItems": 200
+            },
+            "campaignPrices": {
+              "description": "This represents a campaign for one or more items and is used instead of offers to add\nsimple \"new price for item\" campaigns. Note that BESTDEAL will be applied as resolution strategy if the\nsame item occurs multiple times as a campaign price or if it conflicts with one or several offers in the promotion.\n",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "itemId",
+                  "unitPrice"
+                ],
+                "properties": {
+                  "itemId": {
+                    "description": "The item ID",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 250
+                  },
+                  "unitPrice": {
+                    "description": "The new price of this item",
+                    "type": "number",
+                    "format": "double",
+                    "minimum": 0
+                  }
+                }
+              },
+              "maxItems": 1000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "apiVersion"
+      ],
+      "properties": {
+        "apiVersion": {
+          "description": "Provide the version of the schema in this property.\n",
+          "type": "string",
+          "enum": [
+            "3.0"
+          ],
+          "default": "3.0"
+        }
+      }
+    }
+  ]
+}

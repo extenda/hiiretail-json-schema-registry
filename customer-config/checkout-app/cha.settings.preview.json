@@ -61,6 +61,18 @@
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "connect": {
           "description": "Soft payment terminal providers settings definitions.",
           "type": "object",
@@ -609,6 +621,54 @@
         },
         "icd": {
           "$ref": "#/$defs/IcdType"
+        },
+        "itab": {
+          "$ref": "#/$defs/ItabType"
+        }
+      }
+    },
+    "ItabType": {
+      "description": "Settings for integration with ITAB.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB."
+        },
+        "lightTowerComPort": {
+          "type": "string",
+          "description": "COM port for the light tower."
+        },
+        "articleHandlingTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for article handling."
+        },
+        "messageTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for messages."
+        },
+        "responseTimeoutMilliseconds": {
+          "type": "integer",
+          "description": "Timeout in milliseconds for responses."
+        },
+        "connectionTimeout": {
+          "type": "integer",
+          "description": "Connection timeout in milliseconds."
+        },
+        "connectionReconnectTime": {
+          "type": "integer",
+          "description": "Reconnect delay in milliseconds."
+        },
+        "highestApiVersion": {
+          "type": "string",
+          "description": "Highest supported ITAB API version."
+        },
+        "lightStrategy": {
+          "type": "string",
+          "description": "Light strategy to use."
         }
       }
     },
@@ -1166,17 +1226,12 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the bags screen in SCO mode."
-        },
-        "paperBag": {
-          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
-        },
-        "plasticBag": {
-          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
         }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "$ref": "#/$defs/ScoBagType",
+        "description": "Defines the bag types available in SCO mode."
       }
     },
     "ScoBagType": {
@@ -1194,6 +1249,10 @@
         "title": {
           "type": "string",
           "description": "Defines the name of the bag."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Defines the image URL of the bag."
         }
       }
     },

@@ -24,6 +24,23 @@
       "type": "boolean",
       "default": true,
       "description": "When true, validates that the dynamic EOT code has not expired during validation requests."
+    },
+    "enableDynamicEotBarcode": {
+      "title": "Enable Dynamic EOT Barcode",
+      "type": "boolean",
+      "default": false,
+      "description": "When true, enables the dynamic EOT barcode logic."
+    },
+    "ignoreEotBarcodeInFinish": {
+      "title": "Ignore EOT Barcode In Finish",
+      "type": "boolean",
+      "default": false,
+      "description": "When true, ignores the EOT barcode in the finish flow."
+    },
+    "dynamicEotPrefix": {
+      "title": "Dynamic EOT Prefix",
+      "type": "string",
+      "description": "Configurable barcode prefix used for generated dynamic EOT codes."
     }
   },
   "required": ["dynamicEotCodeExpirationMinutes", "enableDynamicEotCodeStoreValidation", "enableDynamicEotCodeExpirationValidation"]

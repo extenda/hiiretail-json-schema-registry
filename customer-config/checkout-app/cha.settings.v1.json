@@ -61,6 +61,18 @@
           "type": "object",
           "$ref": "#/$defs/MposPeripheralType"
         },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "connect": {
           "description": "Soft payment terminal providers settings definitions.",
           "type": "object",
@@ -124,8 +136,15 @@
         },
         "customerOrder": {
           "description": "Customer order settings",
-          "type": "object",
-          "$ref": "#/$defs/CustomerOrderType"
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "connect": {
           "description": "POS payment providers settings definitions.",
@@ -258,6 +277,10 @@
       "description": "This is a definition of the POS keybindings.",
       "type": "object",
       "properties": {
+        "keyCode": {
+          "type": "string",
+          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+        },
         "altKey": {
           "keyCode": {
             "type": "string",
@@ -347,6 +370,11 @@
                   "$ref": "#/$defs/KeyBindingType"
                 }
               }
+            },
+            "openCustomerOrderSearch": {
+              "type": "object",
+              "description": "Used to set the open customer order search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
             }
           }
         },
@@ -430,9 +458,17 @@
       "required": [],
       "additionalProperties": false,
       "properties": {
+        "searchEnabled": {
+          "type": "boolean",
+          "description": "Enables the customer order search functionality in the POS."
+        },
+        "cancelAllowed": {
+          "type": "boolean",
+          "description": "Allows canceling customer orders from the POS."
+        },
         "enabled": {
           "type": "boolean",
-          "description": "Enables the customer order functionality in the POS."
+          "description": "Allows creating customer orders from the POS."
         }
       }
     },
@@ -1272,17 +1308,12 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the bags screen in SCO mode."
-        },
-        "paperBag": {
-          "description": "Defines the EAN and the name of the paper bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
-        },
-        "plasticBag": {
-          "description": "Defines the EAN and the name of the plastic bag in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagType"
         }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "$ref": "#/$defs/ScoBagType",
+        "description": "Defines the bag types available in SCO mode."
       }
     },
     "ScoBagType": {
@@ -1300,6 +1331,10 @@
         "title": {
           "type": "string",
           "description": "Defines the name of the bag."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Defines the image URL of the bag."
         }
       }
     },
@@ -1532,7 +1567,10 @@
       "properties": {
         "auth": {
           "type": "string",
-          "enum": ["iam", "ocms"],
+          "enum": [
+            "iam",
+            "ocms"
+          ],
           "default": "iam",
           "description": "The authorization provider used for transaction lookups. Default: `iam`"
         },

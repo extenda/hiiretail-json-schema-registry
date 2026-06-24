@@ -1,0 +1,855 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.v2.json",
+    "type": "array",
+    "title": "Tenders",
+    "description": "Payment methods (tenders) accepted at the point of sale. Each entry defines how a specific tender behaves during a transaction. The 'id' field is the primary key — it must be unique within the array.",
+    "x-primary-key": "id",
+    "enforceArrayItemUniquenessById": true,
+    "items": {
+        "type": "object",
+        "title": "Tender",
+        "required": [
+            "id",
+            "type",
+            "name",
+            "behavior",
+            "refund"
+        ],
+        "properties": {
+            "id": {
+                "type": "string",
+                "title": "Tender ID",
+                "description": "Unique identifier for this tender. Acts as the primary key — must be unique across all tenders and never reused. Referenced by transactions, reports, and ERP integrations. Examples: 'CASH_EUR', 'VISA', 'SWISH'."
+            },
+            "type": {
+                "type": "string",
+                "title": "Tender Type",
+                "description": "The category this tender belongs to. This is the most important setting — it determines which terminal and hardware options are available and how the checkout engine routes the payment.",
+                "enum": [
+                    "CASH",
+                    "CHECK",
+                    "CREDITDEBIT",
+                    "GIFTCERTIFICATE",
+                    "ORGANIZATIONCHARGE",
+                    "ELECTRONICGIFTCARD",
+                    "LOYALTYREDEMPTION",
+                    "VOUCHER",
+                    "COUPON",
+                    "FOODSTAMP",
+                    "HOUSEACCOUNT",
+                    "WICCHECK",
+                    "MANUFACTURERCOUPON",
+                    "MOBILE"
+                ],
+                "enumNames": [
+                    "Cash",
+                    "Check",
+                    "Credit / Debit Card (EFT)",
+                    "Gift Certificate",
+                    "Organization Charge",
+                    "Electronic Gift Card",
+                    "Loyalty Points Redemption",
+                    "Voucher",
+                    "Coupon",
+                    "Food Stamp / SNAP",
+                    "House Account",
+                    "WIC Check",
+                    "Manufacturer Coupon",
+                    "Mobile Payment"
+                ]
+            },
+            "name": {
+                "type": "string",
+                "title": "Display Name",
+                "description": "The name shown on the POS screen and printed on receipts. Should be short and immediately recognizable to cashiers. Examples: 'Cash', 'Visa / Mastercard', 'Swish'."
+            },
+            "description": {
+                "type": "string",
+                "title": "Description",
+                "description": "An internal description for configuration reference. Not shown to cashiers or customers."
+            },
+            "terminal": {
+                "type": "object",
+                "title": "Terminal & Hardware",
+                "description": "Hardware and payment provider settings. Available options depend on the Tender Type selected above. For integrated options, Store Data derives the correct payment plugin from the combination of integration type and provider.",
+                "properties": {
+                    "card_integration": {
+                        "type": "string",
+                        "title": "Card Terminal Integration",
+                        "description": "How the card terminal connects to the POS. 'Integrated' means the POS sends the amount to the terminal automatically via a plugin — the cashier only asks the customer to tap/insert/swipe. 'Standalone' means the cashier manually types the amount on a separate, unconnected terminal; no plugin is used.",
+                        "enum": [
+                            "INTEGRATED_CLOUD_EFT",
+                            "INTEGRATED_LOCAL_EFT",
+                            "STANDALONE_EFT"
+                        ],
+                        "enumNames": [
+                            "Integrated — Cloud (terminal communicates via cloud, requires internet)",
+                            "Integrated — Local (terminal communicates locally, works offline)",
+                            "Standalone (cashier enters amount manually, no integration)"
+                        ]
+                    },
+                    "card_provider": {
+                        "type": "string",
+                        "title": "Card Payment Provider",
+                        "description": "The payment service provider (PSP) for this integrated card terminal. Store Data uses this to connect the correct payment plugin to the checkout engine. Not applicable for standalone terminals.",
+                        "enum": [
+                            "ADYEN",
+                            "BAMBORA",
+                            "NETS",
+                            "VERIFONE",
+                            "WORLDLINE"
+                        ],
+                        "enumNames": [
+                            "Adyen",
+                            "Bambora",
+                            "Nets",
+                            "Verifone",
+                            "Worldline"
+                        ]
+                    },
+                    "mobile_integration": {
+                        "type": "string",
+                        "title": "Mobile Payment Integration",
+                        "description": "How the mobile payment is processed. 'Integrated' means the POS sends a payment request directly to the customer's app via a plugin — no manual amount entry needed. 'Standalone' means a separate terminal is used; no plugin is involved.",
+                        "enum": [
+                            "INTEGRATED_MOBILE_PLUGIN",
+                            "STANDALONE_MOBILE"
+                        ],
+                        "enumNames": [
+                            "Integrated (POS communicates with app via plugin)",
+                            "Standalone (separate terminal, no integration)"
+                        ]
+                    },
+                    "mobile_provider": {
+                        "type": "string",
+                        "title": "Mobile Payment Provider",
+                        "description": "The mobile payment service. Store Data uses this to connect the correct payment plugin to the checkout engine. Not applicable for standalone terminals.",
+                        "enum": [
+                            "ALIPAY",
+                            "MOBILEPAY",
+                            "RESURSBANK",
+                            "SWISH",
+                            "VIPPS"
+                        ],
+                        "enumNames": [
+                            "Alipay",
+                            "MobilePay",
+                            "Resurs Bank",
+                            "Swish",
+                            "Vipps"
+                        ]
+                    },
+                    "cash_hardware": {
+                        "type": "string",
+                        "title": "Cash Handling Hardware",
+                        "description": "The type of cash-handling device connected to the POS. 'Cash Changer Machine' enables automatic change dispensing via a plugin — the machine counts and dispenses coins and notes automatically. 'Standard Cash Drawer' is opened by the POS but operated manually by the cashier.",
+                        "enum": [
+                            "CASH_CHANGER_MACHINE",
+                            "STANDARD_CASH_DRAWER"
+                        ],
+                        "enumNames": [
+                            "Cash Changer Machine (dispenses change automatically via plugin)",
+                            "Standard Cash Drawer (manually operated)"
+                        ]
+                    },
+                    "gift_card_integration": {
+                        "type": "string",
+                        "title": "Gift Card Integration",
+                        "description": "How the electronic gift card is authorized at the POS. 'Integrated' uses an EGC plugin registered in the checkout engine — the POS checks the card balance online and authorization is handled by the plugin. 'Standalone' uses the legacy card-reader hardware path with no online authorization; the card is read locally by the terminal.",
+                        "enum": [
+                            "INTEGRATED_EGC_PLUGIN",
+                            "STANDALONE"
+                        ],
+                        "enumNames": [
+                            "Integrated (online balance check and authorization via plugin)",
+                            "Standalone (legacy card reader hardware, no online authorization)"
+                        ]
+                    },
+                    "gift_card_provider": {
+                        "type": "string",
+                        "title": "Gift Card Provider",
+                        "description": "The gift card system to use for online balance checks and authorization. Only applicable when 'Integrated' is selected above.",
+                        "enum": [
+                            "GiftCardPluginAuthorizer"
+                        ],
+                        "enumNames": [
+                            "HiiRetail Gift Card Plugin"
+                        ]
+                    },
+                    "org_charge_authorization": {
+                        "type": "boolean",
+                        "title": "Enable B2B Account Authorization",
+                        "description": "When true, enables the built-in organizational charge authorizer. Before accepting this tender, the POS will verify that the customer has a registered trade account with sufficient credit limit. The cashier may also be prompted for a purchase reference number, depending on the POS configuration.",
+                        "default": false
+                    }
+                }
+            },
+            "behavior": {
+                "type": "object",
+                "title": "POS Behavior",
+                "description": "Settings that control how the POS handles this tender during a transaction.",
+                "required": [
+                    "cancellable"
+                ],
+                "properties": {
+                    "is_default": {
+                        "type": "boolean",
+                        "title": "Default Tender",
+                        "description": "When true, this tender is pre-selected when the cashier opens the payment screen. Only one tender should be set as default.",
+                        "default": false
+                    },
+                    "lock_transaction": {
+                        "type": "boolean",
+                        "title": "Lock Transaction After Payment Entry",
+                        "description": "When true, the transaction is locked the moment the cashier enters this tender — no more items can be added, quantities changed, or discounts applied. The payment can still be completed or cancelled; only post-entry modifications are blocked.",
+                        "default": false
+                    },
+                    "cancellable": {
+                        "type": "boolean",
+                        "title": "Transaction Can Be Cancelled",
+                        "description": "Required. When true, a transaction that includes this tender can be voided (cancelled) by the cashier. When false, the cancel command is blocked for any transaction containing this tender — the cashier's only exit is to finalize with a different tender. The checkout engine has no safe fallback: if this is absent or false, the tender is operationally broken. Not configurable for Cash — cash transactions must always be cancellable."
+                    },
+                    "exclusive": {
+                        "type": "boolean",
+                        "title": "No Split Payment",
+                        "description": "When true, this tender cannot be combined with any other payment method in the same transaction. The POS rejects any attempt to mix this tender with another. Typically used for gift cards, vouchers, or loyalty redemptions where split payment is not permitted.",
+                        "default": false
+                    },
+                    "auto_finalize": {
+                        "type": "boolean",
+                        "title": "Auto-Finalize Payment",
+                        "description": "When true, the POS processes this tender automatically without asking the cashier to confirm the amount. Intended for unmanned or automated scenarios such as self-checkout or drive-through. Not applicable to Cash — auto-finalizing cash bypasses denomination selection and change calculation entirely.",
+                        "default": false
+                    },
+                    "preselect_denomination": {
+                        "type": "boolean",
+                        "title": "Pre-Select First Denomination",
+                        "description": "When the cashier opens the denomination selection dialog for this cash tender, the first denomination in the list is highlighted by default. Speeds up common transactions where the first denomination is the most frequently used. Engine default when not set: false.",
+                        "default": false
+                    },
+                    "open_cash_drawer": {
+                        "type": "boolean",
+                        "title": "Open Cash Drawer on Sale",
+                        "description": "When true, the cash drawer opens automatically when a transaction is finalized with this tender. Enable for cash and foreign currency; disable for card, mobile, voucher, and all other non-cash tenders where no physical cash is exchanged.",
+                        "default": false
+                    }
+                }
+            },
+            "overpayment": {
+                "type": "object",
+                "title": "Overpayment & Change",
+                "description": "Controls whether a customer can pay more than the transaction total, and what happens with the surplus. If overpayment is not allowed, the cashier cannot enter an amount greater than what is due.",
+                "properties": {
+                    "allow_overpayment": {
+                        "type": "boolean",
+                        "title": "Allow Overpayment",
+                        "description": "When true, the cashier can accept an amount greater than the transaction total (e.g., a customer hands over a €50 note for a €32.50 purchase). This is a prerequisite for returning change or offering cash back. When false, the POS rejects any tendered amount above the amount due.",
+                        "default": false
+                    },
+                    "give_change": {
+                        "type": "boolean",
+                        "title": "Return Change to Customer",
+                        "description": "When true and the customer overpays, the POS calculates the difference and prompts the cashier to return it as change. Requires 'Allow Overpayment' — if the customer cannot overpay, change can never arise.",
+                        "default": false
+                    },
+                    "change_threshold": {
+                        "type": "number",
+                        "title": "Change Threshold",
+                        "description": "When the change amount exceeds this value, the POS switches to using the 'Alternate Change Tender' to return the surplus instead of the current tender. Useful when a foreign currency tender should return large change amounts in the local currency."
+                    },
+                    "change_tender_id": {
+                        "type": "string",
+                        "title": "Alternate Change Tender",
+                        "description": "The ID of the tender used to return change when the change amount exceeds the 'Change Threshold'. Must match an existing tender ID in this configuration. Example: a foreign currency tender might return change as 'CASH_EUR'."
+                    },
+                    "max_cash_back": {
+                        "type": "number",
+                        "title": "Maximum Cash Back Amount",
+                        "description": "The maximum amount of cash back the cashier can grant in a single transaction (e.g., a customer on a debit card transaction requests €20 cash back on top of their purchase). Requires overpayment to be allowed, since the customer pays more than their basket total."
+                    }
+                }
+            },
+            "refund": {
+                "type": "object",
+                "title": "Refund Settings",
+                "description": "Controls whether and how this tender can be used when processing a return or refund.",
+                "required": [
+                    "refundable"
+                ],
+                "properties": {
+                    "refundable": {
+                        "type": "boolean",
+                        "title": "Can Be Used for Refunds",
+                        "description": "Required. When true, the cashier can select this tender when processing a refund. When false, refunds to this tender are impossible — no customer can receive their money back via this payment method. The checkout engine has no safe fallback: if this is absent or false, refunds are silently blocked. Set to false only for one-way tenders like coupons, vouchers, or manufacturer discounts that are never refunded."
+                    },
+                    "skip_amount_prompt": {
+                        "type": "boolean",
+                        "title": "Skip Refund Amount Entry",
+                        "description": "When true, the POS does not ask the cashier to enter the refund amount — it automatically applies the full refundable amount. Simplifies the refund flow when the amount is always fixed and should not be adjusted by the cashier.",
+                        "default": false
+                    },
+                    "max_refund_amount": {
+                        "type": "number",
+                        "title": "Maximum Refund Amount",
+                        "description": "The largest amount that can be refunded to the customer using this tender in a single refund transaction. Refund attempts above this limit are rejected by the POS. Leave unset for no limit."
+                    },
+                    "min_refund_amount": {
+                        "type": "number",
+                        "title": "Minimum Refund Amount",
+                        "description": "The smallest amount required to process a refund using this tender. Refund attempts below this amount are rejected by the POS.",
+                        "default": 0
+                    }
+                }
+            },
+            "limits": {
+                "type": "object",
+                "title": "Amount Limits",
+                "description": "Caps on how much can be tendered. The POS enforces these at the moment the cashier enters the amount.",
+                "properties": {
+                    "max_per_transaction": {
+                        "type": "number",
+                        "title": "Maximum per Transaction",
+                        "description": "The largest single payment amount accepted for this tender in one transaction. Any attempt to tender above this amount is rejected by the POS."
+                    },
+                    "min_per_transaction": {
+                        "type": "number",
+                        "title": "Minimum per Transaction",
+                        "description": "The smallest payment amount accepted for this tender in one transaction. Useful when processing fees make very small payments uneconomical.",
+                        "default": 0
+                    },
+                    "max_per_registration": {
+                        "type": "number",
+                        "title": "Maximum per Registration",
+                        "description": "The maximum amount accepted for a single tender line entry on a transaction (one registration of this tender). This limits how much can be applied in one tender entry, independently of other tender entries in the same transaction."
+                    }
+                }
+            },
+            "rounding": {
+                "type": "object",
+                "title": "Amount Rounding",
+                "description": "Controls how the tendered amount is rounded before it is recorded. Typically used for cash in currencies where the smallest coin in circulation is larger than the currency's minor unit (e.g., rounding to the nearest 0.05 SEK because 1- and 2-öre coins no longer exist).",
+                "properties": {
+                    "method": {
+                        "type": "string",
+                        "title": "Rounding Method",
+                        "description": "The algorithm used to round the tender amount.",
+                        "default": "NO_ROUNDING",
+                        "enum": [
+                            "MATHEMATICAL",
+                            "NO_ROUNDING",
+                            "ROUND_HALF_DOWN",
+                            "SCIENTIFIC"
+                        ],
+                        "enumNames": [
+                            "Mathematical — round half up (0.5 rounds up, standard rounding)",
+                            "No Rounding",
+                            "Round Half Down (0.5 rounds down)",
+                            "Scientific — round half to even (0.5 rounds to nearest even, banker's rounding)"
+                        ]
+                    },
+                    "precision": {
+                        "type": "number",
+                        "title": "Rounding Precision",
+                        "description": "The unit to round to. Examples: 0.05 rounds to the nearest 5 cents; 0.10 to the nearest 10 cents; 1.0 to the nearest whole unit. Only relevant when a rounding method other than 'No Rounding' is selected.",
+                        "exclusiveMinimum": 0,
+                        "examples": [
+                            0.05,
+                            0.10,
+                            0.25,
+                            1.0
+                        ]
+                    }
+                }
+            },
+            "extra_attributes": {
+                "type": "array",
+                "title": "Extra Attributes",
+                "description": "Custom key-value attributes for POS extensions not covered by the standard fields. Passed directly to the POS as-is. Only use these when instructed by Extenda Retail support.",
+                "items": {
+                    "type": "object",
+                    "title": "Attribute",
+                    "required": [
+                        "name",
+                        "type",
+                        "value"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Name",
+                            "description": "The attribute key name as required by the POS extension."
+                        },
+                        "type": {
+                            "type": "string",
+                            "title": "Data Type",
+                            "description": "The data type of the value. Used by the POS to parse the value string correctly.",
+                            "enum": [
+                                "BOOL",
+                                "DOUBLE",
+                                "INT",
+                                "STRING"
+                            ],
+                            "enumNames": [
+                                "Boolean (true / false)",
+                                "Decimal number",
+                                "Whole number",
+                                "Text"
+                            ]
+                        },
+                        "value": {
+                            "type": "string",
+                            "title": "Value",
+                            "description": "Always a string regardless of the data type. Examples: 'true' for BOOL, '3.14' for DOUBLE, '42' for INT, 'my text' for STRING."
+                        }
+                    }
+                }
+            }
+        },
+        "allOf": [
+            {
+                "title": "Credit/Debit Card: card terminal fields are only valid for this type",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "not": {
+                                "const": "CREDITDEBIT"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "card_integration": {
+                                    "not": {}
+                                },
+                                "card_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Standalone card terminal: no provider needed (no plugin is used)",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "CREDITDEBIT"
+                        },
+                        "terminal": {
+                            "properties": {
+                                "card_integration": {
+                                    "const": "STANDALONE_EFT"
+                                }
+                            },
+                            "required": [
+                                "card_integration"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "terminal"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "card_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Mobile Payment: mobile terminal fields are only valid for this type",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "not": {
+                                "const": "MOBILE"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "mobile_integration": {
+                                    "not": {}
+                                },
+                                "mobile_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Standalone mobile terminal: no provider needed (no plugin is used)",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "MOBILE"
+                        },
+                        "terminal": {
+                            "properties": {
+                                "mobile_integration": {
+                                    "const": "STANDALONE_MOBILE"
+                                }
+                            },
+                            "required": [
+                                "mobile_integration"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "terminal"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "mobile_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Cash: cash hardware field is only valid for this type",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "not": {
+                                "const": "CASH"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "cash_hardware": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Overpayment disabled: change settings are irrelevant",
+                "description": "If the customer cannot overpay, change can never arise. All change-related settings are therefore meaningless and must not be set.",
+                "if": {
+                    "properties": {
+                        "overpayment": {
+                            "properties": {
+                                "allow_overpayment": {
+                                    "const": false
+                                }
+                            },
+                            "required": [
+                                "allow_overpayment"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "overpayment"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "overpayment": {
+                            "properties": {
+                                "give_change": {
+                                    "not": {}
+                                },
+                                "change_threshold": {
+                                    "not": {}
+                                },
+                                "change_tender_id": {
+                                    "not": {}
+                                },
+                                "max_cash_back": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Change disabled: change detail fields are irrelevant",
+                "description": "If change is not returned, there is no need for a threshold or an alternate change tender.",
+                "if": {
+                    "properties": {
+                        "overpayment": {
+                            "properties": {
+                                "give_change": {
+                                    "const": false
+                                }
+                            },
+                            "required": [
+                                "give_change"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "overpayment"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "overpayment": {
+                            "properties": {
+                                "change_threshold": {
+                                    "not": {}
+                                },
+                                "change_tender_id": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Not refundable: refund amount limits and prompt settings are irrelevant",
+                "description": "If this tender cannot be used for refunds, there is no refund amount to cap or prompt to skip.",
+                "if": {
+                    "properties": {
+                        "refund": {
+                            "properties": {
+                                "refundable": {
+                                    "const": false
+                                }
+                            },
+                            "required": [
+                                "refundable"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "refund"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "refund": {
+                            "properties": {
+                                "skip_amount_prompt": {
+                                    "not": {}
+                                },
+                                "max_refund_amount": {
+                                    "not": {}
+                                },
+                                "min_refund_amount": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "No Rounding: precision is irrelevant",
+                "description": "If no rounding is applied, there is no precision unit to configure.",
+                "if": {
+                    "properties": {
+                        "rounding": {
+                            "properties": {
+                                "method": {
+                                    "const": "NO_ROUNDING"
+                                }
+                            },
+                            "required": [
+                                "method"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "rounding"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "rounding": {
+                            "properties": {
+                                "precision": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Cash: auto-finalize is not allowed",
+                "description": "Auto-finalize skips amount entry and denomination selection. For cash this is not viable — the cashier physically handles notes and coins and must be able to select denominations and calculate change.",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "CASH"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "behavior": {
+                            "properties": {
+                                "auto_finalize": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Cash: transaction must always be cancellable",
+                "description": "A cash transaction can always be reversed — the cashier physically returns the notes and coins. Blocking cancellation on a cash tender would trap the cashier with no exit.",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "CASH"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "behavior": {
+                            "properties": {
+                                "cancellable": {
+                                    "enum": [
+                                        true
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Electronic Gift Card: gift card integration fields are only valid for this type",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "not": {
+                                "const": "ELECTRONICGIFTCARD"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "gift_card_integration": {
+                                    "not": {}
+                                },
+                                "gift_card_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Electronic Gift Card standalone: no plugin name needed",
+                "description": "A standalone EGC tender uses local card-reader hardware. There is no plugin involved so the plugin name must not be set.",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "ELECTRONICGIFTCARD"
+                        },
+                        "terminal": {
+                            "properties": {
+                                "gift_card_integration": {
+                                    "const": "STANDALONE"
+                                }
+                            },
+                            "required": [
+                                "gift_card_integration"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "terminal"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "gift_card_provider": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "title": "Organization Charge: B2B authorization field is only valid for this type",
+                "if": {
+                    "properties": {
+                        "type": {
+                            "not": {
+                                "const": "ORGANIZATIONCHARGE"
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "then": {
+                    "properties": {
+                        "terminal": {
+                            "properties": {
+                                "org_charge_authorization": {
+                                    "not": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

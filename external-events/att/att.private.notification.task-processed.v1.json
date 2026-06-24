@@ -1,0 +1,37 @@
+{
+  "$id": "att.private.notification.task-processed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes Attendant Task processed events",
+  "description": "This schema describes the structure of the Attendant Task processed events published by the Attendant service when a task is processed.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "status": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/TaskStatus"
+        }
+      ]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "updatedAt"
+  ],
+  "$defs": {
+    "TaskStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processed"
+      ]
+    }
+  }
+}

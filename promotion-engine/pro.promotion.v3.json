@@ -71,57 +71,72 @@
           "format": "date-time"
         },
         "schedule": {
-          "description": "Controls when the promotion is active within the validFrom/validTo window using a\nsimplified cron-like expression.\n\nFormat (5-field cron format): \"* H D M DOW\"\n- 5 fields in order: minute, hour, day-of-month, month, day-of-week\n- The minute field is not evaluated and should be set to \"*\"\n- Supported tokens:\n  - \"*\": any value for the field\n  - \"A\": single inclusive value for the field (example: \"9\" means the whole hour of 9\n    or the whole day of the 9th)\n  - \"A-B\": inclusive range (example: \"9-14\" means 09:00 up to but not including 15:00)\n  - \"A,B,C\": comma-separated list of values\n  - Names for months and days of week (example: \"JAN\", \"FEB\", ..., \"DEC\"; \"MON\", ..., \"SUN\")\n- Not supported:\n  - Step values \"/\" (for example \"*/5\" for every five minutes)\n  - Seconds field (only 5 fields are allowed)\n  - Minutes field is ignored. Set to \"*\"\n\nEvaluation rules:\n- Hours use 24-hour clock and represent whole hours\n  - A range like \"9-14\" means the promotion is active from 09:00:00 up to\n    14:59:59 (exclusive of 15:00)\n- If a field is not a range or list, the entire span of that field is considered\n  (that is, \"* * 1 JAN *\" means the whole day on Jan 1)\n- Avoid combining both day-of-month and day-of-week unless you intend to restrict to\n  dates that match both\n- Prefer day-of-week names and month names over numbers for readability\n",
+          "description": "Controls when the promotion is active within the validFrom/validTo window using a\ncron-like expression. All evaluation happens in UTC; pre-shift the expression if you\nneed a store-local window.\n\nFormat (5 space-separated fields): \"minute hour day-of-month month day-of-week\"\n- Field ranges:\n  - minute: 0-59\n  - hour: 0-23 (24-hour clock)\n  - day-of-month: 1-31\n  - month: 1-12 (January = 1)\n  - day-of-week: 0-7 (cron convention, Saturday = 6; both 0 and 7 mean Sunday)\n- Supported tokens (per field):\n  - \"*\": every value in the field's range\n  - \"N\": a single value\n  - \"N-M\": inclusive range, requires N <= M (example: \"9-14\" means hours 09:00:00\n    through 14:59:59, exclusive of 15:00)\n  - \"N,M,...\": comma-separated list of values or ranges\n  - \"*/S\": every Sth value across the full range, S >= 1 (example: \"*/5\" in the\n    minute field means every five minutes)\n  - \"N-M/S\": every Sth value across the range [N, M]\n- The minute field IS evaluated. Use \"*\" for \"every minute\"; \"0\" restricts to the\n  top of the hour only.\n- Named tokens are accepted in two fields only: day-of-week\n  (SUN, MON, TUE, WED, THU, FRI, SAT) and month (JAN, FEB, ... DEC). Names are\n  three-letter and case-insensitive (\"Mon\" == \"MON\" == \"mon\"). Day-of-week names\n  follow the same cron convention as the numbers (SUN = 0). Within a single range\n  the two endpoints must be both-named (\"MON-FRI\") or both-numeric (\"1-5\") — they\n  may not be mixed (\"MON-5\" is rejected). The step value after \"/\" is always\n  numeric, so a named range may still be stepped (\"MON-FRI/2\" is valid).\n  minute, hour, and day-of-month accept numbers only.\n- Day-of-week and month ranges wrap around: in these two fields a descending range\n  crosses the field's top back to its bottom instead of being rejected. \"FRI-TUE\"\n  (\"5-2\") means Fri, Sat, Sun, Mon, Tue; \"FRI-SUN\" (\"5-0\") means Fri, Sat, Sun;\n  \"DEC-APR\" (\"12-4\") means Dec, Jan, Feb, Mar, Apr; \"JUN-JAN\" (\"6-1\") means Jun through\n  Dec plus Jan. A non-descending range is unchanged, so \"SUN-SUN\" (\"0-0\") and \"DEC-DEC\"\n  (\"12-12\") stay a single value. Wrap-around applies to the day-of-week and month\n  fields only; descending minute, hour, and day-of-month ranges are rejected.\n- Aliases such as \"@daily\"/\"@weekly\", full names (\"MONDAY\"), and the unix-cron\n  extensions \"L\", \"W\", \"#\", \"?\" are NOT supported.\n\nEvaluation rules:\n- If a field is \"*\", the entire span of that field is considered (that is,\n  \"* * 1 1 *\" means the whole day on Jan 1).\n- When BOTH day-of-month and day-of-week are restricted (neither is \"*\"), they are\n  combined with AND: the promotion fires only on dates matching both. (This differs\n  from classical unix cron, which ORs the two fields.)\n\nTimezone / DST (worked example): there is no timezone awareness, so a store-local\nwindow must be pre-shifted to UTC by the store's current offset AND re-edited when\nthat offset changes at a daylight-saving boundary. A Europe/Stockholm store wanting\n\"15:00-15:59 local\" writes \"* 13 * * *\" in summer (CEST = UTC+2; 15:00 local =\n13:00 UTC) but \"* 14 * * *\" in winter (CET = UTC+1; 15:00 local = 14:00 UTC). The\nsummer expression \"* 13 * * *\" matches 2026-06-04T13:30:00Z (15:30 local) but not\n2026-06-04T14:00:00Z (16:00 local), and would fire an hour early in local terms once\nthe store falls back to UTC+1.\n",
           "type": "string",
           "examples": [
             {
-              "Saturdays between 09:00 and 15:00 (exclusive of 15:00)": {
-                "value": "* 9-14 * * SAT"
+              "Always active (same as no schedule)": {
+                "value": "* * * * *"
               }
             },
             {
-              "Dec 5, 12, and 19 between 12:00 and 13:00 (exclusive of 13:00)": {
-                "value": "* 12 5,12,19 DEC *"
+              "Weekday happy hour (16:00–19:59 UTC, Mon–Fri)": {
+                "value": "* 16-19 * * 1-5"
               }
             },
             {
-              "Every weekday (Mon–Fri) from 18:00 to 22:00": {
-                "value": "* 18-21 * * MON-FRI"
+              "Weekday happy hour by name (same as \"* 16-19 * * 1-5\")": {
+                "value": "* 16-19 * * MON-FRI"
               }
             },
             {
-              "Weekends all day (Sat and Sun)": {
-                "value": "* * * * SAT,SUN"
+              "Weekends only (every minute Sat and Sun)": {
+                "value": "* * * * 0,6"
               }
             },
             {
-              "First day of every month (all day)": {
-                "value": "* * 1 * *"
+              "Weekend span Fri–Sun by name (same as \"* * * * 5-7\")": {
+                "value": "* * * * FRI-SUN"
               }
             },
             {
-              "Entire month of November (all day)": {
-                "value": "* * * NOV *"
+              "Winter season spanning the year boundary (Dec–Apr)": {
+                "value": "* * * DEC-APR *"
               }
             },
             {
-              "Mondays only, 08:00–10:00": {
-                "value": "* 8-9 * * MON"
+              "Every 15 minutes during weekday opening (08:00–17:59)": {
+                "value": "*/15 8-17 * * 1-5"
               }
             },
             {
-              "Every day during lunch hour 12:00–13:00": {
-                "value": "* 12 * * *"
+              "Midnight on the 1st of every month": {
+                "value": "0 0 1 * *"
               }
             },
             {
-              "Specific dates (Mar 10 and Mar 25), 09:00–17:00": {
-                "value": "* 9-16 10,25 MAR *"
+              "Midnight on the 1st or 15th, only if a Monday": {
+                "value": "0 0 1,15 * 1"
               }
             },
             {
-              "Thursdays in December after 17:00 (17:00–23:59)": {
-                "value": "* 17-23 * DEC THU"
+              "Lunch hour every weekday (11:00–12:59)": {
+                "value": "* 11-12 * * 1-5"
+              }
+            },
+            {
+              "Stockholm 15:00–15:59 local, summer (CEST = UTC+2)": {
+                "value": "* 13 * * *"
+              }
+            },
+            {
+              "Stockholm 15:00–15:59 local, winter (CET = UTC+1)": {
+                "value": "* 14 * * *"
+              }
+            },
+            {
+              "Black Friday only (assuming 2026-11-27), scoped by validFrom/validTo": {
+                "value": "* * 27 11 *"
               }
             }
           ]
@@ -199,6 +214,33 @@
           },
           "maxItems": 100
         },
+        "additionalProperties": {
+          "description": "Arbitrary tenant-defined key-value pairs attached to this promotion.\nThese values are not evaluated as promotion conditions.\nThey are passed through unchanged onto every Discount produced when\nthis promotion fires, enabling POSLog enrichment.\n",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "value"
+            ],
+            "properties": {
+              "id": {
+                "description": "Property identifier",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 250
+              },
+              "value": {
+                "description": "Property value",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 250
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 20
+        },
         "activators": {
           "description": "Defines conditions that must be met to activate the promotion.\nIf multiple properties are set, they are combined with a logical AND.\n",
           "type": "object",
@@ -233,7 +275,7 @@
               }
             },
             "b2b": {
-              "description": "Business to business qualification; exactly one of the alternatives must be provided.\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
+              "description": "Business to business qualification. At least one of the properties must be provided.\nWhen multiple properties are set, all of them must match (AND logic).\nWhen used, the promotion will not be sent to third party systems, like shelf labels.\n",
               "type": "object",
               "properties": {
                 "agreementId": {
@@ -248,15 +290,21 @@
                   "minLength": 1,
                   "maxLength": 250
                 },
+                "projectId": {
+                  "description": "A specific B2B project identifier. Can be combined with any other B2B property;\nwhen multiple properties are set, the basket must match all of them (AND logic).\n",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 250
+                },
                 "isB2B": {
                   "description": "A general condition that applies to all B2B customers",
                   "type": "boolean"
                 }
               },
-              "oneOf": [
+              "anyOf": [
                 {
                   "required": [
-                    "agreementId"
+                    "isB2B"
                   ]
                 },
                 {
@@ -266,7 +314,12 @@
                 },
                 {
                   "required": [
-                    "isB2B"
+                    "agreementId"
+                  ]
+                },
+                {
+                  "required": [
+                    "projectId"
                   ]
                 }
               ]
@@ -654,6 +707,15 @@
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0
+                      },
+                      "contributorDistribution": {
+                        "description": "Controls how the reward value is distributed across contributing items.\nOnly meaningful on unit rewards, which scope the discount to a reward\ntarget item set. Total rewards always distribute across all\ncondition-matched items and therefore do not accept this field.\n  * `ONLY_REWARD` (default): distributed only across the items in the\n    reward's target item set. Matches legacy behaviour.\n  * `ALL_CONTRIBUTORS`: distributed proportionately across all items\n    contributing to the offer's conditions.\n",
+                        "type": "string",
+                        "default": "ONLY_REWARD",
+                        "enum": [
+                          "ONLY_REWARD",
+                          "ALL_CONTRIBUTORS"
+                        ]
                       }
                     },
                     "oneOf": [
