@@ -128,7 +128,7 @@
           "$ref": "#/$defs/CustomerOrderType"
         },
         "connect": {
-          "description": "Soft payment terminal providers settings definitions.",
+          "description": "POS payment providers settings definitions.",
           "type": "object",
           "$ref": "#/$defs/ConnectType"
         },
@@ -624,13 +624,12 @@
       "type": "object",
       "properties": {
         "mode": {
-          "type": [
-            "string"
-          ],
+          "type": "string",
           "enum": [
             "local",
             "cloud"
           ],
+          "nullable": true,
           "default": "cloud",
           "description": "Sets the connection mode for reading payment messages."
         }
