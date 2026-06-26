@@ -1,0 +1,14 @@
+{
+  "$id": "exr.show-exchange-rates-markup-config-field.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ShowExchangeRatesMarkupConfigField",
+  "description": "Show exchange rates markup configuration field",
+  "type": "object",
+  "required": ["showExchangeRatesMarkupConfigField"],
+  "properties": {
+    "showExchangeRatesMarkupConfigField": {
+      "type": "boolean",
+      "description": "Show exchange rates markup configuration field"
+    }
+  }
+}
