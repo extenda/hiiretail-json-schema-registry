@@ -1684,6 +1684,7 @@
       }
     },
     "ScoPaymentMenuSettingsType": {
+      "additionalProperties": false,
       "description": "Payment menu settings in SCO mode. Each key references a payment menu command and is used to define the settings for that command.",
       "type": "object",
       "patternProperties": {
@@ -1704,10 +1705,10 @@
       "description": "Settings for a payment menu command in SCO mode.",
       "type": "object",
       "properties": {
-        "iconUri": {
+        "imageUrl": {
           "type": "string",
           "format": "uri",
-          "description": "Source of the icon to be displayed in the payment menu."
+          "description": "URL of the image to be displayed in the payment menu."
         }
       }
     }
