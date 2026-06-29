@@ -1708,6 +1708,7 @@
         "imageUrl": {
           "type": "string",
           "format": "uri",
+          "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
           "description": "URL of the image to be displayed in the payment menu."
         }
       }
