@@ -102,6 +102,11 @@
             }
           }
         },
+        "plu": {
+          "description": "Plu settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -128,6 +133,18 @@
           "description": "Auth settings",
           "type": "object",
           "$ref": "#/$defs/AuthType"
+        },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
@@ -163,6 +180,11 @@
           "description": "Prompt settings.",
           "type": "object",
           "$ref": "#/$defs/PromptType"
+        },
+        "plu": {
+          "description": "Plu settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -250,6 +272,10 @@
       "description": "This is a definition of the POS keybindings.",
       "type": "object",
       "properties": {
+        "keyCode": {
+          "type": "string",
+          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+        },
         "altKey": {
           "keyCode": {
             "type": "string",
@@ -339,6 +365,11 @@
                   "$ref": "#/$defs/KeyBindingType"
                 }
               }
+            },
+            "openCustomerOrderSearch": {
+              "type": "object",
+              "description": "Used to set the open customer order search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
             }
           }
         },
@@ -413,6 +444,26 @@
           "required": [
             "prefix"
           ]
+        }
+      }
+    },
+    "CustomerOrderType": {
+      "description": "This is a definition of the customer order settings.",
+      "type": "object",
+      "required": [],
+      "additionalProperties": false,
+      "properties": {
+        "searchEnabled": {
+          "type": "boolean",
+          "description": "Enables the customer order search functionality in the POS."
+        },
+        "cancelAllowed": {
+          "type": "boolean",
+          "description": "Allows canceling customer orders from the POS."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Allows creating customer orders from the POS."
         }
       }
     },
@@ -571,6 +622,9 @@
             "default": []
           }
         },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
+        },
         "icd": {
           "$ref": "#/$defs/IcdType",
           "description": "Settings for integration with ICD, only for Tablet devices."
@@ -612,6 +666,9 @@
         },
         "scanner2": {
           "$ref": "#/$defs/ScannerType"
+        },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
         },
         "printer": {
           "$ref": "#/$defs/PrinterType"
@@ -737,6 +794,47 @@
           "description": "Scanner's logical name."
         }
       }
+    },
+    "ScanAlertType": {
+      "description": "Configuration for item scan feedback events.",
+      "type": "object",
+      "properties": {
+        "audio": {
+          "description": "Audio feedback configuration for scan events.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enables audio alerts for barcode scanning.",
+              "default": false
+            },
+            "success": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enables audio alert for barcode scan success.",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable audio alert for barcode scan failure",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
@@ -969,6 +1067,17 @@
         }
       }
     },
+    "PluType": {
+      "description": "This is a definition of the PLU settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the plu."
+        }
+      }
+    },
     "LogsType": {
       "description": "This is a definition of the logs settings.",
       "type": "object",
@@ -1111,6 +1220,18 @@
           "type": "boolean",
           "default": true,
           "description": "Enables the spot check message in SCO welcome screen."
+        },
+        "paymentMenuSettings": {
+          "description": "Payment menu settings in SCO mode.",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ScoPaymentMenuSettingsType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
@@ -1485,7 +1606,10 @@
       "properties": {
         "auth": {
           "type": "string",
-          "enum": ["iam", "ocms"],
+          "enum": [
+            "iam",
+            "ocms"
+          ],
           "default": "iam",
           "description": "The authorization provider used for transaction lookups. Default: `iam`"
         },
@@ -1556,6 +1680,36 @@
             "type": "boolean",
             "description": "Indicates if the prompt is whitelisted or not."
           }
+        }
+      }
+    },
+    "ScoPaymentMenuSettingsType": {
+      "additionalProperties": false,
+      "description": "Payment menu settings in SCO mode. Each key references a payment menu command and is used to define the settings for that command.",
+      "type": "object",
+      "patternProperties": {
+        "^(?:[a-zA-Z0-9]+)$": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ScoPaymentMenuItemSettingsType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ScoPaymentMenuItemSettingsType": {
+      "description": "Settings for a payment menu command in SCO mode.",
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
+          "description": "URL of the image to be displayed in the payment menu."
         }
       }
     }
