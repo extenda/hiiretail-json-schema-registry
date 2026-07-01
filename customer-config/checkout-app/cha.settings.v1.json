@@ -107,6 +107,11 @@
           "type": "object",
           "$ref": "#/$defs/PluType"
         },
+        "b2b": {
+          "description": "B2B settings in MPOS.",
+          "type": "object",
+          "$ref": "#/$defs/B2BType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -185,6 +190,11 @@
           "description": "Plu settings in POS mode.",
           "type": "object",
           "$ref": "#/$defs/PluType"
+        },
+        "b2b": {
+          "description": "B2B settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/B2BType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -1027,6 +1037,24 @@
           "type": "boolean",
           "default": true,
           "description": "Enables the plu."
+        }
+      }
+    },
+    "B2BType": {
+      "description": "This is a definition of the B2B settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the b2b."
+        },
+        "shortcutsEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allows to set B2B shortcut items in the main view of POS and MPOS."
         }
       }
     },
