@@ -17,12 +17,14 @@
         "connector": {
           "type": "string",
           "enum": [
+            "NONE",
             "ADYEN_CLOUD",
             "LIAB",
             "NETS_CLOUD",
             "SOFTPAY",
             "VIVA",
-            "WIPAY"
+            "WIPAY",
+            "WTAPI"
           ],
           "example": "ADYEN_CLOUD"
         }

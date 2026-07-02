@@ -20,6 +20,7 @@
           "connector": {
             "type": "string",
             "enum": [
+              "NONE",
               "EAGLE_EYE",
               "FASHION_CHEQUE",
               "RETAIN24",
