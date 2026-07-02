@@ -1,0 +1,51 @@
+{
+  "$id": "cpy.payment-router-giftcard.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Payment Router giftcard configuration",
+  "description": "Payment Router giftcard configuration.",
+  "type": "object",
+  "required": [
+    "giftcard"
+  ],
+  "properties": {
+    "giftcard": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "connector",
+          "range"
+        ],
+        "properties": {
+          "connector": {
+            "type": "string",
+            "enum": [
+              "EAGLE_EYE",
+              "FASHION_CHEQUE",
+              "RETAIN24",
+              "SVS"
+            ],
+            "example": "SVS"
+          },
+          "range": {
+            "type": "object",
+            "required": [
+              "minValue",
+              "maxValue"
+            ],
+            "properties": {
+              "minValue": {
+                "type": "number",
+                "example": 1000
+              },
+              "maxValue": {
+                "type": "number",
+                "example": 9999
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

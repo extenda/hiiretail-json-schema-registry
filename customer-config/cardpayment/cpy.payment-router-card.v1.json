@@ -1,0 +1,32 @@
+{
+  "$id": "cpy.payment-router-card.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Payment Router card configuration",
+  "description": "Payment Router card configuration.",
+  "type": "object",
+  "required": [
+    "card"
+  ],
+  "properties": {
+    "card": {
+      "type": "object",
+      "required": [
+        "connector"
+      ],
+      "properties": {
+        "connector": {
+          "type": "string",
+          "enum": [
+            "ADYEN_CLOUD",
+            "LIAB",
+            "NETS_CLOUD",
+            "SOFTPAY",
+            "VIVA",
+            "WIPAY"
+          ],
+          "example": "ADYEN_CLOUD"
+        }
+      }
+    }
+  }
+}
