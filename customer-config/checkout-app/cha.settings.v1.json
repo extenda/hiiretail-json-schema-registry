@@ -107,6 +107,11 @@
           "type": "object",
           "$ref": "#/$defs/PluType"
         },
+        "b2bCustomer": {
+          "description": "B2B customer settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/B2BCustomerType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -185,6 +190,11 @@
           "description": "Plu settings in POS mode.",
           "type": "object",
           "$ref": "#/$defs/PluType"
+        },
+        "b2bCustomer": {
+          "description": "B2B customer settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/B2BCustomerType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -353,6 +363,11 @@
             "openItemSearch": {
               "type": "object",
               "description": "Used to set the open item search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openB2BCustomerSearch": {
+              "type": "object",
+              "description": "Used to set the open B2B customer search keybinding.",
               "$ref": "#/$defs/KeyBindingType"
             },
             "addItem": {
@@ -1027,6 +1042,19 @@
           "type": "boolean",
           "default": true,
           "description": "Enables the plu."
+        }
+      }
+    },
+    "B2BCustomerType": {
+      "description": "This is a definition of the B2B customer settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the b2b."
         }
       }
     },

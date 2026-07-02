@@ -102,6 +102,11 @@
             }
           }
         },
+        "b2bCustomer": {
+          "description": "B2B customer settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/B2BCustomerType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -163,6 +168,11 @@
           "description": "Prompt settings.",
           "type": "object",
           "$ref": "#/$defs/PromptType"
+        },
+        "b2bCustomer": {
+          "description": "B2B customer settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/B2BCustomerType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -327,6 +337,11 @@
             "openItemSearch": {
               "type": "object",
               "description": "Used to set the open item search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
+            },
+            "openB2BCustomerSearch": {
+              "type": "object",
+              "description": "Used to set the open B2B customer search keybinding.",
               "$ref": "#/$defs/KeyBindingType"
             },
             "addItem": {
@@ -966,6 +981,19 @@
         },
         "keyboardOverrides": {
           "$ref": "#/$defs/KeyboardOverridesType"
+        }
+      }
+    },
+    "B2BCustomerType": {
+      "description": "This is a definition of the B2B customer settings.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the b2b."
         }
       }
     },
