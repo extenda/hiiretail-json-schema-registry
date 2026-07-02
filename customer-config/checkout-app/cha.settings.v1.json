@@ -151,6 +151,11 @@
             }
           ]
         },
+        "connect": {
+          "description": "POS payment providers settings definitions.",
+          "type": "object",
+          "$ref": "#/$defs/ConnectType"
+        },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
           "type": "number",
@@ -662,6 +667,22 @@
           ],
           "default": null,
           "description": "Sets the Soft terminal provider."
+        }
+      }
+    },
+    "ConnectType": {
+      "description": "This is a definition of the POS Payment Connectors settings.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "local",
+            "cloud"
+          ],
+          "nullable": true,
+          "default": "cloud",
+          "description": "Sets the connection mode for reading payment messages."
         }
       }
     },
