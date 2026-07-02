@@ -28,7 +28,9 @@
           ],
           "example": "ADYEN_CLOUD"
         }
-      }
+      },
+      "additionalProperties": false
     }
-  }
+  },
+  "additionalProperties": false
 }
