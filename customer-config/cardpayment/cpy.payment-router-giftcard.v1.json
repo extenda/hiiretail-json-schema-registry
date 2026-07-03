@@ -44,9 +44,9 @@
                 "example": 9999
               }
             }
-          },
-          "additionalProperties": false
-        }
+          }
+        },
+        "additionalProperties": false
       }
     }
   },
