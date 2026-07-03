@@ -716,6 +716,16 @@
                           "ONLY_REWARD",
                           "ALL_CONTRIBUTORS"
                         ]
+                      },
+                      "contributorVisibilities": {
+                        "description": "Channels on which this offer's contributor groups are exposed in the\nresponse basket. Mirrors Contributor.visibilities in the engine output.\n  * `POSLOG`: contributors appear in the transaction-log payload only.\n  * `POSLOG_RECEIPT`: contributors appear in the transaction-log payload\n    and on the printed/digital receipt.\n  * `POSLOG_FRONTEND`: contributors appear in the transaction-log payload\n    and in frontend/client-facing applications.\n  * `POSLOG_RECEIPT_FRONTEND`: contributors appear in the transaction-log\n    payload, on the printed/digital receipt and in frontend/client-facing\n    applications.\nWhen omitted, contributor groups are not included.\n",
+                        "type": "string",
+                        "enum": [
+                          "POSLOG",
+                          "POSLOG_RECEIPT",
+                          "POSLOG_FRONTEND",
+                          "POSLOG_RECEIPT_FRONTEND"
+                        ]
                       }
                     },
                     "oneOf": [
