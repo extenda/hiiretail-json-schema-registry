@@ -2,7 +2,7 @@
   "$id": "svi.omnium-oms-connector-config.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Omnium OMS Connector Configuration",
-  "description": "Configuration used by the Omnium OMS Connector for statuses, shipment methods, tender types, UOMs, rewards, and transactions.",
+  "description": "Configuration used by the Omnium OMS Connector for statuses, shipment methods, tender types, rewards, and transactions.",
   "type": "object",
   "properties": {
     "OrderStatusMapping": {
@@ -15,20 +15,6 @@
     "TenderIdMapping": {
       "type": "object",
       "description": "TenderId mapping for Omnium and HiiRetail Customer Order.",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-    "ItemTypeMapping": {
-      "type": "object",
-      "description": "Item Type mapping for Omnium and HiiRetail Customer Order.",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-    "UOMMapping": {
-      "type": "object",
-      "description": "UOM mapping for Omnium and HiiRetail Customer Order.",
       "additionalProperties": {
         "type": "string"
       }
