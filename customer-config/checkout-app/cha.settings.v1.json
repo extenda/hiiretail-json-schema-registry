@@ -974,6 +974,36 @@
         }
       }
     },
+    "FacetSearchParameterType": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the filter for the variant search."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name."
+        }
+      }
+    },
+    "FacetSearchAdditionalPropertiesType": {
+      "type": "object",
+      "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
+      "title": "Facet Search Additional properties",
+      "patternProperties": {
+        "^(?:[a-zA-Z0-9.]+)$": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FacetSearchParameterType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
     "VariantSearchType": {
       "description": "This is a definition of the variant search settings.",
       "type": "object",
@@ -986,13 +1016,91 @@
           "default": false,
           "description": "Enables the variant search."
         },
+        "facetSearchParameters": {
+          "type": "object",
+          "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
+          "additionalProperties": false,
+          "properties": {
+            "assortmentPolicyType": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "assortmentTags": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "brand": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "businessUnitIds": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "depositAndFeeRuleIds": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tags": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "additionalItemProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchAdditionalPropertiesType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
         "whitelistedFilters": {
+          "deprecated": true,
           "type": "array",
           "items": {
             "type": "string"
           },
           "uniqueItems": true,
-          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
+          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
           "default": []
         }
       }

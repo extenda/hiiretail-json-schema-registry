@@ -102,6 +102,11 @@
             }
           }
         },
+        "plu": {
+          "description": "Plu settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
+        },
         "b2bCustomer": {
           "description": "B2B customer settings in MPOS mode.",
           "type": "object",
@@ -133,6 +138,23 @@
           "description": "Auth settings",
           "type": "object",
           "$ref": "#/$defs/AuthType"
+        },
+        "customerOrder": {
+          "description": "Customer order settings",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/CustomerOrderType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "connect": {
+          "description": "POS payment providers settings definitions.",
+          "type": "object",
+          "$ref": "#/$defs/ConnectType"
         },
         "zoomFactor": {
           "description": "The zoom factor for the pos and sco application.",
@@ -168,6 +190,11 @@
           "description": "Prompt settings.",
           "type": "object",
           "$ref": "#/$defs/PromptType"
+        },
+        "plu": {
+          "description": "Plu settings in POS mode.",
+          "type": "object",
+          "$ref": "#/$defs/PluType"
         },
         "b2bCustomer": {
           "description": "B2B customer settings in POS mode.",
@@ -260,6 +287,10 @@
       "description": "This is a definition of the POS keybindings.",
       "type": "object",
       "properties": {
+        "keyCode": {
+          "type": "string",
+          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+        },
         "altKey": {
           "keyCode": {
             "type": "string",
@@ -354,6 +385,11 @@
                   "$ref": "#/$defs/KeyBindingType"
                 }
               }
+            },
+            "openCustomerOrderSearch": {
+              "type": "object",
+              "description": "Used to set the open customer order search keybinding.",
+              "$ref": "#/$defs/KeyBindingType"
             }
           }
         },
@@ -428,6 +464,26 @@
           "required": [
             "prefix"
           ]
+        }
+      }
+    },
+    "CustomerOrderType": {
+      "description": "This is a definition of the customer order settings.",
+      "type": "object",
+      "required": [],
+      "additionalProperties": false,
+      "properties": {
+        "searchEnabled": {
+          "type": "boolean",
+          "description": "Enables the customer order search functionality in the POS."
+        },
+        "cancelAllowed": {
+          "type": "boolean",
+          "description": "Allows canceling customer orders from the POS."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Allows creating customer orders from the POS."
         }
       }
     },
@@ -586,6 +642,9 @@
             "default": []
           }
         },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
+        },
         "icd": {
           "$ref": "#/$defs/IcdType",
           "description": "Settings for integration with ICD, only for Tablet devices."
@@ -611,6 +670,22 @@
         }
       }
     },
+    "ConnectType": {
+      "description": "This is a definition of the POS Payment Connectors settings.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "local",
+            "cloud"
+          ],
+          "nullable": true,
+          "default": "cloud",
+          "description": "Sets the connection mode for reading payment messages."
+        }
+      }
+    },
     "PeripheralsType": {
       "description": "This is a definition of the peripherals properties settings.",
       "type": "object",
@@ -627,6 +702,9 @@
         },
         "scanner2": {
           "$ref": "#/$defs/ScannerType"
+        },
+        "scan": {
+          "$ref": "#/$defs/ScanAlertType"
         },
         "printer": {
           "$ref": "#/$defs/PrinterType"
@@ -752,6 +830,47 @@
           "description": "Scanner's logical name."
         }
       }
+    },
+    "ScanAlertType": {
+      "description": "Configuration for item scan feedback events.",
+      "type": "object",
+      "properties": {
+        "audio": {
+          "description": "Audio feedback configuration for scan events.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enables audio alerts for barcode scanning.",
+              "default": false
+            },
+            "success": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enables audio alert for barcode scan success.",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "error": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable audio alert for barcode scan failure",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
@@ -903,6 +1022,36 @@
         }
       }
     },
+    "FacetSearchParameterType": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the filter for the variant search."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name."
+        }
+      }
+    },
+    "FacetSearchAdditionalPropertiesType": {
+      "type": "object",
+      "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
+      "title": "Facet Search Additional properties",
+      "patternProperties": {
+        "^(?:[a-zA-Z0-9.]+)$": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/FacetSearchParameterType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
     "VariantSearchType": {
       "description": "This is a definition of the variant search settings.",
       "type": "object",
@@ -915,13 +1064,91 @@
           "default": false,
           "description": "Enables the variant search."
         },
+        "facetSearchParameters": {
+          "type": "object",
+          "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
+          "additionalProperties": false,
+          "properties": {
+            "assortmentPolicyType": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "assortmentTags": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "brand": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "businessUnitIds": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "depositAndFeeRuleIds": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tags": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchParameterType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "additionalItemProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/FacetSearchAdditionalPropertiesType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
         "whitelistedFilters": {
+          "deprecated": true,
           "type": "array",
           "items": {
             "type": "string"
           },
           "uniqueItems": true,
-          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color.",
+          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
           "default": []
         }
       }
@@ -981,6 +1208,17 @@
         },
         "keyboardOverrides": {
           "$ref": "#/$defs/KeyboardOverridesType"
+        }
+      }
+    },
+    "PluType": {
+      "description": "This is a definition of the PLU settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enables the plu."
         }
       }
     },
@@ -1513,7 +1751,10 @@
       "properties": {
         "auth": {
           "type": "string",
-          "enum": ["iam", "ocms"],
+          "enum": [
+            "iam",
+            "ocms"
+          ],
           "default": "iam",
           "description": "The authorization provider used for transaction lookups. Default: `iam`"
         },
