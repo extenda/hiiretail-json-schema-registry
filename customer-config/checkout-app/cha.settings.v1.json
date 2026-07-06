@@ -991,6 +991,7 @@
       "type": "object",
       "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
       "title": "Facet Search Additional properties",
+      "additionalProperties": false,
       "patternProperties": {
         "^(?:[a-zA-Z0-9.]+)$": {
           "oneOf": [
