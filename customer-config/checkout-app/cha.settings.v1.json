@@ -207,7 +207,7 @@
           "$ref": "#/$defs/ExternalLinksType"
         },
         "variantSearch": {
-          "description": "Variant search settings.",
+          "description": "Variant search settings. This property is also used for android tablet application variant search feature configuration.",
           "type": "object",
           "$ref": "#/$defs/VariantSearchType"
         },
