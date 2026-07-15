@@ -1330,6 +1330,18 @@
           "type": "boolean",
           "default": true,
           "description": "Enables the spot check message in SCO welcome screen."
+        },
+        "paymentMenuSettings": {
+          "description": "Payment menu settings in SCO mode.",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ScoPaymentMenuSettingsType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
@@ -1778,6 +1790,36 @@
             "type": "boolean",
             "description": "Indicates if the prompt is whitelisted or not."
           }
+        }
+      }
+    },
+    "ScoPaymentMenuSettingsType": {
+      "additionalProperties": false,
+      "description": "Payment menu settings in SCO mode. Each key references a payment menu command and is used to define the settings for that command.",
+      "type": "object",
+      "patternProperties": {
+        "^(?:[a-zA-Z0-9]+)$": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ScoPaymentMenuItemSettingsType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ScoPaymentMenuItemSettingsType": {
+      "description": "Settings for a payment menu command in SCO mode.",
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
+          "description": "URL of the image to be displayed in the payment menu."
         }
       }
     }
