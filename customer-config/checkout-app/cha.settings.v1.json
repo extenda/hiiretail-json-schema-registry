@@ -112,6 +112,11 @@
           "type": "object",
           "$ref": "#/$defs/B2BCustomerType"
         },
+        "b2bInvoiceSettlement": {
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/InvoiceSettlementType"
+        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -122,6 +127,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -200,6 +209,11 @@
           "description": "B2B customer settings in POS mode.",
           "type": "object",
           "$ref": "#/$defs/B2BCustomerType"
+        },
+        "b2bInvoiceSettlement": {
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/InvoiceSettlementType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -280,6 +294,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -1185,6 +1203,20 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the b2b."
+        }
+      }
+    },
+    "InvoiceSettlementType": {
+      "description": "This is a definition of the invoice settlement settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the invoice settlement."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The ID of the virtual item to be registered with the invoice."
         }
       }
     },
