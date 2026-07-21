@@ -925,7 +925,7 @@
         "showRoundedAmountDue": {
           "type": "boolean",
           "default": false,
-          "description": "When true, the app display shows the rounded amount due (roundedAmountDue)."
+          "description": "When true, the app displays the rounded amount due (roundedAmountDue)."
         }
       }
     },
