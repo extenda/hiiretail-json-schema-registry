@@ -112,11 +112,6 @@
           "type": "object",
           "$ref": "#/$defs/B2BCustomerType"
         },
-        "b2bInvoiceSettlement": {
-          "description": "Invoice settlement settings in MPOS mode.",
-          "type": "object",
-          "$ref": "#/$defs/InvoiceSettlementType"
-        },
         "transactions": {
           "$ref": "#/$defs/TxType"
         },
@@ -209,11 +204,6 @@
           "description": "B2B customer settings in POS mode.",
           "type": "object",
           "$ref": "#/$defs/B2BCustomerType"
-        },
-        "b2bInvoiceSettlement": {
-          "description": "Invoice settlement settings in MPOS mode.",
-          "type": "object",
-          "$ref": "#/$defs/InvoiceSettlementType"
         },
         "externalLinks": {
           "description": "Checkout App External Websites settings.",
@@ -1203,6 +1193,11 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the b2b."
+        },
+        "invoiceSettlement": {
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/InvoiceSettlementType"
         }
       }
     },
