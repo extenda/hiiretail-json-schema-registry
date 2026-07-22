@@ -122,6 +122,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -280,6 +284,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -1238,6 +1246,25 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the b2b."
+        },
+        "invoiceSettlement": {
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/InvoiceSettlementType"
+        }
+      }
+    },
+    "InvoiceSettlementType": {
+      "description": "This is a definition of the invoice settlement settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the invoice settlement."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The ID of the virtual item to be registered with the invoice."
         }
       }
     },
