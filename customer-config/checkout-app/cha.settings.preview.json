@@ -122,6 +122,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -280,6 +284,10 @@
         },
         "trainingModeAvailable": {
           "$ref": "#/$defs/TrainingModeType"
+        },
+        "inAppLinksEnabled": {
+          "description": "Set true to allow in-app link handling.",
+          "type": "boolean"
         }
       }
     },
@@ -1238,6 +1246,25 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the b2b."
+        },
+        "invoiceSettlement": {
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "$ref": "#/$defs/InvoiceSettlementType"
+        }
+      }
+    },
+    "InvoiceSettlementType": {
+      "description": "This is a definition of the invoice settlement settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the invoice settlement."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "The ID of the virtual item to be registered with the invoice."
         }
       }
     },
@@ -1763,6 +1790,33 @@
         }
       }
     },
+    "TxActionsType": {
+      "description": "Controls which actions are available on the transaction search details view.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "refundPreviousOrder": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show refund previous order action."
+        },
+        "complaintPreviousOrder": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show complaint previous order action."
+        },
+        "printCopy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show print receipt copy action."
+        },
+        "printGiftReceipt": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show print gift receipt action."
+        }
+      }
+    },
     "TxType": {
       "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
       "type": "object",
@@ -1817,6 +1871,18 @@
             "pattern"
           ],
           "additionalProperties": false
+        },
+        "actions": {
+          "description": "Controls which actions are available on the transaction search details view.",
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/TxActionsType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
