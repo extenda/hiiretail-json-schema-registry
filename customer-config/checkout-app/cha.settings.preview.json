@@ -724,7 +724,15 @@
           "$ref": "#/$defs/IcdType"
         },
         "itab": {
-          "$ref": "#/$defs/ItabType"
+            "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
@@ -738,14 +746,6 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the integration with ITAB."
-        },
-        "lightTowerComPort": {
-          "type": "string",
-          "description": "COM port for the light tower."
-        },
-        "articleHandlingTimeoutMilliseconds": {
-          "type": "integer",
-          "description": "Timeout in milliseconds for article handling."
         },
         "messageTimeoutMilliseconds": {
           "type": "integer",
@@ -767,9 +767,65 @@
           "type": "string",
           "description": "Highest supported ITAB API version."
         },
-        "lightStrategy": {
+        "exitGate": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabExitGateType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lightTower": {
+            "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabLightTowerType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }       
+      }
+    },
+    "ItabExitGateType": {
+      "description": "Settings for ITAB exit gate.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB exit gate."
+        },
+        "ip": {
           "type": "string",
-          "description": "Light strategy to use."
+          "description": "IP address of exit gate."
+        },
+        "commandPort": {
+          "type": "integer",
+          "description": "Port which ACC will be sent to."
+        }
+      }
+    },
+    "ItabLightTowerType": {
+      "description": "Settings for ITAB light tower.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB light tower."
+        },
+        "comPort": {
+          "type": "string",
+          "description": "COM port for the light tower."
         }
       }
     },
