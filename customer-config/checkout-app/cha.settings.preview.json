@@ -740,12 +740,24 @@
       "description": "Settings for integration with ITAB.",
       "type": "object",
       "required": [
-        "enabled"
+        "enabled",
+        "model",
+        "host",
+        "port"
       ],
       "properties": {
         "enabled": {
           "type": "boolean",
           "description": "Enables the integration with ITAB."
+        },
+        "model": {
+          "type": "string",
+          "enum": [
+            "twinflow",
+            "moveflow",
+            "easyflow"
+          ],
+          "description": "The ITAB hardware system."
         },
         "host": {
           "type": "string",
@@ -803,7 +815,9 @@
       "description": "Settings for ITAB exit gate.",
       "type": "object",
       "required": [
-        "enabled"
+        "enabled",
+        "host",
+        "port"
       ],
       "properties": {
         "enabled": {
@@ -824,16 +838,17 @@
       "description": "Settings for ITAB light tower.",
       "type": "object",
       "required": [
-        "enabled"
+        "enabled",
+        "serialPort"
       ],
       "properties": {
         "enabled": {
           "type": "boolean",
           "description": "Enables the integration with ITAB light tower."
         },
-        "comPort": {
+        "serialPort": {
           "type": "string",
-          "description": "COM port for the light tower."
+          "description": "Serial port for the light tower."
         }
       }
     },
