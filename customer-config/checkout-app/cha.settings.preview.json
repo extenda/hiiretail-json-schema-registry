@@ -747,6 +747,14 @@
           "type": "boolean",
           "description": "Enables the integration with ITAB."
         },
+        "host": {
+          "type": "string",
+          "description": "ITAB SCO API server address"
+        },
+        "port": {
+          "type": "integer",
+          "description": "ITAB SCO API server address's port"
+        },
         "messageTimeoutMilliseconds": {
           "type": "integer",
           "description": "Timeout in milliseconds for messages."
@@ -802,13 +810,13 @@
           "type": "boolean",
           "description": "Enables the integration with ITAB exit gate."
         },
-        "ip": {
+        "host": {
           "type": "string",
           "description": "IP address of exit gate."
         },
-        "commandPort": {
+        "port": {
           "type": "integer",
-          "description": "Port which ACC will be sent to."
+          "description": "Port which commands will be sent to."
         }
       }
     },
