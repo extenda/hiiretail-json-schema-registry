@@ -724,7 +724,7 @@
           "$ref": "#/$defs/IcdType"
         },
         "itab": {
-            "oneOf": [
+          "oneOf": [
             {
               "type": "object",
               "$ref": "#/$defs/ItabType"
@@ -779,7 +779,7 @@
           ]
         },
         "lightTower": {
-            "oneOf": [
+          "oneOf": [
             {
               "type": "object",
               "$ref": "#/$defs/ItabLightTowerType"
@@ -788,7 +788,7 @@
               "type": "null"
             }
           ]
-        }       
+        }
       }
     },
     "ItabExitGateType": {
