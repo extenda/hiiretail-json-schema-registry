@@ -787,6 +787,16 @@
           "type": "string",
           "description": "Highest supported ITAB API version."
         },
+        "lossPrevention": {
+          "anyOf": [
+            { 
+              "$ref": "#/$defs/ItabLossPreventionType" 
+            },
+            { 
+              "type": "null" 
+            }
+          ]
+         },
         "exitGate": {
           "oneOf": [
             {
@@ -808,6 +818,19 @@
               "type": "null"
             }
           ]
+        }
+      }
+    },
+    "ItabLossPreventionType": {
+      "description": "Settings for ITAB loss prevention.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB loss prevention."
         }
       }
     },
