@@ -41,11 +41,12 @@
           "maxLength": 250
         },
         "status": {
-          "description": "The current status of the promotion.",
+          "description": "The current status of the promotion.\n\nA promotion created with `REQUIRES_APPROVAL` is stored but applies to no\nbusiness unit until each affected business unit approves it through the\npromotion approvals API. The status stays `REQUIRES_APPROVAL` on the\npromotion itself; approval state is tracked per business unit.\n",
           "type": "string",
           "enum": [
             "ACTIVE",
-            "DELETED"
+            "DELETED",
+            "REQUIRES_APPROVAL"
           ]
         },
         "name": {
