@@ -1135,7 +1135,7 @@
       "properties": {
         "showIncomingDeliveries": {
           "type": "boolean",
-          "description": "Shows the incoming deliveries in the item search. Uses order response api for fetching the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
+          "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
           "default": true
         }
       }
