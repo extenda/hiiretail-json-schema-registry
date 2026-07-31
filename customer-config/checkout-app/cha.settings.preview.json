@@ -1081,6 +1081,7 @@
         "inventory": {
           "description": "Inventory-related settings for variant search.",
           "oneOf": [
+            {
               "$ref": "#/$defs/ItemSearchInventoryType"
             },
             {
