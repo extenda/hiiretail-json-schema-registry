@@ -717,6 +717,9 @@
         "printer": {
           "$ref": "#/$defs/PrinterType"
         },
+        "systemPrinter": {
+          "$ref": "#/$defs/SystemPrinterType"
+        },
         "cashchanger": {
           "$ref": "#/$defs/CashChangerType"
         },
@@ -831,6 +834,24 @@
         }
       },
       "additionalProperties": false
+    },
+    "SystemPrinterType": {
+      "description": "This is a definition of the system printer settings.",
+      "type": "object",
+      "required": [
+        "deviceName",
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "deviceName": {
+          "type": "string",
+          "description": "Printer's device name."
+        }
+      }
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
