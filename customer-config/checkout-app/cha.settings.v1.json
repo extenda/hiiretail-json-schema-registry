@@ -299,7 +299,7 @@
           "properties": {
             "keyCode": {
               "type": "string",
-              "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+              "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Avaliable codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts."
             },
             "altKey": {
               "keyCode": {
