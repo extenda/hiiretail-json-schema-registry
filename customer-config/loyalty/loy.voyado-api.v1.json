@@ -1,0 +1,37 @@
+{
+  "$id": "loy.voyado-api.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voyado Integration Configuration",
+  "oneOf": [
+    {
+      "title": "VoyadoIntegrationConfig",
+      "type": "object",
+      "properties": {
+        "baseUrl": { "type": "string", "format": "uri" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "enabledBalancePoints": {
+          "description": "Indicates whether balance points request will be made to Voyado API.",
+          "type": "boolean"
+        },
+        "authenticationType": { "const": "apiKey" },
+        "authenticationConfig": {
+          "type": "object",
+          "properties": {
+            "headerName": { "const": "apiKey" },
+            "key": { "type": "string" }
+          },
+          "required": ["headerName", "key"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "baseUrl",
+        "timeout",
+        "authenticationType",
+        "authenticationConfig",
+        "enabledBalancePoints"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}
