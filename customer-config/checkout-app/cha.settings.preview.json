@@ -887,7 +887,7 @@
       "description": "This is a definition of the system printer settings.",
       "type": "object",
       "required": [
-        "deviceName",
+        "logicalName",
         "enabled"
       ],
       "properties": {
@@ -895,7 +895,7 @@
           "type": "boolean",
           "description": "Enables the device."
         },
-        "deviceName": {
+        "logicalName": {
           "type": "string",
           "description": "Printer's device name."
         }
