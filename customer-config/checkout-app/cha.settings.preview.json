@@ -293,37 +293,44 @@
     },
     "KeyBindingType": {
       "description": "This is a definition of the POS keybindings.",
-      "type": "object",
-      "properties": {
-        "keyCode": {
-          "type": "string",
-          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "keyCode": {
+              "type": "string",
+              "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts."
+            },
+            "altKey": {
+              "keyCode": {
+                "type": "string",
+                "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+              },
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Alt key should be pressed"
+            },
+            "ctrlKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Control key should be pressed"
+            },
+            "shiftKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Shift key should be pressed"
+            },
+            "metaKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Meta/Command key should be pressed"
+            }
+          }
         },
-        "altKey": {
-          "keyCode": {
-            "type": "string",
-            "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
-          },
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Alt key should be pressed"
-        },
-        "ctrlKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Control key should be pressed"
-        },
-        "shiftKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Shift key should be pressed"
-        },
-        "metaKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Meta/Command key should be pressed"
+        {
+          "type": "null"
         }
-      }
+      ]
     },
     "KeyboardShortcutsType": {
       "description": "This is a definition of the POS keybindings and fast commands.",
@@ -398,6 +405,17 @@
               "type": "object",
               "description": "Used to set the open customer order search keybinding.",
               "$ref": "#/$defs/KeyBindingType"
+            },
+            "menuCommand": {
+              "type": "object",
+              "description": "Used to set keybinding for menu commands.",
+              "patternProperties": {
+                "^[A-Z][a-zA-Z]+Command[a-zA-Z]*$": {
+                  "type": "object",
+                  "description": "Key binding dictionary for menu commands. Note: if you want to trigger a payment command, you might find it more convenient to use the primaryPaymentMethod or secondaryPaymentMethod property instead.",
+                  "$ref": "#/$defs/KeyBindingType"
+                }
+              }
             }
           }
         },
