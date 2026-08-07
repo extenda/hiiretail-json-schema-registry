@@ -1048,6 +1048,17 @@
           "default": false,
           "description": "Enables the variant search."
         },
+        "inventory": {
+          "description": "Inventory-related settings for variant search.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ItemSearchInventoryType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "facetSearchParameters": {
           "type": "object",
           "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
@@ -1134,6 +1145,17 @@
           "uniqueItems": true,
           "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
           "default": []
+        }
+      }
+    },
+    "ItemSearchInventoryType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "showIncomingDeliveries": {
+          "type": "boolean",
+          "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
+          "default": true
         }
       }
     },
