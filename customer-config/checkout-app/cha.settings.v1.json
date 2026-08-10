@@ -288,6 +288,9 @@
         "inAppLinksEnabled": {
           "description": "Set true to allow in-app link handling.",
           "type": "boolean"
+        },
+        "quickSearch": {
+          "$ref": "#/$defs/QuickSearchType"
         }
       }
     },
@@ -1931,6 +1934,30 @@
           "format": "uri",
           "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
           "description": "URL of the image to be displayed in the payment menu."
+        }
+      }
+    },
+    "QuickSearchType": {
+      "type": "object",
+      "description": "Quick search settings.",
+      "properties": {
+        "showItemIndentifier": {
+          "description": "Controls whether and how an item identifier is shown in quick search results.",
+          "oneOf": [
+            {
+              "type": "null",
+              "description": "Do not show an item identifier in quick search results."
+            },
+            {
+              "type": "boolean",
+              "default": false,
+              "description": "When true, show the standard item identifier. The app uses the primary identifier (isPrimary), falling back to any other active identifier if no active primary identifier is set."
+            },
+            {
+              "type": "string",
+              "description": "Show a custom item identifier using the value of the additional item property with this ID. Overrides the standard identifier. If the property is not found on an item, no identifier is shown and the app does not fall back to the standard identifier."
+            }
+          ]
         }
       }
     }
