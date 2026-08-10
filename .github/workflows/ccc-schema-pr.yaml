@@ -5,7 +5,7 @@ permissions:
   id-token: write
 
 on:
-  pull_request:
+  push:
     paths:
       - 'customer-config/**/**.json'
       - '.github/workflows/ccc-schema-pr.yaml'
