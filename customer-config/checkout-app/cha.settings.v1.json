@@ -29,6 +29,7 @@
       "$ref": "#/$defs/CfdType"
     }
   },
+  "additionalProperties": false,
   "$defs": {
     "MposType": {
       "description": "This is a definition of the MPOS settings.",
