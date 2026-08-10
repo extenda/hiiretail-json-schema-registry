@@ -1941,7 +1941,7 @@
       "type": "object",
       "description": "Quick search settings.",
       "properties": {
-        "showItemIndentifier": {
+        "showItemIdentifier": {
           "description": "Controls whether and how an item identifier is shown in quick search results.",
           "oneOf": [
             {
