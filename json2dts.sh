@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # This script generates a TypeScript definition file (.d.ts) from a JSON Schema.
-# Usage: ./json-schema-to-dts.sh <alias|path/to/file.json>
+# Usage: ./json2dts.sh <alias|path/to/file.json>
 
 set -euo pipefail
 
