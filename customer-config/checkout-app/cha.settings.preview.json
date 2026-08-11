@@ -898,6 +898,10 @@
         "logicalName": {
           "type": "string",
           "description": "Printer's device name."
+        },
+        "timeout": {
+          "type": "number",
+          "description": "Printer's timeout in ms for loading operations."
         }
       }
     },
