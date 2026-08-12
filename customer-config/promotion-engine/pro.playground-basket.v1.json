@@ -22,7 +22,7 @@
               "quantity": 1.248,
               "salesUnitOfMeasure": "KGR",
               "gs1Identifier": {
-                "bestBeforeDate": "2026-08-15",
+                "bestBeforeDate": "260815",
                 "batchNumber": "B-4417"
               }
             },
@@ -162,22 +162,22 @@
       }
     },
     "GS1Identifier": {
-      "description": "GS1 application identifiers carried by the item, available to promotion conditions. At least one must be set.",
+      "description": "GS1 application identifiers carried by the item, available to promotion conditions. At least one must be set. Dates are GS1 six digit YYMMDD values, not calendar dates; the century is resolved to within 50 years ahead or 49 years behind the current date.",
       "type": "object",
       "additionalProperties": false,
       "minProperties": 1,
       "properties": {
         "bestBeforeDate": {
-          "description": "Best before date, indicating product freshness.",
+          "description": "Best before date, indicating product freshness, as six digits YYMMDD. A day of 00 leaves the day unspecified and means the last day of the month.",
           "type": "string",
-          "minLength": 1,
-          "maxLength": 20
+          "pattern": "^[0-9]{6}$",
+          "examples": ["260815", "260800"]
         },
         "expirationDate": {
-          "description": "Expiration date, after which the product should not be sold or consumed.",
+          "description": "Expiration date, after which the product should not be sold or consumed, as six digits YYMMDD. A day of 00 leaves the day unspecified and means the last day of the month.",
           "type": "string",
-          "minLength": 1,
-          "maxLength": 20
+          "pattern": "^[0-9]{6}$",
+          "examples": ["261231"]
         },
         "batchNumber": {
           "description": "Manufacturing batch number, for traceability.",
