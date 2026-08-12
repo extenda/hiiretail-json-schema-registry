@@ -288,42 +288,52 @@
         "inAppLinksEnabled": {
           "description": "Set true to allow in-app link handling.",
           "type": "boolean"
+        },
+        "quickSearch": {
+          "$ref": "#/$defs/QuickSearchType"
         }
       }
     },
     "KeyBindingType": {
       "description": "This is a definition of the POS keybindings.",
-      "type": "object",
-      "properties": {
-        "keyCode": {
-          "type": "string",
-          "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "keyCode": {
+              "type": "string",
+              "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts."
+            },
+            "altKey": {
+              "keyCode": {
+                "type": "string",
+                "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
+              },
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Alt key should be pressed"
+            },
+            "ctrlKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Control key should be pressed"
+            },
+            "shiftKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Shift key should be pressed"
+            },
+            "metaKey": {
+              "type": "boolean",
+              "default": false,
+              "description": "Defines whether the Meta/Command key should be pressed"
+            }
+          }
         },
-        "altKey": {
-          "keyCode": {
-            "type": "string",
-            "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action."
-          },
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Alt key should be pressed"
-        },
-        "ctrlKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Control key should be pressed"
-        },
-        "shiftKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Shift key should be pressed"
-        },
-        "metaKey": {
-          "type": "boolean",
-          "default": false,
-          "description": "Defines whether the Meta/Command key should be pressed"
+        {
+          "type": "null"
         }
-      }
+      ]
     },
     "KeyboardShortcutsType": {
       "description": "This is a definition of the POS keybindings and fast commands.",
@@ -398,6 +408,17 @@
               "type": "object",
               "description": "Used to set the open customer order search keybinding.",
               "$ref": "#/$defs/KeyBindingType"
+            },
+            "menuCommand": {
+              "type": "object",
+              "description": "Used to set keybinding for menu commands.",
+              "patternProperties": {
+                "^[A-Z][a-zA-Z]+Command[a-zA-Z]*$": {
+                  "type": "object",
+                  "description": "Key binding dictionary for menu commands. Note: if you want to trigger a payment command, you might find it more convenient to use the primaryPaymentMethod or secondaryPaymentMethod property instead.",
+                  "$ref": "#/$defs/KeyBindingType"
+                }
+              }
             }
           }
         },
@@ -1103,6 +1124,17 @@
           "default": false,
           "description": "Enables the variant search."
         },
+        "inventory": {
+          "description": "Inventory-related settings for variant search.",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ItemSearchInventoryType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "facetSearchParameters": {
           "type": "object",
           "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
@@ -1189,6 +1221,17 @@
           "uniqueItems": true,
           "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
           "default": []
+        }
+      }
+    },
+    "ItemSearchInventoryType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "showIncomingDeliveries": {
+          "type": "boolean",
+          "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
+          "default": true
         }
       }
     },
@@ -1964,6 +2007,30 @@
           "format": "uri",
           "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
           "description": "URL of the image to be displayed in the payment menu."
+        }
+      }
+    },
+    "QuickSearchType": {
+      "type": "object",
+      "description": "Quick search settings.",
+      "properties": {
+        "showItemIdentifier": {
+          "description": "Controls whether and how an item identifier is shown in quick search results.",
+          "oneOf": [
+            {
+              "type": "null",
+              "description": "Do not show an item identifier in quick search results."
+            },
+            {
+              "type": "boolean",
+              "default": false,
+              "description": "When true, show the standard item identifier. The app uses the primary identifier (isPrimary), falling back to any other active identifier if no active primary identifier is set."
+            },
+            {
+              "type": "string",
+              "description": "Show a custom item identifier using the value of the additional item property with this ID. Overrides the standard identifier. If the property is not found on an item, no identifier is shown and the app does not fall back to the standard identifier."
+            }
+          ]
         }
       }
     }

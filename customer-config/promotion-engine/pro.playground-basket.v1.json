@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.playground-basket.v1.json",
+  "title": "Promotion playground baskets",
+  "description": "Named baskets a promotion manager can pick from when simulating a promotion in the playground. Only the parts of the basket a person curates are stored here; the basket id, business unit and simulated date are supplied at run time.",
+  "type": "array",
+  "maxItems": 100,
+  "items": {
+    "$ref": "#/$defs/NamedBasket"
+  },
+  "examples": [
+    [
+      {
+        "name": "Fruit basket",
+        "basket": {
+          "items": [
+            {
+              "itemId": "FRUIT-APPLE-ROYALGALA",
+              "name": "Apple Royal Gala",
+              "itemCategory": "FRUIT",
+              "unitPrice": 24.90,
+              "quantity": 1.248,
+              "salesUnitOfMeasure": "KGR",
+              "gs1Identifier": {
+                "bestBeforeDate": "260815",
+                "batchNumber": "B-4417"
+              }
+            },
+            {
+              "itemId": "FRUIT-STRAWBERRY-250G",
+              "name": "Strawberries 250 g",
+              "unitPrice": 39.00,
+              "quantity": 2
+            }
+          ]
+        }
+      }
+    ]
+  ],
+  "$defs": {
+    "NamedBasket": {
+      "description": "A basket together with the name shown in the playground's basket selector.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "basket"],
+      "properties": {
+        "name": {
+          "description": "The name shown in the basket selector. Should be unique within the list.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "basket": {
+          "$ref": "#/$defs/Basket"
+        }
+      }
+    },
+    "Basket": {
+      "description": "The stored part of a playground basket.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items"],
+      "properties": {
+        "items": {
+          "description": "The lines the basket is made up of.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/BasketItem"
+          }
+        }
+      }
+    },
+    "BasketItem": {
+      "description": "A line in the basket, matched by itemId. Identifier, price and quantity are what the promotion engine needs to evaluate it; the remaining properties let promotions match on category, on item attributes and on GS1 application identifiers.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["itemId", "unitPrice", "quantity"],
+      "properties": {
+        "itemId": {
+          "description": "Identifier of the item or stock keeping unit, as promotions refer to it.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "modelId": {
+          "description": "Identifier of the product model — a grouping of stock keeping units that share a base design but differ in size, color or other attributes.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "name": {
+          "description": "Name of the item, shown on the simulated receipt.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "itemCategory": {
+          "description": "Category of the item, matched by category-based conditions.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "unitPrice": {
+          "description": "Selling price per base unit, in local currency. For weight-, volume-, length- and area-based items this is the price per unit of measure.",
+          "type": "number",
+          "minimum": 0
+        },
+        "purchasePrice": {
+          "description": "Cost price per base unit, in local currency. Used by cost-based rewards.",
+          "type": "number",
+          "minimum": 0
+        },
+        "quantity": {
+          "description": "How much of this item is in the basket, expressed in salesUnitOfMeasure. Fractional for weight-, volume-, length- and area-based items.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "salesUnitOfMeasure": {
+          "description": "The unit the quantity is expressed in: selling units, kilograms, liters, meters or square meters.",
+          "type": "string",
+          "enum": ["EA", "KGR", "LTR", "MTR", "MTK"],
+          "default": "EA"
+        },
+        "brand": {
+          "description": "Brand of the item.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "color": {
+          "description": "Color of the item.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "size": {
+          "description": "Size of the item.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "season": {
+          "description": "Season of the item.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "gs1Identifier": {
+          "$ref": "#/$defs/GS1Identifier"
+        },
+        "additionalProperties": {
+          "description": "Tenant-defined properties of the item, matched by conditions on the property id. This is the supported way to give an item a property the contract does not name.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/AdditionalProperty"
+          }
+        }
+      }
+    },
+    "GS1Identifier": {
+      "description": "GS1 application identifiers carried by the item, available to promotion conditions. At least one must be set. Dates are GS1 six digit YYMMDD values, not calendar dates; the century is resolved to within 50 years ahead or 49 years behind the current date.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "bestBeforeDate": {
+          "description": "Best before date, indicating product freshness, as six digits YYMMDD. A day of 00 leaves the day unspecified and means the last day of the month.",
+          "type": "string",
+          "pattern": "^[0-9]{6}$",
+          "examples": ["260815", "260800"]
+        },
+        "expirationDate": {
+          "description": "Expiration date, after which the product should not be sold or consumed, as six digits YYMMDD. A day of 00 leaves the day unspecified and means the last day of the month.",
+          "type": "string",
+          "pattern": "^[0-9]{6}$",
+          "examples": ["261231"]
+        },
+        "batchNumber": {
+          "description": "Manufacturing batch number, for traceability.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        }
+      }
+    },
+    "AdditionalProperty": {
+      "description": "A tenant-defined property, referred to by its id from a promotion condition.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "value"],
+      "properties": {
+        "id": {
+          "description": "Identifier of the property.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 250
+        },
+        "value": {
+          "description": "Value of the property, as a string. What it represents — a flag, a number, text — depends on the property id.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 250
+        }
+      }
+    }
+  }
+}

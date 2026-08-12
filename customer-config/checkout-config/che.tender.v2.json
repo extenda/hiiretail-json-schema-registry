@@ -13,6 +13,7 @@
             "id",
             "type",
             "name",
+            "currency",
             "behavior",
             "refund"
         ],
@@ -63,6 +64,12 @@
                 "type": "string",
                 "title": "Display Name",
                 "description": "The name shown on the POS screen and printed on receipts. Should be short and immediately recognizable to cashiers. Examples: 'Cash', 'Visa / Mastercard', 'Swish'."
+            },
+            "currency": {
+                "type": "string",
+                "title": "Currency",
+                "description": "ISO 4217 currency code (e.g. 'EUR', 'SEK'). The checkout always uses the country's default currency regardless of this value; only financial reporting consumes it directly.",
+                "pattern": "^[A-Z]{3}$"
             },
             "description": {
                 "type": "string",
@@ -244,29 +251,29 @@
                     "allow_overpayment": {
                         "type": "boolean",
                         "title": "Allow Overpayment",
-                        "description": "When true, the cashier can accept an amount greater than the transaction total (e.g., a customer hands over a €50 note for a €32.50 purchase). This is a prerequisite for returning change or offering cash back. When false, the POS rejects any tendered amount above the amount due.",
+                        "description": "Let the customer tender more than the total. Required before change or cash back can ever happen.",
                         "default": false
                     },
                     "give_change": {
                         "type": "boolean",
                         "title": "Return Change to Customer",
-                        "description": "When true and the customer overpays, the POS calculates the difference and prompts the cashier to return it as change. Requires 'Allow Overpayment' — if the customer cannot overpay, change can never arise.",
+                        "description": "When true, change is calculated and returned automatically. When false, the cashier is prompted to confirm before completing the sale without giving change back.",
                         "default": false
+                    },
+                    "max_cash_back": {
+                        "type": "number",
+                        "title": "Cash Back Auto-Finalize Limit",
+                        "description": "Below this amount, change completes automatically. At or above it, the cashier must finish it manually — it is a threshold, not a hard cap."
                     },
                     "change_threshold": {
                         "type": "number",
                         "title": "Change Threshold",
-                        "description": "When the change amount exceeds this value, the POS switches to using the 'Alternate Change Tender' to return the surplus instead of the current tender. Useful when a foreign currency tender should return large change amounts in the local currency."
+                        "description": "Above this amount, change uses the 'Alternate Change Tender'; at or below it, change defaults to cash."
                     },
                     "change_tender_id": {
                         "type": "string",
                         "title": "Alternate Change Tender",
-                        "description": "The ID of the tender used to return change when the change amount exceeds the 'Change Threshold'. Must match an existing tender ID in this configuration. Example: a foreign currency tender might return change as 'CASH_EUR'."
-                    },
-                    "max_cash_back": {
-                        "type": "number",
-                        "title": "Maximum Cash Back Amount",
-                        "description": "The maximum amount of cash back the cashier can grant in a single transaction (e.g., a customer on a debit card transaction requests €20 cash back on top of their purchase). Requires overpayment to be allowed, since the customer pays more than their basket total."
+                        "description": "Tender that pays change instead of cash. Applies to all change unless a threshold is also set."
                     }
                 }
             },
@@ -604,7 +611,7 @@
             },
             {
                 "title": "Change disabled: change detail fields are irrelevant",
-                "description": "If change is not returned, there is no need for a threshold or an alternate change tender.",
+                "description": "If change is rejected outright, there is no change amount to route or auto-finalize.",
                 "if": {
                     "properties": {
                         "overpayment": {
@@ -630,6 +637,9 @@
                                     "not": {}
                                 },
                                 "change_tender_id": {
+                                    "not": {}
+                                },
+                                "max_cash_back": {
                                     "not": {}
                                 }
                             }
