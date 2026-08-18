@@ -1,0 +1,23 @@
+{
+  "$id": "cpy.hiiconnect-adyen-cloud-config-workstation.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adyen TAPI cloud card payment configuration for workstation",
+  "description": "Adyen TAPI cloud card payment configuration for workstation.",
+  "type": "object",
+  "required": ["terminalId", "transactionRouting"],
+  "properties": {
+    "terminalId": {
+      "description": "Unique terminal identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "example": "e285p-123456789"
+    },
+    "transactionRouting": {
+      "description": "Indicates whether the transaction router is local or cloud. Use 'LOCAL_APP' for local transaction router and 'CLOUD' for cloud transaction router.",
+      "type": "string",
+      "enum": ["LOCAL_APP", "CLOUD"],
+      "default": "CLOUD"
+    }
+  }
+}

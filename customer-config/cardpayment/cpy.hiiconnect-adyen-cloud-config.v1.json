@@ -1,0 +1,118 @@
+{
+  "$id": "https://example.com/schemas/cpy.hiiconnect-adyen-cloud-config.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adyen TAPI cloud card payment configuration",
+  "description": "Adyen TAPI cloud card payment configuration.",
+  "type": "object",
+  "required": [
+    "apiKey",
+    "environment",
+    "encryption",
+    "merchantId",
+    "partialAuthorization",
+    "storeId",
+    "webhook"
+  ],
+  "properties": {
+    "environment": {
+      "description": "Environment for the requests. Use 'SANDBOX' for testing with the thirdparty's test backend system, 'MOCK' for testing with Extenda Retail's simulator and 'PRODUCTION' for live transactions",
+      "type": "string",
+      "default": "PRODUCTION",
+      "enum": [
+        "MOCK",
+        "PRODUCTION",
+        "SANDBOX"
+      ]
+    },
+    "encryption": {
+      "type": "object",
+      "required": [
+        "keyVersion",
+        "keyIdentifier",
+        "keyPassphrase"
+      ],
+      "properties": {
+        "keyVersion": {
+          "description": "Device encryption key version",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "default": "1",
+          "examples": ["1"]
+        },
+        "keyIdentifier": {
+          "description": "Device encryption key identifier",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "examples": ["key-identifier"]
+        },
+        "keyPassphrase": {
+          "description": "Device encryption key passphrase",
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 256,
+          "examples": ["key-passphrase"]
+        }
+      }
+    },
+    "webhook": {
+      "type": "object",
+      "required": [
+        "url",
+        "username",
+        "password"
+      ],
+      "properties": {
+        "url": {
+          "description": "Webhook URL suffix UUID",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 36,
+          "default": "1",
+          "examples": ["123e4567-e89b-12d3-a456-426614174000"]
+        },
+        "username": {
+          "description": "Webhook basic auth username",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "examples": ["key-identifier"]
+        },
+        "password": {
+          "description": "Webhook basic auth password",
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 256,
+          "examples": ["password12345"]
+        }
+      }
+    },
+    "apiKey": {
+      "description": "API Key for managing notifications setup",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": ["apiKey"]
+    },
+    "merchantId": {
+      "description": "Adyen Merchant Account identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": ["MerchantAccount123"]
+    },
+    "storeId": {
+      "description": "Adyen Store identifier",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": ["ST3224X2232WDP5F9BLS98N3K"]
+    },
+    "partialAuthorization": {
+      "description": "Indicates whether partial authorizations are allowed",
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
