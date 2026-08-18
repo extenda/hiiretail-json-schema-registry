@@ -741,6 +741,9 @@
         "cashchanger": {
           "$ref": "#/$defs/CashChangerType"
         },
+        "systemPrinter": {
+          "$ref": "#/$defs/SystemPrinterType"
+        },
         "icd": {
           "$ref": "#/$defs/IcdType"
         },
@@ -900,6 +903,28 @@
         }
       },
       "additionalProperties": false
+    },
+    "SystemPrinterType": {
+      "description": "This is a definition of the system printer settings.",
+      "type": "object",
+      "required": [
+        "logicalName",
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the device."
+        },
+        "logicalName": {
+          "type": "string",
+          "description": "Printer's device name."
+        },
+        "timeout": {
+          "type": "number",
+          "description": "Printer's timeout in ms for loading operations."
+        }
+      }
     },
     "PrinterType": {
       "description": "This is a definition of the printer settings.",
