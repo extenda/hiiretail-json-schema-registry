@@ -99,6 +99,11 @@
         "projectId": {
           "type": "string",
           "description": "Project identifier associated with the order."
+        },
+        "orderCode": {
+          "type": "string",
+          "pattern": "^C[0-9A-HJKMNP-TV-Z]{6}$",
+          "description": "Short per-fulfillment order code minted by Customer Order. Present for PICKUP_IN_STORE and HOME_DELIVERY_FROM_STORE fulfillments only; absent for HOME_DELIVERY_FROM_WAREHOUSE and for fulfillments created before this field existed."
         }
       }
     },
