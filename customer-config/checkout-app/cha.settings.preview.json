@@ -779,9 +779,9 @@
         "model": {
           "type": "string",
           "enum": [
-            "TF",
-            "MF",
-            "EF"
+            "TWINFLOW",
+            "MOVEFLOW",
+            "EASYFLOW"
           ],
           "description": "The ITAB hardware system."
         },
