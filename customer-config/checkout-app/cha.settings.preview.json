@@ -748,28 +748,50 @@
           "$ref": "#/$defs/IcdType"
         },
         "itab": {
-          "$ref": "#/$defs/ItabType"
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
     "ItabType": {
       "description": "Settings for integration with ITAB.",
       "type": "object",
-      "required": [
-        "enabled"
-      ],
+      "dependentRequired": {
+        "lossPrevention": [
+          "model",
+          "host",
+          "port"
+        ],
+        "lightTower": [
+          "model",
+          "host",
+          "port"
+        ]
+      },
       "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the integration with ITAB."
-        },
-        "lightTowerComPort": {
+        "model": {
           "type": "string",
-          "description": "COM port for the light tower."
+          "enum": [
+            "TF",
+            "MF",
+            "EF"
+          ],
+          "description": "The ITAB hardware system."
         },
-        "articleHandlingTimeoutMilliseconds": {
+        "host": {
+          "type": "string",
+          "description": "ITAB SCO API server address"
+        },
+        "port": {
           "type": "integer",
-          "description": "Timeout in milliseconds for article handling."
+          "description": "ITAB SCO API server address's port"
         },
         "messageTimeoutMilliseconds": {
           "type": "integer",
@@ -791,9 +813,91 @@
           "type": "string",
           "description": "Highest supported ITAB API version."
         },
-        "lightStrategy": {
+        "lossPrevention": {
+          "anyOf": [
+            { 
+              "$ref": "#/$defs/ItabLossPreventionType" 
+            },
+            { 
+              "type": "null" 
+            }
+          ]
+         },
+        "exitGate": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabExitGateType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lightTower": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/ItabLightTowerType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ItabLossPreventionType": {
+      "description": "Settings for ITAB loss prevention.",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB loss prevention."
+        }
+      }
+    },
+    "ItabExitGateType": {
+      "description": "Settings for ITAB exit gate.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "host",
+        "port"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB exit gate."
+        },
+        "host": {
           "type": "string",
-          "description": "Light strategy to use."
+          "description": "IP address of exit gate."
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port which commands will be sent to."
+        }
+      }
+    },
+    "ItabLightTowerType": {
+      "description": "Settings for ITAB light tower.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "serialPort"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB light tower."
+        },
+        "serialPort": {
+          "type": "string",
+          "description": "Serial port for the light tower."
         }
       }
     },
