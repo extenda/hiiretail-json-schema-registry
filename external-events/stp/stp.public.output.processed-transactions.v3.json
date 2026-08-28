@@ -204,16 +204,16 @@
         "null",
         "string"
       ],
-      "format": "date-time",
-      "description": "Timestamp of the transaction in UTC timezone."
+      "format": "date",
+      "description": "Best before date as a calendar date (YYYY-MM-DD)."
     },
     "expirationDate": {
       "type": [
         "null",
         "string"
       ],
-      "format": "date-time",
-      "description": "Timestamp of the transaction in UTC timezone."
+      "format": "date",
+      "description": "Expiration date as a calendar date (YYYY-MM-DD)."
     },
     "purchasePrice": {
       "type": [
