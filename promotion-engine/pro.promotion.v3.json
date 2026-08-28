@@ -29,7 +29,7 @@
           "minimum": 1
         },
         "reportingId": {
-          "description": "If provided, the reportingId will get added to the POSLog to support aggregation of separate promotions.\nIf you for example have a recurring campaign where the offers differ from time to time, this allows you to follow up\nthe performance of the campaign rather than the individual promotions and offers.\n",
+          "description": "If provided, the reportingId will get added to the POSLog to support aggregation of separate promotions.\nIf you for example have a recurring promotion where the offers differ from time to time, this allows you to follow up\nthe performance of the promotion series rather than the individual promotions and offers.\n",
           "type": "string",
           "minLength": 1,
           "maxLength": 250
@@ -41,11 +41,12 @@
           "maxLength": 250
         },
         "status": {
-          "description": "The current status of the promotion.",
+          "description": "The current status of the promotion.\n\nA promotion created with `REQUIRES_APPROVAL` is stored but applies to no\nbusiness unit until each affected business unit approves it through the\npromotion approvals API. The status stays `REQUIRES_APPROVAL` on the\npromotion itself; approval state is tracked per business unit.\n",
           "type": "string",
           "enum": [
             "ACTIVE",
-            "DELETED"
+            "DELETED",
+            "REQUIRES_APPROVAL"
           ]
         },
         "name": {
@@ -409,7 +410,7 @@
       "type": "object",
       "properties": {
         "offers": {
-          "description": "A list of offers that can be applied to this promotion. Discounts can be constructed\nusing either this 'offers' structure or the simpler 'campaignPrices' structure.\nNote that offers within a promotion that conflict with each other\n(e.g. offer A: 20% off on shirts, offer B: 30% off on shirts) will apply BESTDEAL as resolution.\nI.e. the offer with the highest monetary value for the customer will be applied.\n",
+          "description": "A list of offers that can be applied to this promotion. Discounts can be constructed\nusing either this 'offers' structure or the simpler 'promotionPrices' structure.\nNote that offers within a promotion that conflict with each other\n(e.g. offer A: 20% off on shirts, offer B: 30% off on shirts) will apply BESTDEAL as resolution.\nI.e. the offer with the highest monetary value for the customer will be applied.\n",
           "type": "array",
           "items": {
             "oneOf": [
@@ -982,6 +983,7 @@
                         "type": "object",
                         "properties": {
                           "incrementalTiers": {
+                            "description": "A tiered reward structure where rewards are applied per increment.\nAs the qualification threshold increases, only the portion of the items or amount\nwithin the specific tier range receives that tier-reward.\n\nExample:\n- Tier 1: Item 5-9 -> 10% discount\n- Tier 2: Item 10+ -> 15% discount\n- Result for 12 items: 5 first items get 0%, 5 items get 10%, 2 items get 15%.\n",
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -1342,6 +1344,7 @@
                         "type": "object",
                         "properties": {
                           "thresholdTiers": {
+                            "description": "A tiered reward structure where the highest reached reward is applied.\nOnce a higher qualification threshold is met, the corresponding reward applies to the entire\nset of items or the full transaction total.\n\nExample:\n- Tier 1: 5+ items  -> 10% discount\n- Tier 2: 10+ items -> 20% discount\n- Result for 7 items: All 7 items get 10%.\n- Result for 12 items: All 12 items get 20%.\n",
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -2058,8 +2061,8 @@
           },
           "maxItems": 200
         },
-        "campaignPrices": {
-          "description": "This represents a campaign for one or more items and is used instead of offers to add\nsimple \"new price for item\" campaigns. Note that BESTDEAL will be applied as resolution strategy if the\nsame item occurs multiple times as a campaign price or if it conflicts with one or several offers in the promotion.\n",
+        "promotionPrices": {
+          "description": "This represents a new price for one or more items and is used instead of offers to add\nsimple \"new price for item\" promotions. Note that BESTDEAL will be applied as resolution strategy if the\nsame item occurs multiple times as a promotion price or if it conflicts with one or several offers in the promotion.\n",
           "type": "array",
           "items": {
             "type": "object",
