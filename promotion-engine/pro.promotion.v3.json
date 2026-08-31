@@ -45,7 +45,6 @@
           "type": "string",
           "enum": [
             "ACTIVE",
-            "DELETED",
             "REQUIRES_APPROVAL"
           ]
         },
