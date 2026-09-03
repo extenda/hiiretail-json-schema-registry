@@ -1,0 +1,45 @@
+{
+  "$id": "txr.public.output.digital-signatures.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Publishes a digital signature",
+  "description": "Publishes a captured digital signature and phone number for a transaction",
+  "type": "object",
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "The transaction id the signature belongs to."
+    },
+    "phoneNumber": {
+      "type": "string",
+      "description": "Phone number associated with the signature."
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["PNG_BASE64", "PNG_URI"],
+          "description": "Format of the captured signature image."
+        },
+        "data": {
+          "type": "string",
+          "description": "Base64 (or URI) representation of the captured signature image."
+        },
+        "capturedTimestamp": {
+          "type": "string",
+          "description": "Timestamp when the signature was captured, forwarded as-is."
+        }
+      },
+      "required": ["format", "data"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "businessUnitId": { "type": "string" },
+        "workstationId": { "type": "string" },
+        "transactionId": { "type": "string" }
+      }
+    }
+  },
+  "required": ["transactionId", "phoneNumber", "signature"]
+}
