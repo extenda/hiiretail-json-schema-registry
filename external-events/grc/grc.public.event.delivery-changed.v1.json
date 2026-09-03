@@ -1,0 +1,82 @@
+{
+  "id": "hiiretail.contracts.logistics.grc.public.event.delivery-changed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "title": "DeliveryChanged",
+  "description": "A complete snapshot of a goods-received delivery as persisted at the moment of publish, so a consumer can schedule work against a delivery without polling the goods-received API. Not a delta and never a list of changed field names — a subscriber whose first ever message for a delivery is a `DELIVERY_UPDATED` can act on that message alone, with no back-fetch.\n\nWHEN THIS FIRES. Two occasions, distinguished by the `Event-Type` message attribute, never by the payload:\n  - `DELIVERY_CREATED` — exactly once per delivery row written, from all four creation paths, with the `deliveryDatetime` that was persisted: `POST /deliveries` (CREATE_DELIVERY_NOTE), `POST /deliveries/ad-hoc` (CREATE_AD_HOC_DELIVERY_NOTE), GS1 despatch-advice import (IMPORT_DELIVERY_ADVICE), and the store-transfer-completed handler (STORE_TRANSFER_COMPLETED). A path that skips the insert because the delivery already exists does not publish. On the GS1 path `deliveryDatetime` is the supplier's own estimated delivery time from the DespatchAdvice, published unmodified. On the ad-hoc path, when the caller supplies no `deliveryDatetime` the persisted value is the creation time, so an ad-hoc delivery is published as already arrived.\n  - `DELIVERY_UPDATED` — a persisted change to `deliveryDatetime` or `status`.\n\nWHAT THIS IS NOT. Delivery lines, quantities, amounts and adjustments are the subject of `grc.public.event.goods-received.v1`, not of this topic. That topic's messages, payload and publish trigger are unchanged by this one.\n\nMESSAGE ATTRIBUTES. `Event-Type` is the discriminator and is an ATTRIBUTE, not a payload field, so a subscription can filter server-side without deserializing the body — for example `filter: 'attributes.Event-Type = \"DELIVERY_CREATED\"'`. Its permitted values are exactly `DELIVERY_CREATED` and `DELIVERY_UPDATED`. Every message additionally carries `Tenant-Id`, `Business-Unit-Id`, `Delivery-Id` and `Correlation-Id` attributes; routing context is read from attributes and never from the body.\n\nORDERING. The topic is consumed with message ordering enabled and the publisher sets a real Pub/Sub ordering key of `{tenantId}-{businessUnitId}-{deliveryId}`, so messages for one delivery arrive in publish order.\n\nSTALE REPLAYS. `modifiedDatetime` is the producer's own write time and is present on every message of both event types. Ordering keys give FIFO for new messages only: a dead-lettered message unblocks its key, later messages process, and a DLQ replay can re-inject the stale one afterwards. Compare `modifiedDatetime` against the state you have already applied and discard anything older.\n\nABSENCE IDIOM — EVERY FIELD IS ALWAYS PRESENT. All eleven fields are required. The two nullable ones, `shipperName` and `storeTransferId`, are sent as an explicit `null` rather than omitted: the producer assigns all eleven keys unconditionally with `?? null`, and its type declares them as required properties of type `string | null`, not as optional keys. Test these two for `null`, never for absence. Note that the sibling topic `stc.public.event.stock-count-changed.v1` uses the OPPOSITE idiom for its one optional field — `dueDate` is spread-conditionally omitted when unset and is never present-and-null — so a consumer of both topics needs both checks and cannot share one helper.\n\nTIMESTAMP PRECISION — NANOSECONDS. Both timestamp fields on this topic (`deliveryDatetime`, `modifiedDatetime`) render with NINE fractional-second digits in UTC, e.g. `2026-10-01T09:00:00.000000000Z`. The snapshot is read back from Spanner as a `PreciseDate`, and the whole payload is built from one read-back row through one builder, so both fields are consistent at that width and sort correctly against each other. RFC 3339 permits any number of fractional digits — a validator that assumes milliseconds will reject these, and a consumer that truncates or reformats them loses the precision the stale-replay guard wants. Do NOT assume the same width elsewhere in this estate: `stc.public.event.stock-count-changed.v1` deliberately carries exactly THREE fractional digits, normalised through `getTime()` because its two publish paths would otherwise disagree and mis-sort. The two topics differ on purpose; do not normalise one to the other. Compare timestamps within a topic, never across the two.\n\nTRANSFER PROVENANCE. `storeTransferId` is the only field that identifies which store transfer created a delivery. `shipperId` is not a substitute: it is the same constant on every transfer delivery and identifies no individual transfer. On a supplier delivery `storeTransferId` is present and null.",
+  "required": [
+    "tenantId",
+    "deliveryId",
+    "businessUnitId",
+    "deliveryNoteId",
+    "status",
+    "deliveryDatetime",
+    "shipperType",
+    "shipperId",
+    "shipperName",
+    "storeTransferId",
+    "modifiedDatetime"
+  ],
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of the owning tenant"
+    },
+    "deliveryId": {
+      "type": "string",
+      "description": "Id of the delivery this snapshot describes"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the business unit receiving the delivery"
+    },
+    "deliveryNoteId": {
+      "type": "string",
+      "description": "Id of the delivery note the delivery was created against"
+    },
+    "status": {
+      "enum": [
+        "created",
+        "receiving",
+        "submitted"
+      ],
+      "description": "Status of the delivery at the moment of publish, as persisted. Lower-case, matching the producer's enum and the delivery table's CHECK constraint — note this differs in casing from the upper-case status values on stc.public.event.stock-count-changed.v1"
+    },
+    "deliveryDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The expected arrival time stored on the delivery at publish time, ISO 8601 UTC. Published as persisted — never derived, rounded, or adjusted for transit. Read back from Spanner as a PreciseDate, so it renders with NINE fractional-second digits (e.g. 2026-10-01T09:00:00.000000000Z). RFC 3339 permits any number of fractional digits; do not assume milliseconds. NOT pattern-constrained here, deliberately: the width is a property of the PreciseDate type rather than of an explicit normaliser, so this schema accepts any RFC 3339 fractional width"
+    },
+    "shipperType": {
+      "enum": [
+        "businessPartnerId",
+        "businessUnitId"
+      ],
+      "description": "Which kind of identifier shipperId holds: a business partner (an external supplier) or a business unit (another store, i.e. a store transfer). Matches the producer's enum and the delivery table's CHECK constraint"
+    },
+    "shipperId": {
+      "type": "string",
+      "description": "Id of the shipping party. NOT a transfer identifier — it is the same constant on every transfer delivery. Use storeTransferId to identify a transfer"
+    },
+    "shipperName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Display name of the shipping party, when recorded. ALWAYS PRESENT: sent as an explicit null when not recorded, never omitted, so test for null and not for absence"
+    },
+    "storeTransferId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Id of the store transfer that created this delivery, when it was created by one. Present and null for a supplier delivery, and null for a transfer delivery created before the column existed — in which case treat it as unknown provenance rather than as absence of a transfer. ALWAYS PRESENT: sent as an explicit null rather than omitted, so test for null and not for absence"
+    },
+    "modifiedDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The delivery row's last-modified/commit timestamp as of this publish, ISO 8601 UTC. The producer's write time — not the publish time and not the delivery time. A DELIVERY_UPDATED carries a strictly later value than the preceding message for the same delivery. Use it to discard a replayed message older than state already applied. Read back from Spanner as a PreciseDate, so it renders with NINE fractional-second digits (e.g. 2026-10-01T09:00:00.000000000Z). RFC 3339 permits any number of fractional digits; do not assume milliseconds. NOT pattern-constrained here, deliberately: the width is a property of the PreciseDate type rather than of an explicit normaliser, so this schema accepts any RFC 3339 fractional width"
+    }
+  }
+}
