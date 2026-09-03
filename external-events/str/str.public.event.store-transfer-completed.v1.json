@@ -90,6 +90,18 @@
                     "type": ["string", "null"],
                     "description": "Additional remarks or notes related to the store transfer line"
                 },
+                "unitPrice": {
+                    "type": ["number", "null"],
+                    "description": "Unit price of the item being transferred in this line, expressed in currencyId. Null when no price is known for the item."
+                },
+                "currencyId": {
+                    "type": ["string", "null"],
+                    "description": "Currency of unitPrice for this line, as a 3-character ISO-4217 code. Null when the currency is unknown."
+                },
+                "substituteForLineId": {
+                    "type": ["string", "null"],
+                    "description": "When set, this line was picked as a substitute for the referenced ordered line (whose quantityApproved becomes 0)."
+                },
                 "lineInfos": {
                     "type": "array",
                     "description": "A list of detailed transfer information for the line item, such as quantity and tracking details",

@@ -47,6 +47,10 @@
             "type": ["string", "null"],
             "description": "ID of the user who requested the store transfer"
         },
+        "orderCode": {
+            "type": ["string", "null"],
+            "description": "Short human-readable order code minted by Store Transfers for this transfer (e.g. S4K9M2X)"
+        },
         "items": {
             "type": "array",
             "description": "List of items in the store transfer",
