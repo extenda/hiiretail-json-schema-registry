@@ -490,7 +490,7 @@
                                       },
                                       {
                                         "required": [
-                                          "gtinPrefixes"
+                                          "itemIdentifierPrefixes"
                                         ]
                                       },
                                       {
@@ -505,25 +505,11 @@
                                       },
                                       {
                                         "required": [
-                                          "colors"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "sizes"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "seasons"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
                                           "additionalProperties"
                                         ]
                                       }
                                     ],
+                                    "additionalProperties": false,
                                     "properties": {
                                       "filterMode": {
                                         "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
@@ -556,8 +542,8 @@
                                         "minItems": 1,
                                         "maxItems": 100
                                       },
-                                      "gtinPrefixes": {
-                                        "description": "List of GTIN prefix values. These prefixes are only used for promotions provided in\nthe Basket (dynamic promotions). They are ignored for promotions sent via the Promotion\nInput API.\n",
+                                      "itemIdentifierPrefixes": {
+                                        "description": "List of item identifier prefix values. These prefixes are only used for promotions\nprovided in the Basket (dynamic promotions). They are ignored for promotions sent via\nthe Promotion Input API.\n",
                                         "type": "array",
                                         "items": {
                                           "type": "string",
@@ -580,39 +566,6 @@
                                       },
                                       "brands": {
                                         "description": "List of brands to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "colors": {
-                                        "description": "List of colors to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "sizes": {
-                                        "description": "List of sizes to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "seasons": {
-                                        "description": "List of seasons to filter by",
                                         "type": "array",
                                         "items": {
                                           "type": "string",
@@ -1779,7 +1732,7 @@
                                       },
                                       {
                                         "required": [
-                                          "gtinPrefixes"
+                                          "itemIdentifierPrefixes"
                                         ]
                                       },
                                       {
@@ -1794,25 +1747,11 @@
                                       },
                                       {
                                         "required": [
-                                          "colors"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "sizes"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "seasons"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
                                           "additionalProperties"
                                         ]
                                       }
                                     ],
+                                    "additionalProperties": false,
                                     "properties": {
                                       "filterMode": {
                                         "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
@@ -1845,8 +1784,8 @@
                                         "minItems": 1,
                                         "maxItems": 100
                                       },
-                                      "gtinPrefixes": {
-                                        "description": "List of GTIN prefix values. These prefixes are only used for promotions provided in\nthe Basket (dynamic promotions). They are ignored for promotions sent via the Promotion\nInput API.\n",
+                                      "itemIdentifierPrefixes": {
+                                        "description": "List of item identifier prefix values. These prefixes are only used for promotions\nprovided in the Basket (dynamic promotions). They are ignored for promotions sent via\nthe Promotion Input API.\n",
                                         "type": "array",
                                         "items": {
                                           "type": "string",
@@ -1869,39 +1808,6 @@
                                       },
                                       "brands": {
                                         "description": "List of brands to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "colors": {
-                                        "description": "List of colors to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "sizes": {
-                                        "description": "List of sizes to filter by",
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "minLength": 1,
-                                          "maxLength": 100
-                                        },
-                                        "minItems": 1,
-                                        "maxItems": 100
-                                      },
-                                      "seasons": {
-                                        "description": "List of seasons to filter by",
                                         "type": "array",
                                         "items": {
                                           "type": "string",
@@ -2108,9 +2014,10 @@
             "3.2",
             "3.3",
             "3.4",
-            "3.5"
+            "3.5",
+            "3.6"
           ],
-          "default": "3.5"
+          "default": "3.6"
         }
       }
     }
