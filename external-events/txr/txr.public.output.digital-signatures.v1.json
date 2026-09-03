@@ -34,8 +34,9 @@
         "businessUnitId": { "type": "string" },
         "workstationId": { "type": "string" },
         "transactionId": { "type": "string" }
-      }
+      },
+      "required": ["businessUnitId", "workstationId", "transactionId"]
     }
   },
-  "required": ["transactionId", "phoneNumber", "signature"]
+  "required": ["phoneNumber", "signature"]
 }
