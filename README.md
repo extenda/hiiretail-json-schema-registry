@@ -34,6 +34,38 @@ A version name is encouraged. If it is not present in entity name please add it 
 
 > Keep schemas immutable. That makes it easier for consumers of schemas
 
+## Generated external-events schemas
+
+Some files under [external-events](./external-events/) are **generated** from
+[hiiretail-contracts-logistics](https://github.com/extenda/hiiretail-contracts-logistics)
+and must not be hand-edited. Which ones are listed in
+[tools/sources.json](./tools/sources.json).
+
+The contracts repo splits a schema across sibling files and `$ref`s between
+them; the registry publishes one self-contained document. Flattening is where
+things get lost: HII-13841 was a `$ref`ed property (`shipperType`) that never
+made it into the published copy, on a schema whose root is
+`additionalProperties: false` - so every real message failed validation for any
+external subscriber that checked its input.
+
+To change one of these schemas, change the contract, then regenerate:
+
+```sh
+npm --prefix tools ci
+npm --prefix tools run generate            # expects ../hiiretail-contracts-logistics
+npm --prefix tools run generate -- --contracts /path/to/schemas/json
+npm --prefix tools test
+```
+
+CI re-runs the generation on every pull request and fails if the committed file
+differs, so a hand-edit and a not-yet-propagated contract change both show up as
+a red build.
+
+`tools/sources.json` carries a small `overrides` patch per schema, for the
+places where the published wording is deliberately not the contract's - the
+registry file is what an integrator actually reads. Field names, types and
+required-ness always come from the contract.
+
 ## Usage in configuration service
 
 [Guide for using schemas in Customer Controlled Configuration](https://developer.hiiretail.com/docs/customer-controlled-configuration/public/concepts/CONFIG-KIND/#config-schema)
