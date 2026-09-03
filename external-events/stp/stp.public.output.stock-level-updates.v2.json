@@ -29,8 +29,20 @@
     "quantity": {
       "type": "number"
     },
+    "logicalQuantity": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
     "costAmount": {
       "type": "number"
+    },
+    "logicalCostAmount": {
+      "type": [
+        "null",
+        "number"
+      ]
     },
     "currencyCode": {
       "type": [
