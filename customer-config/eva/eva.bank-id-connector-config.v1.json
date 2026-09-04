@@ -1,0 +1,48 @@
+{
+  "$id": "eva.bank-id-connector-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BankId Connector Configuration",
+  "description": "Configuration for BankId Connector. This schema defines the necessary properties for configuring the connection to BankId services, including environment selection and authentication details.",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "description": "Environment for the requests. Use 'SANDBOX' for testing with the thirdparty's test backend system and 'PRODUCTION' for live transactions",
+      "type": "string",
+      "enum": ["SANDBOX", "PRODUCTION"]
+    },
+    "authenticationConfig": {
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "description": "CA certificate or certificate chain used to verify the remote server.",
+          "type": "string"
+        },
+        "privateKey": {
+          "description": "PFX bundle containing the certificate and private key. Provided as the content itself.",
+          "type": "string"
+        },
+        "passphrase": {
+          "type": "string",
+          "description": "Passphrase for the private key"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["environment"],
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "environment": { "const": "PRODUCTION" }
+    },
+    "required": ["environment"]
+  },
+  "then": {
+    "required": ["authenticationConfig"],
+    "properties": {
+      "authenticationConfig": {
+        "required": ["certificate", "privateKey", "passphrase"]
+      }
+    }
+  }
+}
