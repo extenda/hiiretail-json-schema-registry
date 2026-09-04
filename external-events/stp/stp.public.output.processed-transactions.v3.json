@@ -244,6 +244,20 @@
       ],
       "description": "A snapshot of stock cost amount after this transaction is processed"
     },
+    "logicalRemainingStockQuantity": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "max(0, remainingStockQuantity) — a snapshot of stock quantity after this transaction is processed, floored at zero for valuation and display"
+    },
+    "logicalRemainingCostAmount": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "max(0, remainingCostAmount) — a snapshot of stock cost amount after this transaction is processed, floored at zero for valuation and display"
+    },
     "timestamp": {
       "type": [
         "null",
