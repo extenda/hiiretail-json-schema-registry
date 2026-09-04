@@ -20,10 +20,10 @@
       "type": "string",
       "description": "Regular expression to extract the column number from CradleData. Example: '[^;]+$' extracts '2' from '100;1;2'."
     },
-    "cradleDataEuMapIdRegex": {
-      "title": "Cradle Data EU MapId Pattern (Regex)",
+    "cradleDataWallMapIdRegex": {
+      "title": "Cradle Data Wall MapId Pattern (Regex)",
       "type": "string",
-      "description": "Regular expression to extract the EU MapId from CradleData. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
+      "description": "Regular expression to extract the Wall MapId from CradleData. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
     }
   },
   "required": ["enableCradleAutomapping"]
