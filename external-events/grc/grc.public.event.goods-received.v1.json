@@ -9,6 +9,7 @@
     "businessUnitId",
     "uniqueId",
     "deliveryNoteId",
+    "shipperType",
     "shipperId",
     "deliveryDate",
     "submittedAt",
@@ -32,6 +33,14 @@
     "deliveryNoteId": {
       "type": "string",
       "description": "External id to identify the delivery note"
+    },
+    "shipperType": {
+      "description": "Shipper Type",
+      "type": "string",
+      "enum": [
+        "businessPartnerId",
+        "businessUnitId"
+      ]
     },
     "shipperId": {
       "type": "string",
@@ -73,6 +82,7 @@
   },
   "$defs": {
     "LineDto": {
+      "description": "Line entity used in Transaction",
       "type": "object",
       "required": [
         "lineId",
@@ -88,10 +98,6 @@
         "lineId": {
           "type": "string",
           "description": "Unique, internal id to identify the delivery line"
-        },
-        "lineNumber": {
-          "type": [ "null", "number"],
-          "description": "External line number to identify the delivery line"
         },
         "itemId": {
           "type": "string",
@@ -118,11 +124,11 @@
           "description": "Delta between the currently approved quantity, and the approved quantity in previous export if any."
         },
         "unitPrice": {
-          "type": "number",
+          "type": ["null", "number"],
           "description": "Amount to indicate the unit price"
         },
         "currencyCode": {
-          "type": "string",
+          "type": ["null", "string"],
           "description": "Code to indicate the currency",
           "minLength": 3,
           "maxLength": 3
@@ -133,12 +139,12 @@
         },
         "bestBeforeDate": {
           "type": ["null", "string"],
-          "format": "date-time",
+          "format": "date",
           "description": "Date to indicate the best before date"
         },
         "expirationDate": {
           "type": ["null", "string"],
-          "format": "date-time",
+          "format": "date",
           "description": "Date to indicate the expiration date"
         },
         "reasonCodes": {
@@ -166,6 +172,7 @@
       }
     },
     "ReasonCodesDto": {
+      "description": "Reason codes for any deviations",
       "type": "object",
       "required": [
         "id",
@@ -184,6 +191,7 @@
       }
     },
     "ContainerDto": {
+      "description": "Container entity used in LineDto",
       "type": "object",
       "required": [
         "id"
