@@ -48,7 +48,6 @@
     "workstationId",
     "createdAt",
     "data",
-    "type",
-    "operatorIds"
+    "type"
   ]
 }
