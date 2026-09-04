@@ -28,11 +28,13 @@
       ]
     },
     "channel": {
-      "nullable": true,
       "example": "SUPERPOS",
-      "allOf": [
+      "anyOf": [
         {
           "$ref": "#/$defs/WorkstationChannel"
+        },
+        {
+          "type": "null"
         }
       ]
     },

@@ -46,8 +46,14 @@
       "$ref": "#/$defs/TextWithLocaleDto"
     },
     "workstationType": {
-      "nullable": true,
-      "$ref": "#/$defs/WorkstationType"
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WorkstationType"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "requestedAt": {
       "type": "string",

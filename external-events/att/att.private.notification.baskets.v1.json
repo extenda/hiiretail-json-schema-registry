@@ -12,10 +12,12 @@
       "type": "string"
     },
     "workstationChannel": {
-      "nullable": true,
-      "allOf": [
+      "anyOf": [
         {
           "$ref": "#/$defs/WorkstationChannel"
+        },
+        {
+          "type": "null"
         }
       ]
     },
