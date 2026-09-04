@@ -1,5 +1,5 @@
 {
-  "id": "stp.public.output.processed-transactions.v3",
+  "$id": "stp.public.output.processed-transactions.v3",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ProcessedTransactionDto",
   "description": "Stock Transaction Processing Processed Transaction DTO entity",

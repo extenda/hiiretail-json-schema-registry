@@ -1,5 +1,5 @@
 {
-  "id": "scr.public.event.stock-corrections.v1",
+  "$id": "scr.public.event.stock-corrections.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,

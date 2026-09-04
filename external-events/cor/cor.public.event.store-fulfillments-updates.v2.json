@@ -1,5 +1,5 @@
 {
-  "id": "cor.public.event.store-fulfillments-updates.v2",
+  "$id": "cor.public.event.store-fulfillments-updates.v2",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "StoreFulfillmentsUpdate",
   "description": "Store fulfillments update event for a customer order",

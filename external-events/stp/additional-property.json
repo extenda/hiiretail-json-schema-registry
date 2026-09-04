@@ -1,5 +1,5 @@
 {
-  "id": "AdditionalPropertyDto",
+  "$id": "AdditionalPropertyDto",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AdditionalPropertyDto",
   "description": "Additional Property entity used in Transaction",

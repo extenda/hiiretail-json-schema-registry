@@ -1,5 +1,5 @@
 {
-  "id": "StockType",
+  "$id": "StockType",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "StockType",
   "description": "Additional Property entity used in Transaction",

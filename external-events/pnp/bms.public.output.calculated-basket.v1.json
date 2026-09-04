@@ -31,7 +31,7 @@
       "type" : "array",
       "items" : {
         "type" : "object",
-        "id" : "record:com.retailsvc.entity.TaxGroup",
+        "$id" : "record:com.retailsvc.entity.TaxGroup",
         "properties" : {
           "id" : {
             "type" : "string"
@@ -49,7 +49,7 @@
       "type" : "array",
       "items" : {
         "type" : "object",
-        "id" : "record:com.retailsvc.entity.Promotion",
+        "$id" : "record:com.retailsvc.entity.Promotion",
         "properties" : {
           "id" : {
             "type" : "string"
@@ -70,7 +70,7 @@
       "type" : "array",
       "items" : {
         "type" : "object",
-        "id" : "record:com.retailsvc.entity.Item",
+        "$id" : "record:com.retailsvc.entity.Item",
         "properties" : {
           "entityId" : {
             "type" : "integer"
@@ -128,7 +128,7 @@
       "type" : "array",
       "items" : {
         "type" : "object",
-        "id" : "record:com.retailsvc.entity.Coupon",
+        "$id" : "record:com.retailsvc.entity.Coupon",
         "properties" : {
           "entityId" : {
             "type" : "integer"

@@ -1,5 +1,5 @@
 {
-    "id": "gle.public.event.general-ledger.v1",
+    "$id": "gle.public.event.general-ledger.v1",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "GeneralLedgerAccounts",
     "description": "Aggregating all general ledger accounts for a specific business date and businessUnit",

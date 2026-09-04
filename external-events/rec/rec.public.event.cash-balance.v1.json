@@ -1,5 +1,5 @@
 {
-  "id": "rec.public.event.cash-balance.v1",
+  "$id": "rec.public.event.cash-balance.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CashBalances",
   "description": "Expected cash balances at end-of-day for all cash drawers and cash changers in each store for each currency under a tenant",

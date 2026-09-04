@@ -1,5 +1,5 @@
 {
-    "id": "hiiretail.contracts.logistics.str.public.event.store-transfer-completed.v1",
+    "$id": "hiiretail.contracts.logistics.str.public.event.store-transfer-completed.v1",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "additionalProperties": false,

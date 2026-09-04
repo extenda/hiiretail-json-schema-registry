@@ -1,5 +1,5 @@
 {
-  "id": "StockHandlingMethod",
+  "$id": "StockHandlingMethod",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "StockHandlingMethod",
   "description": "Stock Item Handling method",

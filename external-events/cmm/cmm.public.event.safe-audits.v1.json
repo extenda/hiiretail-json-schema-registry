@@ -1,5 +1,5 @@
 {
-  "id": "cmm.public.event.safe-audit.v1",
+  "$id": "cmm.public.event.safe-audit.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SafeAudit",
   "description": "Safe audit values",

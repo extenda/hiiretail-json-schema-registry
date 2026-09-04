@@ -1,5 +1,5 @@
 {
-  "id": "AdditionalPropertyValueType",
+  "$id": "AdditionalPropertyValueType",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AdditionalPropertyValueType",
   "description": "Datatype of the value object",

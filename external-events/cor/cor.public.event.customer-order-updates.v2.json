@@ -1,5 +1,5 @@
 {
-  "id": "cor.public.event.customer-order-updates.v2",
+  "$id": "cor.public.event.customer-order-updates.v2",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CustomerOrderV2PublishEvent",
   "description": "Customer Order V2 publish event",

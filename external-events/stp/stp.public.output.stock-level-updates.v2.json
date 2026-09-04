@@ -1,5 +1,5 @@
 {
-  "id": "stp.public.output.stock-level-updates.v2",
+  "$id": "stp.public.output.stock-level-updates.v2",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "StockLevelDto",
   "description": "Additional Property entity used in Transaction",

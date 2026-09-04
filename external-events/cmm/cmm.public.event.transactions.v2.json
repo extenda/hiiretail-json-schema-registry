@@ -1,5 +1,5 @@
 {
-  "id": "cmm.public.event.transactions.v2",
+  "$id": "cmm.public.event.transactions.v2",
   "title": "CashManagementPublicTransactions",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "description": "Cash Management event used in a public pubsub topic",
