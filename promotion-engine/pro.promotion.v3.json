@@ -529,15 +529,14 @@
                                     "maxItems": 100
                                   },
                                   "itemIds": {
-                                    "description": "List of specific item IDs to filter by",
+                                    "description": "List of specific item IDs to filter by. Not enforced by the schema, but keep the\nlist to a soft limit of 100 item IDs.\n",
                                     "type": "array",
                                     "items": {
                                       "type": "string",
                                       "minLength": 1,
                                       "maxLength": 100
                                     },
-                                    "minItems": 1,
-                                    "maxItems": 100
+                                    "minItems": 1
                                   },
                                   "itemIdentifierPrefixes": {
                                     "description": "List of item identifier prefix values. These prefixes are only used for promotions\nprovided in the Basket (dynamic promotions). They are ignored for promotions sent via\nthe Promotion Input API.\n",
@@ -1771,15 +1770,14 @@
                                     "maxItems": 100
                                   },
                                   "itemIds": {
-                                    "description": "List of specific item IDs to filter by",
+                                    "description": "List of specific item IDs to filter by. Not enforced by the schema, but keep the\nlist to a soft limit of 100 item IDs.\n",
                                     "type": "array",
                                     "items": {
                                       "type": "string",
                                       "minLength": 1,
                                       "maxLength": 100
                                     },
-                                    "minItems": 1,
-                                    "maxItems": 100
+                                    "minItems": 1
                                   },
                                   "itemIdentifierPrefixes": {
                                     "description": "List of item identifier prefix values. These prefixes are only used for promotions\nprovided in the Basket (dynamic promotions). They are ignored for promotions sent via\nthe Promotion Input API.\n",
