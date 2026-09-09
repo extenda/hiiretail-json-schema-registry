@@ -1,0 +1,28 @@
+{
+  "$id": "loy.routing-api.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Loyalty Routing Configuration",
+  "description": "Configuration for routing loyalty requests to different loyalty integrations.",
+  "oneOf": [
+    {
+      "type": "object",
+      "title": "Voyado",
+      "description": "Configuration for routing loyalty requests to Voyado.",
+      "properties": {
+        "connector": { "const": "VOYADO" }
+      },
+      "required": ["connector"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "Unified SPI",
+      "description": "Configuration for routing loyalty requests to Unified SPI.",
+      "properties": {
+        "connector": { "const": "UNIFIED_SPI" }
+      },
+      "required": ["connector"],
+      "additionalProperties": false
+    }
+  ]
+}

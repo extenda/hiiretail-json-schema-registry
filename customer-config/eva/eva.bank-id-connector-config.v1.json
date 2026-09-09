@@ -1,0 +1,49 @@
+{
+  "$id": "eva.bank-id-connector-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BankId Connector Configuration",
+  "description": "Configuration for BankId Connector. This schema defines the necessary properties for configuring the connection to BankId services, including environment selection and authentication details.",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "description": "Select which BankId environment to send requests to. Use 'SANDBOX' for testing with BankId's test environment. Use 'PRODUCTION' for live transactions requiring your own certificate, key and passphrase",
+      "type": "string",
+      "enum": ["SANDBOX", "PRODUCTION"]
+    },
+    "authenticationConfig": {
+      "type": "object",
+      "properties": {
+        "certificate": {
+          "description": "Upload (or paste the contents of) the certificate file received from your bank to authenticate requests to BankID.",
+          "type": "string"
+        },
+        "privateKey": {
+          "description": "Upload (or paste the contents of) the private key file received from your bank to authenticate requests to BankID.",
+          "type": "string"
+        },
+        "passphrase": {
+          "type": "string",
+          "description": "Enter or paste your passphrase for the private key",
+          "format": "password"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["environment"],
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "environment": { "const": "PRODUCTION" }
+    },
+    "required": ["environment"]
+  },
+  "then": {
+    "required": ["authenticationConfig"],
+    "properties": {
+      "authenticationConfig": {
+        "required": ["certificate", "privateKey", "passphrase"]
+      }
+    }
+  }
+}
