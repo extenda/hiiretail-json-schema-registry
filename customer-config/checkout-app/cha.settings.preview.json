@@ -460,6 +460,16 @@
         }
       }
     },
+    "CheckoutLightType": {
+      "type": "object",
+      "description": "This is a definition of the checkout light settings.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables checkout light integration. When enabled, loosing connection to the Edge host will make app to switch on offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
+        }
+      }
+    },
     "EdgeType": {
       "description": "This is a definition of the edge settings.",
       "type": "object",
@@ -467,6 +477,16 @@
         "host"
       ],
       "properties": {
+        "checkoutLight": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CheckoutLightType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "host": {
           "type": "string",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
@@ -776,6 +796,10 @@
         ]
       },
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB."
+        },
         "model": {
           "type": "string",
           "enum": [
@@ -815,14 +839,14 @@
         },
         "lossPrevention": {
           "anyOf": [
-            { 
-              "$ref": "#/$defs/ItabLossPreventionType" 
+            {
+              "$ref": "#/$defs/ItabLossPreventionType"
             },
-            { 
-              "type": "null" 
+            {
+              "type": "null"
             }
           ]
-         },
+        },
         "exitGate": {
           "oneOf": [
             {
