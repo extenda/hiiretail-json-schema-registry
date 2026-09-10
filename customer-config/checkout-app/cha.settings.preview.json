@@ -466,7 +466,7 @@
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables checkout light integration. When enabled, loosing connection to the Edge host will make app to switch on offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
+          "description": "Enables checkout light integration. When enabled, losing connection to the Edge host will make the app switch to the offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
         }
       }
     },
