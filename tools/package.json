@@ -1,0 +1,19 @@
+{
+  "name": "@extenda/json-schema-registry-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generates external-events registry schemas from hiiretail-contracts-logistics",
+  "scripts": {
+    "generate": "node src/generate.mjs",
+    "check": "node src/generate.mjs --check",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

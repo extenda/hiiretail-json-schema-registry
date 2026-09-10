@@ -1,0 +1,31 @@
+{
+  "businessUnitId": "123456",
+  "comment": "comment",
+  "customsAmount": 10,
+  "deliveryDate": "2026-09-03T05:36:35.234000000Z",
+  "deliveryNoteId": "84eee99a-9af9-4f62-af63-8e2990bbef41",
+  "shipperId": "0489ae8b-7281-4aab-b7e5-efd9091d149f",
+  "shipperType": "businessPartnerId",
+  "submittedAt": "2026-09-03T05:36:35.318Z",
+  "submittedBy": "userId",
+  "tenantId": "tenantId",
+  "transportationAmount": 10,
+  "uniqueId": "cf4f7ab7-da28-48bb-920d-25f6a7f9ab25",
+  "lines": [
+    {
+      "approvedQuantity": 10,
+      "deltaQuantity": 10,
+      "expectedQuantity": 10,
+      "batchNumber": null,
+      "containers": [],
+      "currencyCode": null,
+      "itemId": "c6617439-9874-4ffe-acb3-2e305042b6eb",
+      "lineId": "1",
+      "orderId": "70c8ff7f-a49e-4cf0-9f8d-680fd706f1ba",
+      "orderLineId": null,
+      "reasonCodes": [],
+      "serialNumbers": null,
+      "unitPrice": null
+    }
+  ]
+}

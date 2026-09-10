@@ -1,0 +1,54 @@
+name: Generated external-events schemas
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  pull_request:
+    paths:
+      - 'external-events/**'
+      - 'tools/**'
+      - '.github/workflows/external-events-generated.yaml'
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout registry
+        uses: actions/checkout@v4
+
+      - uses: extenda/actions/gcp-secret-manager@v0
+        with:
+          service-account-key: ${{ secrets.SECRET_AUTH }}
+          secrets: |
+            ORG_TOKEN: github-token
+
+      - name: Checkout contracts
+        uses: actions/checkout@v4
+        with:
+          repository: extenda/hiiretail-contracts-logistics
+          token: ${{ env.ORG_TOKEN }}
+          path: contracts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tools
+        run: npm ci --prefix tools
+
+      # Fails when a generated schema was hand-edited, and when a contracts
+      # change has not been regenerated here yet - the drift that produced
+      # HII-13841.
+      - name: Check generated schemas are up to date
+        run: node tools/src/generate.mjs --check --contracts contracts/schemas/json
+
+      - name: Test
+        run: npm test --prefix tools
+        env:
+          CONTRACTS_DIR: ${{ github.workspace }}/contracts/schemas/json

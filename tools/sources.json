@@ -1,0 +1,23 @@
+{
+  "$comment": "Registry copies generated from extenda/hiiretail-contracts-logistics (schemas/json). Edit the contract, then regenerate - do not hand-edit the generated files listed here.",
+  "schemas": [
+    {
+      "source": "grc/grc.public.event.goods-received.v1.schema.json",
+      "output": "external-events/grc/grc.public.event.goods-received.v1.json",
+      "$id": "grc.public.event.goods-received.v1",
+      "overrides": {
+        "title": "Publishes Goods Received events",
+        "description": "Contains delivery lines submitted by user.",
+        "$defs": {
+          "LineDto": {
+            "properties": {
+              "lineId": {
+                "description": "Unique, internal id to identify the delivery line"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
