@@ -32,6 +32,7 @@
         "enabledBalancePoints"
       ],
       "additionalProperties": false
-    }
+    },
+    { "type": "null" }
   ]
 }
