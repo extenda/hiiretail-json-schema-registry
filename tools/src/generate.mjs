@@ -58,7 +58,33 @@ export function build(entry, contractsDir) {
     ...(Object.keys(allDefs).length ? { $defs: allDefs } : {}),
   };
 
+  assertPresentationOnly(entry.overrides);
   return `${stringify(orderKeys(merge(document, entry.overrides ?? {})))}\n`;
+}
+
+// An override exists to reword what an integrator reads, never to change what
+// validates. Unchecked it could set `required`, `type` or `additionalProperties`
+// just as easily as `title`, and because --check regenerates *with* overrides
+// applied, CI would be comparing the output against contracts-plus-overrides and
+// see no drift. That is the one remaining route by which a published schema can
+// silently disagree with its contract - the defect this generator exists to stop.
+const PRESENTATION_KEYWORDS = new Set(['title', 'description', '$comment']);
+const MAP_CONTAINERS = new Set(['properties', '$defs']);
+
+function assertPresentationOnly(patch, at = '') {
+  for (const [key, value] of Object.entries(patch ?? {})) {
+    if (MAP_CONTAINERS.has(key)) {
+      for (const [name, sub] of Object.entries(value)) {
+        assertPresentationOnly(sub, `${at}/${key}/${name}`);
+      }
+    } else if (key === 'items') {
+      assertPresentationOnly(value, `${at}/items`);
+    } else if (!PRESENTATION_KEYWORDS.has(key)) {
+      throw new Error(
+        `Override ${at}/${key} is not a presentation keyword - change the contract instead`,
+      );
+    }
+  }
 }
 
 // JSON.stringify puts every array element on its own line. That is unreadable

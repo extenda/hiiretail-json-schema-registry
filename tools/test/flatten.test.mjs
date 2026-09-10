@@ -167,3 +167,65 @@ test('a local $defs name clashing with a hoisted one fails loudly', () => {
     /\$defs\/PartDto is defined locally/,
   );
 });
+
+// An override may reword the published schema, never change what validates.
+// --check regenerates with overrides applied, so a substantive one would make
+// the output disagree with its contract while CI still reported no drift.
+test('presentation overrides are applied, at any depth', () => {
+  const source = 'overridable.schema.json';
+  write(source, {
+    id: 'test.overridable',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'Overridable',
+    description: 'from the contract',
+    type: 'object',
+    additionalProperties: false,
+    properties: { parts: { type: 'array', items: { $ref: 'PartDto.schema.json' } } },
+  });
+
+  const built = JSON.parse(
+    build(
+      {
+        source,
+        $id: 'test.overridable',
+        overrides: {
+          description: 'reworded for the developer portal',
+          $defs: { PartDto: { properties: { partId: { description: 'the part id' } } } },
+        },
+      },
+      workdir,
+    ),
+  );
+
+  assert.equal(built.description, 'reworded for the developer portal');
+  assert.equal(built.$defs.PartDto.properties.partId.description, 'the part id');
+  assert.equal(built.$defs.PartDto.properties.partId.type, 'string');
+});
+
+test('a substantive override is refused rather than silently published', () => {
+  const entry = { source: 'overridable.schema.json', $id: 'test.overridable' };
+
+  assert.throws(
+    () => build({ ...entry, overrides: { required: [] } }, workdir),
+    /Override \/required is not a presentation keyword/,
+  );
+  assert.throws(
+    () => build({ ...entry, overrides: { additionalProperties: true } }, workdir),
+    /Override \/additionalProperties is not a presentation keyword/,
+  );
+});
+
+test('a substantive override is caught inside a container, and named by path', () => {
+  assert.throws(
+    () =>
+      build(
+        {
+          source: 'overridable.schema.json',
+          $id: 'test.overridable',
+          overrides: { $defs: { PartDto: { properties: { partId: { type: 'number' } } } } },
+        },
+        workdir,
+      ),
+    /Override \/\$defs\/PartDto\/properties\/partId\/type is not a presentation keyword/,
+  );
+});
