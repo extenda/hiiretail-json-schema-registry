@@ -1,5 +1,5 @@
 {
-  "$comment": "Registry copies generated from extenda/hiiretail-contracts-logistics (schemas/json). Edit the contract, then regenerate - do not hand-edit the generated files listed here.",
+  "$comment": "Registry copies generated from extenda/hiiretail-contracts-logistics (schemas/json). Edit the contract, then regenerate - do not hand-edit the generated files listed here. Every other file under external-events/ is declared in unmanaged.json with the reason it is not generated; CI fails if a file is in neither list.",
   "schemas": [
     {
       "source": "grc/grc.public.event.goods-received.v1.schema.json",
@@ -18,6 +18,16 @@
           }
         }
       }
+    },
+    {
+      "source": "scr/scr.public.event.stock-corrections.v1.schema.json",
+      "output": "external-events/scr/scr.public.event.stock-corrections.v1.schema.json",
+      "$id": "scr.public.event.stock-corrections.v1"
+    },
+    {
+      "source": "stc/stc.public.event.stock-count-completed.v1.schema.json",
+      "output": "external-events/stc/stc.public.event.stock-count-completed.v1.json",
+      "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1"
     }
   ]
 }

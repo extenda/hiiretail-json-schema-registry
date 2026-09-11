@@ -1,0 +1,225 @@
+{
+  "$comment": "Every file under external-events/ that is NOT generated from contracts, with the reason. CI fails if a file appears in neither this list nor tools/sources.json, so a new schema cannot quietly join the hand-maintained pile. Removing a file from here means generating it.",
+  "unmanaged": [
+    {
+      "file": "external-events/att/att.private.notification.assistance-requests.deleted.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.assistance-requests.processed.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.assistance-requests.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.basket-deleted.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.baskets.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.task-deleted.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.task-processed.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.tasks.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.workstation-deleted.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/att/att.private.notification.workstations.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (att). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/cmm/cmm.public.event.safe-audits.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (cmm). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/cmm/cmm.public.event.transactions.v2.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (cmm). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/cor/cor.public.event.customer-order-updates.v2.json",
+      "reason": "Has a contracts source (cor/api-events/cor.order.updates.schema.json) but is not reconciled: the registry copy marks nested fields required that contracts leaves optional, so generating would loosen it. Needs a publisher check per field first - HII-14037."
+    },
+    {
+      "file": "external-events/cor/cor.public.event.store-fulfillments-updates.v2.json",
+      "reason": "Has a contracts source (cor/api-events/cor.order.fulfillments.updates.schema.json) but wraps it in a fulfillments array envelope the contract does not describe. Generating would change the message shape - HII-14037."
+    },
+    {
+      "file": "external-events/eod/eod.private.input.report-data.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (eod). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/fsc/fsc.public.event.de.workstation.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (fsc). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/gle/gle.public.event.general-ledger.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (gle). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/grc/grc.public.event.delivery-changed.v1.json",
+      "reason": "Ours (Goods Received). No schema in hiiretail-contracts-logistics - published by HII-13907 without one. Add the contract, then move this entry into sources.json - HII-14038."
+    },
+    {
+      "file": "external-events/mcp/mcp.private.event.age-received.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (mcp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/mcp/mcp.private.event.attendant-monitoring.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (mcp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/mcp/processed-age-control.json",
+      "reason": "Fragment $refed by the mcp schemas in this directory, not an event in its own right."
+    },
+    {
+      "file": "external-events/pnp/bms.public.output.calculated-basket.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (pnp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/pnp/pnp.public.output.change-notification-events.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (pnp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/pnp/pnp.public.output.customer-notifications.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (pnp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/pnp/pnp.public.output.external-device-item-batches.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (pnp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/pnp/pnp.public.output.missing-dependencies.v2.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (pnp). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/rec/rec.public.event.cash-balance.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (rec). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/rec/rec.public.event.reconciliation-change-shift.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (rec). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/rec/rec.public.event.reconciliation-end-of-day.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (rec). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/rec/rec.public.event.reconciliation-recount.v2.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (rec). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/rec/rec.public.event.reconciliation.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (rec). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/sre/sre.alerts.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (sre). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/sre/sre.failed-events.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (sre). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/sre/sre.failed-exe-webhooks.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (sre). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/ssd/ssa.public.output.feedback.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (ssd). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/ssd/ssa.public.output.transaction.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (ssd). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/ssd/ssa.public.output.trip.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (ssd). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/stc/stc.public.event.stock-count-changed.v1.json",
+      "reason": "Ours (Stock Count). No schema in hiiretail-contracts-logistics. Add the contract, then move this entry into sources.json - HII-14038."
+    },
+    {
+      "file": "external-events/stp/additional-property-value-type.json",
+      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/stp/additional-property.json",
+      "reason": "Shared definition $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/stp/stock-handling-method.json",
+      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/stp/stock-handling-type.json",
+      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/stp/stock-type.json",
+      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/stp/stp.public.output.processed-transactions.v3.json",
+      "reason": "Has a contracts source but the operationType enum here is missing STORE_TRANSFER_COMPLETED and STORE_TRANSFER_INITIATED, and the registry marks additionalProperties entries required that contracts does not. Needs a publisher check per field - HII-14037."
+    },
+    {
+      "file": "external-events/stp/stp.public.output.stock-level-updates.v2.json",
+      "reason": "Has a contracts source and no divergence was found, but it $refs the sibling enum files in this directory rather than inlining them. Generating would change that structure - HII-14037."
+    },
+    {
+      "file": "external-events/stp/transaction-operation-type.json",
+      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+    },
+    {
+      "file": "external-events/str/str.public.event.store-transfer-completed.v1.json",
+      "reason": "Has a contracts source but the registry marks items[] fields required that contracts leaves optional. Generating would loosen it - HII-14037."
+    },
+    {
+      "file": "external-events/str/str.public.event.store-transfer-initiated.v1.json",
+      "reason": "Has a contracts source but the registry marks items[] fields required that contracts leaves optional. Generating would loosen it - HII-14037."
+    },
+    {
+      "file": "external-events/txe/txe.public.output.tsaf-poslogs.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (txe). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/txr/txr.public.output.digital-receipts.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (txr). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/txr/txr.public.output.digital-signatures.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (txr). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/txr/txr.public.output.sequencegaps.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (txr). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/txr/txr.public.output.transactions.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (txr). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/xzr/xzr.public.output.eod-reports.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (xzr). Hand-maintained by its producing team."
+    },
+    {
+      "file": "external-events/xzr/xzr.public.output.reports.v1.json",
+      "reason": "No schema in hiiretail-contracts-logistics; owned outside Core and Logistics (xzr). Hand-maintained by its producing team."
+    }
+  ]
+}

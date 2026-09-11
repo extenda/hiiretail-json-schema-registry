@@ -1,10 +1,9 @@
 {
-  "id": "scr.public.event.stock-corrections.v1",
+  "$id": "scr.public.event.stock-corrections.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "type": "object",
-  "additionalProperties": false,
   "title": "StockCorrections",
   "description": "Contains details on the stock correction",
+  "type": "object",
   "required": [
     "tenantId",
     "businessUnitId",
@@ -12,8 +11,10 @@
     "itemId",
     "quantity",
     "reasonCode",
-    "userId"
+    "userId",
+    "stockCorrectionId"
   ],
+  "additionalProperties": false,
   "properties": {
     "tenantId": {
       "type": "string",
@@ -59,6 +60,10 @@
     "userId": {
       "type": "string",
       "description": "Id of user"
+    },
+    "stockCorrectionId": {
+      "type": "string",
+      "description": "Unique Id to identify the stock correction"
     }
   }
 }
