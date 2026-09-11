@@ -1,0 +1,50 @@
+{
+  "$id": "cnc.configurations.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClickAndCollectConfigurations",
+  "description": "Per-business-unit settings for Click & Collect: how long to wait for a payment to complete, how orders are packed and prioritised, and how the picking app reads barcodes and category menus.",
+  "type": "object",
+  "properties": {
+    "bufferPeriodForCompletingPaymentInMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 120,
+      "description": "How long after an order is picked to wait for the customer to complete payment before the payment-initiation job picks it up."
+    },
+    "defaultContainerType": {
+      "type": "string",
+      "default": "PAPER_BAG",
+      "description": "Container the picking app suggests by default when packing an order.",
+      "enum": ["PAPER_BAG", "PLASTIC_BAG", "CARDBOARD_BOX", "GIFT_BOX"]
+    },
+    "highestVisibleItemCategoryLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3,
+      "description": "Deepest category level shown in the picking app's category menu. Levels below this are not offered."
+    },
+    "customerProfileIssuer": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Issuer used to resolve the customer profile for an order. No default: unset means profiles are not resolved for this business unit."
+    },
+    "urgentOrdersMaxValueForNotInProgress": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 3,
+      "description": "Hours remaining before pickup at which an order that has NOT been started counts as urgent."
+    },
+    "urgentOrdersMaxValueForInProgress": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 3,
+      "description": "Hours remaining before pickup at which an order already being picked counts as urgent."
+    },
+    "barcodeNumberFormat": {
+      "type": "string",
+      "description": "Barcode format the picking app expects when scanning items. No default: unset means the app applies its own built-in handling.",
+      "enum": ["DataBar", "DataMatrix", "Plu", "VariableWeightGtin"]
+    }
+  },
+  "additionalProperties": false
+}
