@@ -89,11 +89,35 @@ describe('stc.public.event.stock-count-completed.v1', () => {
         expectedCostAmount: null,
         actualQuantity: 1,
         actualCostAmount: null,
+        unitCostPrice: null,
         firstCountedDateTime: dates,
         lastCountedDateTime: dates,
-        locations: [],
+        locations: [
+          {
+            location: 'L1',
+            firstCountedDateTime: dates,
+            lastCountedDateTime: dates,
+            actualQuantity: 1,
+            // The line-level date is the same column as the two above it, and
+            // is the one assignment in submit.command.ts without a
+            // `?? undefined`, so it carries null rather than dropping the key.
+            // An empty locations array would not exercise it at all.
+            lines: [{ lineId: 'l1', actualQuantity: 1, countedDateTime: dates }],
+          },
+        ],
       },
     ],
+  });
+
+  test('the counted date is nullable at every level, not only the root', () => {
+    // Root, item and location read StockCountData; the line declares its own.
+    assert.deepEqual(stc.$defs.StockCountLine.allOf.at(-1).properties
+      .countedDateTime.type, ['null', 'string']);
+  });
+
+  test('submittedAt and submittedBy are nullable', () => {
+    assert.deepEqual(stc.properties.submittedAt.type, ['null', 'string']);
+    assert.deepEqual(stc.properties.submittedBy.type, ['null', 'string']);
   });
 
   test('a message whose entity was never counted validates', () => {

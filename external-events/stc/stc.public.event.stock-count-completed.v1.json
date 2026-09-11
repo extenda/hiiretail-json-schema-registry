@@ -41,12 +41,12 @@
       "description": "Type of the stock count"
     },
     "submittedAt": {
-      "type": "string",
+      "type": ["null", "string"],
       "format": "date-time",
       "description": "Datetime to indicate when stock count was submitted"
     },
     "submittedBy": {
-      "type": "string",
+      "type": ["null", "string"],
       "description": "User id for the user who submitted the stock count"
     },
     "comment": {
@@ -171,6 +171,10 @@
               "type": ["number", "null"],
               "description": "Expected entity cost amount"
             },
+            "unitCostPrice": {
+              "type": ["number", "null"],
+              "description": "Unit cost price of the item being counted"
+            },
             "locations": {
               "type": "array",
               "description": "Locations of the item being counted",
@@ -257,7 +261,7 @@
               "description": "Actual quantity of the item"
             },
             "countedDateTime": {
-              "type": "string",
+              "type": ["null", "string"],
               "format": "date-time",
               "description": "Date and time when the item was counted"
             }
