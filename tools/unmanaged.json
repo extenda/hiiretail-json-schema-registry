@@ -51,11 +51,11 @@
     },
     {
       "file": "external-events/cor/cor.public.event.customer-order-updates.v2.json",
-      "reason": "Has a contracts source (cor/api-events/cor.order.updates.schema.json) but is not reconciled: the registry copy marks nested fields required that contracts leaves optional, so generating would loosen it. Needs a publisher check per field first - HII-14037."
+      "reason": "Has a contracts source (cor/api-events/cor.order.updates.schema.json). Not generated: this copy marks nested customerOrder fields required that contracts leaves optional, so it is stricter than the contract and rejects nothing the producer sends. Generating would loosen it. Decide per field by reading the publisher before moving it to sources.json."
     },
     {
       "file": "external-events/cor/cor.public.event.store-fulfillments-updates.v2.json",
-      "reason": "Has a contracts source (cor/api-events/cor.order.fulfillments.updates.schema.json) but wraps it in a fulfillments array envelope the contract does not describe. Generating would change the message shape - HII-14037."
+      "reason": "Has a contracts source (cor/api-events/cor.order.fulfillments.updates.schema.json). Not generated: this copy wraps the contract root in a fulfillments array envelope the contract does not describe. Settle which one is the real wire format before generating - it is a shape difference, not drift."
     },
     {
       "file": "external-events/eod/eod.private.input.report-data.v1.json",
@@ -175,11 +175,11 @@
     },
     {
       "file": "external-events/stp/stp.public.output.processed-transactions.v3.json",
-      "reason": "Has a contracts source but the operationType enum here is missing STORE_TRANSFER_COMPLETED and STORE_TRANSFER_INITIATED, and the registry marks additionalProperties entries required that contracts does not. Needs a publisher check per field - HII-14037."
+      "reason": "Has a contracts source. Not generated: the operationType enum here is missing STORE_TRANSFER_COMPLETED and STORE_TRANSFER_INITIATED, and this copy marks additionalProperties entries required that contracts does not. Whether those two operation types are actually published has not been checked - do that first, since it decides whether the enum gap is live."
     },
     {
       "file": "external-events/stp/stp.public.output.stock-level-updates.v2.json",
-      "reason": "Has a contracts source and no divergence was found, but it $refs the sibling enum files in this directory rather than inlining them. Generating would change that structure - HII-14037."
+      "reason": "Has a contracts source and no divergence was found. Not generated only because it $refs the sibling enum files in this directory rather than inlining them; generating would make it self-contained and leave those fragments unused. Safe to generate once that structural choice is made."
     },
     {
       "file": "external-events/stp/transaction-operation-type.json",
@@ -187,11 +187,11 @@
     },
     {
       "file": "external-events/str/str.public.event.store-transfer-completed.v1.json",
-      "reason": "Has a contracts source but the registry marks items[] fields required that contracts leaves optional. Generating would loosen it - HII-14037."
+      "reason": "Has a contracts source. Not generated: this copy marks items[] fields required that contracts leaves optional, so it is stricter than the contract and rejects nothing the producer sends. Generating would loosen it."
     },
     {
       "file": "external-events/str/str.public.event.store-transfer-initiated.v1.json",
-      "reason": "Has a contracts source but the registry marks items[] fields required that contracts leaves optional. Generating would loosen it - HII-14037."
+      "reason": "Has a contracts source. Not generated: this copy marks items[] fields required that contracts leaves optional, so it is stricter than the contract and rejects nothing the producer sends. Generating would loosen it."
     },
     {
       "file": "external-events/txe/txe.public.output.tsaf-poslogs.v1.json",
