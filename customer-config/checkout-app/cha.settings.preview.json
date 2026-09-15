@@ -460,6 +460,16 @@
         }
       }
     },
+    "OfflineType": {
+      "type": "object",
+      "description": "This is a definition of the offline settings.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables offline integration. When enabled, losing connection to the Edge host will make the app switch to the offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
+        }
+      }
+    },
     "EdgeType": {
       "description": "This is a definition of the edge settings.",
       "type": "object",
@@ -467,6 +477,16 @@
         "host"
       ],
       "properties": {
+        "offline": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/OfflineType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "host": {
           "type": "string",
           "description": "Edge host URL. Allows the application to switch to the Edge solution offline."
@@ -776,6 +796,10 @@
         ]
       },
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the integration with ITAB."
+        },
         "model": {
           "type": "string",
           "enum": [
@@ -815,14 +839,14 @@
         },
         "lossPrevention": {
           "anyOf": [
-            { 
-              "$ref": "#/$defs/ItabLossPreventionType" 
+            {
+              "$ref": "#/$defs/ItabLossPreventionType"
             },
-            { 
-              "type": "null" 
+            {
+              "type": "null"
             }
           ]
-         },
+        },
         "exitGate": {
           "oneOf": [
             {
