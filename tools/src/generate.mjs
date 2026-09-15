@@ -30,6 +30,41 @@ const orderKeys = (obj) => {
   return out;
 };
 
+/**
+ * Every file under external-events/ must be either generated from a contract or
+ * listed in unmanaged.json with the reason it is not.
+ *
+ * Without this, "generated" only covers the files someone remembered to add, and
+ * the rest stay hand-maintained with nothing saying so - which is how the same
+ * drift reached grc, scr and stc independently. A new schema now has to declare
+ * which it is.
+ */
+export function auditCoverage(schemas, unmanaged, repoRoot = REPO_ROOT) {
+  const dir = path.join(repoRoot, 'external-events');
+  const present = new Set();
+  const walk = (at) => {
+    for (const name of fs.readdirSync(at, { withFileTypes: true })) {
+      const full = path.join(at, name.name);
+      if (name.isDirectory()) walk(full);
+      else if (name.name.endsWith('.json')) {
+        present.add(path.relative(repoRoot, full));
+      }
+    }
+  };
+  walk(dir);
+
+  const generated = new Set(schemas.map((entry) => entry.output));
+  const declared = new Set(unmanaged.map((entry) => entry.file));
+
+  const undeclared = [...present].filter(
+    (file) => !generated.has(file) && !declared.has(file),
+  );
+  const stale = [...declared].filter((file) => !present.has(file));
+  const both = [...declared].filter((file) => generated.has(file));
+
+  return { undeclared: undeclared.sort(), stale: stale.sort(), both: both.sort() };
+}
+
 export function build(entry, contractsDir) {
   const sourceFile = path.join(contractsDir, entry.source);
   if (!fs.existsSync(sourceFile)) {
@@ -52,6 +87,10 @@ export function build(entry, contractsDir) {
   const allDefs = { ...localDefs, ...$defs };
 
   const document = {
+    // Always `$id`. Some published files carried the draft-04 `id`, which ajv
+    // in strict mode refuses outright - "NOT SUPPORTED: keyword \"id\", use
+    // \"$id\" for schema ID" - so those schemas could not be loaded at all by a
+    // conforming 2020-12 validator, whatever else was wrong with them.
     $id: entry.$id,
     $schema: 'https://json-schema.org/draft/2020-12/schema',
     ...root,
@@ -118,6 +157,30 @@ function main() {
     values.contracts ?? path.join(REPO_ROOT, '..', 'hiiretail-contracts-logistics', 'schemas', 'json'),
   );
   const { schemas } = JSON.parse(fs.readFileSync(path.join(TOOLS_DIR, 'sources.json'), 'utf8'));
+  const { unmanaged } = JSON.parse(
+    fs.readFileSync(path.join(TOOLS_DIR, 'unmanaged.json'), 'utf8'),
+  );
+
+  const coverage = auditCoverage(schemas, unmanaged);
+  const coverageProblems = [
+    ...coverage.undeclared.map(
+      (file) =>
+        `  - ${file} is neither generated nor declared in tools/unmanaged.json`,
+    ),
+    ...coverage.stale.map(
+      (file) => `  - ${file} is declared in tools/unmanaged.json but no longer exists`,
+    ),
+    ...coverage.both.map(
+      (file) => `  - ${file} is both generated and declared unmanaged`,
+    ),
+  ];
+  if (coverageProblems.length) {
+    console.error(
+      `Every file under external-events/ must be generated from a contract or declared unmanaged:\n${coverageProblems.join('\n')}\n\n` +
+        'Add it to tools/sources.json to generate it, or to tools/unmanaged.json with the reason it is hand-maintained.',
+    );
+    process.exit(1);
+  }
 
   const drifted = [];
   for (const entry of schemas) {

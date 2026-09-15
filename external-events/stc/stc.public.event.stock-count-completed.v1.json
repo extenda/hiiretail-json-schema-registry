@@ -1,10 +1,9 @@
 {
-  "id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1",
+  "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "type": "object",
-  "additionalProperties": false,
   "title": "StockCountCompleted",
   "description": "Contains details on the completed stock count",
+  "type": "object",
   "required": [
     "tenantId",
     "businessUnitId",
@@ -18,6 +17,7 @@
     "messageNumber",
     "lastMessageNumber"
   ],
+  "additionalProperties": false,
   "properties": {
     "tenantId": {
       "type": "string",
@@ -32,20 +32,25 @@
       "description": "Id of the performed stock count"
     },
     "type": {
-      "enum": ["FULL", "CYCLE", "CONTROL", "TEST"],
+      "enum": [
+        "FULL",
+        "CYCLE",
+        "CONTROL",
+        "TEST"
+      ],
       "description": "Type of the stock count"
     },
     "submittedAt": {
-      "type": "string",
+      "type": ["null", "string"],
       "format": "date-time",
       "description": "Datetime to indicate when stock count was submitted"
     },
     "submittedBy": {
-      "type": "string",
+      "type": ["null", "string"],
       "description": "User id for the user who submitted the stock count"
     },
     "comment": {
-      "type": "string",
+      "type": ["null", "string"],
       "description": "Comment for the stock count"
     },
     "numberOfItemsCounted": {
@@ -57,12 +62,22 @@
       "description": "Number of items not counted"
     },
     "expectedCostAmount": {
-      "type": "number",
+      "type": ["number", "null"],
       "description": "Expected cost amount of stock count"
     },
     "actualCostAmount": {
-      "type": "number",
+      "type": ["number", "null"],
       "description": "Actual cost amount of stock count"
+    },
+    "firstCountedDateTime": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "description": "First time entity was counted"
+    },
+    "lastCountedDateTime": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "description": "Last time entity was counted"
     },
     "messageNumber": {
       "type": "number",
@@ -76,7 +91,210 @@
       "type": "array",
       "description": "Items being counted",
       "items": {
-        "$ref": "StockCountItem.schema.json"
+        "$ref": "#/$defs/StockCountItem"
+      }
+    }
+  },
+  "$defs": {
+    "StockCountItem": {
+      "description": "Represents an item being counted",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "itemId",
+                "itemIdentifier"
+              ],
+              "properties": {
+                "itemId": {
+                  "type": "string",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                },
+                "itemIdentifier": {
+                  "type": "null",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                }
+              }
+            },
+            {
+              "required": [
+                "itemId",
+                "itemIdentifier"
+              ],
+              "properties": {
+                "itemId": {
+                  "type": "null",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                },
+                "itemIdentifier": {
+                  "type": "string",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                }
+              }
+            },
+            {
+              "required": [
+                "itemId",
+                "itemIdentifier"
+              ],
+              "properties": {
+                "itemId": {
+                  "type": "string",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                },
+                "itemIdentifier": {
+                  "type": "string",
+                  "description": "Id of the item being counted. At least one of `itemId` or `itemIdentifier` is present"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "locations"
+          ],
+          "properties": {
+            "itemName": {
+              "type": ["string", "null"],
+              "description": "Name of the item being counted"
+            },
+            "expectedQuantity": {
+              "type": ["number", "null"],
+              "description": "Expected entity stock count quantity"
+            },
+            "expectedCostAmount": {
+              "type": ["number", "null"],
+              "description": "Expected entity cost amount"
+            },
+            "unitCostPrice": {
+              "type": ["number", "null"],
+              "description": "Unit cost price of the item being counted"
+            },
+            "locations": {
+              "type": "array",
+              "description": "Locations of the item being counted",
+              "items": {
+                "$ref": "#/$defs/StockCountLocation"
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/StockCountData"
+        }
+      ]
+    },
+    "StockCountLocation": {
+      "description": "Represents a location for an item being counted",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "location",
+            "lines"
+          ],
+          "properties": {
+            "location": {
+              "type": "string",
+              "description": "Name of the location"
+            },
+            "lines": {
+              "type": "array",
+              "description": "Lines of the location",
+              "items": {
+                "$ref": "#/$defs/StockCountLine"
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/StockCountData"
+        }
+      ]
+    },
+    "StockCountLine": {
+      "description": "Represents a line for an item being counted",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "lineId",
+            "actualQuantity",
+            "countedDateTime"
+          ],
+          "properties": {
+            "lineId": {
+              "type": "string",
+              "description": "Identifier of the line"
+            },
+            "itemIdentifier": {
+              "type": ["string", "null"],
+              "description": "Identifier of the item"
+            },
+            "businessPartnerId": {
+              "type": "string",
+              "description": "Id of the business partner"
+            },
+            "batchNumber": {
+              "type": "string",
+              "description": "Batch number of the item"
+            },
+            "serialNumber": {
+              "type": "string",
+              "description": "Serial number of the item"
+            },
+            "unitCostPrice": {
+              "type": ["number", "null"],
+              "description": "Unit cost price of the item"
+            },
+            "actualQuantity": {
+              "type": "number",
+              "description": "Actual quantity of the item"
+            },
+            "countedDateTime": {
+              "type": ["null", "string"],
+              "format": "date-time",
+              "description": "Date and time when the item was counted"
+            }
+          }
+        }
+      ]
+    },
+    "StockCountData": {
+      "description": "Contains the data of stock count",
+      "type": "object",
+      "required": [
+        "firstCountedDateTime",
+        "lastCountedDateTime"
+      ],
+      "properties": {
+        "actualCostAmount": {
+          "type": ["number", "null"],
+          "description": "Actual entity cost amount"
+        },
+        "firstCountedDateTime": {
+          "type": ["null", "string"],
+          "format": "date-time",
+          "description": "First time entity was counted"
+        },
+        "lastCountedDateTime": {
+          "type": ["null", "string"],
+          "format": "date-time",
+          "description": "Last time entity was counted"
+        },
+        "actualQuantity": {
+          "type": "number",
+          "description": "Actual entity stock count quantity"
+        }
       }
     }
   }

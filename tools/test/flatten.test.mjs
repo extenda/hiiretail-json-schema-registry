@@ -229,3 +229,59 @@ test('a substantive override is caught inside a container, and named by path', (
     /Override \/\$defs\/PartDto\/properties\/partId\/type is not a presentation keyword/,
   );
 });
+
+test('a composed schema with a title is hoisted, not duplicated at each use', () => {
+  // StockCountData is $refed from both StockCountItem and StockCountLocation,
+  // and uses allOf/unevaluatedProperties with no `type` of its own. Keying the
+  // hoist off `type === "object"` inlined it twice; keying it off the title
+  // writes it once.
+  write('Composed.schema.json', {
+    id: 'test.Composed',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'Composed',
+    unevaluatedProperties: false,
+    allOf: [{ properties: { a: { type: 'string' } } }],
+  });
+
+  const source = write('twoUses.schema.json', {
+    id: 'test.twoUses',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'TwoUses',
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      first: { $ref: 'Composed.schema.json' },
+      second: { $ref: 'Composed.schema.json' },
+    },
+  });
+
+  const { root, $defs } = flatten(source);
+
+  assert.deepEqual(root.properties.first, { $ref: '#/$defs/Composed' });
+  assert.deepEqual(root.properties.second, { $ref: '#/$defs/Composed' });
+  assert.equal($defs.Composed.unevaluatedProperties, false);
+});
+
+test('an untitled schema is inlined rather than refused', () => {
+  // There is no name to key a $defs entry by, and inlining is still correct -
+  // it just cannot be shared between uses.
+  write('Untitled.schema.json', {
+    id: 'test.Untitled',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    type: 'object',
+    properties: { a: { type: 'string' } },
+  });
+
+  const source = write('usesUntitled.schema.json', {
+    id: 'test.usesUntitled',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'UsesUntitled',
+    type: 'object',
+    properties: { thing: { $ref: 'Untitled.schema.json' } },
+  });
+
+  const { root, $defs } = flatten(source);
+
+  assert.equal(root.properties.thing.properties.a.type, 'string');
+  assert.deepEqual(Object.keys($defs), []);
+});

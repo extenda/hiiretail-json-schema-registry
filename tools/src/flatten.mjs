@@ -7,6 +7,18 @@ const rel = (file) => path.relative(process.cwd(), file);
 // Keys that belong to a standalone contracts file and must not survive inlining.
 const FILE_LEVEL_KEYS = new Set(['id', '$id', '$schema']);
 
+// A scalar is inlined at the use site so its allowed values are visible where
+// the field is declared. Anything else - an object, or a schema composed with
+// allOf/anyOf and no `type` of its own - becomes a $defs entry, so a definition
+// reached from two places is written once rather than duplicated.
+const PRIMITIVES = new Set(['string', 'number', 'integer', 'boolean', 'null']);
+
+const isScalar = (body) => {
+  if (body.enum !== undefined) return true;
+  const types = Array.isArray(body.type) ? body.type : [body.type];
+  return types.every((type) => type !== undefined && PRIMITIVES.has(type));
+};
+
 const isFileRef = (node) =>
   node && typeof node === 'object' && typeof node.$ref === 'string' && !node.$ref.startsWith('#');
 
@@ -48,9 +60,10 @@ export function flatten(sourceFile) {
       const body = strip(raw);
       const nested = [...stack, target];
 
-      if (body.type !== 'object') return walk(body, path.dirname(target), nested);
+      if (!title || isScalar(body)) {
+        return walk(body, path.dirname(target), nested);
+      }
 
-      if (!title) throw new Error(`Object schema ${node.$ref} has no title to key $defs by`);
       if (!(title in $defs)) {
         // Reserve the key before recursing so $defs keeps discovery order:
         // a definition is listed before the definitions it references.
