@@ -460,13 +460,13 @@
         }
       }
     },
-    "CheckoutLightType": {
+    "OfflineType": {
       "type": "object",
-      "description": "This is a definition of the checkout light settings.",
+      "description": "This is a definition of the offline settings.",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables checkout light integration. When enabled, losing connection to the Edge host will make the app switch to the offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
+          "description": "Enables offline integration. When enabled, losing connection to the Edge host will make the app switch to the offline local solution. Only works when the Edge host is configured. Not supported on mobile devices."
         }
       }
     },
@@ -477,10 +477,10 @@
         "host"
       ],
       "properties": {
-        "checkoutLight": {
+        "offline": {
           "oneOf": [
             {
-              "$ref": "#/$defs/CheckoutLightType"
+              "$ref": "#/$defs/OfflineType"
             },
             {
               "type": "null"
