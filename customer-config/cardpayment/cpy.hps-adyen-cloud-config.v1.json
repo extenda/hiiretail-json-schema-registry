@@ -1,0 +1,182 @@
+{
+  "$id": "https://example.com/schemas/cpy.hiiconnect-adyen-cloud-config.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adyen TAPI cloud card payment configuration",
+  "description": "Adyen TAPI cloud card payment configuration.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiKey",
+    "environment",
+    "merchantId",
+    "partialAuthorization",
+    "webhook"
+  ],
+  "properties": {
+    "environment": {
+      "description": "Select which environment to send requests to. Use 'MOCK' to test against Extenda Retail's simulator. Use 'SANDBOX' to test with Adyen's test backend. Use 'PRODUCTION' for live transactions.",
+      "type": "string",
+      "title": "Environment",
+      "enum": [
+        "MOCK",
+        "PRODUCTION",
+        "SANDBOX"
+      ]
+    },
+    "merchantId": {
+      "description": "Your unique Adyen Merchant Account ID",
+      "type": "string",
+      "title": "Merchant ID",
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": [
+        "MerchantAccount123"
+      ]
+    },
+    "storeId": {
+      "description": "The unique identifier for your specific Adyen store location.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": [
+        "ST3224X2232WDP5F9BLS98N3K"
+      ]
+    },
+    "apiKey": {
+      "description": "API Key shared by Adyen to authenticate the requests",
+      "type": "string",
+      "title": "API key",
+      "writeOnly": true,
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": [ "apiKey" ]
+    },
+    "partialAuthorization": {
+      "description": "Authorize the available amount when the card's balance is not enough for the full amount. Then allow shoppers to pay the remainder with a different payment method.",
+      "type": "boolean",
+      "title": "Partial authorization"
+    },
+    "webhook": {
+      "description": "Webhook configuration details required to securely receive and verify real-time event notifications from Adyen.",
+      "type": "object",
+      "title": "Webhook",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "username",
+        "password"
+      ],
+      "properties": {
+        "url": {
+          "description": "The unique UUID appended to the webhook endpoint URL.",
+          "type": "string",
+          "format": "uuid",
+          "minLength": 1,
+          "maxLength": 36,
+          "examples": [
+            "123e4567-e89b-12d3-a456-426614174000"
+          ]
+        },
+        "username": {
+          "description": "The username required for webhook Basic Authentication.",
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 256,
+          "examples": [
+            "key-identifier"
+          ]
+        },
+        "password": {
+          "description": "The password required for webhook Basic Authentication.",
+          "type": "string",
+          "writeOnly": true,
+          "minLength": 8,
+          "maxLength": 256,
+          "examples": [
+            "password12345"
+          ]
+        }
+      }
+    },
+    "enableSoftpos": {
+      "description": "Enable this to allow onboarding and payment with SoftPOS devices.",
+      "type": "boolean",
+      "title": "Enable softpos",
+      "default": false
+    },
+    "encryption": {
+      "description": "Encryption configuration shared with Adyen to secure local device communications.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "keyVersion",
+        "keyIdentifier",
+        "keyPassphrase"
+      ],
+      "properties": {
+        "keyIdentifier": {
+          "description": "Device encryption key identifier",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "examples": [
+            "key-identifier"
+          ]
+        },
+        "keyPassphrase": {
+          "description": "Device encryption key passphrase",
+          "type": "string",
+          "writeOnly": true,
+          "minLength": 12,
+          "maxLength": 256,
+          "examples": [
+            "key-passphrase"
+          ]
+        },
+        "keyVersion": {
+          "description": "Device encryption key version",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "default": "1",
+          "examples": [
+            "1"
+          ]
+        }
+      }
+    },
+    "softposApiKey": {
+      "description": "API Key provided by Adyen for Tap to Pay (SoftPOS) request authentication.",
+      "type": "string",
+      "title": "Tap-to-pay API key",
+      "writeOnly": true,
+      "minLength": 1,
+      "maxLength": 256,
+      "examples": [
+        "apiKey"
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "enableSoftpos": {
+        "const": true
+      }
+    },
+    "required": [
+      "enableSoftpos"
+    ]
+  },
+  "then": {
+    "required": [
+      "encryption",
+      "softposApiKey"
+    ]
+  },
+  "else": {
+    "properties": {
+      "encryption": false,
+      "softposApiKey": false
+    }
+  }
+}
