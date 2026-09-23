@@ -1,0 +1,131 @@
+{
+  "$id": "cpy.giftcard-spi.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Giftcard SPI configuration",
+  "description": "Giftcard SPI configuration.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "environment",
+      "allowPartialAuthorisation",
+      "authenticationType",
+      "authenticationDetails",
+      "host",
+      "ranges"
+    ],
+    "properties": {
+      "environment": {
+        "type": "string",
+        "enum": [
+          "PRODUCTION",
+          "SANDBOX",
+          "MOCK"
+        ]
+      },
+      "allowPartialAuthorisation": {
+        "type": "string",
+        "enum": [
+          "ALWAYS",
+          "NEVER"
+        ]
+      },
+      "authenticationType": {
+        "type": "string",
+        "enum": [
+          "OAUTH2"
+        ]
+      },
+      "authenticationDetails": {
+        "type": "object"
+      },
+      "host": {
+        "description": "GiftCard provider base URL",
+        "type": "string",
+        "format": "uri",
+        "examples": [
+          "https://www.example.com"
+        ]
+      },
+      "ranges": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "prefixLow",
+            "prefixHigh",
+            "panLength"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "examples": [
+                "Range name"
+              ]
+            },
+            "prefixLow": {
+              "type": "string",
+              "examples": [
+                "1000"
+              ]
+            },
+            "prefixHigh": {
+              "type": "string",
+              "examples": [
+                "9999"
+              ]
+            },
+            "panLength": {
+              "type": "number",
+              "examples": [
+                16
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "authenticationType": {
+              "const": "OAUTH2"
+            }
+          },
+          "required": [
+            "authenticationType"
+          ]
+        },
+        "then": {
+          "properties": {
+            "authenticationDetails": {
+              "type": "object",
+              "required": [
+                "clientId",
+                "clientSecret",
+                "oauthServer"
+              ],
+              "properties": {
+                "clientId": {
+                  "type": "string"
+                },
+                "clientSecret": {
+                  "type": "string"
+                },
+                "oauthServer": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
+    ],
+    "additionalProperties": false
+  }
+}
