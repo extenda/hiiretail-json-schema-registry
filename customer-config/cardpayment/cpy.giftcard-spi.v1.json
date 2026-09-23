@@ -77,7 +77,7 @@
               ]
             },
             "panLength": {
-              "type": "number",
+              "type": "integer",
               "examples": [
                 16
               ]
