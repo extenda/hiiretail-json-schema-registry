@@ -18,7 +18,7 @@
       "example": "e285p-123456789"
     },
     "transactionRouting": {
-      "description": "Indicates how the transaction is processed. 'CLOUD' sends the transaction to the provider's backend for processing.'LOCAL_APP' sends the transaction to MPOS to execute.",
+      "description": "Indicates how the transaction is processed. 'CLOUD' sends the transaction to the provider's backend for processing. 'LOCAL_APP' sends the transaction to MPOS to execute.",
       "type": "string",
       "title": "Transaction Routing",
       "enum": [
