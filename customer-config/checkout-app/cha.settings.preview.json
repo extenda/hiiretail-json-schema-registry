@@ -757,6 +757,17 @@
               "type": "null"
             }
           ]
+        },
+        "lineDisplay": {
+          "oneOf": [
+            {
+              "type": "object",
+              "$ref": "#/$defs/LineDisplayType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },
@@ -815,14 +826,14 @@
         },
         "lossPrevention": {
           "anyOf": [
-            { 
-              "$ref": "#/$defs/ItabLossPreventionType" 
+            {
+              "$ref": "#/$defs/ItabLossPreventionType"
             },
-            { 
-              "type": "null" 
+            {
+              "type": "null"
             }
           ]
-         },
+        },
         "exitGate": {
           "oneOf": [
             {
@@ -912,6 +923,67 @@
           "type": "boolean",
           "description": "Enables the integration with ICD."
         }
+      }
+    },
+    "LineDisplayType": {
+      "description": "Settings for integration with JPOS line display.",
+      "type": "object",
+      "required": [
+        "enabled",
+        "columns",
+        "rows"
+      ]
+    },
+    "properties": {
+      "enabled": {
+        "type": "boolean",
+        "description": "Enables the line display."
+      },
+      "columns": {
+        "type": "integer",
+        "description": "Number of chars fitting on the line."
+      },
+      "rows": {
+        "type": "integer",
+        "description": "Number of lines available."
+      },
+      "thankYou": {
+        "description": "Override thank you message to show after finalization.",
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "welcome": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Override welcome message to show when idle or after thank you.",
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "CashChangerType": {
