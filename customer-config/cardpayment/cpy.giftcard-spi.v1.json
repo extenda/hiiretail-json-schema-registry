@@ -4,31 +4,48 @@
   "title": "Giftcard SPI configuration",
   "description": "Giftcard SPI configuration.",
   "type": "array",
+  "$defs": {
+    "oauth2AuthenticationDetails": {
+      "type": "object",
+      "required": [
+        "clientId",
+        "clientSecret",
+        "tokenUrl"
+      ],
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "tokenUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "grantType": {
+          "type": "string",
+          "default": "client_credentials"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
   "items": {
     "type": "object",
     "required": [
-      "environment",
-      "allowPartialAuthorisation",
       "authenticationType",
       "authenticationDetails",
-      "host",
-      "ranges"
+      "baseUrl",
+      "ranges",
+      "name"
     ],
     "properties": {
-      "environment": {
-        "type": "string",
-        "enum": [
-          "PRODUCTION",
-          "SANDBOX",
-          "MOCK"
-        ]
-      },
-      "allowPartialAuthorisation": {
-        "type": "string",
-        "enum": [
-          "ALWAYS",
-          "NEVER"
-        ]
+      "name": {
+        "type": "string"
       },
       "authenticationType": {
         "type": "string",
@@ -39,16 +56,15 @@
       "authenticationDetails": {
         "type": "object"
       },
-      "host": {
+      "baseUrl": {
         "description": "GiftCard provider base URL",
         "type": "string",
         "format": "uri",
-        "examples": [
-          "https://www.example.com"
-        ]
+        "example": "https://www.example.com"
       },
       "ranges": {
         "type": "array",
+        "title": "Giftcard prefix ranges",
         "minItems": 1,
         "items": {
           "type": "object",
@@ -60,27 +76,19 @@
           "properties": {
             "name": {
               "type": "string",
-              "examples": [
-                "Range name"
-              ]
+              "example": "Range name"
             },
             "prefixLow": {
               "type": "string",
-              "examples": [
-                "1000"
-              ]
+              "example": "1000"
             },
             "prefixHigh": {
               "type": "string",
-              "examples": [
-                "9999"
-              ]
+              "example": "9999"
             },
             "panLength": {
-              "type": "integer",
-              "examples": [
-                16
-              ]
+              "type": "number",
+              "example": 16
             }
           },
           "additionalProperties": false
@@ -102,25 +110,7 @@
         "then": {
           "properties": {
             "authenticationDetails": {
-              "type": "object",
-              "required": [
-                "clientId",
-                "clientSecret",
-                "oauthServer"
-              ],
-              "properties": {
-                "clientId": {
-                  "type": "string"
-                },
-                "clientSecret": {
-                  "type": "string"
-                },
-                "oauthServer": {
-                  "type": "string",
-                  "format": "uri"
-                }
-              },
-              "additionalProperties": false
+              "$ref": "#/$defs/oauth2AuthenticationDetails"
             }
           }
         }
