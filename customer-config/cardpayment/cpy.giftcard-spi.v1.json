@@ -1,0 +1,121 @@
+{
+  "$id": "cpy.giftcard-spi.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Giftcard SPI configuration",
+  "description": "Giftcard SPI configuration.",
+  "type": "array",
+  "$defs": {
+    "oauth2AuthenticationDetails": {
+      "type": "object",
+      "required": [
+        "clientId",
+        "clientSecret",
+        "tokenUrl"
+      ],
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "tokenUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "grantType": {
+          "type": "string",
+          "default": "client_credentials"
+        },
+        "scope": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "items": {
+    "type": "object",
+    "required": [
+      "authenticationType",
+      "authenticationDetails",
+      "baseUrl",
+      "ranges",
+      "name"
+    ],
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "authenticationType": {
+        "type": "string",
+        "enum": [
+          "OAUTH2"
+        ]
+      },
+      "authenticationDetails": {
+        "type": "object"
+      },
+      "baseUrl": {
+        "description": "GiftCard provider base URL",
+        "type": "string",
+        "format": "uri",
+        "example": "https://www.example.com"
+      },
+      "ranges": {
+        "type": "array",
+        "title": "Giftcard prefix ranges",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "prefixLow",
+            "prefixHigh",
+            "panLength"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "example": "Range name"
+            },
+            "prefixLow": {
+              "type": "string",
+              "example": "1000"
+            },
+            "prefixHigh": {
+              "type": "string",
+              "example": "9999"
+            },
+            "panLength": {
+              "type": "number",
+              "example": 16
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "authenticationType": {
+              "const": "OAUTH2"
+            }
+          },
+          "required": [
+            "authenticationType"
+          ]
+        },
+        "then": {
+          "properties": {
+            "authenticationDetails": {
+              "$ref": "#/$defs/oauth2AuthenticationDetails"
+            }
+          }
+        }
+      }
+    ],
+    "additionalProperties": false
+  }
+}
