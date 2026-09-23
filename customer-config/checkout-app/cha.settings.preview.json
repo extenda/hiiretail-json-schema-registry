@@ -932,1283 +932,1282 @@
         "enabled",
         "columns",
         "rows"
-      ]
-    },
-    "properties": {
-      "enabled": {
-        "type": "boolean",
-        "description": "Enables the line display."
-      },
-      "columns": {
-        "type": "integer",
-        "description": "Number of chars fitting on the line."
-      },
-      "rows": {
-        "type": "integer",
-        "description": "Number of lines available."
-      },
-      "thankYou": {
-        "description": "Override thank you message to show after finalization.",
-        "oneOf": [
-          {
-            "type": "null"
-          },
-          {
-            "type": "string"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "welcome": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "description": "Override welcome message to show when idle or after thank you.",
-        "oneOf": [
-          {
-            "type": "null"
-          },
-          {
-            "type": "string"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "CashChangerType": {
-      "description": "This is a definition of the CashChanger settings.",
-      "type": "object",
-      "required": [
-        "enabled"
       ],
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Enables the CashChanger."
-        }
-      }
-    },
-    "ScaleType": {
-      "description": "This is a definition of the scale settings.",
-      "type": "object",
-      "required": [
-        "enabled",
-        "logicalName"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the scale"
+          "description": "Enables the line display."
         },
-        "autoConnect": {
-          "type": "boolean",
-          "description": "Enables the auto connect."
+        "columns": {
+          "type": "integer",
+          "description": "Number of chars fitting on the line."
         },
-        "logicalName": {
-          "type": "string",
-          "description": "Scale's logical name."
-        }
-      }
-    },
-    "ScannerType": {
-      "description": "This is a definition of the scanner settings.",
-      "type": "object",
-      "required": [
-        "logicalName",
-        "autoConnect"
-      ],
-      "properties": {
-        "autoConnect": {
-          "type": "boolean",
-          "description": "Enables the auto connect."
+        "rows": {
+          "type": "integer",
+          "description": "Number of lines available."
         },
-        "logicalName": {
-          "type": "string",
-          "description": "Scanner's logical name."
-        }
-      }
-    },
-    "ScanAlertType": {
-      "description": "Configuration for item scan feedback events.",
-      "type": "object",
-      "properties": {
-        "audio": {
-          "description": "Audio feedback configuration for scan events.",
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "description": "Enables audio alerts for barcode scanning.",
-              "default": false
+        "thankYou": {
+          "description": "Override thank you message to show after finalization.",
+          "oneOf": [
+            {
+              "type": "null"
             },
-            "success": {
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "type": "boolean",
-                  "description": "Enables audio alert for barcode scan success.",
-                  "default": false
-                }
-              },
-              "additionalProperties": false
+            {
+              "type": "string"
             },
-            "error": {
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "type": "boolean",
-                  "description": "Enable audio alert for barcode scan failure",
-                  "default": false
-                }
-              },
-              "additionalProperties": false
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "SystemPrinterType": {
-      "description": "This is a definition of the system printer settings.",
-      "type": "object",
-      "required": [
-        "logicalName",
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the device."
+          ]
         },
-        "logicalName": {
-          "type": "string",
-          "description": "Printer's device name."
-        },
-        "timeout": {
-          "type": "number",
-          "description": "Printer's timeout in ms for loading operations."
-        }
-      }
-    },
-    "PrinterType": {
-      "description": "This is a definition of the printer settings.",
-      "type": "object",
-      "required": [
-        "logicalName",
-        "enabled",
-        "autoConnect"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the device."
-        },
-        "autoConnect": {
-          "type": "boolean",
-          "description": "Enables the auto connect."
-        },
-        "logicalName": {
-          "type": "string",
-          "description": "Printer's logical name."
-        },
-        "cashdrawerEnabled": {
-          "type": "boolean",
-          "description": "Enables the device."
-        },
-        "cashdrawerLogicalName": {
-          "type": "string",
-          "description": "Cashdrawer's logical name."
-        }
-      }
-    },
-    "MposPrinterType": {
-      "type": "object",
-      "description": "Printer configurations",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the printing."
-        }
-      }
-    },
-    "LockType": {
-      "description": "This is a definition of the lock settings.",
-      "type": "object",
-      "required": [
-        "timeout"
-      ],
-      "properties": {
-        "timeout": {
-          "type": "number",
-          "default": 0,
-          "description": "The number of seconds the register is idle before it is autolocked."
-        }
-      }
-    },
-    "ReceiptType": {
-      "description": "This is a definition of the receipt settings.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "clearTimeout"
-      ],
-      "properties": {
-        "clearTimeout": {
-          "type": "number",
-          "default": 5000,
-          "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
-        },
-        "displayInvalidatedItems": {
-          "type": "boolean",
-          "description": "Defines whether voided items should be rendered on the Active Receipt or not."
-        },
-        "layout": {
-          "$ref": "#/$defs/ReceiptLayoutType"
-        },
-        "linkedPromotionsIndicatorEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables visual linking of related promotion items with color bars in the active receipt view."
-        },
-        "roundedAmountDue": {
-          "type": "boolean",
-          "default": false,
-          "description": "When true, the app displays the rounded amount due (roundedAmountDue)."
-        }
-      }
-    },
-    "ReceiptLayoutType": {
-      "description": "This is a definition of the receipt layout settings.",
-      "type": "object",
-      "required": [],
-      "properties": {
-        "identifierType": {
-          "type": "string",
-          "enum": [
-            "id",
-            "barcode"
-          ],
-          "default": "ID",
-          "description": "The type of the identifier to be displayed in the receipt."
-        },
-        "visibleAttributes": {
+        "welcome": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "description": "Toggles visibility of the listed item attributes in the receipt."
+          "description": "Override welcome message to show when idle or after thank you.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
         }
-      }
-    },
-    "ExternalLinksType": {
-      "description": "This is a definition of the External Websites settings.",
-      "type": "object",
-      "required": [
-        "enabled",
-        "links"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the external links."
-        },
-        "links": {
-          "description": "External links list.",
-          "type": "array",
-          "items": {
+      },
+      "CashChangerType": {
+        "description": "This is a definition of the CashChanger settings.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the CashChanger."
+          }
+        }
+      },
+      "ScaleType": {
+        "description": "This is a definition of the scale settings.",
+        "type": "object",
+        "required": [
+          "enabled",
+          "logicalName"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the scale"
+          },
+          "autoConnect": {
+            "type": "boolean",
+            "description": "Enables the auto connect."
+          },
+          "logicalName": {
+            "type": "string",
+            "description": "Scale's logical name."
+          }
+        }
+      },
+      "ScannerType": {
+        "description": "This is a definition of the scanner settings.",
+        "type": "object",
+        "required": [
+          "logicalName",
+          "autoConnect"
+        ],
+        "properties": {
+          "autoConnect": {
+            "type": "boolean",
+            "description": "Enables the auto connect."
+          },
+          "logicalName": {
+            "type": "string",
+            "description": "Scanner's logical name."
+          }
+        }
+      },
+      "ScanAlertType": {
+        "description": "Configuration for item scan feedback events.",
+        "type": "object",
+        "properties": {
+          "audio": {
+            "description": "Audio feedback configuration for scan events.",
             "type": "object",
-            "required": [
-              "url",
-              "name"
-            ],
             "properties": {
-              "url": {
-                "description": "External web page urls.",
-                "type": "string"
+              "enabled": {
+                "type": "boolean",
+                "description": "Enables audio alerts for barcode scanning.",
+                "default": false
               },
-              "name": {
-                "description": "Name of the web site to display in the choice list in app.",
-                "type": "string"
+              "success": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Enables audio alert for barcode scan success.",
+                    "default": false
+                  }
+                },
+                "additionalProperties": false
               },
-              "shareAuthorizationToken": {
-                "description": "Set true to share authorization token with this website.",
-                "type": "boolean"
-              },
-              "shareRetailInformation": {
-                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
-                "type": "boolean"
+              "error": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Enable audio alert for barcode scan failure",
+                    "default": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SystemPrinterType": {
+        "description": "This is a definition of the system printer settings.",
+        "type": "object",
+        "required": [
+          "logicalName",
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the device."
+          },
+          "logicalName": {
+            "type": "string",
+            "description": "Printer's device name."
+          },
+          "timeout": {
+            "type": "number",
+            "description": "Printer's timeout in ms for loading operations."
+          }
+        }
+      },
+      "PrinterType": {
+        "description": "This is a definition of the printer settings.",
+        "type": "object",
+        "required": [
+          "logicalName",
+          "enabled",
+          "autoConnect"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the device."
+          },
+          "autoConnect": {
+            "type": "boolean",
+            "description": "Enables the auto connect."
+          },
+          "logicalName": {
+            "type": "string",
+            "description": "Printer's logical name."
+          },
+          "cashdrawerEnabled": {
+            "type": "boolean",
+            "description": "Enables the device."
+          },
+          "cashdrawerLogicalName": {
+            "type": "string",
+            "description": "Cashdrawer's logical name."
+          }
+        }
+      },
+      "MposPrinterType": {
+        "type": "object",
+        "description": "Printer configurations",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the printing."
+          }
+        }
+      },
+      "LockType": {
+        "description": "This is a definition of the lock settings.",
+        "type": "object",
+        "required": [
+          "timeout"
+        ],
+        "properties": {
+          "timeout": {
+            "type": "number",
+            "default": 0,
+            "description": "The number of seconds the register is idle before it is autolocked."
+          }
+        }
+      },
+      "ReceiptType": {
+        "description": "This is a definition of the receipt settings.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "clearTimeout"
+        ],
+        "properties": {
+          "clearTimeout": {
+            "type": "number",
+            "default": 5000,
+            "description": "The duration for which the receipt remains visible after finalization. In milliseconds."
+          },
+          "displayInvalidatedItems": {
+            "type": "boolean",
+            "description": "Defines whether voided items should be rendered on the Active Receipt or not."
+          },
+          "layout": {
+            "$ref": "#/$defs/ReceiptLayoutType"
+          },
+          "linkedPromotionsIndicatorEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enables visual linking of related promotion items with color bars in the active receipt view."
+          },
+          "roundedAmountDue": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, the app displays the rounded amount due (roundedAmountDue)."
+          }
+        }
+      },
+      "ReceiptLayoutType": {
+        "description": "This is a definition of the receipt layout settings.",
+        "type": "object",
+        "required": [],
+        "properties": {
+          "identifierType": {
+            "type": "string",
+            "enum": [
+              "id",
+              "barcode"
+            ],
+            "default": "ID",
+            "description": "The type of the identifier to be displayed in the receipt."
+          },
+          "visibleAttributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "Toggles visibility of the listed item attributes in the receipt."
+          }
+        }
+      },
+      "ExternalLinksType": {
+        "description": "This is a definition of the External Websites settings.",
+        "type": "object",
+        "required": [
+          "enabled",
+          "links"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the external links."
+          },
+          "links": {
+            "description": "External links list.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "url",
+                "name"
+              ],
+              "properties": {
+                "url": {
+                  "description": "External web page urls.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "Name of the web site to display in the choice list in app.",
+                  "type": "string"
+                },
+                "shareAuthorizationToken": {
+                  "description": "Set true to share authorization token with this website.",
+                  "type": "boolean"
+                },
+                "shareRetailInformation": {
+                  "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
+                  "type": "boolean"
+                }
               }
             }
           }
         }
-      }
-    },
-    "FacetSearchParameterType": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the filter for the variant search."
-        },
-        "displayName": {
-          "type": "string",
-          "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name."
-        }
-      }
-    },
-    "FacetSearchAdditionalPropertiesType": {
-      "type": "object",
-      "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
-      "title": "Facet Search Additional properties",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^(?:[a-zA-Z0-9.]+)$": {
-          "oneOf": [
-            {
-              "$ref": "#/$defs/FacetSearchParameterType"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      }
-    },
-    "VariantSearchType": {
-      "description": "This is a definition of the variant search settings.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the variant search."
-        },
-        "inventory": {
-          "description": "Inventory-related settings for variant search.",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/ItemSearchInventoryType"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "facetSearchParameters": {
-          "type": "object",
-          "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
-          "additionalProperties": false,
-          "properties": {
-            "assortmentPolicyType": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "assortmentTags": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "brand": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "businessUnitIds": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "depositAndFeeRuleIds": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "tags": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchParameterType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "additionalItemProperties": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/FacetSearchAdditionalPropertiesType"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          }
-        },
-        "whitelistedFilters": {
-          "deprecated": true,
-          "type": "array",
-          "items": {
-            "type": "string"
+      },
+      "FacetSearchParameterType": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the filter for the variant search."
           },
-          "uniqueItems": true,
-          "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
-          "default": []
+          "displayName": {
+            "type": "string",
+            "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name."
+          }
         }
-      }
-    },
-    "ItemSearchInventoryType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "showIncomingDeliveries": {
-          "type": "boolean",
-          "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
-          "default": true
+      },
+      "FacetSearchAdditionalPropertiesType": {
+        "type": "object",
+        "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
+        "title": "Facet Search Additional properties",
+        "additionalProperties": false,
+        "patternProperties": {
+          "^(?:[a-zA-Z0-9.]+)$": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/FacetSearchParameterType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
         }
-      }
-    },
-    "OSKType": {
-      "description": "This is a definition of the on-screen keyboard settings.",
-      "type": "object",
-      "properties": {
-        "visibility": {
-          "type": "string",
-          "enum": [
-            "auto",
-            "manual"
-          ],
-          "default": "auto",
-          "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
-        },
-        "suggestions": {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "description": "Enables word suggestions on the on-screen keyboard."
-            },
+      },
+      "VariantSearchType": {
+        "description": "This is a definition of the variant search settings.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the variant search."
+          },
+          "inventory": {
+            "description": "Inventory-related settings for variant search.",
+            "oneOf": [
+              {
+                "$ref": "#/$defs/ItemSearchInventoryType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "facetSearchParameters": {
+            "type": "object",
+            "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
+            "additionalProperties": false,
+            "properties": {
+              "assortmentPolicyType": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "assortmentTags": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "brand": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "businessUnitIds": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "depositAndFeeRuleIds": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "tags": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchParameterType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "additionalItemProperties": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/FacetSearchAdditionalPropertiesType"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "whitelistedFilters": {
+            "deprecated": true,
+            "type": "array",
             "items": {
-              "type": "array",
-              "description": "List of suggestions to show on the on-screen keyboard e.g. email domain.",
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "Whitelisted filters for the variant search. Filter name should match ID of the corresponding additional property of the item. By default whitelisted filters are only Size and Color. Deprecated in favor of facetSearchParameters. Use facetSearchParameters to configure the variant search filters.",
+            "default": []
+          }
+        }
+      },
+      "ItemSearchInventoryType": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "showIncomingDeliveries": {
+            "type": "boolean",
+            "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
+            "default": true
+          }
+        }
+      },
+      "OSKType": {
+        "description": "This is a definition of the on-screen keyboard settings.",
+        "type": "object",
+        "properties": {
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "manual"
+            ],
+            "default": "auto",
+            "description": "Whether to show the on-screen keyboard automatically on input focus or manually (on demand)."
+          },
+          "suggestions": {
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "Enables word suggestions on the on-screen keyboard."
+              },
               "items": {
-                "type": "object",
-                "required": [
-                  "id"
-                ],
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "The label value to be shown in the suggestions."
+                "type": "array",
+                "description": "List of suggestions to show on the on-screen keyboard e.g. email domain.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The label value to be shown in the suggestions."
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
-    },
-    "PromptType": {
-      "description": "This is a definition of the prompt settings.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "decimalMonetary": {
-          "type": "boolean",
-          "description": "Enables the decimal monetary input mode, which allows interactive character-by-character editing of monetary values with a fixed decimal point. When true, replaces the scaled-integer transform approach. Defaults to false."
-        },
-        "integerMonetary": {
-          "type": "boolean",
-          "description": "Indicates if the monetary input should accept decimals or not."
-        },
-        "keyboardOverrides": {
-          "$ref": "#/$defs/KeyboardOverridesType"
-        }
-      }
-    },
-    "PluType": {
-      "description": "This is a definition of the PLU settings.",
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables the plu."
-        }
-      }
-    },
-    "B2BCustomerType": {
-      "description": "This is a definition of the B2B customer settings.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the b2b."
-        },
-        "invoiceSettlement": {
-          "description": "Invoice settlement settings in MPOS mode.",
-          "type": "object",
-          "$ref": "#/$defs/InvoiceSettlementType"
-        }
-      }
-    },
-    "InvoiceSettlementType": {
-      "description": "This is a definition of the invoice settlement settings.",
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the invoice settlement."
-        },
-        "itemId": {
-          "type": "string",
-          "description": "The ID of the virtual item to be registered with the invoice."
-        }
-      }
-    },
-    "LogsType": {
-      "description": "This is a definition of the logs settings.",
-      "type": "object",
-      "required": [
-        "uploadEnabled"
-      ],
-      "properties": {
-        "uploadEnabled": {
-          "type": "boolean",
-          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
-        }
-      }
-    },
-    "KeyboardOverridesType": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "enum": [
-          "ALPHA_NUMERIC",
-          "NUMERIC"
-        ],
-        "description": "Specifies the keyboard type override for the corresponding prompt code."
       },
-      "default": {},
-      "description": "Defines specific prompt codes that override the default keyboard type."
-    },
-    "ScoType": {
-      "description": "This is a definition of the SCO settings.",
-      "type": "object",
-      "required": [
-        "enabled",
-        "sessionKeepAliveInterval"
-      ],
-      "if": {
+      "PromptType": {
+        "description": "This is a definition of the prompt settings.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decimalMonetary": {
+            "type": "boolean",
+            "description": "Enables the decimal monetary input mode, which allows interactive character-by-character editing of monetary values with a fixed decimal point. When true, replaces the scaled-integer transform approach. Defaults to false."
+          },
+          "integerMonetary": {
+            "type": "boolean",
+            "description": "Indicates if the monetary input should accept decimals or not."
+          },
+          "keyboardOverrides": {
+            "$ref": "#/$defs/KeyboardOverridesType"
+          }
+        }
+      },
+      "PluType": {
+        "description": "This is a definition of the PLU settings.",
+        "type": "object",
         "properties": {
           "enabled": {
-            "const": false
+            "type": "boolean",
+            "default": true,
+            "description": "Enables the plu."
           }
         }
       },
-      "then": {
-        "properties": {
-          "hybrid": {
-            "const": false
-          }
-        }
-      },
-      "properties": {
-        "schedule": {
-          "description": "This is a definition of the SCO schedule settings.",
-          "type": "object",
-          "$ref": "#/$defs/ScheduleType"
-        },
-        "receipt": {
-          "description": "Receipt settings.",
-          "type": "object",
-          "properties": {
-            "layout": {
-              "$ref": "#/$defs/ReceiptLayoutType"
-            }
-          }
-        },
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the sco mode."
-        },
-        "hybrid": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the hybrid mode."
-        },
-        "logoUri": {
-          "type": "string",
-          "nullable": true,
-          "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
-          "description": "URI for logo in SCO mode."
-        },
-        "bags": {
-          "description": "Bags settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoBagsType"
-        },
-        "language": {
-          "description": "Language settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoLanguageType"
-        },
-        "prompt": {
-          "description": "Prompt settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoPromptType"
-        },
-        "plu": {
-          "description": "Plu settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoPluType"
-        },
-        "loyalty": {
-          "description": "Loyalty settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoLoyaltyType"
-        },
-        "manualSearchEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables manual search (by barcode) shortcut in SCO mode."
-        },
-        "callAssistantEnabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the call assistant button in SCO mode."
-        },
-        "decreaseEnabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Allows for item's quantity decrease in SCO mode."
-        },
-        "sessionKeepAliveInterval": {
-          "type": "number",
-          "default": 600000,
-          "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
-        },
-        "lock": {
-          "description": "Lock settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoLockType"
-        },
-        "sslp": {
-          "description": "SSLP settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoSSLPType"
-        },
-        "attendant": {
-          "description": "Attendant settings in SCO mode.",
-          "type": "object",
-          "$ref": "#/$defs/ScoAttendantType"
-        },
-        "spotCheckEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables the spot check message in SCO welcome screen."
-        },
-        "paymentMenuSettings": {
-          "description": "Payment menu settings in SCO mode.",
-          "oneOf": [
-            {
-              "type": "object",
-              "$ref": "#/$defs/ScoPaymentMenuSettingsType"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      }
-    },
-    "ScoAttendantType": {
-      "description": "This is a definition of the attendant settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the attendant feature in SCO mode."
-        }
-      }
-    },
-    "ScoLanguageType": {
-      "description": "This is a definition language settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "availableLanguages",
-        "defaultLanguage"
-      ],
-      "properties": {
-        "availableLanguages": {
-          "type": "string",
-          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO",
-          "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
-        },
-        "defaultLanguage": {
-          "type": "string",
-          "default": "en-GB",
-          "description": "Defines the default languages in SCO mode."
-        }
-      }
-    },
-    "ScoPromptType": {
-      "description": "This is a definition of the prompt settings in SCO mode.",
-      "type": "object",
-      "properties": {
-        "keyboardOverrides": {
-          "$ref": "#/$defs/KeyboardOverridesType"
-        },
-        "whitelistedPrompts": {
-          "$ref": "#/$defs/SCOWhitelistedPromptsType"
-        }
-      }
-    },
-    "ScoPluType": {
-      "description": "This is a definition of the PLU settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "description": "Enables the plu in SCO mode."
-        },
-        "shortcutsEnabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Allows to set PLU shortcut items in the main view of SCO mode."
-        }
-      }
-    },
-    "ScoSSLPType": {
-      "description": "This is a definition of the SSLP settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the SSLP in SCO mode."
-        },
-        "rescan": {
-          "type": "object",
-          "$ref": "#/$defs/ScoSSLPRescanType",
-          "description": "Settings for the rescan functionality in attendable SCO mode."
-        }
-      }
-    },
-    "ScoSSLPRescanType": {
-      "description": "This is a definition of the rescan settings in SCO mode.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "indicateScanStatus": {
-          "type": "boolean",
-          "default": true,
-          "description": "Toggles the indication of the item scan status. E.g. quantity mismatch, etc."
-        },
-        "clearBasketOnSwitch": {
-          "type": "boolean",
-          "default": false,
-          "description": "Resets scanning basket when partail rescan switches to full rescan mode manually or automatically."
-        }
-      }
-    },
-    "ScoBagsType": {
-      "description": "This is a definition of the bags settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the bags screen in SCO mode."
-        }
-      },
-      "additionalProperties": {
-        "type": "object",
-        "$ref": "#/$defs/ScoBagType",
-        "description": "Defines the bag types available in SCO mode."
-      }
-    },
-    "ScoBagType": {
-      "description": "This is a definition of the bag.",
-      "type": "object",
-      "required": [
-        "ean",
-        "title"
-      ],
-      "properties": {
-        "ean": {
-          "type": "string",
-          "description": "Defines the EAN of the bag."
-        },
-        "title": {
-          "type": "string",
-          "description": "Defines the name of the bag."
-        },
-        "imageUrl": {
-          "type": "string",
-          "description": "Defines the image URL of the bag."
-        }
-      }
-    },
-    "ScoLoyaltyType": {
-      "description": "This is a definition Loyalty settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "countryCodePrefix"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables the loyalty card feature in SCO mode."
-        },
-        "countryCodePrefix": {
-          "type": "string",
-          "description": "Defines the loyalty card prefix in SCO mode."
-        },
-        "cardReminderEnabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the loyalty card reminder dialog in SCO mode."
-        },
-        "cardReminderTriggers": {
-          "type": "object",
-          "properties": {
-            "startTrip": {
-              "type": "boolean",
-              "default": true,
-              "description": "Trigger loyalty card reminder straight after the trip starts in SCO mode."
-            },
-            "startPayment": {
-              "type": "boolean",
-              "default": false,
-              "description": "Trigger loyalty card reminder by clicking the 'Pay' button in SCO mode."
-            }
-          },
-          "default": {
-            "startTrip": true,
-            "startPayment": false
-          },
-          "description": "Defines when to show the loyalty card reminder dialog in SCO mode."
-        },
-        "cardReminderMediaContent": {
-          "description": "Defines the media content of the loyalty card reminder dialog in SCO mode.",
-          "type": "object",
-          "required": [
-            "type",
-            "sourceUrl"
-          ],
-          "properties": {
-            "type": {
-              "type": "string",
-              "enum": [
-                "image",
-                "video"
-              ],
-              "description": "The type of the media content."
-            },
-            "sourceUrl": {
-              "type": "string",
-              "description": "The source URL of the media content. A direct link to the media file should be provided. For example, if the media content is an image, the URL should end with .jpg or .png. If the media content is a video, the URL should end with .mp4."
-            }
-          }
-        },
-        "qrCode": {
-          "description": "QR code settings",
-          "type": "object",
-          "$ref": "#/$defs/ScoLoyaltyQRCodeType"
-        }
-      }
-    },
-    "ScoLoyaltyQRCodeType": {
-      "description": "This is a definition for loyalty QR code settings in SCO mode.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the SCO QR info feature."
-        },
-        "data": {
-          "type": "string",
-          "description": "Loyalty info data(URL) to be encoded in the QR code."
-        }
-      }
-    },
-    "ScoLockType": {
-      "description": "This is a definition of the sco lockscreen settings.",
-      "type": "object",
-      "required": [
-        "enabled"
-      ],
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables the sco lockscreen feature."
-        },
-        "timeout": {
-          "type": "number",
-          "default": 15,
-          "description": "Timeout for the appearance of the sco lockscreen. In seconds."
-        }
-      }
-    },
-    "CfdType": {
-      "description": "This is a definition of the cfd settings.",
-      "type": "object",
-      "required": [
-        "autoStart"
-      ],
-      "properties": {
-        "zoomFactor": {
-          "description": "The zoom factor for the cfd application.",
-          "type": "number",
-          "#ref": "#/$defs/ZoomFactorType"
-        },
-        "autoStart": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enables auto start of customer faced display."
-        },
-        "welcomeMessage": {
-          "type": "string",
-          "description": "Welcome message to display on the customer facing display."
-        },
-        "loyalty": {
-          "description": "Loyalty settings for CFD.",
-          "type": "object",
-          "$ref": "#/$defs/CfdLoyaltyType"
-        }
-      }
-    },
-    "ScheduleType": {
-      "description": "This is a definition of the schedule settings",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "logoutTimeout": {
-          "type": "number",
-          "description": "The number of minutes after which the SCO will lock even if it has an ongoing transaction",
-          "default": 30
-        }
-      },
-      "patternProperties": {
-        "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKDAYS|WEEKEND)$": {
-          "type": "object",
-          "description": "Schedule settings for the corresponding period of week.",
-          "additionalProperties": false,
-          "properties": {
-            "start": {
-              "type": "string",
-              "format": "time",
-              "example": "09:00:00",
-              "description": "Opening time in HH:MM:SS format (24-hour)"
-            },
-            "end": {
-              "type": "string",
-              "format": "time",
-              "example": "17:00:00",
-              "description": "Closing time in HH:MM:SS format (24-hour)"
-            }
-          },
-          "required": [
-            "start",
-            "end"
-          ]
-        }
-      }
-    },
-    "ZoomFactorType": {
-      "type": "number",
-      "enum": [
-        0.6,
-        0.7,
-        0.8,
-        0.9,
-        1,
-        1.1,
-        1.2,
-        1.3,
-        1.4,
-        1.5,
-        1.6,
-        1.7,
-        1.8,
-        1.9,
-        2
-      ],
-      "default": 1,
-      "description": "The zoom factor for the application."
-    },
-    "CfdLoyaltyType": {
-      "description": "This is a definition of the loyalty settings for CFD.",
-      "type": "object",
-      "properties": {
-        "showLoyaltyCard": {
-          "type": "boolean",
-          "description": "Defines whether to show the loyalty card on the CFD."
-        }
-      }
-    },
-    "EvaIntegrationType": {
-      "description": "This is a definition of the EVA integration settings.",
-      "type": "object",
-      "properties": {
-        "ageVerification": {
-          "description": "Settings for age verification feature.",
-          "type": "object",
-          "required": [
-            "enabled"
-          ],
-          "properties": {
-            "enabled": {
-              "description": "Enable or disable the age verification feature.",
-              "type": "boolean"
-            }
-          }
-        }
-      }
-    },
-    "TxActionsType": {
-      "description": "Controls which actions are available on the transaction search details view.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "refundPreviousOrder": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show refund previous order action."
-        },
-        "complaintPreviousOrder": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show complaint previous order action."
-        },
-        "printCopy": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show print receipt copy action."
-        },
-        "printGiftReceipt": {
-          "type": "boolean",
-          "default": true,
-          "description": "Show print gift receipt action."
-        }
-      }
-    },
-    "TxType": {
-      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
-      "type": "object",
-      "properties": {
-        "auth": {
-          "type": "string",
-          "enum": [
-            "iam",
-            "ocms"
-          ],
-          "default": "iam",
-          "description": "The authorization provider used for transaction lookups. Default: `iam`"
-        },
-        "shortcutsEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enables the Transaction search shortcut."
-        },
-        "internal": {
-          "type": "object",
-          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
-          "properties": {
-            "pattern": {
-              "type": "string",
-              "description": "Regular expression for internal transaction numbers.",
-              "minLength": 1,
-              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
-            }
-          },
-          "required": [
-            "pattern"
-          ],
-          "additionalProperties": false
-        },
-        "external": {
-          "type": "object",
-          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
-              "default": false
-            },
-            "pattern": {
-              "type": "string",
-              "description": "Regular expression for external transaction numbers. Write it as a JSON string, backslashes must be escaped (e.g. '\\d{6}''), without leading/trailing slashes (/../).",
-              "minLength": 1
-            }
-          },
-          "required": [
-            "enabled",
-            "pattern"
-          ],
-          "additionalProperties": false
-        },
-        "actions": {
-          "description": "Controls which actions are available on the transaction search details view.",
-          "oneOf": [
-            {
-              "type": "object",
-              "$ref": "#/$defs/TxActionsType"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "additionalProperties": false
-    },
-    "TrainingModeType": {
-      "type": "boolean",
-      "default": true,
-      "description": "Control the availability of training mode"
-    },
-    "SCOWhitelistedPromptsType": {
-      "type": "array",
-      "items": {
+      "B2BCustomerType": {
+        "description": "This is a definition of the B2B customer settings.",
         "type": "object",
         "required": [
-          "id",
-          "whitelisted"
+          "enabled"
         ],
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "The prompt code to whitelist, will act as an identifier."
-          },
-          "whitelisted": {
+          "enabled": {
             "type": "boolean",
-            "description": "Indicates if the prompt is whitelisted or not."
+            "description": "Enables the b2b."
+          },
+          "invoiceSettlement": {
+            "description": "Invoice settlement settings in MPOS mode.",
+            "type": "object",
+            "$ref": "#/$defs/InvoiceSettlementType"
           }
         }
-      }
-    },
-    "ScoPaymentMenuSettingsType": {
-      "additionalProperties": false,
-      "description": "Payment menu settings in SCO mode. Each key references a payment menu command and is used to define the settings for that command.",
-      "type": "object",
-      "patternProperties": {
-        "^(?:[a-zA-Z0-9]+)$": {
-          "oneOf": [
-            {
-              "type": "object",
-              "$ref": "#/$defs/ScoPaymentMenuItemSettingsType"
-            },
-            {
-              "type": "null"
-            }
-          ]
+      },
+      "InvoiceSettlementType": {
+        "description": "This is a definition of the invoice settlement settings.",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the invoice settlement."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "The ID of the virtual item to be registered with the invoice."
+          }
         }
-      }
-    },
-    "ScoPaymentMenuItemSettingsType": {
-      "description": "Settings for a payment menu command in SCO mode.",
-      "type": "object",
-      "properties": {
-        "imageUrl": {
+      },
+      "LogsType": {
+        "description": "This is a definition of the logs settings.",
+        "type": "object",
+        "required": [
+          "uploadEnabled"
+        ],
+        "properties": {
+          "uploadEnabled": {
+            "type": "boolean",
+            "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer."
+          }
+        }
+      },
+      "KeyboardOverridesType": {
+        "type": "object",
+        "additionalProperties": {
           "type": "string",
-          "format": "uri",
-          "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
-          "description": "URL of the image to be displayed in the payment menu."
-        }
-      }
-    },
-    "QuickSearchType": {
-      "type": "object",
-      "description": "Quick search settings.",
-      "properties": {
-        "showItemIdentifier": {
-          "description": "Controls whether and how an item identifier is shown in quick search results.",
-          "oneOf": [
-            {
-              "type": "null",
-              "description": "Do not show an item identifier in quick search results."
-            },
-            {
-              "type": "boolean",
-              "default": false,
-              "description": "When true, show the standard item identifier. The app uses the primary identifier (isPrimary), falling back to any other active identifier if no active primary identifier is set."
-            },
-            {
-              "type": "string",
-              "description": "Show a custom item identifier using the value of the additional item property with this ID. Overrides the standard identifier. If the property is not found on an item, no identifier is shown and the app does not fall back to the standard identifier."
+          "enum": [
+            "ALPHA_NUMERIC",
+            "NUMERIC"
+          ],
+          "description": "Specifies the keyboard type override for the corresponding prompt code."
+        },
+        "default": {},
+        "description": "Defines specific prompt codes that override the default keyboard type."
+      },
+      "ScoType": {
+        "description": "This is a definition of the SCO settings.",
+        "type": "object",
+        "required": [
+          "enabled",
+          "sessionKeepAliveInterval"
+        ],
+        "if": {
+          "properties": {
+            "enabled": {
+              "const": false
             }
-          ]
+          }
+        },
+        "then": {
+          "properties": {
+            "hybrid": {
+              "const": false
+            }
+          }
+        },
+        "properties": {
+          "schedule": {
+            "description": "This is a definition of the SCO schedule settings.",
+            "type": "object",
+            "$ref": "#/$defs/ScheduleType"
+          },
+          "receipt": {
+            "description": "Receipt settings.",
+            "type": "object",
+            "properties": {
+              "layout": {
+                "$ref": "#/$defs/ReceiptLayoutType"
+              }
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the sco mode."
+          },
+          "hybrid": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the hybrid mode."
+          },
+          "logoUri": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
+            "description": "URI for logo in SCO mode."
+          },
+          "bags": {
+            "description": "Bags settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoBagsType"
+          },
+          "language": {
+            "description": "Language settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoLanguageType"
+          },
+          "prompt": {
+            "description": "Prompt settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoPromptType"
+          },
+          "plu": {
+            "description": "Plu settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoPluType"
+          },
+          "loyalty": {
+            "description": "Loyalty settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoLoyaltyType"
+          },
+          "manualSearchEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enables manual search (by barcode) shortcut in SCO mode."
+          },
+          "callAssistantEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the call assistant button in SCO mode."
+          },
+          "decreaseEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allows for item's quantity decrease in SCO mode."
+          },
+          "sessionKeepAliveInterval": {
+            "type": "number",
+            "default": 600000,
+            "description": "Defines the session keep alive interval in SCO mode. To be set in milliseconds."
+          },
+          "lock": {
+            "description": "Lock settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoLockType"
+          },
+          "sslp": {
+            "description": "SSLP settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoSSLPType"
+          },
+          "attendant": {
+            "description": "Attendant settings in SCO mode.",
+            "type": "object",
+            "$ref": "#/$defs/ScoAttendantType"
+          },
+          "spotCheckEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enables the spot check message in SCO welcome screen."
+          },
+          "paymentMenuSettings": {
+            "description": "Payment menu settings in SCO mode.",
+            "oneOf": [
+              {
+                "type": "object",
+                "$ref": "#/$defs/ScoPaymentMenuSettingsType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ScoAttendantType": {
+        "description": "This is a definition of the attendant settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the attendant feature in SCO mode."
+          }
+        }
+      },
+      "ScoLanguageType": {
+        "description": "This is a definition language settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "availableLanguages",
+          "defaultLanguage"
+        ],
+        "properties": {
+          "availableLanguages": {
+            "type": "string",
+            "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO",
+            "description": "Defines the available languages in SCO mode. Comma separated i.e en-GB,sv-SE."
+          },
+          "defaultLanguage": {
+            "type": "string",
+            "default": "en-GB",
+            "description": "Defines the default languages in SCO mode."
+          }
+        }
+      },
+      "ScoPromptType": {
+        "description": "This is a definition of the prompt settings in SCO mode.",
+        "type": "object",
+        "properties": {
+          "keyboardOverrides": {
+            "$ref": "#/$defs/KeyboardOverridesType"
+          },
+          "whitelistedPrompts": {
+            "$ref": "#/$defs/SCOWhitelistedPromptsType"
+          }
+        }
+      },
+      "ScoPluType": {
+        "description": "This is a definition of the PLU settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enables the plu in SCO mode."
+          },
+          "shortcutsEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allows to set PLU shortcut items in the main view of SCO mode."
+          }
+        }
+      },
+      "ScoSSLPType": {
+        "description": "This is a definition of the SSLP settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the SSLP in SCO mode."
+          },
+          "rescan": {
+            "type": "object",
+            "$ref": "#/$defs/ScoSSLPRescanType",
+            "description": "Settings for the rescan functionality in attendable SCO mode."
+          }
+        }
+      },
+      "ScoSSLPRescanType": {
+        "description": "This is a definition of the rescan settings in SCO mode.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "indicateScanStatus": {
+            "type": "boolean",
+            "default": true,
+            "description": "Toggles the indication of the item scan status. E.g. quantity mismatch, etc."
+          },
+          "clearBasketOnSwitch": {
+            "type": "boolean",
+            "default": false,
+            "description": "Resets scanning basket when partail rescan switches to full rescan mode manually or automatically."
+          }
+        }
+      },
+      "ScoBagsType": {
+        "description": "This is a definition of the bags settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the bags screen in SCO mode."
+          }
+        },
+        "additionalProperties": {
+          "type": "object",
+          "$ref": "#/$defs/ScoBagType",
+          "description": "Defines the bag types available in SCO mode."
+        }
+      },
+      "ScoBagType": {
+        "description": "This is a definition of the bag.",
+        "type": "object",
+        "required": [
+          "ean",
+          "title"
+        ],
+        "properties": {
+          "ean": {
+            "type": "string",
+            "description": "Defines the EAN of the bag."
+          },
+          "title": {
+            "type": "string",
+            "description": "Defines the name of the bag."
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "Defines the image URL of the bag."
+          }
+        }
+      },
+      "ScoLoyaltyType": {
+        "description": "This is a definition Loyalty settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "countryCodePrefix"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enables the loyalty card feature in SCO mode."
+          },
+          "countryCodePrefix": {
+            "type": "string",
+            "description": "Defines the loyalty card prefix in SCO mode."
+          },
+          "cardReminderEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the loyalty card reminder dialog in SCO mode."
+          },
+          "cardReminderTriggers": {
+            "type": "object",
+            "properties": {
+              "startTrip": {
+                "type": "boolean",
+                "default": true,
+                "description": "Trigger loyalty card reminder straight after the trip starts in SCO mode."
+              },
+              "startPayment": {
+                "type": "boolean",
+                "default": false,
+                "description": "Trigger loyalty card reminder by clicking the 'Pay' button in SCO mode."
+              }
+            },
+            "default": {
+              "startTrip": true,
+              "startPayment": false
+            },
+            "description": "Defines when to show the loyalty card reminder dialog in SCO mode."
+          },
+          "cardReminderMediaContent": {
+            "description": "Defines the media content of the loyalty card reminder dialog in SCO mode.",
+            "type": "object",
+            "required": [
+              "type",
+              "sourceUrl"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ],
+                "description": "The type of the media content."
+              },
+              "sourceUrl": {
+                "type": "string",
+                "description": "The source URL of the media content. A direct link to the media file should be provided. For example, if the media content is an image, the URL should end with .jpg or .png. If the media content is a video, the URL should end with .mp4."
+              }
+            }
+          },
+          "qrCode": {
+            "description": "QR code settings",
+            "type": "object",
+            "$ref": "#/$defs/ScoLoyaltyQRCodeType"
+          }
+        }
+      },
+      "ScoLoyaltyQRCodeType": {
+        "description": "This is a definition for loyalty QR code settings in SCO mode.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the SCO QR info feature."
+          },
+          "data": {
+            "type": "string",
+            "description": "Loyalty info data(URL) to be encoded in the QR code."
+          }
+        }
+      },
+      "ScoLockType": {
+        "description": "This is a definition of the sco lockscreen settings.",
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables the sco lockscreen feature."
+          },
+          "timeout": {
+            "type": "number",
+            "default": 15,
+            "description": "Timeout for the appearance of the sco lockscreen. In seconds."
+          }
+        }
+      },
+      "CfdType": {
+        "description": "This is a definition of the cfd settings.",
+        "type": "object",
+        "required": [
+          "autoStart"
+        ],
+        "properties": {
+          "zoomFactor": {
+            "description": "The zoom factor for the cfd application.",
+            "type": "number",
+            "#ref": "#/$defs/ZoomFactorType"
+          },
+          "autoStart": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enables auto start of customer faced display."
+          },
+          "welcomeMessage": {
+            "type": "string",
+            "description": "Welcome message to display on the customer facing display."
+          },
+          "loyalty": {
+            "description": "Loyalty settings for CFD.",
+            "type": "object",
+            "$ref": "#/$defs/CfdLoyaltyType"
+          }
+        }
+      },
+      "ScheduleType": {
+        "description": "This is a definition of the schedule settings",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "logoutTimeout": {
+            "type": "number",
+            "description": "The number of minutes after which the SCO will lock even if it has an ongoing transaction",
+            "default": 30
+          }
+        },
+        "patternProperties": {
+          "^(MO|TU|WE|TH|FR|SA|SU|ALL|WORKDAYS|WEEKEND)$": {
+            "type": "object",
+            "description": "Schedule settings for the corresponding period of week.",
+            "additionalProperties": false,
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "time",
+                "example": "09:00:00",
+                "description": "Opening time in HH:MM:SS format (24-hour)"
+              },
+              "end": {
+                "type": "string",
+                "format": "time",
+                "example": "17:00:00",
+                "description": "Closing time in HH:MM:SS format (24-hour)"
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ]
+          }
+        }
+      },
+      "ZoomFactorType": {
+        "type": "number",
+        "enum": [
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1,
+          1.1,
+          1.2,
+          1.3,
+          1.4,
+          1.5,
+          1.6,
+          1.7,
+          1.8,
+          1.9,
+          2
+        ],
+        "default": 1,
+        "description": "The zoom factor for the application."
+      },
+      "CfdLoyaltyType": {
+        "description": "This is a definition of the loyalty settings for CFD.",
+        "type": "object",
+        "properties": {
+          "showLoyaltyCard": {
+            "type": "boolean",
+            "description": "Defines whether to show the loyalty card on the CFD."
+          }
+        }
+      },
+      "EvaIntegrationType": {
+        "description": "This is a definition of the EVA integration settings.",
+        "type": "object",
+        "properties": {
+          "ageVerification": {
+            "description": "Settings for age verification feature.",
+            "type": "object",
+            "required": [
+              "enabled"
+            ],
+            "properties": {
+              "enabled": {
+                "description": "Enable or disable the age verification feature.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "TxActionsType": {
+        "description": "Controls which actions are available on the transaction search details view.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refundPreviousOrder": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show refund previous order action."
+          },
+          "complaintPreviousOrder": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show complaint previous order action."
+          },
+          "printCopy": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show print receipt copy action."
+          },
+          "printGiftReceipt": {
+            "type": "boolean",
+            "default": true,
+            "description": "Show print gift receipt action."
+          }
+        }
+      },
+      "TxType": {
+        "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "string",
+            "enum": [
+              "iam",
+              "ocms"
+            ],
+            "default": "iam",
+            "description": "The authorization provider used for transaction lookups. Default: `iam`"
+          },
+          "shortcutsEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enables the Transaction search shortcut."
+          },
+          "internal": {
+            "type": "object",
+            "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "description": "Regular expression for internal transaction numbers.",
+                "minLength": 1,
+                "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+              }
+            },
+            "required": [
+              "pattern"
+            ],
+            "additionalProperties": false
+          },
+          "external": {
+            "type": "object",
+            "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+                "default": false
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Regular expression for external transaction numbers. Write it as a JSON string, backslashes must be escaped (e.g. '\\d{6}''), without leading/trailing slashes (/../).",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "enabled",
+              "pattern"
+            ],
+            "additionalProperties": false
+          },
+          "actions": {
+            "description": "Controls which actions are available on the transaction search details view.",
+            "oneOf": [
+              {
+                "type": "object",
+                "$ref": "#/$defs/TxActionsType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrainingModeType": {
+        "type": "boolean",
+        "default": true,
+        "description": "Control the availability of training mode"
+      },
+      "SCOWhitelistedPromptsType": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "whitelisted"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The prompt code to whitelist, will act as an identifier."
+            },
+            "whitelisted": {
+              "type": "boolean",
+              "description": "Indicates if the prompt is whitelisted or not."
+            }
+          }
+        }
+      },
+      "ScoPaymentMenuSettingsType": {
+        "additionalProperties": false,
+        "description": "Payment menu settings in SCO mode. Each key references a payment menu command and is used to define the settings for that command.",
+        "type": "object",
+        "patternProperties": {
+          "^(?:[a-zA-Z0-9]+)$": {
+            "oneOf": [
+              {
+                "type": "object",
+                "$ref": "#/$defs/ScoPaymentMenuItemSettingsType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ScoPaymentMenuItemSettingsType": {
+        "description": "Settings for a payment menu command in SCO mode.",
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$",
+            "description": "URL of the image to be displayed in the payment menu."
+          }
+        }
+      },
+      "QuickSearchType": {
+        "type": "object",
+        "description": "Quick search settings.",
+        "properties": {
+          "showItemIdentifier": {
+            "description": "Controls whether and how an item identifier is shown in quick search results.",
+            "oneOf": [
+              {
+                "type": "null",
+                "description": "Do not show an item identifier in quick search results."
+              },
+              {
+                "type": "boolean",
+                "default": false,
+                "description": "When true, show the standard item identifier. The app uses the primary identifier (isPrimary), falling back to any other active identifier if no active primary identifier is set."
+              },
+              {
+                "type": "string",
+                "description": "Show a custom item identifier using the value of the additional item property with this ID. Overrides the standard identifier. If the property is not found on an item, no identifier is shown and the app does not fall back to the standard identifier."
+              }
+            ]
+          }
         }
       }
     }
   }
-}

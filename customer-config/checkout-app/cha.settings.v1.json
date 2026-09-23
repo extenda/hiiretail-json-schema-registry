@@ -930,58 +930,58 @@
         "enabled",
         "columns",
         "rows"
-      ]
-    },
-    "properties": {
-      "enabled": {
-        "type": "boolean",
-        "description": "Enables the line display."
-      },
-      "columns": {
-        "type": "integer",
-        "description": "Number of chars fitting on the line."
-      },
-      "rows": {
-        "type": "integer",
-        "description": "Number of lines available."
-      },
-      "thankYou": {
-        "description": "Override thank you message to show after finalization.",
-        "oneOf": [
-          {
-            "type": "null"
-          },
-          {
-            "type": "string"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "welcome": {
-        "type": "array",
-        "items": {
-          "type": "string"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enables the line display."
         },
-        "description": "Override welcome message to show when idle or after thank you.",
-        "oneOf": [
-          {
-            "type": "null"
-          },
-          {
+        "columns": {
+          "type": "integer",
+          "description": "Number of chars fitting on the line."
+        },
+        "rows": {
+          "type": "integer",
+          "description": "Number of lines available."
+        },
+        "thankYou": {
+          "description": "Override thank you message to show after finalization.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "welcome": {
+          "type": "array",
+          "items": {
             "type": "string"
           },
-          {
-            "type": "array",
-            "items": {
+          "description": "Override welcome message to show when idle or after thank you.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
               "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     "CashChangerType": {
