@@ -5,32 +5,37 @@
   "description": "Giftcard SPI configuration.",
   "type": "array",
   "$defs": {
-    "oauth2AuthenticationDetails": {
+    "OAuthClientCredentialConfig": {
+      "title": "OAuthClientCredentialConfig",
       "type": "object",
-      "required": [
-        "clientId",
-        "clientSecret",
-        "tokenUrl"
-      ],
       "properties": {
+        "tokenUrl": {
+          "type": "string",
+          "format": "uri"
+        },
         "clientId": {
           "type": "string"
         },
         "clientSecret": {
           "type": "string"
         },
-        "tokenUrl": {
-          "type": "string",
-          "format": "uri"
-        },
         "grantType": {
-          "type": "string",
-          "default": "client_credentials"
+          "const": "client_credentials"
         },
         "scope": {
           "type": "string"
+        },
+        "authTimeout": {
+          "type": "number",
+          "minimum": 0
         }
       },
+      "required": [
+        "tokenUrl",
+        "clientId",
+        "clientSecret",
+        "grantType"
+      ],
       "additionalProperties": false
     }
   },
@@ -38,7 +43,7 @@
     "type": "object",
     "required": [
       "authenticationType",
-      "authenticationDetails",
+      "authenticationConfig",
       "baseUrl",
       "ranges",
       "name"
@@ -50,10 +55,10 @@
       "authenticationType": {
         "type": "string",
         "enum": [
-          "OAUTH2"
+          "oauth2"
         ]
       },
-      "authenticationDetails": {
+      "authenticationConfig": {
         "type": "object"
       },
       "baseUrl": {
@@ -100,7 +105,7 @@
         "if": {
           "properties": {
             "authenticationType": {
-              "const": "OAUTH2"
+              "const": "oauth2"
             }
           },
           "required": [
@@ -109,8 +114,8 @@
         },
         "then": {
           "properties": {
-            "authenticationDetails": {
-              "$ref": "#/$defs/oauth2AuthenticationDetails"
+            "authenticationConfig": {
+              "$ref": "#/$defs/OAuthClientCredentialConfig"
             }
           }
         }
