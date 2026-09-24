@@ -1009,10 +1009,6 @@
     "SystemPrinterType": {
       "description": "This is a definition of the system printer settings.",
       "type": "object",
-      "required": [
-        "logicalName",
-        "enabled"
-      ],
       "properties": {
         "enabled": {
           "type": "boolean",
