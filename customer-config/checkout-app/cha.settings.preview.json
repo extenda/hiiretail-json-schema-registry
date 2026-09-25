@@ -964,10 +964,6 @@
           ]
         },
         "welcome": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
           "description": "Override welcome message to show when idle or after thank you.",
           "oneOf": [
             {
