@@ -25,6 +25,11 @@
       "$id": "scr.public.event.stock-corrections.v1"
     },
     {
+      "source": "stp/stp.public.event.expiring-item-quantity.v2.schema.json",
+      "output": "external-events/stp/stp.public.event.expiring-item-quantity.v2.json",
+      "$id": "stp.public.event.expiring-item-quantity.v2"
+    },
+    {
       "source": "stc/stc.public.event.stock-count-completed.v1.schema.json",
       "output": "external-events/stc/stc.public.event.stock-count-completed.v1.json",
       "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1"
