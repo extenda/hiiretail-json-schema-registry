@@ -1,0 +1,75 @@
+{
+  "$id": "stp.public.event.expiring-item-quantity.v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExpiringItemQuantitySnapshot",
+  "description": "The complete dated batch state of one item in one business unit. Each message replaces the previous one for the same tenant, business unit and item; a batch absent from the array holds no stock.",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "itemId",
+    "stateAsOf",
+    "batches"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of the tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "The id of the business unit (store) the item's stock is held in"
+    },
+    "itemId": {
+      "type": "string",
+      "description": "The id of the item"
+    },
+    "stateAsOf": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Commit timestamp of the stock transaction that produced this state, ISO-8601 in UTC. Strictly increasing per tenant, business unit and item; a consumer keeps the snapshot with the latest value."
+    },
+    "batches": {
+      "type": "array",
+      "description": "One entry per distinct batch identity (batchNumber, businessPartnerId, bestBeforeDate, expirationDate) holding stock. A batch emptied by this transaction appears once with remainingQuantity 0 and is absent from later snapshots.",
+      "items": {
+        "title": "ExpiringItemBatch",
+        "type": "object",
+        "required": [
+          "batchNumber",
+          "businessPartnerId",
+          "bestBeforeDate",
+          "expirationDate",
+          "remainingQuantity"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "batchNumber": {
+            "type": ["null", "string"],
+            "description": "The lot number of the batch"
+          },
+          "businessPartnerId": {
+            "type": ["null", "string"],
+            "description": "Identifier of the business partner the batch was received from"
+          },
+          "bestBeforeDate": {
+            "type": ["null", "string"],
+            "format": "date",
+            "description": "Best before date as a calendar date (YYYY-MM-DD). At least one of bestBeforeDate and expirationDate is set."
+          },
+          "expirationDate": {
+            "type": ["null", "string"],
+            "format": "date",
+            "description": "Expiration date as a calendar date (YYYY-MM-DD). At least one of bestBeforeDate and expirationDate is set."
+          },
+          "remainingQuantity": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Quantity of the batch remaining in stock, summed over every stock item sharing this batch identity"
+          }
+        }
+      }
+    }
+  }
+}
