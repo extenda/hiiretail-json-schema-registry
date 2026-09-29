@@ -43,7 +43,11 @@
         "RefundRule",
         "Permission",
         "Role",
-        "IamGroup"
+        "IamGroup",
+        "TaxGroup",
+        "TaxRule",
+        "BusinessUnit",
+        "ItemCategory"
       ]
     }
   },
