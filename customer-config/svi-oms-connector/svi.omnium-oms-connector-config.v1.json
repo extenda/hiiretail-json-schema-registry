@@ -462,15 +462,17 @@
       "items": {
         "type": "string",
         "title": "HiiRetail tender ID",
-        "description": "Type it exactly as it is set up.",
+        "description": "Type it exactly as it is set up, with no spaces at the start or end.",
         "minLength": 1,
         "maxLength": 100,
+        "pattern": "^\\S(.*\\S)?$",
         "examples": [
           "CA"
         ],
         "errorMessage": {
           "minLength": "This value is required.",
-          "maxLength": "Keep it to 100 characters or fewer."
+          "maxLength": "Keep it to 100 characters or fewer.",
+          "pattern": "Remove the space at the start or end."
         }
       },
       "examples": [
