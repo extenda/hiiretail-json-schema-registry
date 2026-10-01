@@ -122,6 +122,10 @@
         "itemName": { "type": "string" },
         "quantity": { "$ref": "#/$defs/Quantity" },
         "unitPrice": { "type": "number" },
+        "extendedAmount": {
+          "type": ["number", "null"],
+          "description": "Authoritative line total after line discounts, tax-inclusive, currency-rounded. Null for orders created before HII-13986."
+        },
         "taxableGroupId": { "type": "string" },
         "depositAndFeeRuleIds": {
           "type": "array",
