@@ -3,14 +3,20 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Payment Router giftcard configuration",
   "description": "Payment Router giftcard configuration.",
+  "x-primary-key": "id",
   "type": "array",
   "items": {
     "type": "object",
     "required": [
+      "id",
       "connector",
       "ranges"
     ],
     "properties": {
+      "id": {
+        "type": "string",
+        "example": "payment-router-giftcard-id"
+      },
       "connector": {
         "type": "string",
         "enum": [
@@ -25,17 +31,19 @@
       },
       "ranges": {
         "type": "array",
+        "x-primary-key": "id",
         "items": {
           "type": "object",
           "required": [
+            "id",
             "prefixLow",
             "prefixHigh",
             "panLength"
           ],
           "properties": {
-            "name": {
+            "id": {
               "type": "string",
-              "example": "Range name"
+              "example": "Range ID"
             },
             "prefixLow": {
               "type": "string",
