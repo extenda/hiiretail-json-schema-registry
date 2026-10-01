@@ -3,6 +3,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Giftcard SPI configuration",
   "description": "Giftcard SPI configuration.",
+  "x-primary-key": "id",
   "type": "array",
   "$defs": {
     "OAuthClientCredentialConfig": {
@@ -46,11 +47,12 @@
       "authenticationConfig",
       "baseUrl",
       "ranges",
-      "name"
+      "id"
     ],
     "properties": {
-      "name": {
-        "type": "string"
+      "id": {
+        "type": "string",
+        "example": "giftcard-connector-id"
       },
       "authenticationType": {
         "type": "string",
@@ -70,18 +72,20 @@
       "ranges": {
         "type": "array",
         "title": "Giftcard prefix ranges",
+        "x-primary-key": "id",
         "minItems": 1,
         "items": {
           "type": "object",
           "required": [
+            "id",
             "prefixLow",
             "prefixHigh",
             "panLength"
           ],
           "properties": {
-            "name": {
+            "id": {
               "type": "string",
-              "example": "Range name"
+              "example": "Range ID"
             },
             "prefixLow": {
               "type": "string",
