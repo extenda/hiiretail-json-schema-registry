@@ -692,6 +692,7 @@
           "enum": [
             "viva",
             "softpay",
+            "generic",
             null
           ],
           "default": null,
