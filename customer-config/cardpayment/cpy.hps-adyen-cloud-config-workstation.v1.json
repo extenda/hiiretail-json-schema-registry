@@ -1,5 +1,5 @@
 {
-  "$id": "cpy.hiiconnect-adyen-cloud-config-workstation.v1.json",
+  "$id": "cpy.hps-adyen-cloud-config-workstation.v1.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Adyen TAPI cloud card payment configuration for workstation",
   "description": "Adyen TAPI cloud card payment configuration for workstation.",
