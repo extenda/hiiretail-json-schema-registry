@@ -23,7 +23,8 @@
               "description": "The unique identifier of the promotion.",
               "type": "string",
               "minLength": 1,
-              "maxLength": 250
+              "maxLength": 250,
+              "pattern": "^(?!.*\\s)[a-zA-Z0-9]+(?:[_.-][a-zA-Z0-9]+)*$"
             },
             "revision": {
               "description": "The revision of the entity. Must be updated when there is a change to the entity. The\nnew revision must have a larger numeric value than the previous revision of the entity.\nIf the revision number is smaller than the previous one, then the input will be\nconsidered as outdated and will be ignored since there is already a newer version of it\nin our system.\n\nThe revision property is used to validate the version of an entity. In Hii Retail we\nwill automatically use an EPOCH timestamp with millisecond precision if not provided.\nWe also strongly recommend external systems to provide the revision as an EPOCH numeric\nvalue with millisecond precision. This approach ensures precise versioning and\nsimplifies comparison, validation and sorting of entity versions.\n",
@@ -432,6 +433,12 @@
                         "minLength": 1,
                         "maxLength": 250
                       },
+                      "receiptText": {
+                        "description": "Receipt text for this offer.\nIf not set, the promotion's receiptText is used.\n",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250
+                      },
                       "conditions": {
                         "description": "Conditions required to qualify for this offer.",
                         "type": "array",
@@ -472,7 +479,7 @@
                                   "maxLength": 250
                                 },
                                 "filters": {
-                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n",
+                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n\nEvery filter property set on one filter must match (logical AND). A filter with\n`itemCategories: [\"chairs\"]` and `brands: [\"Vitra\"]` matches only items that have\ncategory `chairs` and brand `Vitra`. Values within one property are alternatives\n(logical OR): `brands: [\"Vitra\", \"Hay\"]` matches either brand.\n\nAn item must also pass every filter in the array (logical AND). Conditions within an\noffer combine with AND as well, so to match items of category `chairs` or of brand\n`Vitra`, use separate offers.\n",
                                   "type": "array",
                                   "maxItems": 100,
                                   "items": {
@@ -512,7 +519,7 @@
                                     "additionalProperties": false,
                                     "properties": {
                                       "filterMode": {
-                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
+                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example. An EXCLUDE filter with several properties removes only items\nthat match all of them. To remove items that match any one property, use one EXCLUDE filter per\nproperty.\n",
                                         "type": "string",
                                         "default": "INCLUDE",
                                         "enum": [
@@ -575,7 +582,7 @@
                                         "maxItems": 100
                                       },
                                       "additionalProperties": {
-                                        "description": "Additional properties (for example Pos.extra.MyProperty).",
+                                        "description": "Additional properties, matched by exact id and value. Use the ids the Item API\nuses on the item: `Color`, `Size` and `Season` for those item attributes, and\n`Pos.extra.<name>` for item extra attributes (for example `Pos.extra.MyProperty`).\n",
                                         "type": "array",
                                         "items": {
                                           "type": "object",
@@ -655,6 +662,11 @@
                       },
                       "reward": {
                         "type": "object",
+                        "not": {
+                          "required": [
+                            "quantityLimit"
+                          ]
+                        },
                         "description": "Reward granted when this offer's conditions are met.\n",
                         "properties": {
                           "maxRepeat": {
@@ -732,6 +744,7 @@
                                 "properties": {
                                   "packagePrice": {
                                     "type": "object",
+                                    "additionalProperties": false,
                                     "required": [
                                       "amount",
                                       "targetItemSets"
@@ -941,6 +954,11 @@
                                 "type": "array",
                                 "items": {
                                   "type": "object",
+                                  "not": {
+                                    "required": [
+                                      "quantityLimit"
+                                    ]
+                                  },
                                   "description": "Represents a single level within a tiered reward structure.\nEach tier combines a mandatory qualification threshold — either a minimum item quantity (thresholdQuantity)\nor a monetary spend (thresholdAmount) — with a specific resulting reward.\n\nIf the reward (TotalReward or UnitReward) contains a quantityLimit, it should only be (optionally)\nset on the last tier to provide a total cap on the tiers.\n\nTiered Total Offers:\nFor total-based rewards, the threshold is typically based on total spend (thresholdAmount)\nto trigger a total discount.\nExample: Buy for 100€ and get 10€ total discount.\n\nTiered Item Offers:\nFor item-based rewards, the tier must be associated with an item set (via targetItemSets in the reward).\nThe threshold can be either quantity-based (thresholdQuantity) or amount-based (thresholdAmount).\nExample: Buy more than 5 from itemSet X and get 10% discount.\n\nRecursive declarations of tiered rewards are not allowed.\n",
                                   "allOf": [
                                     {
@@ -1081,6 +1099,7 @@
                                               "properties": {
                                                 "packagePrice": {
                                                   "type": "object",
+                                                  "additionalProperties": false,
                                                   "required": [
                                                     "amount",
                                                     "targetItemSets"
@@ -1302,6 +1321,11 @@
                                 "type": "array",
                                 "items": {
                                   "type": "object",
+                                  "not": {
+                                    "required": [
+                                      "quantityLimit"
+                                    ]
+                                  },
                                   "description": "Represents a single level within a tiered reward structure.\nEach tier combines a mandatory qualification threshold — either a minimum item quantity (thresholdQuantity)\nor a monetary spend (thresholdAmount) — with a specific resulting reward.\n\nIf the reward (TotalReward or UnitReward) contains a quantityLimit, it should only be (optionally)\nset on the last tier to provide a total cap on the tiers.\n\nTiered Total Offers:\nFor total-based rewards, the threshold is typically based on total spend (thresholdAmount)\nto trigger a total discount.\nExample: Buy for 100€ and get 10€ total discount.\n\nTiered Item Offers:\nFor item-based rewards, the tier must be associated with an item set (via targetItemSets in the reward).\nThe threshold can be either quantity-based (thresholdQuantity) or amount-based (thresholdAmount).\nExample: Buy more than 5 from itemSet X and get 10% discount.\n\nRecursive declarations of tiered rewards are not allowed.\n",
                                   "allOf": [
                                     {
@@ -1442,6 +1466,7 @@
                                               "properties": {
                                                 "packagePrice": {
                                                   "type": "object",
+                                                  "additionalProperties": false,
                                                   "required": [
                                                     "amount",
                                                     "targetItemSets"
@@ -1673,6 +1698,12 @@
                         "minLength": 1,
                         "maxLength": 250
                       },
+                      "receiptText": {
+                        "description": "Receipt text for this offer.\nIf not set, the promotion's receiptText is used.\n",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250
+                      },
                       "conditions": {
                         "description": "Conditions required to qualify for this offer.",
                         "type": "array",
@@ -1713,7 +1744,7 @@
                                   "maxLength": 250
                                 },
                                 "filters": {
-                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n",
+                                  "description": "Include or exclude items based on item properties. At least one filter property\nmust be provided.\n\nEvery filter property set on one filter must match (logical AND). A filter with\n`itemCategories: [\"chairs\"]` and `brands: [\"Vitra\"]` matches only items that have\ncategory `chairs` and brand `Vitra`. Values within one property are alternatives\n(logical OR): `brands: [\"Vitra\", \"Hay\"]` matches either brand.\n\nAn item must also pass every filter in the array (logical AND). Conditions within an\noffer combine with AND as well, so to match items of category `chairs` or of brand\n`Vitra`, use separate offers.\n",
                                   "type": "array",
                                   "maxItems": 100,
                                   "items": {
@@ -1753,7 +1784,7 @@
                                     "additionalProperties": false,
                                     "properties": {
                                       "filterMode": {
-                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example.\n",
+                                        "description": "Whether to include or exclude items matching the filters. This allows you to INCLUDE itemCategory 'shoes'\nand EXCLUDE brand 'Adidas' as an example. An EXCLUDE filter with several properties removes only items\nthat match all of them. To remove items that match any one property, use one EXCLUDE filter per\nproperty.\n",
                                         "type": "string",
                                         "default": "INCLUDE",
                                         "enum": [
@@ -1816,7 +1847,7 @@
                                         "maxItems": 100
                                       },
                                       "additionalProperties": {
-                                        "description": "Additional properties (for example Pos.extra.MyProperty).",
+                                        "description": "Additional properties, matched by exact id and value. Use the ids the Item API\nuses on the item: `Color`, `Size` and `Season` for those item attributes, and\n`Pos.extra.<name>` for item extra attributes (for example `Pos.extra.MyProperty`).\n",
                                         "type": "array",
                                         "items": {
                                           "type": "object",
@@ -1896,6 +1927,11 @@
                       },
                       "reward": {
                         "type": "object",
+                        "not": {
+                          "required": [
+                            "quantityLimit"
+                          ]
+                        },
                         "description": "Reward granted when this offer's conditions are met.\n",
                         "properties": {
                           "maxRepeat": {
@@ -2014,9 +2050,10 @@
             "3.4",
             "3.5",
             "3.6",
-            "3.7"
+            "3.7",
+            "3.8"
           ],
-          "default": "3.7"
+          "default": "3.8"
         }
       }
     }
