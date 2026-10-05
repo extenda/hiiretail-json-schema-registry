@@ -56,8 +56,9 @@
         "username": {
           "description": "The username required for webhook Basic Authentication.",
           "type": "string",
-          "minLength": 8,
-          "maxLength": 256,
+          "format": "uuid",
+          "minLength": 1,
+          "maxLength": 36,
           "examples": [
             "key-identifier"
           ]
@@ -65,9 +66,10 @@
         "password": {
           "description": "The password required for webhook Basic Authentication.",
           "type": "string",
+          "format": "uuid",
           "writeOnly": true,
-          "minLength": 8,
-          "maxLength": 256,
+          "minLength": 1,
+          "maxLength": 36,
           "examples": [
             "password12345"
           ]
