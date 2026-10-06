@@ -183,6 +183,124 @@
           "$ref": "#/$defs/HexColor"
         }
       }
+    },
+    "translations": {
+      "title": "Translations",
+      "description": "Overrides of the app's built-in texts, keyed by translation key. Applies to every language; texts not set here use the built-in translation.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "common.retry": {
+          "title": "Common: Retry",
+          "description": "Default (English): \"Retry\"",
+          "$ref": "#/$defs/Text"
+        },
+        "qr.loading": {
+          "title": "QR: Loading",
+          "description": "Default (English): \"Loading QR code...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "qr.accessibilityLabel": {
+          "title": "QR: Accessibility Label",
+          "description": "Default (English): \"Scan & Go QR code\"",
+          "$ref": "#/$defs/Text"
+        },
+        "qr.retryAccessibilityLabel": {
+          "title": "QR: Retry Accessibility Label",
+          "description": "Default (English): \"Retry loading QR code\"",
+          "$ref": "#/$defs/Text"
+        },
+        "qr.scanPrompt": {
+          "title": "QR: Scan Prompt",
+          "description": "Default (English): \"Shopping done?\\nPlease scan here\"",
+          "$ref": "#/$defs/Text"
+        },
+        "qr.logoAccessibilityLabel": {
+          "title": "QR: Logo Accessibility Label",
+          "description": "Default (English): \"Store logo\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.error": {
+          "title": "OCMS: Error",
+          "description": "Default (English): \"OCMS Error\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.initializing": {
+          "title": "OCMS: Initializing",
+          "description": "Default (English): \"Initializing...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.registrationFailed": {
+          "title": "OCMS: Registration Failed",
+          "description": "Default (English): \"Registration failed\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.configChanged": {
+          "title": "OCMS: Config Changed",
+          "description": "Default (English): \"Configuration changed, re-registering...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.validating": {
+          "title": "OCMS: Validating",
+          "description": "Default (English): \"Validating registration...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.registering": {
+          "title": "OCMS: Registering",
+          "description": "Default (English): \"Registering...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.acquiringToken": {
+          "title": "OCMS: Acquiring Token",
+          "description": "Default (English): \"Acquiring token...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.pendingApproval": {
+          "title": "OCMS: Pending Approval",
+          "description": "Default (English): \"Registration pending approval...\"",
+          "$ref": "#/$defs/Text"
+        },
+        "ocms.revoked": {
+          "title": "OCMS: Revoked",
+          "description": "Default (English): \"Registration has been revoked.\"",
+          "$ref": "#/$defs/Text"
+        },
+        "mdm.notConfiguredTitle": {
+          "title": "MDM: Not Configured Title",
+          "description": "Default (English): \"Device Not Configured\"",
+          "$ref": "#/$defs/Text"
+        },
+        "mdm.notConfiguredMessage": {
+          "title": "MDM: Not Configured Message",
+          "description": "Default (English): \"This device has not been configured by the organization.\\nContact your IT administrator to ensure managed configuration has been pushed via the MDM console.\"",
+          "$ref": "#/$defs/Text"
+        },
+        "mdm.missingConfig": {
+          "title": "MDM: Missing Config",
+          "description": "Default (English): \"Missing configuration:\"",
+          "$ref": "#/$defs/Text"
+        },
+        "error.somethingWentWrong": {
+          "title": "Error: Something Went Wrong",
+          "description": "Default (English): \"Something Went Wrong\"",
+          "$ref": "#/$defs/Text"
+        },
+        "proxy.configErrorTitle": {
+          "title": "Proxy: Config Error Title",
+          "description": "Default (English): \"Proxy Configuration Error\"",
+          "$ref": "#/$defs/Text"
+        },
+        "proxy.configErrorMessage": {
+          "title": "Proxy: Config Error Message",
+          "description": "Default (English): \"Direct internet access is disabled, but the following proxy configuration keys are missing from MDM:\"",
+          "$ref": "#/$defs/Text"
+        },
+        "proxy.configErrorHint": {
+          "title": "Proxy: Config Error Hint",
+          "description": "Default (English): \"Contact your IT administrator to configure these settings via the MDM console.\"",
+          "$ref": "#/$defs/Text"
+        }
+      }
     }
   },
   "$defs": {
@@ -195,6 +313,11 @@
       "type": "string",
       "pattern": "^#[A-Fa-f0-9]{6}$",
       "description": "Six-digit hex color code (e.g. #FF5733)."
+    },
+    "Text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Non-empty text."
     }
   }
 }
