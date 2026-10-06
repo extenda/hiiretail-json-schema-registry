@@ -3,7 +3,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Omnium OMS Connector Configuration",
   "description": "Configuration used by an OMS connector to translate source-system statuses, shipment methods, tenders, rewards, and transactions into target customer order values.",
-  "$comment": "Every mapping is a list of rows {source_value, target_value}; source = OMS, target = HiiRetail. Field names are the same in every mapping, so one converter handles all of them. Every mapping is optional and defaults to []. Values are matched exactly and case-sensitively; each source value can be mapped once. All mappings are two-way: OMS to HiiRetail uses every row; HiiRetail to OMS uses the first row (in list order) with that target value. Row order is therefore meaningful and must be preserved. Target values follow the HiiRetail Customer Order External API v1.0. uniqueItemProperties requires ajv-keywords; errorMessage requires ajv-errors. x-primary-key names each row in the configuration portal's ListWithDetail layout. On-screen labels and help texts are set per connector in the UI schema; this schema's titles are generic fallbacks.",
+  "$comment": "Every mapping is a list of rows {id, value}; id = the OMS (source) value, target = HiiRetail. Field names are the same in every mapping, so one converter handles all of them. Every mapping is optional and defaults to []. Values are matched exactly and case-sensitively; each id can be mapped once. The field is named id because CCC matches list items by id when a patch is applied; without it, patched rows are added again as duplicates. All mappings are two-way: OMS to HiiRetail uses every row; HiiRetail to OMS uses the first row (in list order) with that target value. Row order is therefore meaningful and must be preserved. Target values follow the HiiRetail Customer Order External API v1.0. uniqueItemProperties requires ajv-keywords; errorMessage requires ajv-errors. x-primary-key names each row in the configuration portal's ListWithDetail layout. On-screen labels and help texts are set per connector in the UI schema; this schema's titles are generic fallbacks.",
   "type": "object",
   "properties": {
     "OrderStatusMapping": {
@@ -12,7 +12,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -22,11 +22,11 @@
         "type": "object",
         "title": "Order status",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS status",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -42,7 +42,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail status",
             "description": "Select the matching value.",
@@ -63,8 +63,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -72,40 +72,40 @@
       "examples": [
         [
           {
-            "source_value": "New",
-            "target_value": "CREATED"
+            "id": "New",
+            "value": "CREATED"
           },
           {
-            "source_value": "InProgress",
-            "target_value": "IN_PROGRESS"
+            "id": "InProgress",
+            "value": "IN_PROGRESS"
           },
           {
-            "source_value": "Processing",
-            "target_value": "IN_PROGRESS"
+            "id": "Processing",
+            "value": "IN_PROGRESS"
           },
           {
-            "source_value": "AwaitingInventory",
-            "target_value": "IN_PROGRESS"
+            "id": "AwaitingInventory",
+            "value": "IN_PROGRESS"
           },
           {
-            "source_value": "Completed",
-            "target_value": "FULFILLED"
+            "id": "Completed",
+            "value": "FULFILLED"
           },
           {
-            "source_value": "Shipped",
-            "target_value": "FULFILLED"
+            "id": "Shipped",
+            "value": "FULFILLED"
           },
           {
-            "source_value": "Delivered",
-            "target_value": "FULFILLED"
+            "id": "Delivered",
+            "value": "FULFILLED"
           },
           {
-            "source_value": "OrderCanceled",
-            "target_value": "CANCELLED"
+            "id": "OrderCanceled",
+            "value": "CANCELLED"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "ShipmentStatusMapping": {
       "type": "array",
@@ -113,7 +113,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -123,11 +123,11 @@
         "type": "object",
         "title": "Shipment status",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS shipment status",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -143,7 +143,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail fulfillment status",
             "description": "Select the matching value.",
@@ -164,8 +164,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -173,44 +173,44 @@
       "examples": [
         [
           {
-            "source_value": "AwaitingInventory",
-            "target_value": "CREATED"
+            "id": "AwaitingInventory",
+            "value": "CREATED"
           },
           {
-            "source_value": "Packing",
-            "target_value": "CREATED"
+            "id": "Packing",
+            "value": "CREATED"
           },
           {
-            "source_value": "Shipped",
-            "target_value": "FULFILLED"
+            "id": "Shipped",
+            "value": "FULFILLED"
           },
           {
-            "source_value": "Cancelled",
-            "target_value": "CANCELLED"
+            "id": "Cancelled",
+            "value": "CANCELLED"
           },
           {
-            "source_value": "OrderCanceled",
-            "target_value": "CANCELLED"
+            "id": "OrderCanceled",
+            "value": "CANCELLED"
           },
           {
-            "source_value": "OrderCanceledByCustomer",
-            "target_value": "CANCELLED"
+            "id": "OrderCanceledByCustomer",
+            "value": "CANCELLED"
           },
           {
-            "source_value": "OrderCanceledByStore",
-            "target_value": "CANCELLED"
+            "id": "OrderCanceledByStore",
+            "value": "CANCELLED"
           },
           {
-            "source_value": "ReadyForPickup",
-            "target_value": "READY_FOR_PICKUP"
+            "id": "ReadyForPickup",
+            "value": "READY_FOR_PICKUP"
           },
           {
-            "source_value": "PickedUpAndPaid",
-            "target_value": "FULFILLED"
+            "id": "PickedUpAndPaid",
+            "value": "FULFILLED"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "AuthorizationStatusMapping": {
       "type": "array",
@@ -218,7 +218,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -228,11 +228,11 @@
         "type": "object",
         "title": "Authorization status",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS payment status",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -248,7 +248,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "boolean",
             "title": "Authorized",
             "default": false,
@@ -261,8 +261,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -270,28 +270,28 @@
       "examples": [
         [
           {
-            "source_value": "Approved",
-            "target_value": true
+            "id": "Approved",
+            "value": true
           },
           {
-            "source_value": "Processed",
-            "target_value": true
+            "id": "Processed",
+            "value": true
           },
           {
-            "source_value": "Paid",
-            "target_value": true
+            "id": "Paid",
+            "value": true
           },
           {
-            "source_value": "Failed",
-            "target_value": false
+            "id": "Failed",
+            "value": false
           },
           {
-            "source_value": "Pending",
-            "target_value": false
+            "id": "Pending",
+            "value": false
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "ShipmentMethodMapping": {
       "type": "array",
@@ -299,7 +299,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -309,11 +309,11 @@
         "type": "object",
         "title": "Shipment method",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS shipment method",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -329,7 +329,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail fulfillment method",
             "description": "Select the matching value.",
@@ -349,8 +349,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -358,20 +358,20 @@
       "examples": [
         [
           {
-            "source_value": "PickUpInStore",
-            "target_value": "PICKUP_IN_STORE"
+            "id": "PickUpInStore",
+            "value": "PICKUP_IN_STORE"
           },
           {
-            "source_value": "HomeDeliveryFromStore",
-            "target_value": "HOME_DELIVERY_FROM_STORE"
+            "id": "HomeDeliveryFromStore",
+            "value": "HOME_DELIVERY_FROM_STORE"
           },
           {
-            "source_value": "DropShipping",
-            "target_value": "HOME_DELIVERY_FROM_WAREHOUSE"
+            "id": "DropShipping",
+            "value": "HOME_DELIVERY_FROM_WAREHOUSE"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "TenderIdMapping": {
       "type": "array",
@@ -379,7 +379,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -389,11 +389,11 @@
         "type": "object",
         "title": "Tender ID",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS payment method",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -409,7 +409,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail tender ID",
             "description": "Type it exactly as it is set up, with no spaces at the start or end.",
@@ -429,8 +429,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -438,16 +438,16 @@
       "examples": [
         [
           {
-            "source_value": "PaidInStore",
-            "target_value": "CA"
+            "id": "PaidInStore",
+            "value": "CA"
           },
           {
-            "source_value": "Coupon",
-            "target_value": "Voucher"
+            "id": "Coupon",
+            "value": "Voucher"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "TenderWithoutAuthorizationData": {
       "type": "array",
@@ -486,7 +486,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -496,11 +496,11 @@
         "type": "object",
         "title": "Reward type",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS reward type",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -516,7 +516,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail reward type",
             "description": "Select the matching value.",
@@ -541,8 +541,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -550,36 +550,36 @@
       "examples": [
         [
           {
-            "source_value": "Money",
-            "target_value": "PRICE_REDUCTION"
+            "id": "Money",
+            "value": "PRICE_REDUCTION"
           },
           {
-            "source_value": "Percentage",
-            "target_value": "PERCENTAGE"
+            "id": "Percentage",
+            "value": "PERCENTAGE"
           },
           {
-            "source_value": "Free",
-            "target_value": "NET_PRICE"
+            "id": "Free",
+            "value": "NET_PRICE"
           },
           {
-            "source_value": "FixedPrice",
-            "target_value": "NET_PRICE"
+            "id": "FixedPrice",
+            "value": "NET_PRICE"
           },
           {
-            "source_value": "Gift",
-            "target_value": "COMBO"
+            "id": "Gift",
+            "value": "COMBO"
           },
           {
-            "source_value": "MultiBuys",
-            "target_value": "COMBO_REDUCTION"
+            "id": "MultiBuys",
+            "value": "COMBO_REDUCTION"
           },
           {
-            "source_value": "Kit",
-            "target_value": "COMBO_PERCENTAGE"
+            "id": "Kit",
+            "value": "COMBO_PERCENTAGE"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     },
     "TransactionTypeMapping": {
       "type": "array",
@@ -587,7 +587,7 @@
       "default": [],
       "maxItems": 500,
       "uniqueItemProperties": [
-        "source_value"
+        "id"
       ],
       "errorMessage": {
         "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
@@ -597,11 +597,11 @@
         "type": "object",
         "title": "Transaction type",
         "required": [
-          "source_value",
-          "target_value"
+          "id",
+          "value"
         ],
         "properties": {
-          "source_value": {
+          "id": {
             "type": "string",
             "title": "OMS transaction type",
             "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
@@ -617,7 +617,7 @@
               "pattern": "Remove the space at the start or end."
             }
           },
-          "target_value": {
+          "value": {
             "type": "string",
             "title": "HiiRetail transaction type",
             "description": "Select the matching value.",
@@ -638,8 +638,8 @@
         "additionalProperties": false,
         "errorMessage": {
           "required": {
-            "source_value": "This value is required.",
-            "target_value": "This value is required."
+            "id": "This value is required.",
+            "value": "This value is required."
           },
           "additionalProperties": "A row can only contain the two mapped values."
         }
@@ -647,36 +647,36 @@
       "examples": [
         [
           {
-            "source_value": "Sale",
-            "target_value": "PURCHASE"
+            "id": "Sale",
+            "value": "PURCHASE"
           },
           {
-            "source_value": "Invoiced",
-            "target_value": "PURCHASE"
+            "id": "Invoiced",
+            "value": "PURCHASE"
           },
           {
-            "source_value": "Authorization",
-            "target_value": "RESERVATION"
+            "id": "Authorization",
+            "value": "RESERVATION"
           },
           {
-            "source_value": "AwaitingAuthorization",
-            "target_value": "RESERVATION"
+            "id": "AwaitingAuthorization",
+            "value": "RESERVATION"
           },
           {
-            "source_value": "Capture",
-            "target_value": "CAPTURE"
+            "id": "Capture",
+            "value": "CAPTURE"
           },
           {
-            "source_value": "Credit",
-            "target_value": "REFUND"
+            "id": "Credit",
+            "value": "REFUND"
           },
           {
-            "source_value": "Void",
-            "target_value": "REFUND"
+            "id": "Void",
+            "value": "REFUND"
           }
         ]
       ],
-      "x-primary-key": "source_value"
+      "x-primary-key": "id"
     }
   },
   "additionalProperties": false,
@@ -684,120 +684,120 @@
     {
       "OrderStatusMapping": [
         {
-          "source_value": "New",
-          "target_value": "CREATED"
+          "id": "New",
+          "value": "CREATED"
         },
         {
-          "source_value": "InProgress",
-          "target_value": "IN_PROGRESS"
+          "id": "InProgress",
+          "value": "IN_PROGRESS"
         },
         {
-          "source_value": "Processing",
-          "target_value": "IN_PROGRESS"
+          "id": "Processing",
+          "value": "IN_PROGRESS"
         },
         {
-          "source_value": "AwaitingInventory",
-          "target_value": "IN_PROGRESS"
+          "id": "AwaitingInventory",
+          "value": "IN_PROGRESS"
         },
         {
-          "source_value": "Completed",
-          "target_value": "FULFILLED"
+          "id": "Completed",
+          "value": "FULFILLED"
         },
         {
-          "source_value": "Shipped",
-          "target_value": "FULFILLED"
+          "id": "Shipped",
+          "value": "FULFILLED"
         },
         {
-          "source_value": "Delivered",
-          "target_value": "FULFILLED"
+          "id": "Delivered",
+          "value": "FULFILLED"
         },
         {
-          "source_value": "OrderCanceled",
-          "target_value": "CANCELLED"
+          "id": "OrderCanceled",
+          "value": "CANCELLED"
         }
       ],
       "ShipmentStatusMapping": [
         {
-          "source_value": "AwaitingInventory",
-          "target_value": "CREATED"
+          "id": "AwaitingInventory",
+          "value": "CREATED"
         },
         {
-          "source_value": "Packing",
-          "target_value": "CREATED"
+          "id": "Packing",
+          "value": "CREATED"
         },
         {
-          "source_value": "Shipped",
-          "target_value": "FULFILLED"
+          "id": "Shipped",
+          "value": "FULFILLED"
         },
         {
-          "source_value": "Cancelled",
-          "target_value": "CANCELLED"
+          "id": "Cancelled",
+          "value": "CANCELLED"
         },
         {
-          "source_value": "OrderCanceled",
-          "target_value": "CANCELLED"
+          "id": "OrderCanceled",
+          "value": "CANCELLED"
         },
         {
-          "source_value": "OrderCanceledByCustomer",
-          "target_value": "CANCELLED"
+          "id": "OrderCanceledByCustomer",
+          "value": "CANCELLED"
         },
         {
-          "source_value": "OrderCanceledByStore",
-          "target_value": "CANCELLED"
+          "id": "OrderCanceledByStore",
+          "value": "CANCELLED"
         },
         {
-          "source_value": "ReadyForPickup",
-          "target_value": "READY_FOR_PICKUP"
+          "id": "ReadyForPickup",
+          "value": "READY_FOR_PICKUP"
         },
         {
-          "source_value": "PickedUpAndPaid",
-          "target_value": "FULFILLED"
+          "id": "PickedUpAndPaid",
+          "value": "FULFILLED"
         }
       ],
       "AuthorizationStatusMapping": [
         {
-          "source_value": "Approved",
-          "target_value": true
+          "id": "Approved",
+          "value": true
         },
         {
-          "source_value": "Processed",
-          "target_value": true
+          "id": "Processed",
+          "value": true
         },
         {
-          "source_value": "Paid",
-          "target_value": true
+          "id": "Paid",
+          "value": true
         },
         {
-          "source_value": "Failed",
-          "target_value": false
+          "id": "Failed",
+          "value": false
         },
         {
-          "source_value": "Pending",
-          "target_value": false
+          "id": "Pending",
+          "value": false
         }
       ],
       "ShipmentMethodMapping": [
         {
-          "source_value": "PickUpInStore",
-          "target_value": "PICKUP_IN_STORE"
+          "id": "PickUpInStore",
+          "value": "PICKUP_IN_STORE"
         },
         {
-          "source_value": "HomeDeliveryFromStore",
-          "target_value": "HOME_DELIVERY_FROM_STORE"
+          "id": "HomeDeliveryFromStore",
+          "value": "HOME_DELIVERY_FROM_STORE"
         },
         {
-          "source_value": "DropShipping",
-          "target_value": "HOME_DELIVERY_FROM_WAREHOUSE"
+          "id": "DropShipping",
+          "value": "HOME_DELIVERY_FROM_WAREHOUSE"
         }
       ],
       "TenderIdMapping": [
         {
-          "source_value": "PaidInStore",
-          "target_value": "CA"
+          "id": "PaidInStore",
+          "value": "CA"
         },
         {
-          "source_value": "Coupon",
-          "target_value": "Voucher"
+          "id": "Coupon",
+          "value": "Voucher"
         }
       ],
       "TenderWithoutAuthorizationData": [
@@ -806,62 +806,62 @@
       ],
       "RewardTypeMapping": [
         {
-          "source_value": "Money",
-          "target_value": "PRICE_REDUCTION"
+          "id": "Money",
+          "value": "PRICE_REDUCTION"
         },
         {
-          "source_value": "Percentage",
-          "target_value": "PERCENTAGE"
+          "id": "Percentage",
+          "value": "PERCENTAGE"
         },
         {
-          "source_value": "Free",
-          "target_value": "NET_PRICE"
+          "id": "Free",
+          "value": "NET_PRICE"
         },
         {
-          "source_value": "FixedPrice",
-          "target_value": "NET_PRICE"
+          "id": "FixedPrice",
+          "value": "NET_PRICE"
         },
         {
-          "source_value": "Gift",
-          "target_value": "COMBO"
+          "id": "Gift",
+          "value": "COMBO"
         },
         {
-          "source_value": "MultiBuys",
-          "target_value": "COMBO_REDUCTION"
+          "id": "MultiBuys",
+          "value": "COMBO_REDUCTION"
         },
         {
-          "source_value": "Kit",
-          "target_value": "COMBO_PERCENTAGE"
+          "id": "Kit",
+          "value": "COMBO_PERCENTAGE"
         }
       ],
       "TransactionTypeMapping": [
         {
-          "source_value": "Sale",
-          "target_value": "PURCHASE"
+          "id": "Sale",
+          "value": "PURCHASE"
         },
         {
-          "source_value": "Invoiced",
-          "target_value": "PURCHASE"
+          "id": "Invoiced",
+          "value": "PURCHASE"
         },
         {
-          "source_value": "Authorization",
-          "target_value": "RESERVATION"
+          "id": "Authorization",
+          "value": "RESERVATION"
         },
         {
-          "source_value": "AwaitingAuthorization",
-          "target_value": "RESERVATION"
+          "id": "AwaitingAuthorization",
+          "value": "RESERVATION"
         },
         {
-          "source_value": "Capture",
-          "target_value": "CAPTURE"
+          "id": "Capture",
+          "value": "CAPTURE"
         },
         {
-          "source_value": "Credit",
-          "target_value": "REFUND"
+          "id": "Credit",
+          "value": "REFUND"
         },
         {
-          "source_value": "Void",
-          "target_value": "REFUND"
+          "id": "Void",
+          "value": "REFUND"
         }
       ]
     }
