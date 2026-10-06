@@ -36,6 +36,15 @@ const lateChanges = schemaAt(
 describe('cnc.public.event.order-created.v1', () => {
   const validate = compile(orderCreated);
 
+  const minimal = {
+    FulfillmentId: 'ff-1',
+    OrderId: 'co-1',
+    BusinessUnitId: 'bu-1',
+    TenantId: 'CIR7nQwtS0rA6t0S6ejd',
+    OrderCode: 'ABC-001',
+    ModifiedDatetime: '2026-10-06T09:15:00.000Z',
+  };
+
   // The only Click and Collect topic whose property names are PascalCase
   // (click-and-collect-processor store-fulfillments.handler.ts). Modelling it
   // in camelCase like its sibling topics rejects every real message.
@@ -55,37 +64,44 @@ describe('cnc.public.event.order-created.v1', () => {
   // sending null. Marking any of them required rejects a fulfillment that
   // carries no pickup time, which is the ordinary case for a project order.
   test('a message carrying none of the optional keys validates', () => {
+    assert.equal(validate(minimal), true, JSON.stringify(validate.errors));
+  });
+
+  test('a message carrying every optional key validates', () => {
     assert.equal(
       validate({
-        FulfillmentId: 'ff-1',
-        OrderId: 'co-1',
-        BusinessUnitId: 'bu-1',
-        TenantId: 'CIR7nQwtS0rA6t0S6ejd',
-        OrderCode: 'ABC-001',
-        ModifiedDatetime: '2026-10-06T09:15:00.000Z',
+        ...minimal,
+        ProjectId: 'proj-1',
+        PickupDatetime: '2026-10-07T14:00:00.000Z',
+        UrgentFromDatetime: '2026-10-07T10:00:00.000Z',
+        UserProfileId: 'up-123',
+        UserProfileAddressId: 'addr-1',
       }),
       true,
       JSON.stringify(validate.errors),
     );
   });
 
-  test('a message carrying every optional key validates', () => {
+  // HII-14344 AC 1 and AC 8: the TMS connector needs the customer's profile
+  // and the delivery address chosen for this fulfillment, and the registry
+  // copy is what consumers validate against.
+  test('a message carrying UserProfileId and UserProfileAddressId validates', () => {
     assert.equal(
-      validate({
-        FulfillmentId: 'ff-1',
-        OrderId: 'co-1',
-        BusinessUnitId: 'bu-1',
-        TenantId: 'CIR7nQwtS0rA6t0S6ejd',
-        OrderCode: 'ABC-001',
-        ModifiedDatetime: '2026-10-06T09:15:00.000Z',
-        ProjectId: 'proj-1',
-        PickupDatetime: '2026-10-07T14:00:00.000Z',
-        UrgentFromDatetime: '2026-10-07T10:00:00.000Z',
-      }),
+      validate({ ...minimal, UserProfileId: 'up-123', UserProfileAddressId: 'addr-1' }),
       true,
       JSON.stringify(validate.errors),
     );
   });
+
+  // HII-14344 AC 5: an order with no profile and no address publishes both
+  // events without either key - absent, not null. The repository maps an empty
+  // column to null, so copying that pattern into the payload is the easy
+  // mistake, and `additionalProperties: false` plus `type: string` rejects it.
+  for (const field of ['UserProfileId', 'UserProfileAddressId']) {
+    test(`a null ${field} is rejected`, () => {
+      assert.equal(validate({ ...minimal, [field]: null }), false);
+    });
+  }
 
   test('a camelCase message is rejected', () => {
     assert.equal(
@@ -170,6 +186,58 @@ describe('cnc.public.event.order-status-changed.v1', () => {
   test('a cleared pickup time validates as null', () => {
     assert.equal(
       validate({ ...pickupChange, pickupDatetime: null, urgentFromDatetime: null }),
+      true,
+      JSON.stringify(validate.errors),
+    );
+  });
+
+  // HII-14344 AC 2 and AC 8. The `statusChange` fixture above is the
+  // carries-neither half: it already validates without either key.
+  test('an ORDER_STATUS_CHANGED message carrying both profile ids validates', () => {
+    assert.equal(
+      validate({ ...statusChange, userProfileId: 'up-123', userProfileAddressId: 'addr-1' }),
+      true,
+      JSON.stringify(validate.errors),
+    );
+  });
+
+  // HII-14344 AC 4: userProfileId is the customer, changedBy is the store user
+  // who acted. Publishing the picker's id as the customer's type-checks and
+  // passes any test that uses one value for both, so they differ here.
+  test('userProfileId and changedBy are independent values', () => {
+    assert.equal(
+      validate({ ...statusChange, userProfileId: 'up-123', changedBy: 'store-user-hash' }),
+      true,
+      JSON.stringify(validate.errors),
+    );
+  });
+
+  // HII-14344 AC 5.
+  for (const field of ['userProfileId', 'userProfileAddressId']) {
+    test(`a null ${field} is rejected`, () => {
+      assert.equal(validate({ ...statusChange, [field]: null }), false);
+    });
+  }
+
+  // HII-14344 scope item 1: "Leave OrderPickupDatetimeChangedEvent unchanged."
+  // That branch is additionalProperties: false, so the key must not be
+  // accepted there - and because the root is a oneOf, an accepted key would
+  // silently widen the union rather than fail loudly.
+  test('a pickup change carrying userProfileId is rejected', () => {
+    assert.equal(validate({ ...pickupChange, userProfileId: 'up-123' }), false);
+  });
+
+  // orders.order_type is NOT NULL DEFAULT 'CUSTOMER_ORDER' with
+  // CHECK (order_type IN ('CUSTOMER_ORDER', 'STORE_TRANSFER'))
+  // (processor liquibase/changelog.sql:1071-1072), and the topic description
+  // already promises that set for the Order-Type attribute.
+  test('an unknown orderType is rejected', () => {
+    assert.equal(validate({ ...statusChange, orderType: 'WHATEVER' }), false);
+  });
+
+  test('a STORE_TRANSFER orderType validates', () => {
+    assert.equal(
+      validate({ ...statusChange, orderType: 'STORE_TRANSFER' }),
       true,
       JSON.stringify(validate.errors),
     );

@@ -34,7 +34,7 @@
     },
     "paymentType": {
       "type": "string",
-      "description": "Payment type recorded on the order payment row"
+      "description": "Payment type recorded on the order payment row. The column allows NOT_SET, ONLINE_PAYMENT, POS_PAYMENT and NONE, but only ONLINE_PAYMENT records are published on this topic"
     },
     "reservedAmount": {
       "type": "string",

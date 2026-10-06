@@ -35,15 +35,23 @@
         },
         "previousStatus": {
           "type": "string",
-          "description": "Status the fulfillment held before the change. Absent when no previous status was recorded"
+          "description": "Status the fulfillment held before the change. Absent when no previous status was recorded. One of CREATED, IN_PROGRESS, NEEDS_REVIEW, PAUSED, PICKED, READY_FOR_DELIVERY, CANCELLED, DELIVERED, DELETED"
         },
         "newStatus": {
           "type": "string",
-          "description": "Status the fulfillment holds after the change"
+          "description": "Status the fulfillment holds after the change. One of CREATED, IN_PROGRESS, NEEDS_REVIEW, PAUSED, PICKED, READY_FOR_DELIVERY, CANCELLED, DELIVERED, DELETED; the publishers currently send only IN_PROGRESS, PAUSED, PICKED, DELIVERED and CANCELLED"
         },
         "changedBy": {
           "type": "string",
-          "description": "User profile id of whoever caused the change. Absent when the change had no user identity"
+          "description": "User profile id of the store user who caused the change. Not the customer; that is userProfileId. Absent when the change had no user identity"
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Id of the customer's profile in User Profile Service. Not the store user who made the change; that is changedBy. Absent when the order carries no user profile."
+        },
+        "userProfileAddressId": {
+          "type": "string",
+          "description": "Id of this fulfillment's delivery address in User Profile Service. Absent when the fulfillment has no delivery address."
         },
         "changedAt": {
           "type": "string",
@@ -52,6 +60,11 @@
         },
         "orderType": {
           "type": ["string", "null"],
+          "enum": [
+            "CUSTOMER_ORDER",
+            "STORE_TRANSFER",
+            null
+          ],
           "description": "Type of the order, mirroring the Order-Type message attribute"
         },
         "orderLines": {
@@ -133,7 +146,7 @@
         },
         "status": {
           "type": ["string", "null"],
-          "description": "Status of the order line"
+          "description": "Status of the order line. One of CREATED, PENDING, NEEDS_REVIEW, SUBSTITUTED, PARTIALLY_SUBSTITUTED, PICKED, UNAVAILABLE, INCOMPLETE, CANCELLED, DELETED"
         },
         "substitutions": {
           "type": "array",

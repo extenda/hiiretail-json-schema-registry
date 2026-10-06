@@ -52,6 +52,14 @@
       "type": "string",
       "format": "date-time",
       "description": "Datetime from which the order counts as urgent, derived from PickupDatetime and the tenant urgency threshold. Present only when PickupDatetime is present"
+    },
+    "UserProfileId": {
+      "type": "string",
+      "description": "Id of the customer's profile in User Profile Service. Absent when the order carries no user profile, for example a store transfer."
+    },
+    "UserProfileAddressId": {
+      "type": "string",
+      "description": "Id of this fulfillment's delivery address in User Profile Service. Absent when the fulfillment has no delivery address, for example a pickup in store."
     }
   }
 }
