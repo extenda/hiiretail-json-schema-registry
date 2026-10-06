@@ -122,6 +122,10 @@
         "itemName": { "type": "string" },
         "quantity": { "$ref": "#/$defs/Quantity" },
         "unitPrice": { "type": "number" },
+        "extendedAmount": {
+          "type": ["number", "null"],
+          "description": "Authoritative line total after line discounts, tax-inclusive, rounded to 2 decimals. Not unitPrice × quantity: the difference is the line discount. Null when the order's producer did not supply it (orders synced before HII-13986, producers that omit this optional field, and click-and-collect substitute lines); derive the total from unitPrice, quantity and unitDiscounts in that case."
+        },
         "taxableGroupId": { "type": "string" },
         "depositAndFeeRuleIds": {
           "type": "array",
