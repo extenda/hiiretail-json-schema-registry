@@ -33,6 +33,31 @@
       "source": "stc/stc.public.event.stock-count-completed.v1.schema.json",
       "output": "external-events/stc/stc.public.event.stock-count-completed.v1.json",
       "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-created.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-created.v1.json",
+      "$id": "cnc.public.event.order-created.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-line-picked.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-line-picked.v1.json",
+      "$id": "cnc.public.event.order-line-picked.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-payment-initiated.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-payment-initiated.v1.json",
+      "$id": "cnc.public.event.order-payment-initiated.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-status-changed.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-status-changed.v1.json",
+      "$id": "cnc.public.event.order-status-changed.v1"
+    },
+    {
+      "source": "cnc/cnc.public.notification.order-late-changes-arrived.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.notification.order-late-changes-arrived.v1.json",
+      "$id": "cnc.public.notification.order-late-changes-arrived.v1"
     }
   ]
 }

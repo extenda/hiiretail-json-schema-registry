@@ -1,0 +1,47 @@
+{
+  "$id": "cnc.public.event.order-line-picked.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderLinePicked",
+  "description": "Published by Click and Collect after every accepted pick on an order line. Despite the name it is not limited to a completed pick: it is published for a partial pick that leaves the line PENDING and for an out-of-stock pick of quantity zero that sets the line UNAVAILABLE. The resulting line status is not carried, so pickedQty is a running value rather than a completion signal. Messages on this topic are not ordered.",
+  "type": "object",
+  "required": [
+    "orderId",
+    "orderLineId",
+    "tenantId",
+    "businessUnitId",
+    "pickedQty",
+    "pickedAt"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Internal id of the order the line belongs to"
+    },
+    "orderLineId": {
+      "type": "string",
+      "description": "Id of the picked order line"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the business unit the pick was made in"
+    },
+    "pickedQty": {
+      "type": "number",
+      "description": "Quantity recorded for the line by this pick. Zero is a valid value and signals the item was unavailable"
+    },
+    "pickedBy": {
+      "type": "string",
+      "description": "User profile id of the picker. Absent when the originating request carried no user identity"
+    },
+    "pickedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the event was published, not the time the picker acted. A replayed message carries the replay time"
+    }
+  }
+}
