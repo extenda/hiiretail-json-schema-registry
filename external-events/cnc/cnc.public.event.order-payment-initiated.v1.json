@@ -34,7 +34,13 @@
     },
     "paymentType": {
       "type": "string",
-      "description": "Payment type recorded on the order payment row. The column allows NOT_SET, ONLINE_PAYMENT, POS_PAYMENT and NONE, but only ONLINE_PAYMENT records are published on this topic"
+      "enum": [
+        "NOT_SET",
+        "ONLINE_PAYMENT",
+        "POS_PAYMENT",
+        "NONE"
+      ],
+      "description": "Payment type recorded on the order payment row. The column allows all four values, but only ONLINE_PAYMENT records are routed to this topic"
     },
     "reservedAmount": {
       "type": "string",

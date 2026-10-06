@@ -242,6 +242,25 @@ describe('cnc.public.event.order-status-changed.v1', () => {
       JSON.stringify(validate.errors),
     );
   });
+
+  // null is kept in the enum so it cannot contradict the declared
+  // ["string", "null"] type. No publishing path produces it today: all five
+  // resolve the order through lookupOrderByInternalId, whose SELECT includes
+  // the NOT NULL order_type column, so parseString always returns a string.
+  // The enum accepts it rather than asserting a narrower contract than the
+  // type states.
+  test('a null orderType validates', () => {
+    assert.equal(
+      validate({ ...statusChange, orderType: null }),
+      true,
+      JSON.stringify(validate.errors),
+    );
+  });
+
+  test('a message omitting orderType validates', () => {
+    const { orderType, ...withoutOrderType } = statusChange;
+    assert.equal(validate(withoutOrderType), true, JSON.stringify(validate.errors));
+  });
 });
 
 describe('cnc.public.event.order-line-picked.v1', () => {
@@ -289,7 +308,7 @@ describe('cnc.public.event.order-payment-initiated.v1', () => {
     fulfillmentId: 'ff-1',
     tenantId: 'CIR7nQwtS0rA6t0S6ejd',
     businessUnitId: 'bu-1',
-    paymentType: 'CARD',
+    paymentType: 'ONLINE_PAYMENT',
     reservedAmount: '129.95',
     additionalProperties: [],
     lines: [
@@ -346,6 +365,24 @@ describe('cnc.public.event.order-payment-initiated.v1', () => {
   test('reservedAmount as a number is rejected', () => {
     assert.equal(validate({ ...payment, reservedAmount: 129.95 }), false);
   });
+
+  // chk_order_payments_payment_type_enum (processor changelog.sql:915) is the
+  // closed set. Only ONLINE_PAYMENT is routed to this topic today, but the
+  // enum states the column's set rather than the narrower current traffic, so
+  // it rejects nothing real if routing widens.
+  test('an unknown paymentType is rejected', () => {
+    assert.equal(validate({ ...payment, paymentType: 'CRYPTO' }), false);
+  });
+
+  for (const type of ['NOT_SET', 'ONLINE_PAYMENT', 'POS_PAYMENT', 'NONE']) {
+    test(`paymentType ${type} validates`, () => {
+      assert.equal(
+        validate({ ...payment, paymentType: type }),
+        true,
+        JSON.stringify(validate.errors),
+      );
+    });
+  }
 });
 
 describe('cnc.public.notification.order-late-changes-arrived.v1', () => {
