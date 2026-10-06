@@ -1,0 +1,186 @@
+{
+  "$id": "cnc.public.event.order-status-changed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderStatusChanged",
+  "description": "Published by Click and Collect when a store fulfillment changes state. Two event types share this topic and are distinguished by the Event-Type message attribute: ORDER_STATUS_CHANGED carries the status transition, ORDER_PICKUP_DATETIME_CHANGED carries a moved, set or cleared pickup time. A message matches exactly one of the two shapes below. Messages are ordered on fulfillmentId, and the Order-Type attribute is always CUSTOMER_ORDER or STORE_TRANSFER.",
+  "$defs": {
+    "OrderStatusChangedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Payload sent with Event-Type ORDER_STATUS_CHANGED",
+      "required": [
+        "orderId",
+        "fulfillmentId",
+        "tenantId",
+        "businessUnitId",
+        "newStatus",
+        "changedAt"
+      ],
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "Id of the customer order the fulfillment belongs to"
+        },
+        "fulfillmentId": {
+          "type": "string",
+          "description": "Id of the store fulfillment whose status changed. Also the ordering key of the message"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Id of tenant"
+        },
+        "businessUnitId": {
+          "type": "string",
+          "description": "Id of the business unit fulfilling the order"
+        },
+        "previousStatus": {
+          "type": "string",
+          "description": "Status the fulfillment held before the change. Absent when no previous status was recorded"
+        },
+        "newStatus": {
+          "type": "string",
+          "description": "Status the fulfillment holds after the change"
+        },
+        "changedBy": {
+          "type": "string",
+          "description": "User profile id of whoever caused the change. Absent when the change had no user identity"
+        },
+        "changedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time the status change was applied. Required: it is the ordering-guard source for consumers of this topic"
+        },
+        "orderType": {
+          "type": ["string", "null"],
+          "description": "Type of the order, mirroring the Order-Type message attribute"
+        },
+        "orderLines": {
+          "type": "array",
+          "description": "Order lines carried with the transition. Absent on transitions that do not carry line detail",
+          "items": {
+            "$ref": "#/$defs/OrderStatusChangedOrderLine"
+          }
+        }
+      }
+    },
+    "OrderPickupDatetimeChangedEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Payload sent with Event-Type ORDER_PICKUP_DATETIME_CHANGED. Every key is always present; the two instants are null when the write cleared the pickup time",
+      "required": [
+        "orderId",
+        "fulfillmentId",
+        "tenantId",
+        "businessUnitId",
+        "pickupDatetime",
+        "urgentFromDatetime",
+        "modifiedDatetime"
+      ],
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "Id of the customer order the fulfillment belongs to"
+        },
+        "fulfillmentId": {
+          "type": "string",
+          "description": "Id of the store fulfillment whose pickup time changed. Also the ordering key of the message"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Id of tenant"
+        },
+        "businessUnitId": {
+          "type": "string",
+          "description": "Id of the business unit fulfilling the order"
+        },
+        "pickupDatetime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Pickup time after the write. Null when the write cleared it"
+        },
+        "urgentFromDatetime": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "Datetime from which the order counts as urgent, derived from pickupDatetime and the tenant urgency threshold. Null when pickupDatetime is null"
+        },
+        "modifiedDatetime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Value written to orders.modified_datetime by the write that moved the pickup time"
+        }
+      }
+    },
+    "OrderStatusChangedOrderLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One order line carried with a status transition",
+      "required": [
+        "orderLineId",
+        "substitutions"
+      ],
+      "properties": {
+        "orderLineId": {
+          "type": "string",
+          "description": "Id of the order line"
+        },
+        "itemId": {
+          "type": ["string", "null"],
+          "description": "Id of the item on the order line"
+        },
+        "pickedQuantity": {
+          "type": ["number", "null"],
+          "description": "Quantity picked for the line"
+        },
+        "status": {
+          "type": ["string", "null"],
+          "description": "Status of the order line"
+        },
+        "substitutions": {
+          "type": "array",
+          "description": "Substituted items picked against this line. Always present, empty when there are none",
+          "items": {
+            "$ref": "#/$defs/OrderStatusChangedSubstitution"
+          }
+        }
+      }
+    },
+    "OrderStatusChangedSubstitution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One substituted item picked against an order line",
+      "required": [
+        "itemIdentifier"
+      ],
+      "properties": {
+        "itemIdentifier": {
+          "type": "string",
+          "description": "Identifier of the substituted item as scanned"
+        },
+        "itemId": {
+          "type": ["string", "null"],
+          "description": "Id of the substituted item"
+        },
+        "itemName": {
+          "type": ["string", "null"],
+          "description": "Name of the substituted item"
+        },
+        "quantity": {
+          "type": ["number", "null"],
+          "description": "Quantity picked of the substituted item"
+        },
+        "unitOfMeasure": {
+          "type": ["string", "null"],
+          "description": "Unit of measure the quantity is expressed in"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/OrderStatusChangedEvent"
+    },
+    {
+      "$ref": "#/$defs/OrderPickupDatetimeChangedEvent"
+    }
+  ]
+}

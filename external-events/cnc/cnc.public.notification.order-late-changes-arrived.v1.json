@@ -1,0 +1,37 @@
+{
+  "$id": "cnc.public.notification.order-late-changes-arrived.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderLateChangesArrived",
+  "description": "Published by Click and Collect when an update arrives for a store fulfillment whose order has already moved past CREATED, so the change reaches the store after picking may have started. orderId and fulfillmentId are the same pair cnc.public.event.order-status-changed.v1 carries for the row, so a consumer can close this notification on the fulfillment terminal status. Messages on this topic are not ordered.",
+  "type": "object",
+  "required": [
+    "internalOrderId",
+    "orderId",
+    "fulfillmentId",
+    "tenantId",
+    "businessUnitId"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "internalOrderId": {
+      "type": "string",
+      "description": "Click and Collect internal id of the order row the late change was applied to"
+    },
+    "orderId": {
+      "type": "string",
+      "description": "Id of the customer order the fulfillment belongs to"
+    },
+    "fulfillmentId": {
+      "type": "string",
+      "description": "Id of the store fulfillment the late change was applied to"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the business unit fulfilling the order"
+    }
+  }
+}
