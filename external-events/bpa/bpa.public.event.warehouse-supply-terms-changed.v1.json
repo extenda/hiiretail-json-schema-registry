@@ -1,0 +1,43 @@
+{
+  "$id": "bpa.public.event.warehouse-supply-terms-changed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WarehouseSupplyTermsChanged",
+  "description": "Published by the business-partner processor when a warehouse's supply terms are created, replaced or deleted. Attributes: Tenant-Id, Correlation-Id, and Event-Id = <businessUnitId>:<apiDatetime>. Ordering key: <tenantId>-<businessUnitId>.",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "isDeleted",
+    "modifiedDatetime"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of the tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the warehouse business unit the terms apply to"
+    },
+    "defaultLeadTimeHours": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Calendar hours from order to delivery. A day-level ERP value is multiplied by 24"
+    },
+    "minimumOrderQuantity": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Smallest total quantity, in sellable units, of one order to this source"
+    },
+    "isDeleted": {
+      "type": "boolean",
+      "description": "True when the supply terms were deleted"
+    },
+    "modifiedDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the processor wrote this state. Consumers discard an event older than the state they hold"
+    }
+  }
+}
