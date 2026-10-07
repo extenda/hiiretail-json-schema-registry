@@ -58,6 +58,16 @@
       "source": "cnc/cnc.public.notification.order-late-changes-arrived.v1.schema.json",
       "output": "external-events/cnc/cnc.public.notification.order-late-changes-arrived.v1.json",
       "$id": "cnc.public.notification.order-late-changes-arrived.v1"
+    },
+    {
+      "source": "bpa/bpa.public.event.business-partner-changed.v1.schema.json",
+      "output": "external-events/bpa/bpa.public.event.business-partner-changed.v1.json",
+      "$id": "bpa.public.event.business-partner-changed.v1"
+    },
+    {
+      "source": "bpa/bpa.public.event.warehouse-supply-terms-changed.v1.schema.json",
+      "output": "external-events/bpa/bpa.public.event.warehouse-supply-terms-changed.v1.json",
+      "$id": "bpa.public.event.warehouse-supply-terms-changed.v1"
     }
   ]
 }
