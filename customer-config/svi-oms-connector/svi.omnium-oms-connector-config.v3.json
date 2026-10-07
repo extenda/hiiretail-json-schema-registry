@@ -1,0 +1,874 @@
+{
+  "$id": "svi.omnium-oms-connector-config.v3",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Omnium OMS Connector Configuration",
+  "description": "Configuration used by an OMS connector to translate source-system statuses, shipment methods, tenders, rewards, and transactions into target customer order values.",
+  "$comment": "Every mapping is a list of rows {id, value}; id = the OMS (source) value, target = HiiRetail. Field names are the same in every mapping, so one converter handles all of them. Every mapping is optional and defaults to []. Values are matched exactly and case-sensitively; each id can be mapped once. The field is named id because CCC matches list items by id when a patch is applied; without it, patched rows are added again as duplicates. All mappings are two-way: OMS to HiiRetail uses every row; HiiRetail to OMS uses the first row (in list order) with that target value. Row order is therefore meaningful and must be preserved. Target values follow the HiiRetail Customer Order External API v1.0. uniqueItemProperties requires ajv-keywords; errorMessage requires ajv-errors. x-primary-key names each row in the configuration portal's ListWithDetail layout. On-screen labels and help texts are set per connector in the UI schema; this schema's titles are generic fallbacks.",
+  "type": "object",
+  "properties": {
+    "OrderStatusMapping": {
+      "type": "array",
+      "title": "Order statuses",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Order status",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS status",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "New"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail status",
+            "description": "Select the matching value.",
+            "enum": [
+              "CREATED",
+              "IN_PROGRESS",
+              "CANCELLED",
+              "FULFILLED"
+            ],
+            "examples": [
+              "CREATED"
+            ],
+            "errorMessage": {
+              "enum": "Select a value from the list."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "New",
+            "value": "CREATED"
+          },
+          {
+            "id": "InProgress",
+            "value": "IN_PROGRESS"
+          },
+          {
+            "id": "Processing",
+            "value": "IN_PROGRESS"
+          },
+          {
+            "id": "AwaitingInventory",
+            "value": "IN_PROGRESS"
+          },
+          {
+            "id": "Completed",
+            "value": "FULFILLED"
+          },
+          {
+            "id": "Shipped",
+            "value": "FULFILLED"
+          },
+          {
+            "id": "Delivered",
+            "value": "FULFILLED"
+          },
+          {
+            "id": "OrderCanceled",
+            "value": "CANCELLED"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "ShipmentStatusMapping": {
+      "type": "array",
+      "title": "Shipment statuses",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Shipment status",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS shipment status",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "AwaitingInventory"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail fulfillment status",
+            "description": "Select the matching value.",
+            "enum": [
+              "CREATED",
+              "READY_FOR_PICKUP",
+              "CANCELLED",
+              "FULFILLED"
+            ],
+            "examples": [
+              "CREATED"
+            ],
+            "errorMessage": {
+              "enum": "Select a value from the list."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "AwaitingInventory",
+            "value": "CREATED"
+          },
+          {
+            "id": "Packing",
+            "value": "CREATED"
+          },
+          {
+            "id": "Shipped",
+            "value": "FULFILLED"
+          },
+          {
+            "id": "Cancelled",
+            "value": "CANCELLED"
+          },
+          {
+            "id": "OrderCanceled",
+            "value": "CANCELLED"
+          },
+          {
+            "id": "OrderCanceledByCustomer",
+            "value": "CANCELLED"
+          },
+          {
+            "id": "OrderCanceledByStore",
+            "value": "CANCELLED"
+          },
+          {
+            "id": "ReadyForPickup",
+            "value": "READY_FOR_PICKUP"
+          },
+          {
+            "id": "PickedUpAndPaid",
+            "value": "FULFILLED"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "AuthorizationStatusMapping": {
+      "type": "array",
+      "title": "Authorization statuses",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Authorization status",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS payment status",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "Approved"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "boolean",
+            "title": "Authorized",
+            "default": false,
+            "description": "Turn on if this status means the payment is authorized.",
+            "errorMessage": {
+              "type": "Choose on or off."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "Approved",
+            "value": true
+          },
+          {
+            "id": "Processed",
+            "value": true
+          },
+          {
+            "id": "Paid",
+            "value": true
+          },
+          {
+            "id": "Failed",
+            "value": false
+          },
+          {
+            "id": "Pending",
+            "value": false
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "ShipmentMethodMapping": {
+      "type": "array",
+      "title": "Shipment methods",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Shipment method",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS shipment method",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "PickUpInStore"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail fulfillment method",
+            "description": "Select the matching value.",
+            "enum": [
+              "PICKUP_IN_STORE",
+              "HOME_DELIVERY_FROM_STORE",
+              "HOME_DELIVERY_FROM_WAREHOUSE"
+            ],
+            "examples": [
+              "PICKUP_IN_STORE"
+            ],
+            "errorMessage": {
+              "enum": "Select a value from the list."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "PickUpInStore",
+            "value": "PICKUP_IN_STORE"
+          },
+          {
+            "id": "HomeDeliveryFromStore",
+            "value": "HOME_DELIVERY_FROM_STORE"
+          },
+          {
+            "id": "DropShipping",
+            "value": "HOME_DELIVERY_FROM_WAREHOUSE"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "TenderIdMapping": {
+      "type": "array",
+      "title": "Tender IDs",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Tender ID",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS payment method",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "PaidInStore"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail tender ID",
+            "description": "Type it exactly as it is set up, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "CA"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "PaidInStore",
+            "value": "CA"
+          },
+          {
+            "id": "Coupon",
+            "value": "Voucher"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "TenderWithoutAuthorizationData": {
+      "type": "array",
+      "title": "Tenders without authorization",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItems": true,
+      "errorMessage": {
+        "uniqueItems": "Each value can be listed only once.",
+        "maxItems": "This list can have at most 500 values."
+      },
+      "items": {
+        "type": "string",
+        "title": "HiiRetail tender ID",
+        "description": "Type it exactly as it is set up, with no spaces at the start or end.",
+        "minLength": 1,
+        "maxLength": 100,
+        "pattern": "^\\S(.*\\S)?$",
+        "examples": [
+          "CA"
+        ],
+        "errorMessage": {
+          "minLength": "This value is required.",
+          "maxLength": "Keep it to 100 characters or fewer.",
+          "pattern": "Remove the space at the start or end."
+        }
+      },
+      "examples": [
+        [
+          "CA",
+          "Voucher"
+        ]
+      ]
+    },
+    "RewardTypeMapping": {
+      "type": "array",
+      "title": "Reward types",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Reward type",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS reward type",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "Money"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail reward type",
+            "description": "Select the matching value.",
+            "enum": [
+              "GLOBAL_ABSOLUTE",
+              "NET_PRICE",
+              "PRICE_REDUCTION",
+              "COMBO_REDUCTION",
+              "COMBO",
+              "GLOBAL_PERCENTAGE",
+              "PERCENTAGE",
+              "COMBO_PERCENTAGE"
+            ],
+            "examples": [
+              "PRICE_REDUCTION"
+            ],
+            "errorMessage": {
+              "enum": "Select a value from the list."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "Money",
+            "value": "PRICE_REDUCTION"
+          },
+          {
+            "id": "Percentage",
+            "value": "PERCENTAGE"
+          },
+          {
+            "id": "Free",
+            "value": "NET_PRICE"
+          },
+          {
+            "id": "FixedPrice",
+            "value": "NET_PRICE"
+          },
+          {
+            "id": "Gift",
+            "value": "COMBO"
+          },
+          {
+            "id": "MultiBuys",
+            "value": "COMBO_REDUCTION"
+          },
+          {
+            "id": "Kit",
+            "value": "COMBO_PERCENTAGE"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    },
+    "TransactionTypeMapping": {
+      "type": "array",
+      "title": "Transaction types",
+      "default": [],
+      "maxItems": 500,
+      "uniqueItemProperties": [
+        "id"
+      ],
+      "errorMessage": {
+        "uniqueItemProperties": "This value is already mapped. Each value can be mapped only once.",
+        "maxItems": "This list can have at most 500 rows."
+      },
+      "items": {
+        "type": "object",
+        "title": "Transaction type",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "OMS transaction type",
+            "description": "Type it exactly as it is sent, including upper and lower case, with no spaces at the start or end.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^\\S(.*\\S)?$",
+            "examples": [
+              "Sale"
+            ],
+            "errorMessage": {
+              "minLength": "This value is required.",
+              "maxLength": "Keep it to 100 characters or fewer.",
+              "pattern": "Remove the space at the start or end."
+            }
+          },
+          "value": {
+            "type": "string",
+            "title": "HiiRetail transaction type",
+            "description": "Select the matching value.",
+            "enum": [
+              "PURCHASE",
+              "RESERVATION",
+              "CAPTURE",
+              "REFUND"
+            ],
+            "examples": [
+              "PURCHASE"
+            ],
+            "errorMessage": {
+              "enum": "Select a value from the list."
+            }
+          }
+        },
+        "additionalProperties": false,
+        "errorMessage": {
+          "required": {
+            "id": "This value is required.",
+            "value": "This value is required."
+          },
+          "additionalProperties": "A row can only contain the two mapped values."
+        }
+      },
+      "examples": [
+        [
+          {
+            "id": "Sale",
+            "value": "PURCHASE"
+          },
+          {
+            "id": "Invoiced",
+            "value": "PURCHASE"
+          },
+          {
+            "id": "Authorization",
+            "value": "RESERVATION"
+          },
+          {
+            "id": "AwaitingAuthorization",
+            "value": "RESERVATION"
+          },
+          {
+            "id": "Capture",
+            "value": "CAPTURE"
+          },
+          {
+            "id": "Credit",
+            "value": "REFUND"
+          },
+          {
+            "id": "Void",
+            "value": "REFUND"
+          }
+        ]
+      ],
+      "x-primary-key": "id"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "OrderStatusMapping": [
+        {
+          "id": "New",
+          "value": "CREATED"
+        },
+        {
+          "id": "InProgress",
+          "value": "IN_PROGRESS"
+        },
+        {
+          "id": "Processing",
+          "value": "IN_PROGRESS"
+        },
+        {
+          "id": "AwaitingInventory",
+          "value": "IN_PROGRESS"
+        },
+        {
+          "id": "Completed",
+          "value": "FULFILLED"
+        },
+        {
+          "id": "Shipped",
+          "value": "FULFILLED"
+        },
+        {
+          "id": "Delivered",
+          "value": "FULFILLED"
+        },
+        {
+          "id": "OrderCanceled",
+          "value": "CANCELLED"
+        }
+      ],
+      "ShipmentStatusMapping": [
+        {
+          "id": "AwaitingInventory",
+          "value": "CREATED"
+        },
+        {
+          "id": "Packing",
+          "value": "CREATED"
+        },
+        {
+          "id": "Shipped",
+          "value": "FULFILLED"
+        },
+        {
+          "id": "Cancelled",
+          "value": "CANCELLED"
+        },
+        {
+          "id": "OrderCanceled",
+          "value": "CANCELLED"
+        },
+        {
+          "id": "OrderCanceledByCustomer",
+          "value": "CANCELLED"
+        },
+        {
+          "id": "OrderCanceledByStore",
+          "value": "CANCELLED"
+        },
+        {
+          "id": "ReadyForPickup",
+          "value": "READY_FOR_PICKUP"
+        },
+        {
+          "id": "PickedUpAndPaid",
+          "value": "FULFILLED"
+        }
+      ],
+      "AuthorizationStatusMapping": [
+        {
+          "id": "Approved",
+          "value": true
+        },
+        {
+          "id": "Processed",
+          "value": true
+        },
+        {
+          "id": "Paid",
+          "value": true
+        },
+        {
+          "id": "Failed",
+          "value": false
+        },
+        {
+          "id": "Pending",
+          "value": false
+        }
+      ],
+      "ShipmentMethodMapping": [
+        {
+          "id": "PickUpInStore",
+          "value": "PICKUP_IN_STORE"
+        },
+        {
+          "id": "HomeDeliveryFromStore",
+          "value": "HOME_DELIVERY_FROM_STORE"
+        },
+        {
+          "id": "DropShipping",
+          "value": "HOME_DELIVERY_FROM_WAREHOUSE"
+        }
+      ],
+      "TenderIdMapping": [
+        {
+          "id": "PaidInStore",
+          "value": "CA"
+        },
+        {
+          "id": "Coupon",
+          "value": "Voucher"
+        }
+      ],
+      "TenderWithoutAuthorizationData": [
+        "CA",
+        "Voucher"
+      ],
+      "RewardTypeMapping": [
+        {
+          "id": "Money",
+          "value": "PRICE_REDUCTION"
+        },
+        {
+          "id": "Percentage",
+          "value": "PERCENTAGE"
+        },
+        {
+          "id": "Free",
+          "value": "NET_PRICE"
+        },
+        {
+          "id": "FixedPrice",
+          "value": "NET_PRICE"
+        },
+        {
+          "id": "Gift",
+          "value": "COMBO"
+        },
+        {
+          "id": "MultiBuys",
+          "value": "COMBO_REDUCTION"
+        },
+        {
+          "id": "Kit",
+          "value": "COMBO_PERCENTAGE"
+        }
+      ],
+      "TransactionTypeMapping": [
+        {
+          "id": "Sale",
+          "value": "PURCHASE"
+        },
+        {
+          "id": "Invoiced",
+          "value": "PURCHASE"
+        },
+        {
+          "id": "Authorization",
+          "value": "RESERVATION"
+        },
+        {
+          "id": "AwaitingAuthorization",
+          "value": "RESERVATION"
+        },
+        {
+          "id": "Capture",
+          "value": "CAPTURE"
+        },
+        {
+          "id": "Credit",
+          "value": "REFUND"
+        },
+        {
+          "id": "Void",
+          "value": "REFUND"
+        }
+      ]
+    }
+  ],
+  "errorMessage": {
+    "additionalProperties": "Unknown setting. Only the mappings defined in this schema are allowed."
+  }
+}
