@@ -41,8 +41,14 @@ const isFileRef = (node) =>
 export function flatten(sourceFile) {
   const $defs = {};
 
-  const walk = (node, dir, stack) => {
-    if (Array.isArray(node)) return node.map((child) => walk(child, dir, stack));
+  const escapePointer = (key) => String(key).replace(/~/g, '~0').replace(/\//g, '~1');
+
+  // `pointer` is the node's JSON pointer within the file at stack.at(-1), kept
+  // only so an error can say where in that file the problem is.
+  const walk = (node, dir, stack, pointer = '') => {
+    if (Array.isArray(node)) {
+      return node.map((child, index) => walk(child, dir, stack, `${pointer}/${index}`));
+    }
     if (!node || typeof node !== 'object') return node;
 
     if (isFileRef(node)) {
@@ -65,8 +71,27 @@ export function flatten(sourceFile) {
         // are the use site's own words about the field, so they win over the
         // target's. Dropping them silently replaced the field description with
         // the enum's generic one.
+        //
+        // The body's own $refs are relative to the target file, but the
+        // siblings were written at the use site, so a $ref among them is
+        // relative to this file's directory, not the target's.
         const { $ref, ...siblings } = node;
-        return walk({ ...body, ...siblings }, path.dirname(target), nested);
+        return {
+          ...walk(body, path.dirname(target), nested),
+          ...walk(siblings, dir, stack, pointer),
+        };
+      }
+
+      // A $defs entry is shared by every use site, so there is nowhere to put
+      // keywords written next to one reference. Dropping them silently is the
+      // same loss as the scalar case above; refuse instead.
+      const { $ref, ...dropped } = node;
+      if (Object.keys(dropped).length > 0) {
+        throw new Error(
+          `Keywords beside $ref '${node.$ref}' would be dropped: ${Object.keys(dropped).join(', ')}` +
+            ` (at ${pointer || '/'} in ${rel(stack.at(-1))}). ` +
+            `A $ref to the titled object ${title} becomes a shared $defs entry and cannot carry them.`,
+        );
       }
 
       if (!(title in $defs)) {
@@ -79,7 +104,9 @@ export function flatten(sourceFile) {
     }
 
     const out = {};
-    for (const [key, value] of Object.entries(node)) out[key] = walk(value, dir, stack);
+    for (const [key, value] of Object.entries(node)) {
+      out[key] = walk(value, dir, stack, `${pointer}/${escapePointer(key)}`);
+    }
     return out;
   };
 

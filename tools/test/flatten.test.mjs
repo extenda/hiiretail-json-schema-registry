@@ -84,6 +84,56 @@ test('keywords beside an inlined $ref win over the target, so field descriptions
   assert.equal(root.properties.plain.description, 'Colour');
 });
 
+test('a $ref in a sibling keyword resolves against the use site, not the target', () => {
+  // Kind lives in sub/, where Colour.schema.json does not exist. The sibling was
+  // written next to the $ref in workdir, so its own $ref must be read from there.
+  fs.mkdirSync(path.join(workdir, 'sub'), { recursive: true });
+  write('sub/Kind.schema.json', {
+    id: 'test.Kind',
+    title: 'Kind',
+    type: 'string',
+    enum: ['a', 'b'],
+  });
+  const source = write('siblingRef.schema.json', {
+    id: 'test.siblingRef',
+    title: 'SiblingRef',
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      kind: { $ref: 'sub/Kind.schema.json', not: { $ref: 'Colour.schema.json' } },
+    },
+  });
+
+  const { root } = flatten(source);
+  assert.deepEqual(root.properties.kind.enum, ['a', 'b']);
+  assert.deepEqual(root.properties.kind.not.enum, ['red', 'green']);
+});
+
+test('keywords beside a $ref to a titled object are refused, not dropped', () => {
+  const source = write('objectSiblings.schema.json', {
+    id: 'test.objectSiblings',
+    title: 'ObjectSiblings',
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      parts: {
+        type: 'array',
+        items: { $ref: 'PartDto.schema.json', description: 'lost if not refused', deprecated: true },
+      },
+    },
+  });
+
+  assert.throws(
+    () => flatten(source),
+    (error) =>
+      /Keywords beside \$ref 'PartDto\.schema\.json' would be dropped: description, deprecated/.test(
+        error.message,
+      ) &&
+      error.message.includes('/properties/parts/items') &&
+      error.message.includes('objectSiblings.schema.json'),
+  );
+});
+
 test('a $refed object becomes a $defs entry keyed by its title', () => {
   const { root, $defs } = flatten(rootFile);
   assert.deepEqual(root.properties.parts.items, { $ref: '#/$defs/PartDto' });
