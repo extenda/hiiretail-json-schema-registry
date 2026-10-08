@@ -66,7 +66,7 @@
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
-      "description": "The record's own last-modified timestamp as of this publish (stock_count_business_units.modified_datetime), ISO 8601 UTC. Millisecond precision: exactly three fractional-second digits, UTC. Every timestamp on this topic is normalised through getTime() on both publish paths, so the create path (Spanner commit response) and the update path (a PreciseDate read-back) cannot emit different widths. Sub-millisecond precision is dropped deliberately. The producer's write time — not the publish time and not the delivery time. Use it to discard a replayed message older than state already applied"
+      "description": "The record's last write time as of this publish: the latest of stock_count_business_units.modified_datetime, completed_datetime and deleted_datetime, ISO 8601 UTC. Submitting and deleting stamp completed_datetime and deleted_datetime rather than modified_datetime, so a COMPLETED or DELETED snapshot carries the time of that write and orders after the creation it supersedes. Millisecond precision: exactly three fractional-second digits, UTC. Every timestamp on this topic is normalised through getTime() on both publish paths, so the create path (Spanner commit response) and the update path (a PreciseDate read-back) cannot emit different widths. Sub-millisecond precision is dropped deliberately. The producer's write time — not the publish time and not the delivery time. Use it to discard a replayed message older than state already applied"
     }
   }
 }
