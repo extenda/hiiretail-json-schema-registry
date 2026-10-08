@@ -61,7 +61,12 @@ export function flatten(sourceFile) {
       const nested = [...stack, target];
 
       if (!title || isScalar(body)) {
-        return walk(body, path.dirname(target), nested);
+        // Keywords next to the $ref (typically a field-level `description`)
+        // are the use site's own words about the field, so they win over the
+        // target's. Dropping them silently replaced the field description with
+        // the enum's generic one.
+        const { $ref, ...siblings } = node;
+        return walk({ ...body, ...siblings }, path.dirname(target), nested);
       }
 
       if (!(title in $defs)) {

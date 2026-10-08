@@ -60,6 +60,30 @@ test('a $refed scalar is inlined at the use site, enum and all', () => {
   });
 });
 
+test('keywords beside an inlined $ref win over the target, so field descriptions survive', () => {
+  const source = write('siblings.schema.json', {
+    id: 'test.siblings',
+    $schema: 'https://json-schema.org/draft/2020-12/schema',
+    title: 'Siblings',
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      colour: { $ref: 'Colour.schema.json', description: 'The colour of this very field' },
+      plain: { $ref: 'Colour.schema.json' },
+    },
+  });
+
+  const { root } = flatten(source);
+  assert.deepEqual(root.properties.colour, {
+    description: 'The colour of this very field',
+    type: 'string',
+    enum: ['red', 'green'],
+  });
+  assert.equal('$ref' in root.properties.colour, false);
+  // Without a sibling the target's own description is still used.
+  assert.equal(root.properties.plain.description, 'Colour');
+});
+
 test('a $refed object becomes a $defs entry keyed by its title', () => {
   const { root, $defs } = flatten(rootFile);
   assert.deepEqual(root.properties.parts.items, { $ref: '#/$defs/PartDto' });
