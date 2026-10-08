@@ -84,29 +84,58 @@ test('keywords beside an inlined $ref win over the target, so field descriptions
   assert.equal(root.properties.plain.description, 'Colour');
 });
 
-test('a $ref in a sibling keyword resolves against the use site, not the target', () => {
-  // Kind lives in sub/, where Colour.schema.json does not exist. The sibling was
-  // written next to the $ref in workdir, so its own $ref must be read from there.
-  fs.mkdirSync(path.join(workdir, 'sub'), { recursive: true });
-  write('sub/Kind.schema.json', {
-    id: 'test.Kind',
-    title: 'Kind',
-    type: 'string',
-    enum: ['a', 'b'],
-  });
-  const source = write('siblingRef.schema.json', {
-    id: 'test.siblingRef',
-    title: 'SiblingRef',
+test('a validation keyword beside an inlined $ref is refused, not overridden', () => {
+  // Beside a $ref, `enum` is AND-ed with the target's: only 'green' would be
+  // accepted. Overriding would publish ['green', 'blue'] and accept 'blue'.
+  const source = write('validationSibling.schema.json', {
+    id: 'test.validationSibling',
+    title: 'ValidationSibling',
     type: 'object',
     additionalProperties: false,
     properties: {
-      kind: { $ref: 'sub/Kind.schema.json', not: { $ref: 'Colour.schema.json' } },
+      colour: {
+        $ref: 'Colour.schema.json',
+        description: 'fine on its own',
+        enum: ['green', 'blue'],
+        not: { const: 'red' },
+      },
     },
   });
 
+  assert.throws(
+    () => flatten(source),
+    (error) =>
+      /Keywords beside \$ref 'Colour\.schema\.json' cannot be merged: enum, not/.test(error.message) &&
+      error.message.includes('/properties/colour') &&
+      error.message.includes('validationSibling.schema.json'),
+  );
+});
+
+test('every annotation keyword beside an inlined $ref overrides the target', () => {
+  const annotations = {
+    title: 'T',
+    description: 'D',
+    $comment: 'C',
+    examples: ['red'],
+    default: 'green',
+    deprecated: true,
+    readOnly: true,
+    writeOnly: false,
+  };
+  const source = write('annotationSiblings.schema.json', {
+    id: 'test.annotationSiblings',
+    title: 'AnnotationSiblings',
+    type: 'object',
+    additionalProperties: false,
+    properties: { colour: { $ref: 'Colour.schema.json', ...annotations } },
+  });
+
   const { root } = flatten(source);
-  assert.deepEqual(root.properties.kind.enum, ['a', 'b']);
-  assert.deepEqual(root.properties.kind.not.enum, ['red', 'green']);
+  assert.deepEqual(root.properties.colour, {
+    ...annotations,
+    type: 'string',
+    enum: ['red', 'green'],
+  });
 });
 
 test('keywords beside a $ref to a titled object are refused, not dropped', () => {

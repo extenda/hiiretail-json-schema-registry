@@ -19,6 +19,22 @@ const isScalar = (body) => {
   return types.every((type) => type !== undefined && PRIMITIVES.has(type));
 };
 
+// Keywords that only describe a schema and never affect what validates. These
+// are the only ones allowed beside an inlined $ref, where they override the
+// target's. Anything else beside a $ref is evaluated *alongside* the target
+// (draft 2020-12), as a logical AND, so overriding it would change what the
+// published file accepts.
+const ANNOTATION_KEYWORDS = new Set([
+  'title',
+  'description',
+  '$comment',
+  'examples',
+  'default',
+  'deprecated',
+  'readOnly',
+  'writeOnly',
+]);
+
 const isFileRef = (node) =>
   node && typeof node === 'object' && typeof node.$ref === 'string' && !node.$ref.startsWith('#');
 
@@ -67,19 +83,26 @@ export function flatten(sourceFile) {
       const nested = [...stack, target];
 
       if (!title || isScalar(body)) {
-        // Keywords next to the $ref (typically a field-level `description`)
+        // Annotations next to the $ref (typically a field-level `description`)
         // are the use site's own words about the field, so they win over the
         // target's. Dropping them silently replaced the field description with
-        // the enum's generic one.
+        // the enum's generic one. They are data, not schema, so they are not
+        // walked.
         //
-        // The body's own $refs are relative to the target file, but the
-        // siblings were written at the use site, so a $ref among them is
-        // relative to this file's directory, not the target's.
+        // Any other keyword would be AND-ed with the target by a validator.
+        // Merging it as an override would widen or narrow the schema, and
+        // combining it ourselves would be a guess, so refuse.
         const { $ref, ...siblings } = node;
-        return {
-          ...walk(body, path.dirname(target), nested),
-          ...walk(siblings, dir, stack, pointer),
-        };
+        const validating = Object.keys(siblings).filter((key) => !ANNOTATION_KEYWORDS.has(key));
+        if (validating.length > 0) {
+          throw new Error(
+            `Keywords beside $ref '${node.$ref}' cannot be merged: ${validating.join(', ')}` +
+              ` (at ${pointer || '/'} in ${rel(stack.at(-1))}). ` +
+              `Only annotation keywords (${[...ANNOTATION_KEYWORDS].join(', ')}) may override an inlined $ref; ` +
+              `a validation keyword is evaluated alongside the target, not instead of it.`,
+          );
+        }
+        return { ...walk(body, path.dirname(target), nested), ...siblings };
       }
 
       // A $defs entry is shared by every use site, so there is nowhere to put
