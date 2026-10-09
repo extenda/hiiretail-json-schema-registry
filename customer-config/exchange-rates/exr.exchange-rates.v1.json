@@ -49,15 +49,31 @@
             },
             "currencyIdFrom": {
               "type": "string",
-              "description": "Source currency code using ISO4217 format"
+              "description": "Currency the rate is expressed in — the currency being converted TO. ISO4217."
             },
             "currencyIdTo": {
               "type": "string",
-              "description": "Target currency code using ISO4217 format"
+              "description": "Currency being priced — the currency being converted FROM. ISO4217."
             },
             "exchangeRate": {
               "type": "number",
-              "description": "Value for exchange rate"
+              "description": "Amount of currencyIdFrom equivalent to one unit of currencyIdTo. Multiply an amount in currencyIdTo to obtain currencyIdFrom. Example: currencyIdFrom=SEK, currencyIdTo=EUR, exchangeRate=11.20 means 1 EUR = 11.20 SEK."
+            },
+            "createdBy": {
+              "type": "string",
+              "description": "Who wrote the rate: global-exr-scheduler for the automatic ECB import published per store, global-exr-scheduler-level for the automatic ECB import published per level (tenants on the publish-rates-per-level switch), otherwise the user id of the Exchange Rates API caller. Not set by the config portal."
+            },
+            "tenantId": {
+              "type": "string",
+              "description": "Tenant the rate belongs to. Written by the Exchange Rates processor; not set by the config portal."
+            },
+            "businessUnitId": {
+              "type": "string",
+              "description": "Business unit the rate was written for, when the Exchange Rates processor writes it at business-unit level. Absent at tenant and business-unit-group level, and not set by the config portal."
+            },
+            "createdDatetime": {
+              "type": "string",
+              "description": "When the Exchange Rates processor wrote the rate, as an ISO 8601 date-time. Not set by the config portal."
             }
           }
         }
