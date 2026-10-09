@@ -61,7 +61,7 @@
             },
             "createdBy": {
               "type": "string",
-              "description": "Who wrote the rate: global-exr-scheduler for the automatic ECB import, otherwise the user id of the Exchange Rates API caller. Not set by the config portal."
+              "description": "Who wrote the rate: global-exr-scheduler for the automatic ECB import published per store, global-exr-scheduler-level for the automatic ECB import published per level (tenants on the publish-rates-per-level switch), otherwise the user id of the Exchange Rates API caller. Not set by the config portal."
             }
           }
         }
