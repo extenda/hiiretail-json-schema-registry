@@ -30,6 +30,11 @@
       "$id": "stp.public.event.expiring-item-quantity.v2"
     },
     {
+      "source": "stp/stp.public.output.processed-transactions.v3.schema.json",
+      "output": "external-events/stp/stp.public.output.processed-transactions.v3.json",
+      "$id": "stp.public.output.processed-transactions.v3"
+    },
+    {
       "source": "stc/stc.public.event.stock-count-completed.v1.schema.json",
       "output": "external-events/stc/stc.public.event.stock-count-completed.v1.json",
       "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1"

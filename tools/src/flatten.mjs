@@ -19,6 +19,22 @@ const isScalar = (body) => {
   return types.every((type) => type !== undefined && PRIMITIVES.has(type));
 };
 
+// Keywords that only describe a schema and never affect what validates. These
+// are the only ones allowed beside an inlined $ref, where they override the
+// target's. Anything else beside a $ref is evaluated *alongside* the target
+// (draft 2020-12), as a logical AND, so overriding it would change what the
+// published file accepts.
+const ANNOTATION_KEYWORDS = new Set([
+  'title',
+  'description',
+  '$comment',
+  'examples',
+  'default',
+  'deprecated',
+  'readOnly',
+  'writeOnly',
+]);
+
 const isFileRef = (node) =>
   node && typeof node === 'object' && typeof node.$ref === 'string' && !node.$ref.startsWith('#');
 
@@ -41,8 +57,14 @@ const isFileRef = (node) =>
 export function flatten(sourceFile) {
   const $defs = {};
 
-  const walk = (node, dir, stack) => {
-    if (Array.isArray(node)) return node.map((child) => walk(child, dir, stack));
+  const escapePointer = (key) => String(key).replace(/~/g, '~0').replace(/\//g, '~1');
+
+  // `pointer` is the node's JSON pointer within the file at stack.at(-1), kept
+  // only so an error can say where in that file the problem is.
+  const walk = (node, dir, stack, pointer = '') => {
+    if (Array.isArray(node)) {
+      return node.map((child, index) => walk(child, dir, stack, `${pointer}/${index}`));
+    }
     if (!node || typeof node !== 'object') return node;
 
     if (isFileRef(node)) {
@@ -61,7 +83,38 @@ export function flatten(sourceFile) {
       const nested = [...stack, target];
 
       if (!title || isScalar(body)) {
-        return walk(body, path.dirname(target), nested);
+        // Annotations next to the $ref (typically a field-level `description`)
+        // are the use site's own words about the field, so they win over the
+        // target's. Dropping them silently replaced the field description with
+        // the enum's generic one. They are data, not schema, so they are not
+        // walked.
+        //
+        // Any other keyword would be AND-ed with the target by a validator.
+        // Merging it as an override would widen or narrow the schema, and
+        // combining it ourselves would be a guess, so refuse.
+        const { $ref, ...siblings } = node;
+        const validating = Object.keys(siblings).filter((key) => !ANNOTATION_KEYWORDS.has(key));
+        if (validating.length > 0) {
+          throw new Error(
+            `Keywords beside $ref '${node.$ref}' cannot be merged: ${validating.join(', ')}` +
+              ` (at ${pointer || '/'} in ${rel(stack.at(-1))}). ` +
+              `Only annotation keywords (${[...ANNOTATION_KEYWORDS].join(', ')}) may override an inlined $ref; ` +
+              `a validation keyword is evaluated alongside the target, not instead of it.`,
+          );
+        }
+        return { ...walk(body, path.dirname(target), nested), ...siblings };
+      }
+
+      // A $defs entry is shared by every use site, so there is nowhere to put
+      // keywords written next to one reference. Dropping them silently is the
+      // same loss as the scalar case above; refuse instead.
+      const { $ref, ...dropped } = node;
+      if (Object.keys(dropped).length > 0) {
+        throw new Error(
+          `Keywords beside $ref '${node.$ref}' would be dropped: ${Object.keys(dropped).join(', ')}` +
+            ` (at ${pointer || '/'} in ${rel(stack.at(-1))}). ` +
+            `A $ref to the titled object ${title} becomes a shared $defs entry and cannot carry them.`,
+        );
       }
 
       if (!(title in $defs)) {
@@ -74,7 +127,9 @@ export function flatten(sourceFile) {
     }
 
     const out = {};
-    for (const [key, value] of Object.entries(node)) out[key] = walk(value, dir, stack);
+    for (const [key, value] of Object.entries(node)) {
+      out[key] = walk(value, dir, stack, `${pointer}/${escapePointer(key)}`);
+    }
     return out;
   };
 
