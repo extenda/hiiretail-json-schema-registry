@@ -49,15 +49,19 @@
             },
             "currencyIdFrom": {
               "type": "string",
-              "description": "Source currency code using ISO4217 format"
+              "description": "Currency the rate is expressed in — the currency being converted TO. ISO4217."
             },
             "currencyIdTo": {
               "type": "string",
-              "description": "Target currency code using ISO4217 format"
+              "description": "Currency being priced — the currency being converted FROM. ISO4217."
             },
             "exchangeRate": {
               "type": "number",
-              "description": "Value for exchange rate"
+              "description": "Amount of currencyIdFrom equivalent to one unit of currencyIdTo. Multiply an amount in currencyIdTo to obtain currencyIdFrom. Example: currencyIdFrom=SEK, currencyIdTo=EUR, exchangeRate=11.20 means 1 EUR = 11.20 SEK."
+            },
+            "createdBy": {
+              "type": "string",
+              "description": "Who wrote the rate: global-exr-scheduler for the automatic ECB import, otherwise the user id of the Exchange Rates API caller. Not set by the config portal."
             }
           }
         }
