@@ -1,0 +1,1203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-app/cha.pos-layout.preview.json",
+  "title": "POS buttons and layout (preview)",
+  "description": "Preview kind for the CRG pre-sales demo: describes the function buttons, the payment row and the grid of the Checkout App POS. The app overlays this on the Checkout Engine menu tree; a button only works when its command exists in the engine menu for the store. Temporary kind, to be removed or promoted after the demo.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "enabled": {
+      "title": "Use this layout",
+      "description": "When off, the POS shows the Checkout Engine menu unchanged.",
+      "type": "boolean",
+      "default": false
+    },
+    "mainMenu": {
+      "title": "Main menu",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "columns": {
+          "title": "Columns",
+          "description": "Number of button columns in the function grid.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "default": 2
+        },
+        "hideUnlisted": {
+          "title": "Hide buttons not listed here",
+          "description": "When off, engine buttons that are not configured are shown after the configured ones.",
+          "type": "boolean",
+          "default": false
+        },
+        "hideShortcuts": {
+          "title": "Hide the fixed shortcut strip",
+          "description": "Hides the row of fixed shortcuts under the number pad (PLU, receipt search, business customer, web links, ...). Put the ones you need in the button grid instead.",
+          "type": "boolean",
+          "default": false
+        },
+        "buttons": {
+          "title": "Buttons",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Button"
+          }
+        }
+      }
+    },
+    "paymentRow": {
+      "title": "Payment row",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "buttons": {
+          "title": "Payment buttons",
+          "description": "Order of the quick payment buttons. The first two are shown on the main screen: the first as the small button on the left, the second as the large button on the right. Swap them to swap Cash and Card.",
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "$ref": "#/$defs/PayButton"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Button": {
+      "title": "Button",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "description": "Unique within the layout, for example return.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,40}$"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "subtitle": {
+          "title": "Subtitle",
+          "description": "Small text under the label.",
+          "type": "string",
+          "maxLength": 60
+        },
+        "action": {
+          "title": "Action",
+          "description": "Pick a category, then the action from that category's list. Leave the category unset to make a folder.",
+          "oneOf": [
+            {
+              "title": "Sale",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "saleAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "sale"
+                },
+                "saleAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "suspendOrder",
+                      "title": "Suspend order (during a sale)"
+                    },
+                    {
+                      "const": "retrieveOrder",
+                      "title": "Retrieve suspended order (between sales)"
+                    },
+                    {
+                      "const": "cancelOrder",
+                      "title": "Cancel order (during a sale)"
+                    },
+                    {
+                      "const": "voidLine",
+                      "title": "Void selected line (line selected)"
+                    },
+                    {
+                      "const": "quantity",
+                      "title": "Change quantity (line selected)"
+                    },
+                    {
+                      "const": "repeatLastItem",
+                      "title": "Repeat last item (during a sale)"
+                    },
+                    {
+                      "const": "manualDepartment",
+                      "title": "Manual department sale"
+                    },
+                    {
+                      "const": "tare",
+                      "title": "Tare (line selected)"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Returns and receipts",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "receiptAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "receipt"
+                },
+                "receiptAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "returnFromReceipt",
+                      "title": "Return from a receipt"
+                    },
+                    {
+                      "const": "findReceipt",
+                      "title": "Find a receipt"
+                    },
+                    {
+                      "const": "receiptComment",
+                      "title": "Receipt comment (during a sale)"
+                    },
+                    {
+                      "const": "lineComment",
+                      "title": "Comment on line (line selected)"
+                    },
+                    {
+                      "const": "returnWithoutReceipt",
+                      "title": "Return without receipt"
+                    },
+                    {
+                      "const": "complaint",
+                      "title": "Complaint"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Discounts and prices",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "priceAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "price"
+                },
+                "priceAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "discountLineAmount",
+                      "title": "Discount on line, amount (line selected)"
+                    },
+                    {
+                      "const": "discountLinePercent",
+                      "title": "Discount on line, percent (line selected)"
+                    },
+                    {
+                      "const": "discountOrder",
+                      "title": "Discount on whole order (during a sale)"
+                    },
+                    {
+                      "const": "removeLineDiscount",
+                      "title": "Remove discount from line (line selected)"
+                    },
+                    {
+                      "const": "changePrice",
+                      "title": "Change price of line (line selected)"
+                    },
+                    {
+                      "const": "priceCheck",
+                      "title": "Check a price"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Customer",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "customerAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "customer"
+                },
+                "customerAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "b2bCustomer",
+                      "title": "Business customer"
+                    },
+                    {
+                      "const": "customerOrderSearch",
+                      "title": "Find a customer order"
+                    },
+                    {
+                      "const": "customer",
+                      "title": "Customer (during a sale)"
+                    },
+                    {
+                      "const": "loyaltyVoucher",
+                      "title": "Loyalty voucher (during a sale)"
+                    },
+                    {
+                      "const": "externalCustomer",
+                      "title": "Register external customer (during a sale)"
+                    },
+                    {
+                      "const": "customerCardNumber",
+                      "title": "Register customer card (during a sale)"
+                    },
+                    {
+                      "const": "retrieveCustomerOrder",
+                      "title": "Retrieve customer order"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Cash drawer",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "cashAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "cash"
+                },
+                "cashAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "openCashDrawer",
+                      "title": "Open cash drawer"
+                    },
+                    {
+                      "const": "paidIn",
+                      "title": "Paid in"
+                    },
+                    {
+                      "const": "paidOut",
+                      "title": "Paid out"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Gift cards",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "giftCardAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "giftCard"
+                },
+                "giftCardAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "giftCardBalance",
+                      "title": "Gift card balance"
+                    },
+                    {
+                      "const": "issueGiftCard",
+                      "title": "Issue gift card"
+                    },
+                    {
+                      "const": "reloadGiftCard",
+                      "title": "Reload gift card"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Lookups and screens",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "screenAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "screen"
+                },
+                "screenAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "findItem",
+                      "title": "Find an item"
+                    },
+                    {
+                      "const": "pluMenu",
+                      "title": "PLU menu"
+                    },
+                    {
+                      "const": "variantSearch",
+                      "title": "Browse categories"
+                    },
+                    {
+                      "const": "externalLinks",
+                      "title": "Web links"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Advanced: engine command",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "command"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "command"
+                },
+                "command": {
+                  "title": "Engine command",
+                  "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_.]{1,80}$"
+                }
+              }
+            }
+          ]
+        },
+        "icon": {
+          "$ref": "#/$defs/Icon"
+        },
+        "imageUrl": {
+          "title": "Picture",
+          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
+          "type": "string",
+          "format": "uri",
+          "contentMediaType": "image/*",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "color": {
+          "$ref": "#/$defs/Color"
+        },
+        "size": {
+          "title": "Size",
+          "description": "Columns x rows the button spans.",
+          "default": "1x1",
+          "oneOf": [
+            {
+              "const": "1x1",
+              "title": "Normal"
+            },
+            {
+              "const": "2x1",
+              "title": "Wide"
+            },
+            {
+              "const": "1x2",
+              "title": "Tall"
+            },
+            {
+              "const": "2x2",
+              "title": "Large"
+            }
+          ]
+        },
+        "fontSize": {
+          "title": "Font size",
+          "default": "medium",
+          "oneOf": [
+            {
+              "const": "small",
+              "title": "Small"
+            },
+            {
+              "const": "medium",
+              "title": "Medium"
+            },
+            {
+              "const": "large",
+              "title": "Large"
+            }
+          ]
+        },
+        "order": {
+          "title": "Order",
+          "description": "Lower numbers come first.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999
+        },
+        "prominent": {
+          "title": "Prominent",
+          "description": "Pinned to the top of the grid.",
+          "type": "boolean",
+          "default": false
+        },
+        "badge": {
+          "title": "Live badge",
+          "default": "none",
+          "oneOf": [
+            {
+              "const": "none",
+              "title": "None"
+            },
+            {
+              "const": "suspendedOrders",
+              "title": "Suspended orders waiting"
+            }
+          ]
+        },
+        "buttons": {
+          "title": "Buttons in this folder",
+          "description": "Makes this button a folder that opens these buttons. One level deep. A folder has no action of its own.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FolderItem"
+          }
+        }
+      },
+      "description": "A button runs an action or opens a folder of buttons, never both. A button with neither is ignored by the till.",
+      "not": {
+        "type": "object",
+        "properties": {
+          "action": {},
+          "buttons": {}
+        },
+        "required": [
+          "action",
+          "buttons"
+        ]
+      }
+    },
+    "FolderItem": {
+      "title": "Button in a folder",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "description": "Unique within the layout, for example return.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,40}$"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "subtitle": {
+          "title": "Subtitle",
+          "description": "Small text under the label.",
+          "type": "string",
+          "maxLength": 60
+        },
+        "action": {
+          "title": "Action",
+          "description": "Pick a category, then the action from that category's list. Leave the category unset to make a folder.",
+          "oneOf": [
+            {
+              "title": "Sale",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "saleAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "sale"
+                },
+                "saleAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "suspendOrder",
+                      "title": "Suspend order (during a sale)"
+                    },
+                    {
+                      "const": "retrieveOrder",
+                      "title": "Retrieve suspended order (between sales)"
+                    },
+                    {
+                      "const": "cancelOrder",
+                      "title": "Cancel order (during a sale)"
+                    },
+                    {
+                      "const": "voidLine",
+                      "title": "Void selected line (line selected)"
+                    },
+                    {
+                      "const": "quantity",
+                      "title": "Change quantity (line selected)"
+                    },
+                    {
+                      "const": "repeatLastItem",
+                      "title": "Repeat last item (during a sale)"
+                    },
+                    {
+                      "const": "manualDepartment",
+                      "title": "Manual department sale"
+                    },
+                    {
+                      "const": "tare",
+                      "title": "Tare (line selected)"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Returns and receipts",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "receiptAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "receipt"
+                },
+                "receiptAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "returnFromReceipt",
+                      "title": "Return from a receipt"
+                    },
+                    {
+                      "const": "findReceipt",
+                      "title": "Find a receipt"
+                    },
+                    {
+                      "const": "receiptComment",
+                      "title": "Receipt comment (during a sale)"
+                    },
+                    {
+                      "const": "lineComment",
+                      "title": "Comment on line (line selected)"
+                    },
+                    {
+                      "const": "returnWithoutReceipt",
+                      "title": "Return without receipt"
+                    },
+                    {
+                      "const": "complaint",
+                      "title": "Complaint"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Discounts and prices",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "priceAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "price"
+                },
+                "priceAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "discountLineAmount",
+                      "title": "Discount on line, amount (line selected)"
+                    },
+                    {
+                      "const": "discountLinePercent",
+                      "title": "Discount on line, percent (line selected)"
+                    },
+                    {
+                      "const": "discountOrder",
+                      "title": "Discount on whole order (during a sale)"
+                    },
+                    {
+                      "const": "removeLineDiscount",
+                      "title": "Remove discount from line (line selected)"
+                    },
+                    {
+                      "const": "changePrice",
+                      "title": "Change price of line (line selected)"
+                    },
+                    {
+                      "const": "priceCheck",
+                      "title": "Check a price"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Customer",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "customerAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "customer"
+                },
+                "customerAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "b2bCustomer",
+                      "title": "Business customer"
+                    },
+                    {
+                      "const": "customerOrderSearch",
+                      "title": "Find a customer order"
+                    },
+                    {
+                      "const": "customer",
+                      "title": "Customer (during a sale)"
+                    },
+                    {
+                      "const": "loyaltyVoucher",
+                      "title": "Loyalty voucher (during a sale)"
+                    },
+                    {
+                      "const": "externalCustomer",
+                      "title": "Register external customer (during a sale)"
+                    },
+                    {
+                      "const": "customerCardNumber",
+                      "title": "Register customer card (during a sale)"
+                    },
+                    {
+                      "const": "retrieveCustomerOrder",
+                      "title": "Retrieve customer order"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Cash drawer",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "cashAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "cash"
+                },
+                "cashAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "openCashDrawer",
+                      "title": "Open cash drawer"
+                    },
+                    {
+                      "const": "paidIn",
+                      "title": "Paid in"
+                    },
+                    {
+                      "const": "paidOut",
+                      "title": "Paid out"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Gift cards",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "giftCardAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "giftCard"
+                },
+                "giftCardAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "giftCardBalance",
+                      "title": "Gift card balance"
+                    },
+                    {
+                      "const": "issueGiftCard",
+                      "title": "Issue gift card"
+                    },
+                    {
+                      "const": "reloadGiftCard",
+                      "title": "Reload gift card"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Lookups and screens",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "screenAction"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "screen"
+                },
+                "screenAction": {
+                  "title": "Action",
+                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
+                  "oneOf": [
+                    {
+                      "const": "findItem",
+                      "title": "Find an item"
+                    },
+                    {
+                      "const": "pluMenu",
+                      "title": "PLU menu"
+                    },
+                    {
+                      "const": "variantSearch",
+                      "title": "Browse categories"
+                    },
+                    {
+                      "const": "externalLinks",
+                      "title": "Web links"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "title": "Advanced: engine command",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "category",
+                "command"
+              ],
+              "properties": {
+                "category": {
+                  "title": "Category",
+                  "const": "command"
+                },
+                "command": {
+                  "title": "Engine command",
+                  "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_.]{1,80}$"
+                }
+              }
+            }
+          ]
+        },
+        "icon": {
+          "$ref": "#/$defs/Icon"
+        },
+        "imageUrl": {
+          "title": "Picture",
+          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
+          "type": "string",
+          "format": "uri",
+          "contentMediaType": "image/*",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "color": {
+          "$ref": "#/$defs/Color"
+        },
+        "size": {
+          "title": "Size",
+          "description": "Columns x rows the button spans.",
+          "default": "1x1",
+          "oneOf": [
+            {
+              "const": "1x1",
+              "title": "Normal"
+            },
+            {
+              "const": "2x1",
+              "title": "Wide"
+            },
+            {
+              "const": "1x2",
+              "title": "Tall"
+            },
+            {
+              "const": "2x2",
+              "title": "Large"
+            }
+          ]
+        },
+        "fontSize": {
+          "title": "Font size",
+          "default": "medium",
+          "oneOf": [
+            {
+              "const": "small",
+              "title": "Small"
+            },
+            {
+              "const": "medium",
+              "title": "Medium"
+            },
+            {
+              "const": "large",
+              "title": "Large"
+            }
+          ]
+        },
+        "order": {
+          "title": "Order",
+          "description": "Lower numbers come first.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999
+        }
+      }
+    },
+    "PayButton": {
+      "title": "Payment button",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,40}$",
+          "description": "Unique within the layout, for example return."
+        },
+        "tender": {
+          "title": "Tender",
+          "description": "The way of paying this button stands for. Pick from the list. The till shows the button only when the store's checkout offers that tender.",
+          "oneOf": [
+            {
+              "const": "cash",
+              "title": "Cash"
+            },
+            {
+              "const": "card",
+              "title": "Card"
+            },
+            {
+              "const": "cardExternalTerminal",
+              "title": "Card, external terminal"
+            },
+            {
+              "const": "mobilePayment",
+              "title": "Mobile payment"
+            },
+            {
+              "const": "giftCard",
+              "title": "Gift card"
+            },
+            {
+              "const": "giftCertificate",
+              "title": "Gift certificate"
+            },
+            {
+              "const": "voucher",
+              "title": "Voucher"
+            },
+            {
+              "const": "coupon",
+              "title": "Coupon"
+            },
+            {
+              "const": "organizationCharge",
+              "title": "Invoice to organisation"
+            },
+            {
+              "const": "loyaltyRedemption",
+              "title": "Loyalty points"
+            },
+            {
+              "const": "check",
+              "title": "Check"
+            },
+            {
+              "const": "bottleDeposit",
+              "title": "Bottle deposit"
+            }
+          ]
+        },
+        "command": {
+          "title": "Engine tender command (advanced)",
+          "description": "Only for a tender missing from the list: the exact Checkout Engine tender command. Ask Extenda before using it. A tender above wins over this field.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.]{1,80}$"
+        },
+        "label": {
+          "title": "Label",
+          "description": "Shown instead of the engine label.",
+          "type": "string",
+          "maxLength": 40
+        },
+        "icon": {
+          "$ref": "#/$defs/Icon"
+        },
+        "imageUrl": {
+          "title": "Picture",
+          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
+          "type": "string",
+          "format": "uri",
+          "contentMediaType": "image/*",
+          "pattern": "^https://",
+          "maxLength": 2048
+        },
+        "color": {
+          "$ref": "#/$defs/Color"
+        },
+        "order": {
+          "title": "Order",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 999,
+          "description": "Lower numbers come first."
+        }
+      },
+      "description": "A payment button needs a tender type or, for a tender missing from the list, an engine tender command.",
+      "if": {
+        "not": {
+          "type": "object",
+          "properties": {
+            "tender": {}
+          },
+          "required": [
+            "tender"
+          ]
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "command": {}
+        },
+        "required": [
+          "command"
+        ]
+      }
+    },
+    "Icon": {
+      "title": "Icon",
+      "description": "Built-in icon shown beside the label. A picture, when set, replaces it.",
+      "default": "none",
+      "oneOf": [
+        {
+          "const": "none",
+          "title": "None"
+        },
+        {
+          "const": "return",
+          "title": "Return"
+        },
+        {
+          "const": "suspend",
+          "title": "Suspend"
+        },
+        {
+          "const": "retrieve",
+          "title": "Retrieve"
+        },
+        {
+          "const": "cancel",
+          "title": "Cancel"
+        },
+        {
+          "const": "customer",
+          "title": "Customer"
+        },
+        {
+          "const": "discount",
+          "title": "Discount"
+        },
+        {
+          "const": "receipt",
+          "title": "Receipt"
+        },
+        {
+          "const": "print",
+          "title": "Print"
+        },
+        {
+          "const": "search",
+          "title": "Search"
+        },
+        {
+          "const": "folder",
+          "title": "Folder"
+        },
+        {
+          "const": "cash",
+          "title": "Cash"
+        },
+        {
+          "const": "card",
+          "title": "Card"
+        },
+        {
+          "const": "mobile",
+          "title": "Mobile payment"
+        },
+        {
+          "const": "giftcard",
+          "title": "Gift card"
+        },
+        {
+          "const": "lock",
+          "title": "Lock"
+        },
+        {
+          "const": "person",
+          "title": "Person"
+        },
+        {
+          "const": "bag",
+          "title": "Bag"
+        },
+        {
+          "const": "delivery",
+          "title": "Delivery"
+        },
+        {
+          "const": "help",
+          "title": "Help"
+        },
+        {
+          "const": "warning",
+          "title": "Warning"
+        },
+        {
+          "const": "settings",
+          "title": "Settings"
+        }
+      ]
+    },
+    "Color": {
+      "title": "Colour",
+      "description": "Background colour of the button. Default is the store theme. The till picks black or white text to stay readable.",
+      "default": "default",
+      "oneOf": [
+        {
+          "const": "default",
+          "title": "Default"
+        },
+        {
+          "const": "white",
+          "title": "White"
+        },
+        {
+          "const": "grey",
+          "title": "Grey"
+        },
+        {
+          "const": "yellow",
+          "title": "Yellow"
+        },
+        {
+          "const": "orange",
+          "title": "Orange"
+        },
+        {
+          "const": "red",
+          "title": "Red"
+        },
+        {
+          "const": "green",
+          "title": "Green"
+        },
+        {
+          "const": "blue",
+          "title": "Blue"
+        },
+        {
+          "const": "purple",
+          "title": "Purple"
+        },
+        {
+          "const": "black",
+          "title": "Black"
+        }
+      ]
+    }
+  }
+}
