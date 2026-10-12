@@ -1,0 +1,49 @@
+{
+  "$id": "dmd.demand-calculation.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DemandCalculation",
+  "description": "Settings that drive the weekly base rate and the weekly trend curve for every article in a store.",
+  "type": "object",
+  "properties": {
+    "salesAverageWindowInWeeks": {
+      "title": "Sales Average Window",
+      "type": "integer",
+      "default": 3,
+      "minimum": 1,
+      "maximum": 26,
+      "description": "Complete weeks of sales the base rate averages over, in weeks. The same window one year earlier is the baseline the trend compares against, so the two always match."
+    },
+    "trendWeeksAhead": {
+      "title": "Trend Weeks Ahead",
+      "type": "integer",
+      "default": 8,
+      "minimum": 1,
+      "maximum": 12,
+      "description": "How many coming weeks the published trend curve covers, in weeks, one factor per week. It must reach past the longest lead time plus the time to the next order."
+    },
+    "minTrendFactor": {
+      "title": "Minimum Trend Factor",
+      "type": "number",
+      "default": 0.5,
+      "minimum": 0.1,
+      "maximum": 1.0,
+      "description": "Lower clamp on a weekly trend factor, as a multiplier. No weekly trend factor is lower than this."
+    },
+    "maxTrendFactor": {
+      "title": "Maximum Trend Factor",
+      "type": "number",
+      "default": 3.0,
+      "minimum": 1.0,
+      "maximum": 10.0,
+      "description": "Upper clamp on a weekly trend factor, as a multiplier. No weekly trend factor is higher than this."
+    },
+    "minCategoryQuantityPerWindow": {
+      "title": "Minimum Category Quantity Per Window",
+      "type": "integer",
+      "default": 50,
+      "minimum": 1,
+      "description": "Sellable units a category must have sold in last year's baseline window, at a given level, before its trend is used there. Below it, the calculation moves up a level."
+    }
+  },
+  "additionalProperties": false
+}
