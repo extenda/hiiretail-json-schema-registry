@@ -504,6 +504,18 @@
             "$ref": "#/$defs/FolderItem"
           }
         }
+      },
+      "description": "A button runs an action or opens a folder of buttons, never both. A button with neither is ignored by the till.",
+      "not": {
+        "type": "object",
+        "properties": {
+          "action": true,
+          "buttons": true
+        },
+        "required": [
+          "action",
+          "buttons"
+        ]
       }
     },
     "FolderItem": {
@@ -1022,7 +1034,28 @@
           "maximum": 999,
           "description": "Lower numbers come first."
         }
-      }
+      },
+      "description": "A payment button needs a tender type or, for a tender missing from the list, an engine tender command.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tender": true
+          },
+          "required": [
+            "tender"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "command": true
+          },
+          "required": [
+            "command"
+          ]
+        }
+      ]
     },
     "Icon": {
       "title": "Icon",
