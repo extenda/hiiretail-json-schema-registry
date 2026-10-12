@@ -25,7 +25,8 @@
           "FASHION_CHEQUE",
           "LIAB",
           "RETAIN24",
-          "SVS"
+          "SVS",
+          "GIFTCARD_SPI"
         ],
         "example": "SVS"
       },
