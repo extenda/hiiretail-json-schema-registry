@@ -509,8 +509,8 @@
       "not": {
         "type": "object",
         "properties": {
-          "action": true,
-          "buttons": true
+          "action": {},
+          "buttons": {}
         },
         "required": [
           "action",
@@ -1036,26 +1036,26 @@
         }
       },
       "description": "A payment button needs a tender type or, for a tender missing from the list, an engine tender command.",
-      "anyOf": [
-        {
+      "if": {
+        "not": {
           "type": "object",
           "properties": {
-            "tender": true
+            "tender": {}
           },
           "required": [
             "tender"
           ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "command": true
-          },
-          "required": [
-            "command"
-          ]
         }
-      ]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "command": {}
+        },
+        "required": [
+          "command"
+        ]
+      }
     },
     "Icon": {
       "title": "Icon",
