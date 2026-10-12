@@ -1511,6 +1511,10 @@
           "description": "B2B customer search settings.",
           "type": "object",
           "properties": {
+            "autoAdvance": {
+              "type": "boolean",
+              "description": "Automatically advances through the Customer, Project, Agent sequence and auto-submits once nothing else is required."
+            },
             "includeInactiveCustomers": {
               "type": "boolean",
               "description": "Includes inactive customers in B2B customer searches."
