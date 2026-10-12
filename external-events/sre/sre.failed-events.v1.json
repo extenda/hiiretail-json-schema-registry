@@ -29,7 +29,26 @@
     "entityType": {
       "type": "string",
       "description": "The entity type of the failed event",
-      "enum": ["Item", "Promotion", "Plulist"]
+      "enum": [
+        "Item",
+        "Promotion",
+        "Plulist",
+        "ReceiptLayout",
+        "CashierMessage",
+        "Currency",
+        "Operator",
+        "ExchangeRate",
+        "ReasonCode",
+        "SalesRestriction",
+        "RefundRule",
+        "Permission",
+        "Role",
+        "IamGroup",
+        "TaxGroup",
+        "TaxRule",
+        "BusinessUnit",
+        "ItemCategory"
+      ]
     }
   },
   "required": ["correlationId", "businessUnitId", "title", "errorMessage", "entityId", "entityType"],

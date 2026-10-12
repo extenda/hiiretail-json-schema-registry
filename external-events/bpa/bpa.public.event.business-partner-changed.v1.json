@@ -1,0 +1,374 @@
+{
+  "$id": "bpa.public.event.business-partner-changed.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BusinessPartnerChanged",
+  "description": "Published by the business-partner processor with the partner's full current state on every create, replace and delete. Attributes: Tenant-Id, Correlation-Id, and Event-Id = <businessPartnerId>:<apiDatetime>. Ordering key: <tenantId>-<businessPartnerId>.",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessPartnerId",
+    "status",
+    "name",
+    "roles",
+    "addresses",
+    "additionalProperties",
+    "modifiedDatetime"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of the tenant"
+    },
+    "businessPartnerId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "The ERP's own business partner id, 1-64 characters"
+    },
+    "displayId": {
+      "type": ["string", "null"],
+      "description": "Id shown to users, when it differs from businessPartnerId"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Passive",
+        "Expired",
+        "Discontinued",
+        "Replaced",
+        "Deleted"
+      ],
+      "description": "Lifecycle status of the business partner. Deleted is published once, when the partner is deleted"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the business partner"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Free-text description of the business partner"
+    },
+    "legalName": {
+      "type": ["string", "null"],
+      "description": "Registered legal name of the business partner"
+    },
+    "vatNumber": {
+      "type": ["string", "null"],
+      "description": "VAT registration number"
+    },
+    "gln": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{13}$",
+      "description": "GS1 Global Location Number, 13 digits"
+    },
+    "roles": {
+      "type": "array",
+      "description": "The roles the business partner holds, at least one and each role at most once",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/BusinessPartnerRole"
+      },
+      "allOf": [
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "const": "SUPPLIER"
+                }
+              },
+              "required": [
+                "role"
+              ]
+            },
+            "minContains": 2
+          }
+        },
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "const": "MANUFACTURER"
+                }
+              },
+              "required": [
+                "role"
+              ]
+            },
+            "minContains": 2
+          }
+        }
+      ]
+    },
+    "addresses": {
+      "type": "array",
+      "description": "Addresses of the business partner, at most one of each addressType",
+      "items": {
+        "$ref": "#/$defs/BusinessPartnerAddress"
+      },
+      "allOf": [
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "addressType": {
+                  "const": "Visit"
+                }
+              },
+              "required": [
+                "addressType"
+              ]
+            },
+            "minContains": 2
+          }
+        },
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "addressType": {
+                  "const": "Postal"
+                }
+              },
+              "required": [
+                "addressType"
+              ]
+            },
+            "minContains": 2
+          }
+        },
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "addressType": {
+                  "const": "Delivery"
+                }
+              },
+              "required": [
+                "addressType"
+              ]
+            },
+            "minContains": 2
+          }
+        },
+        {
+          "not": {
+            "contains": {
+              "type": "object",
+              "properties": {
+                "addressType": {
+                  "const": "Invoice"
+                }
+              },
+              "required": [
+                "addressType"
+              ]
+            },
+            "minContains": 2
+          }
+        }
+      ]
+    },
+    "additionalProperties": {
+      "type": "array",
+      "description": "ERP-defined properties of the business partner",
+      "items": {
+        "$ref": "#/$defs/BusinessPartnerAdditionalProperty"
+      }
+    },
+    "modifiedDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the processor wrote this state. Consumers discard an event older than the state they hold"
+    }
+  },
+  "$defs": {
+    "BusinessPartnerRole": {
+      "title": "BusinessPartnerRole",
+      "type": "object",
+      "description": "A role the business partner holds. defaultLeadTimeHours, minimumOrderQuantity and reliabilityScore are SUPPLIER-only",
+      "required": [
+        "role",
+        "isActive"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER",
+            "MANUFACTURER"
+          ],
+          "description": "The role"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the business partner currently acts in this role"
+        },
+        "defaultLeadTimeHours": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "SUPPLIER only. Calendar hours from order to delivery. A day-level ERP value is multiplied by 24"
+        },
+        "minimumOrderQuantity": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "SUPPLIER only. Smallest total quantity, in sellable units, of one order to this source"
+        },
+        "reliabilityScore": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "SUPPLIER only. Delivery reliability from 0.0 to 1.0, as set by the ERP"
+        }
+      },
+      "if": {
+        "properties": {
+          "role": {
+            "const": "MANUFACTURER"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "then": {
+        "properties": {
+          "defaultLeadTimeHours": false,
+          "minimumOrderQuantity": false,
+          "reliabilityScore": false
+        }
+      }
+    },
+    "BusinessPartnerAddress": {
+      "title": "BusinessPartnerAddress",
+      "type": "object",
+      "description": "An address of the business partner",
+      "required": [
+        "addressType"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "addressType": {
+          "type": "string",
+          "enum": [
+            "Visit",
+            "Postal",
+            "Delivery",
+            "Invoice"
+          ],
+          "description": "What the address is used for"
+        },
+        "careOf": {
+          "type": ["string", "null"],
+          "description": "Care-of name"
+        },
+        "street": {
+          "type": ["string", "null"],
+          "description": "Street and number"
+        },
+        "zipCode": {
+          "type": ["string", "null"],
+          "description": "Postal code"
+        },
+        "city": {
+          "type": ["string", "null"],
+          "description": "City"
+        },
+        "county": {
+          "type": ["string", "null"],
+          "description": "County or region"
+        },
+        "country": {
+          "type": ["string", "null"],
+          "description": "Country name"
+        },
+        "countryCode": {
+          "type": ["string", "null"],
+          "description": "ISO 3166-1 alpha-2 country code"
+        },
+        "phone": {
+          "type": ["string", "null"],
+          "description": "Phone number"
+        },
+        "mobile": {
+          "type": ["string", "null"],
+          "description": "Mobile phone number"
+        },
+        "email": {
+          "type": ["string", "null"],
+          "description": "Email address"
+        },
+        "contactPerson": {
+          "type": ["string", "null"],
+          "description": "Name of the contact person at this address"
+        }
+      }
+    },
+    "BusinessPartnerAdditionalProperty": {
+      "title": "BusinessPartnerAdditionalProperty",
+      "type": "object",
+      "description": "An ERP-defined property and its value",
+      "required": [
+        "id",
+        "name",
+        "dataType",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the property"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the property"
+        },
+        "code": {
+          "type": ["string", "null"],
+          "description": "Code of the property"
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "Description of the property"
+        },
+        "dataType": {
+          "type": "string",
+          "enum": [
+            "BOOL",
+            "INT",
+            "LONG",
+            "DECIMAL",
+            "DOUBLE",
+            "STRING",
+            "DATE",
+            "DATETIME",
+            "CURRENCY",
+            "IMAGE",
+            "BINARY",
+            "LINK",
+            "ARRAY",
+            "JSON",
+            "XML",
+            "UNKNOWN"
+          ],
+          "description": "Type of the value"
+        },
+        "value": {
+          "type": ["string", "null"],
+          "description": "The value, serialised as a string"
+        }
+      }
+    }
+  }
+}

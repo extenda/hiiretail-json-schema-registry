@@ -1,5 +1,5 @@
 {
-  "id": "stp.public.output.processed-transactions.v3",
+  "$id": "stp.public.output.processed-transactions.v3",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ProcessedTransactionDto",
   "description": "Stock Transaction Processing Processed Transaction DTO entity",
@@ -32,10 +32,7 @@
       "description": "The tenant Id"
     },
     "businessUnitId": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "The id of the business unit (store)"
     },
     "itemId": {
@@ -43,7 +40,16 @@
       "description": "itemId"
     },
     "stockType": {
-      "$ref": "stock-type.json"
+      "description": "Additional Property entity used in Transaction",
+      "type": "string",
+      "enum": [
+        "SalesStock",
+        "InTransit",
+        "InOrder",
+        "Reserved",
+        "Returned",
+        "ReservedInOrder"
+      ]
     },
     "transactionDate": {
       "type": "string",
@@ -55,10 +61,7 @@
       "description": "The quantity by which the targeted entity is affected. Expect to have 2 digits after the point precision"
     },
     "originalQuantity": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "Quantity originally used for the document before processing. Expect to have 2 digits after the point precision"
     },
     "costAmount": {
@@ -66,68 +69,48 @@
       "description": "The cost amount by which the targeted entity is affected. Expect to have 3 digits after the point precision"
     },
     "salesAmount": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "The sales price if sold. Expect to have 3 digits after the point precision"
     },
     "currencyCode": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "3 letter currency code for the transaction"
     },
     "reasonCode": {
-      "type": [
-        "null",
-        "string"
-      ]
+      "type": ["null", "string"]
     },
     "comment": {
-      "type": [
-        "null",
-        "string"
-      ]
+      "type": ["null", "string"]
     },
     "documentType": {
       "type": "string",
       "description": "The type of document that produced this transaction"
     },
     "documentId": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "The id if the document that produced this transaction"
     },
     "documentLineId": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "The id of the document line that produced this transaction"
     },
+    "promotionIds": {
+      "type": ["null", "array"],
+      "items": {
+        "type": "string"
+      },
+      "description": "PromotionIDs from every RetailPriceModifier on the PosLog line, de-duplicated, in document order. Absent, null or empty means the line was not sold on a promotion."
+    },
     "businessPartnerId": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "Identifier of the business partner attached to the affected StockItem"
     },
     "batchNumber": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "The Batch/Lot number attached to the affected StockItem"
     },
     "serialNumber": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "The serial number attached to the affected StockItem"
     },
     "correlationId": {
@@ -135,54 +118,46 @@
       "description": "A unique identifier used to correlate all transactions processed by a single message."
     },
     "linkIdExternal": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "An optional unique identifier specified by the sender. Could be used to link several messages from the sender."
     },
     "linkIdRelated": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "A unique identifier used to correlate the related transactions (one transaction causing several transactions during processing)"
     },
     "linkIdStructure": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "A unique identifier used to correlate transactions to the same structured item"
     },
     "linkIdDelayed": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "A unique identifier used to correlate stock count transactions with delayed transactions (arrives after the stock count is processed, but is done before the stock count). "
     },
     "sourceType": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "Indicates the type of device performing the sale, e.g. Mobile Access, RS POS, Extenda POS etc"
     },
     "sourceId": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "Indicates the id of the device performing the transaction"
     },
     "stockHandlingTypeId": {
-      "$ref": "stock-handling-type.json",
-      "description": "Indicates the stock handling type at the time of processing transaction, e.g. NoStockHandling, DoStockHandling..."
+      "description": "Indicates the stock handling type at the time of processing transaction, e.g. NoStockHandling, DoStockHandling...",
+      "type": "string",
+      "enum": [
+        "NO_STOCK_HANDLING",
+        "DO_STOCK_HANDLING",
+        "DO_CONSIGNMENT_STOCK_HANDLING"
+      ]
     },
     "stockHandlingMethodId": {
-      "$ref": "stock-handling-method.json",
-      "description": "Indicates the stock handling method at the time of processing the transaction, e.g. Fifo, Fefo, Lifo"
+      "description": "Indicates the stock handling method at the time of processing the transaction, e.g. Fifo, Fefo, Lifo",
+      "type": "string",
+      "enum": [
+        "FIFO",
+        "FEFO",
+        "LIFO"
+      ]
     },
     "useAverageWeightedCostPrice": {
       "type": "boolean",
@@ -193,78 +168,133 @@
       "description": "True if the item is a master product (containing child products) at the time of processing the transaction"
     },
     "createdBy": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "description": "Identity the user triggering the transaction"
     },
     "bestBeforeDate": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "format": "date",
       "description": "Best before date as a calendar date (YYYY-MM-DD)."
     },
     "expirationDate": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "format": "date",
       "description": "Expiration date as a calendar date (YYYY-MM-DD)."
     },
     "purchasePrice": {
-      "type": [
-        "number",
-        "null"
-      ]
+      "type": ["number", "null"]
     },
     "operationType": {
-      "$ref": "transaction-operation-type.json"
+      "description": "Operation Type Enum used in Transaction",
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "GOODS_RECEIVED",
+        "ORDER_RESPONSE",
+        "PURCHASE_ORDER",
+        "RETURN",
+        "RESERVATION",
+        "STOCK_CORRECTION",
+        "STOCK_COUNT",
+        "STOCK_TRANSFER",
+        "STOCK_TRANSFER_RECEIVED",
+        "SUPPLIER_RETURN",
+        "TRANSACTION",
+        "SYNCHRONIZE_STOCK",
+        "DEPRECATION",
+        "SALES",
+        "STORE_TRANSFER_INITIATED",
+        "STORE_TRANSFER_COMPLETED"
+      ]
     },
     "additionalProperties": {
       "type": "array",
       "items": {
-        "$ref": "additional-property.json"
+        "$ref": "#/$defs/AdditionalPropertyDto"
       }
     },
     "remainingStockQuantity": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "A snapshot of stock quantity for the processed stock type after this transaction is processed"
     },
     "remainingCostAmount": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "A snapshot of stock cost amount after this transaction is processed"
     },
     "logicalRemainingStockQuantity": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "max(0, remainingStockQuantity) — a snapshot of stock quantity after this transaction is processed, floored at zero for valuation and display"
     },
     "logicalRemainingCostAmount": {
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number", "null"],
       "description": "max(0, remainingCostAmount) — a snapshot of stock cost amount after this transaction is processed, floored at zero for valuation and display"
     },
     "timestamp": {
-      "type": [
-        "null",
-        "string"
-      ],
+      "type": ["null", "string"],
       "format": "date-time",
       "description": "Timestamp of when transaction was processed."
+    }
+  },
+  "$defs": {
+    "AdditionalPropertyDto": {
+      "description": "Additional Property entity used in Transaction",
+      "type": "object",
+      "required": [
+        "uniqueId",
+        "name",
+        "dataType",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "uniqueId": {
+          "type": "string",
+          "description": "A unique id for the value object. This is only for global uniqueness and not the key of the additional information"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the value object. This should be considered to be the key used to translate, sort, display, search, etc."
+        },
+        "code": {
+          "type": ["null", "string"],
+          "description": "An optional user defined code to accompany the value"
+        },
+        "description": {
+          "type": ["null", "string"],
+          "description": "A description to follow the value. This can be used to explain what the content is for or what a specific value means."
+        },
+        "dataType": {
+          "description": "Datatype of the value object",
+          "type": "string",
+          "enum": [
+            "BOOL",
+            "INT",
+            "LONG",
+            "DECIMAL",
+            "DOUBLE",
+            "STRING",
+            "DATE",
+            "DATETIME",
+            "CURRENCY",
+            "IMAGE",
+            "BINARY",
+            "LINK",
+            "ARRAY",
+            "JSON",
+            "XML",
+            "UNKNOWN"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "The actual value as string. DataType must be evaluated to present it correctly in a UI"
+        },
+        "isMandatory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Is it mandatory to provide a value when using the data in a UI"
+        }
+      }
     }
   }
 }

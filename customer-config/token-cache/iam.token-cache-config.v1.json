@@ -1,0 +1,23 @@
+{
+  "$id": "iam.token-cache-config.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Token Cache config",
+  "description": "A schema for tenant-level Token Cache settings for Customer Controlled Config service. Absent properties fall back to Token Cache defaults.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "pinMinLength": {
+      "type": "integer",
+      "description": "Minimum operator PIN length.",
+      "default": 4,
+      "minimum": 4,
+      "maximum": 10
+    },
+    "cacheExpiration": {
+      "type": "string",
+      "description": "Cached token lifetime in ms format, e.g. \"2h\", \"45d\", \"1y\".",
+      "examples": ["2h", "45d", "1y"],
+      "pattern": "^\\d+(\\.\\d+)? *(ms|s|m|h|d|w|y)$"
+    }
+  }
+}

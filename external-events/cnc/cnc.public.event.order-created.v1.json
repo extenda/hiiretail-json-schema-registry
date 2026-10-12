@@ -1,0 +1,65 @@
+{
+  "$id": "cnc.public.event.order-created.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderCreated",
+  "description": "Published by Click and Collect once per store fulfillment newly inserted into the orders table. One inbound customer order carrying several new fulfillments produces one message per fulfillment, each identified by its own fulfillmentId. Property names on this topic are PascalCase, unlike the other Click and Collect public topics.",
+  "type": "object",
+  "required": [
+    "FulfillmentId",
+    "OrderId",
+    "BusinessUnitId",
+    "TenantId",
+    "OrderCode",
+    "ModifiedDatetime"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "FulfillmentId": {
+      "type": "string",
+      "description": "Id of the store fulfillment the order row was created for"
+    },
+    "OrderId": {
+      "type": "string",
+      "description": "Id of the customer order the fulfillment belongs to"
+    },
+    "BusinessUnitId": {
+      "type": "string",
+      "description": "Id of the business unit fulfilling the order"
+    },
+    "TenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "OrderCode": {
+      "type": "string",
+      "description": "Order code supplied by the producing system and stored verbatim. Click and Collect never generates one"
+    },
+    "ModifiedDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Value written to orders.modified_datetime by the insert"
+    },
+    "ProjectId": {
+      "type": "string",
+      "description": "Id of the project the fulfillment belongs to. Absent when the fulfillment carries no project"
+    },
+    "PickupDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Datetime the customer is expected to collect the order. Absent when the fulfillment carries no pickup time"
+    },
+    "UrgentFromDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Datetime from which the order counts as urgent, derived from PickupDatetime and the tenant urgency threshold. Present only when PickupDatetime is present"
+    },
+    "UserProfileId": {
+      "type": "string",
+      "description": "Id of the customer's profile in User Profile Service. Absent when the order carries no user profile, for example a store transfer."
+    },
+    "UserProfileAddressId": {
+      "type": "string",
+      "description": "Id of this fulfillment's delivery address in User Profile Service. Absent when the fulfillment has no delivery address, for example a pickup in store."
+    }
+  }
+}

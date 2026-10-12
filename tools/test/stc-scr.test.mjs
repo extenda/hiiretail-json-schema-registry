@@ -184,4 +184,18 @@ describe('scr.public.event.stock-corrections.v1', () => {
 
     assert.equal(compile(scr)(without), false);
   });
+
+  // stockType is optional (HII-13839): absent means SalesStock, and only the two
+  // stock types a person may correct by hand are allowed.
+  for (const stockType of ['SalesStock', 'Returned']) {
+    test(`a message with stockType ${stockType} validates`, () => {
+      assert.equal(compile(scr)({ ...message(), stockType }), true);
+    });
+  }
+
+  for (const stockType of ['InTransit', 'InOrder', 'Reserved', 'ReservedInOrder', 'returned']) {
+    test(`a message with stockType ${stockType} is rejected`, () => {
+      assert.equal(compile(scr)({ ...message(), stockType }), false);
+    });
+  }
 });

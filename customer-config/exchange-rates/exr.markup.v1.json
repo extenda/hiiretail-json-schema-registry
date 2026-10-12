@@ -49,11 +49,11 @@
             },
             "currencyIdFrom": {
               "type": "string",
-              "description": "Source currency code using ISO4217 format"
+              "description": "Currency the rate is expressed in — the currency being converted TO. ISO4217."
             },
             "currencyIdTo": {
               "type": "string",
-              "description": "Target currency code using ISO4217 format"
+              "description": "Currency being priced — the currency being converted FROM. ISO4217."
             },
             "markup": {
               "type": "number",

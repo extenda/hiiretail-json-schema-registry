@@ -25,9 +25,54 @@
       "$id": "scr.public.event.stock-corrections.v1"
     },
     {
+      "source": "stp/stp.public.event.expiring-item-quantity.v2.schema.json",
+      "output": "external-events/stp/stp.public.event.expiring-item-quantity.v2.json",
+      "$id": "stp.public.event.expiring-item-quantity.v2"
+    },
+    {
+      "source": "stp/stp.public.output.processed-transactions.v3.schema.json",
+      "output": "external-events/stp/stp.public.output.processed-transactions.v3.json",
+      "$id": "stp.public.output.processed-transactions.v3"
+    },
+    {
       "source": "stc/stc.public.event.stock-count-completed.v1.schema.json",
       "output": "external-events/stc/stc.public.event.stock-count-completed.v1.json",
       "$id": "hiiretail.contracts.logistics.stc.public.event.stock-count-completed.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-created.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-created.v1.json",
+      "$id": "cnc.public.event.order-created.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-line-picked.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-line-picked.v1.json",
+      "$id": "cnc.public.event.order-line-picked.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-payment-initiated.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-payment-initiated.v1.json",
+      "$id": "cnc.public.event.order-payment-initiated.v1"
+    },
+    {
+      "source": "cnc/cnc.public.event.order-status-changed.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.event.order-status-changed.v1.json",
+      "$id": "cnc.public.event.order-status-changed.v1"
+    },
+    {
+      "source": "cnc/cnc.public.notification.order-late-changes-arrived.v1.schema.json",
+      "output": "external-events/cnc/cnc.public.notification.order-late-changes-arrived.v1.json",
+      "$id": "cnc.public.notification.order-late-changes-arrived.v1"
+    },
+    {
+      "source": "bpa/bpa.public.event.business-partner-changed.v1.schema.json",
+      "output": "external-events/bpa/bpa.public.event.business-partner-changed.v1.json",
+      "$id": "bpa.public.event.business-partner-changed.v1"
+    },
+    {
+      "source": "bpa/bpa.public.event.warehouse-supply-terms-changed.v1.schema.json",
+      "output": "external-events/bpa/bpa.public.event.warehouse-supply-terms-changed.v1.json",
+      "$id": "bpa.public.event.warehouse-supply-terms-changed.v1"
     }
   ]
 }

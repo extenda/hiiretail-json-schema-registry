@@ -159,23 +159,19 @@
     },
     {
       "file": "external-events/stp/additional-property.json",
-      "reason": "Shared definition $refed by the stp schemas in this directory; it is a fragment, not an event."
+      "reason": "Fragment, not an event. Nothing in this registry $refs it since stp.public.output.processed-transactions.v3 was generated with it inlined as $defs/AdditionalPropertyDto (HII-14270). Kept because its URL is public; matches contracts stp/AdditionalProperty.schema.json."
     },
     {
       "file": "external-events/stp/stock-handling-method.json",
-      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+      "reason": "Fragment, not an event. Nothing in this registry $refs it since stp.public.output.processed-transactions.v3 was generated with it inlined (HII-14270). Kept because its URL is public; keep it in step with contracts stp/StockHandlingMethod.schema.json."
     },
     {
       "file": "external-events/stp/stock-handling-type.json",
-      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+      "reason": "Fragment, not an event. Nothing in this registry $refs it since stp.public.output.processed-transactions.v3 was generated with it inlined (HII-14270). Kept because its URL is public; keep it in step with contracts stp/StockHandlingType.schema.json."
     },
     {
       "file": "external-events/stp/stock-type.json",
       "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
-    },
-    {
-      "file": "external-events/stp/stp.public.output.processed-transactions.v3.json",
-      "reason": "Has a contracts source. Not generated: the operationType enum here is missing STORE_TRANSFER_COMPLETED and STORE_TRANSFER_INITIATED, and this copy marks additionalProperties entries required that contracts does not. Whether those two operation types are actually published has not been checked - do that first, since it decides whether the enum gap is live."
     },
     {
       "file": "external-events/stp/stp.public.output.stock-level-updates.v2.json",
@@ -183,7 +179,7 @@
     },
     {
       "file": "external-events/stp/transaction-operation-type.json",
-      "reason": "Shared enum $refed by the stp schemas in this directory; it is a fragment, not an event."
+      "reason": "Fragment, not an event. Nothing in this registry $refs it since stp.public.output.processed-transactions.v3 was generated with the enum inlined (HII-14270). Kept because its URL is public; keep its enum in step with contracts stp/TransactionOperationType.schema.json."
     },
     {
       "file": "external-events/str/str.public.event.store-transfer-completed.v1.json",

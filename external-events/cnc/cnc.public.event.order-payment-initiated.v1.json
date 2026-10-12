@@ -1,0 +1,127 @@
+{
+  "$id": "cnc.public.event.order-payment-initiated.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderPaymentInitiated",
+  "description": "Published by the Click and Collect payment initiation job for each order whose picked quantities are ready to be charged. Messages are ordered on tenant and business unit.",
+  "type": "object",
+  "required": [
+    "orderId",
+    "fulfillmentId",
+    "tenantId",
+    "businessUnitId",
+    "paymentType",
+    "reservedAmount",
+    "additionalProperties",
+    "lines"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "orderId": {
+      "type": "string",
+      "description": "Id of the customer order payment is initiated for"
+    },
+    "fulfillmentId": {
+      "type": "string",
+      "description": "Id of the store fulfillment payment is initiated for"
+    },
+    "tenantId": {
+      "type": "string",
+      "description": "Id of tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the business unit fulfilling the order"
+    },
+    "paymentType": {
+      "type": "string",
+      "enum": [
+        "NOT_SET",
+        "ONLINE_PAYMENT",
+        "POS_PAYMENT",
+        "NONE"
+      ],
+      "description": "Payment type recorded on the order payment row. The column allows all four values, but only ONLINE_PAYMENT records are routed to this topic"
+    },
+    "reservedAmount": {
+      "type": "string",
+      "description": "Amount reserved for the order, carried as a string to preserve scale"
+    },
+    "additionalProperties": {
+      "type": "array",
+      "description": "Reserved for future use. The producer always sends an empty array",
+      "items": {}
+    },
+    "lines": {
+      "type": "array",
+      "description": "Order lines the payment covers",
+      "items": {
+        "$ref": "#/$defs/PaymentInitiatedLine"
+      }
+    }
+  },
+  "$defs": {
+    "PaymentInitiatedLine": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One order line included in the payment",
+      "required": [
+        "orderLineId",
+        "itemId",
+        "pickedQuantity",
+        "additionalProperties",
+        "substitutions"
+      ],
+      "properties": {
+        "orderLineId": {
+          "type": "string",
+          "description": "Id of the order line"
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Id of the item on the order line"
+        },
+        "pickedQuantity": {
+          "type": ["number", "null"],
+          "description": "Quantity picked for the line. Null when no quantity was recorded"
+        },
+        "additionalProperties": {
+          "type": "array",
+          "description": "Reserved for future use. The producer always sends an empty array",
+          "items": {}
+        },
+        "substitutions": {
+          "type": ["array", "null"],
+          "description": "Substituted items picked against this line. Null rather than an empty array when the line has no substitutions",
+          "items": {
+            "$ref": "#/$defs/PaymentInitiatedSubstitution"
+          }
+        }
+      }
+    },
+    "PaymentInitiatedSubstitution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One substituted item picked against an order line",
+      "required": [
+        "itemId",
+        "pickedQuantity",
+        "additionalProperties"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "description": "Id of the substituted item"
+        },
+        "pickedQuantity": {
+          "type": ["number", "null"],
+          "description": "Quantity picked of the substituted item. Null when no quantity was recorded"
+        },
+        "additionalProperties": {
+          "type": "array",
+          "description": "Reserved for future use. The producer always sends an empty array",
+          "items": {}
+        }
+      }
+    }
+  }
+}
