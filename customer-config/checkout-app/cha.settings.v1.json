@@ -1480,6 +1480,16 @@
         "enabled": {
           "type": "boolean",
           "description": "Enables the b2b."
+        },        
+        "search": {
+          "description": "B2B customer search settings.",
+          "type": "object",
+          "properties": {
+            "includeInactiveCustomers": {
+              "type": "boolean",
+              "description": "Includes inactive customers in B2B customer searches."
+            }
+          }
         },
         "invoiceSettlement": {
           "description": "Invoice settlement settings in MPOS mode.",
