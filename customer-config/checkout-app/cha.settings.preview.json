@@ -1487,7 +1487,7 @@
           "description": "B2B customer search settings.",
           "type": "object",
           "properties": {
-            "includeInactiveCustomersInSearch": {
+            "includeInactiveCustomers": {
               "type": "boolean",
               "description": "Includes inactive customers in B2B customer searches."
             }
