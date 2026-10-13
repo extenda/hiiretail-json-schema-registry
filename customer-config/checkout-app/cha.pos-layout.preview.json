@@ -61,6 +61,19 @@
           }
         }
       }
+    },
+    "numpad": {
+      "title": "Number pad",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "collapsed": {
+          "title": "Number pad folded away at start",
+          "description": "Starts the till with the number pad hidden to give the buttons more room. The cashier can still open it with the toggle under the buttons.",
+          "type": "boolean",
+          "default": false
+        }
+      }
     }
   },
   "$defs": {
@@ -90,6 +103,12 @@
           "description": "Small text under the label.",
           "type": "string",
           "maxLength": 60
+        },
+        "section": {
+          "title": "Section heading",
+          "description": "Small heading drawn above this button. It starts a new row and groups the buttons after it until the next heading.",
+          "type": "string",
+          "maxLength": 30
         },
         "action": {
           "title": "Action",
@@ -530,6 +549,12 @@
           "description": "Small text under the label.",
           "type": "string",
           "maxLength": 60
+        },
+        "section": {
+          "title": "Section heading",
+          "description": "Small heading drawn above this button. It starts a new row and groups the buttons after it until the next heading.",
+          "type": "string",
+          "maxLength": 30
         },
         "action": {
           "title": "Action",
