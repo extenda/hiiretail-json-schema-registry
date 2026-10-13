@@ -482,20 +482,6 @@
           "type": "boolean",
           "default": false
         },
-        "badge": {
-          "title": "Live badge",
-          "default": "none",
-          "oneOf": [
-            {
-              "const": "none",
-              "title": "None"
-            },
-            {
-              "const": "suspendedOrders",
-              "title": "Suspended orders waiting"
-            }
-          ]
-        },
         "buttons": {
           "title": "Buttons in this folder",
           "description": "Makes this button a folder that opens these buttons. One level deep. A folder has no action of its own.",
