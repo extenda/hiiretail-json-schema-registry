@@ -52,11 +52,16 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "hideUnlisted": {
+          "title": "Hide tenders not listed here",
+          "description": "When off, the tenders the checkout offers that are not listed here are shown under Other after the listed ones.",
+          "type": "boolean",
+          "default": false
+        },
         "buttons": {
           "title": "Payment buttons",
-          "description": "Order of the quick payment buttons. The first two are shown on the main screen: the first as the small button on the left, the second as the large button on the right. Swap them to swap Cash and Card.",
+          "description": "Tenders in the order the till shows them. The first two are the quick buttons on the main screen: the first the small one on the left, the second the large one on the right. The rest open under Other.",
           "type": "array",
-          "maxItems": 6,
           "items": {
             "$ref": "#/$defs/PayButton"
           },
@@ -1011,6 +1016,26 @@
             {
               "const": "bottleDeposit",
               "title": "Bottle deposit"
+            },
+            {
+              "const": "cardLocalTerminal",
+              "title": "Card, local terminal"
+            },
+            {
+              "const": "mobileVipps",
+              "title": "Mobile payment, Vipps"
+            },
+            {
+              "const": "mobileSvea",
+              "title": "Mobile payment, Svea"
+            },
+            {
+              "const": "foodStamp",
+              "title": "Food stamp"
+            },
+            {
+              "const": "damagedBill",
+              "title": "Damaged bill"
             }
           ]
         },
