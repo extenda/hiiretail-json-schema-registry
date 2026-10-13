@@ -84,12 +84,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "id",
         "label"
       ],
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Optional. Only needed to tell buttons apart in a hand-written value.",
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -530,12 +531,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "id",
         "label"
       ],
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Optional. Only needed to tell buttons apart in a hand-written value.",
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -948,12 +950,15 @@
       "title": "Payment button",
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "id"
+      ],
       "properties": {
         "id": {
           "title": "Id",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$",
-          "description": "Optional. Only needed to tell buttons apart in a hand-written value."
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button."
         },
         "tender": {
           "title": "Tender",
