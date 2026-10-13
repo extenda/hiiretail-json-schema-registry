@@ -38,12 +38,57 @@
           "default": false
         },
         "buttons": {
-          "title": "Buttons",
+          "title": "Always",
           "type": "array",
           "items": {
             "$ref": "#/$defs/Button"
           },
-          "x-primary-key": "label"
+          "x-primary-key": "label",
+          "description": "Shown in every state where the checkout allows the action. The state tabs add buttons for one state."
+        },
+        "states": {
+          "title": "Buttons per state",
+          "description": "Buttons added to the Always buttons in one state of the till.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "betweenSales": {
+              "title": "Between sales",
+              "description": "Added to the Always buttons while no sale is open.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "duringSale": {
+              "title": "During a sale",
+              "description": "Added to the Always buttons while a sale is open.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "lineSelected": {
+              "title": "Line selected",
+              "description": "Added on top of During a sale while a line on the receipt is selected.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "refund": {
+              "title": "Refund mode",
+              "description": "With buttons here, refund mode shows the Always buttons plus these. Leave it empty to keep the checkout's own refund menu, including its way out of refund mode.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            }
+          }
         }
       }
     },
