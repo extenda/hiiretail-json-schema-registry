@@ -42,7 +42,8 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/Button"
-          }
+          },
+          "x-primary-key": "label"
         }
       }
     },
@@ -58,7 +59,8 @@
           "maxItems": 6,
           "items": {
             "$ref": "#/$defs/PayButton"
-          }
+          },
+          "x-primary-key": "label"
         }
       }
     },
@@ -88,7 +90,7 @@
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Unique within the layout, for example return.",
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -507,7 +509,8 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/FolderItem"
-          }
+          },
+          "x-primary-key": "label"
         }
       },
       "description": "A button runs an action or opens a folder of buttons, never both. A button with neither is ignored by the till.",
@@ -534,7 +537,7 @@
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Unique within the layout, for example return.",
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -955,7 +958,7 @@
           "title": "Id",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$",
-          "description": "Unique within the layout, for example return."
+          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button."
         },
         "tender": {
           "title": "Tender",
