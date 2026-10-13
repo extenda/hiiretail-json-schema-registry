@@ -83,8 +83,19 @@
       "additionalProperties": false,
       "required": [
         "encryption",
-        "softposApiKey",
-        "merchantId"
+        "softposApiKey"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "merchantId"
+          ]
+        },
+        {
+          "required": [
+            "storeId"
+          ]
+        }
       ],
       "properties": {
         "merchantId": {
