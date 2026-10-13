@@ -42,7 +42,8 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/Button"
-          }
+          },
+          "x-primary-key": "label"
         }
       }
     },
@@ -58,7 +59,8 @@
           "maxItems": 6,
           "items": {
             "$ref": "#/$defs/PayButton"
-          }
+          },
+          "x-primary-key": "label"
         }
       }
     },
@@ -82,13 +84,12 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "id",
         "label"
       ],
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Unique within the layout, for example return.",
+          "description": "Optional. Only needed to tell buttons apart in a hand-written value.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -507,7 +508,8 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/FolderItem"
-          }
+          },
+          "x-primary-key": "label"
         }
       },
       "description": "A button runs an action or opens a folder of buttons, never both. A button with neither is ignored by the till.",
@@ -528,13 +530,12 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "id",
         "label"
       ],
       "properties": {
         "id": {
           "title": "Id",
-          "description": "Unique within the layout, for example return.",
+          "description": "Optional. Only needed to tell buttons apart in a hand-written value.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$"
         },
@@ -947,15 +948,12 @@
       "title": "Payment button",
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "id"
-      ],
       "properties": {
         "id": {
           "title": "Id",
           "type": "string",
           "pattern": "^[A-Za-z0-9_-]{1,40}$",
-          "description": "Unique within the layout, for example return."
+          "description": "Optional. Only needed to tell buttons apart in a hand-written value."
         },
         "tender": {
           "title": "Tender",
