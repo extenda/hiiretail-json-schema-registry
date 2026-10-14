@@ -38,12 +38,57 @@
           "default": false
         },
         "buttons": {
-          "title": "Buttons",
+          "title": "Always",
           "type": "array",
           "items": {
             "$ref": "#/$defs/Button"
           },
-          "x-primary-key": "label"
+          "x-primary-key": "label",
+          "description": "Shown in every state where the checkout allows the action. The state tabs add buttons for one state."
+        },
+        "states": {
+          "title": "Buttons per state",
+          "description": "Buttons added to the Always buttons in one state of the till.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "betweenSales": {
+              "title": "Between sales",
+              "description": "Added to the Always buttons while no sale is open.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "duringSale": {
+              "title": "During a sale",
+              "description": "Added to the Always buttons while a sale is open.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "lineSelected": {
+              "title": "Line selected",
+              "description": "Added on top of During a sale while a line on the receipt is selected.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            },
+            "refund": {
+              "title": "Refund mode",
+              "description": "With buttons here, refund mode shows the Always buttons plus these. Leave it empty to keep the checkout's own refund menu, including its way out of refund mode.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Button"
+              },
+              "x-primary-key": "label"
+            }
+          }
         }
       }
     },
@@ -52,11 +97,16 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "hideUnlisted": {
+          "title": "Hide tenders not listed here",
+          "description": "When off, the tenders the checkout offers that are not listed here are shown under Other after the listed ones.",
+          "type": "boolean",
+          "default": false
+        },
         "buttons": {
           "title": "Payment buttons",
-          "description": "Order of the quick payment buttons. The first two are shown on the main screen: the first as the small button on the left, the second as the large button on the right. Swap them to swap Cash and Card.",
+          "description": "Tenders in the order the till shows them. The first two are the quick buttons on the main screen: the first the small one on the left, the second the large one on the right. The rest open under Other.",
           "type": "array",
-          "maxItems": 6,
           "items": {
             "$ref": "#/$defs/PayButton"
           },
@@ -1011,6 +1061,26 @@
             {
               "const": "bottleDeposit",
               "title": "Bottle deposit"
+            },
+            {
+              "const": "cardLocalTerminal",
+              "title": "Card, local terminal"
+            },
+            {
+              "const": "mobileVipps",
+              "title": "Mobile payment, Vipps"
+            },
+            {
+              "const": "mobileSvea",
+              "title": "Mobile payment, Svea"
+            },
+            {
+              "const": "foodStamp",
+              "title": "Food stamp"
+            },
+            {
+              "const": "damagedBill",
+              "title": "Damaged bill"
             }
           ]
         },
