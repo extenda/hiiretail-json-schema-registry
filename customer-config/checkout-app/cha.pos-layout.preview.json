@@ -17,6 +17,198 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "sections": {
+          "title": "Sections",
+          "description": "The sections in use, up to 8. Each gets a heading and its place in the grid; buttons pick a section by its number.",
+          "type": "array",
+          "maxItems": 8,
+          "x-primary-key": "heading",
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section1"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section2"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section3"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section4"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section5"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section6"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section7"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section8"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            }
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "slot",
+              "heading",
+              "order"
+            ],
+            "properties": {
+              "slot": {
+                "title": "Section",
+                "description": "Which of the 8 sections this is. Buttons pick it by this number.",
+                "oneOf": [
+                  {
+                    "const": "section1",
+                    "title": "Section 1"
+                  },
+                  {
+                    "const": "section2",
+                    "title": "Section 2"
+                  },
+                  {
+                    "const": "section3",
+                    "title": "Section 3"
+                  },
+                  {
+                    "const": "section4",
+                    "title": "Section 4"
+                  },
+                  {
+                    "const": "section5",
+                    "title": "Section 5"
+                  },
+                  {
+                    "const": "section6",
+                    "title": "Section 6"
+                  },
+                  {
+                    "const": "section7",
+                    "title": "Section 7"
+                  },
+                  {
+                    "const": "section8",
+                    "title": "Section 8"
+                  }
+                ]
+              },
+              "heading": {
+                "title": "Heading",
+                "description": "Small heading drawn above the section's buttons.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 30
+              },
+              "order": {
+                "title": "Order",
+                "description": "Position of the section in the grid, starting at 1.",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 999
+              }
+            }
+          }
+        },
         "columns": {
           "title": "Columns",
           "description": "Number of button columns in the function grid.",
@@ -148,19 +340,55 @@
           "title": "Label",
           "type": "string",
           "minLength": 1,
-          "maxLength": 40
+          "maxLength": 40,
+          "description": "Text on the button. Keep it short: two lines fit."
         },
         "subtitle": {
           "title": "Subtitle",
           "description": "Small text under the label.",
-          "type": "string",
+          "type": [
+            "string",
+            "null"
+          ],
           "maxLength": 60
         },
         "section": {
-          "title": "Section heading",
-          "description": "Small heading drawn above this button. It starts a new row and groups the buttons after it until the next heading.",
-          "type": "string",
-          "maxLength": 30
+          "title": "Section",
+          "description": "The section the button is shown in. Sections and their headings are set on the General tab. Empty puts the button before the first section.",
+          "oneOf": [
+            {
+              "const": "section1",
+              "title": "Section 1"
+            },
+            {
+              "const": "section2",
+              "title": "Section 2"
+            },
+            {
+              "const": "section3",
+              "title": "Section 3"
+            },
+            {
+              "const": "section4",
+              "title": "Section 4"
+            },
+            {
+              "const": "section5",
+              "title": "Section 5"
+            },
+            {
+              "const": "section6",
+              "title": "Section 6"
+            },
+            {
+              "const": "section7",
+              "title": "Section 7"
+            },
+            {
+              "const": "section8",
+              "title": "Section 8"
+            }
+          ]
         },
         "action": {
           "title": "Action",
@@ -485,12 +713,16 @@
           ]
         },
         "icon": {
-          "$ref": "#/$defs/Icon"
+          "$ref": "#/$defs/Icon",
+          "description": "Leave empty to use the icon of the action. Pick one only to replace it."
         },
         "imageUrl": {
           "title": "Picture",
-          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": "string",
+          "description": "Optional. Https link to a PNG or JPEG, shown instead of the icon.",
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "uri",
           "contentMediaType": "image/*",
           "pattern": "^https://",
@@ -501,7 +733,7 @@
         },
         "size": {
           "title": "Size",
-          "description": "Columns x rows the button spans.",
+          "description": "Wide takes two columns, tall two rows, large both.",
           "default": "1x1",
           "oneOf": [
             {
@@ -538,13 +770,14 @@
               "const": "large",
               "title": "Large"
             }
-          ]
+          ],
+          "description": "Size of the label text."
         },
         "order": {
           "title": "Order",
-          "description": "Lower numbers come first.",
+          "description": "Position inside the button's section, starting at 1. Lower numbers come first.",
           "type": "integer",
-          "minimum": 0,
+          "minimum": 1,
           "maximum": 999
         },
         "prominent": {
@@ -555,7 +788,7 @@
         },
         "buttons": {
           "title": "Buttons in this folder",
-          "description": "Makes this button a folder that opens these buttons. One level deep. A folder has no action of its own.",
+          "description": "Buttons that open from this folder. Leave Select type empty on the folder itself.",
           "type": "array",
           "items": {
             "$ref": "#/$defs/FolderItem"
@@ -595,19 +828,17 @@
           "title": "Label",
           "type": "string",
           "minLength": 1,
-          "maxLength": 40
+          "maxLength": 40,
+          "description": "Text on the button. Keep it short: two lines fit."
         },
         "subtitle": {
           "title": "Subtitle",
           "description": "Small text under the label.",
-          "type": "string",
+          "type": [
+            "string",
+            "null"
+          ],
           "maxLength": 60
-        },
-        "section": {
-          "title": "Section heading",
-          "description": "Small heading drawn above this button. It starts a new row and groups the buttons after it until the next heading.",
-          "type": "string",
-          "maxLength": 30
         },
         "action": {
           "title": "Action",
@@ -932,12 +1163,16 @@
           ]
         },
         "icon": {
-          "$ref": "#/$defs/Icon"
+          "$ref": "#/$defs/Icon",
+          "description": "Leave empty to use the icon of the action. Pick one only to replace it."
         },
         "imageUrl": {
           "title": "Picture",
-          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": "string",
+          "description": "Optional. Https link to a PNG or JPEG, shown instead of the icon.",
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "uri",
           "contentMediaType": "image/*",
           "pattern": "^https://",
@@ -948,7 +1183,7 @@
         },
         "size": {
           "title": "Size",
-          "description": "Columns x rows the button spans.",
+          "description": "Wide takes two columns, tall two rows, large both.",
           "default": "1x1",
           "oneOf": [
             {
@@ -985,13 +1220,14 @@
               "const": "large",
               "title": "Large"
             }
-          ]
+          ],
+          "description": "Size of the label text."
         },
         "order": {
           "title": "Order",
-          "description": "Lower numbers come first.",
+          "description": "Position inside the folder, starting at 1. Lower numbers come first.",
           "type": "integer",
-          "minimum": 0,
+          "minimum": 1,
           "maximum": 999
         }
       }
@@ -1093,16 +1329,23 @@
         "label": {
           "title": "Label",
           "description": "Shown instead of the engine label.",
-          "type": "string",
+          "type": [
+            "string",
+            "null"
+          ],
           "maxLength": 40
         },
         "icon": {
-          "$ref": "#/$defs/Icon"
+          "$ref": "#/$defs/Icon",
+          "description": "Leave empty to use the icon of the tender. Pick one only to replace it."
         },
         "imageUrl": {
           "title": "Picture",
           "description": "Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": "string",
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "uri",
           "contentMediaType": "image/*",
           "pattern": "^https://",
@@ -1113,10 +1356,10 @@
         },
         "order": {
           "title": "Order",
+          "description": "Position in the payment row, starting at 1. The first two are the quick buttons on the main screen.",
           "type": "integer",
-          "minimum": 0,
-          "maximum": 999,
-          "description": "Lower numbers come first."
+          "minimum": 1,
+          "maximum": 999
         }
       },
       "description": "A payment button needs a tender type or, for a tender missing from the list, an engine tender command.",
