@@ -23,12 +23,135 @@
           "type": "array",
           "maxItems": 8,
           "x-primary-key": "heading",
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section1"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section2"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section3"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section4"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section5"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section6"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section7"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "const": "section8"
+                  }
+                }
+              },
+              "minContains": 0,
+              "maxContains": 1
+            }
+          ],
           "items": {
             "type": "object",
             "additionalProperties": false,
             "required": [
               "slot",
-              "heading"
+              "heading",
+              "order"
             ],
             "properties": {
               "slot": {
