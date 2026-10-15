@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.configuration.v2.json",
+  "title": "Promotion Engine configuration",
+  "description": "Promotion Engine configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "Type": {
+      "description": "Promotion type identifier used to declare rules (for example, a promotion rule or category name).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 250
+    },
+    "Relation": {
+      "description": "A rule that overrides the Promotion Engine's automatic reward selection between two specific promotion types, regardless of which one would otherwise give the customer the bigger discount.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [ "id", "promotionType", "conflictingType", "strategy" ],
+      "properties": {
+        "id": {
+          "description": "A unique identifier for this rule.",
+          "type": "string",
+          "minLength": 1
+        },
+        "promotionType": {
+          "description": "The promotion type this rule gives precedence to. `strategy` decides what that means for `conflictingType`. Must be one of the values in `types`.",
+          "$ref": "#/$defs/Type"
+        },
+        "conflictingType": {
+          "description": "The promotion type that `promotionType` is in conflict with. `strategy` decides whether it still triggers after `promotionType`, or is disqualified entirely. Must be one of the values in `types`.",
+          "$ref": "#/$defs/Type"
+        },
+        "strategy": {
+          "description": "How a conflict between `promotionType` and `conflictingType` is resolved, regardless of which one would otherwise give the bigger discount.",
+          "oneOf": [
+            {
+              "const": "BEFORE",
+              "title": "Before",
+              "description": "In a 1:1 conflict between `promotionType` and `conflictingType`, both rewards are allowed to trigger after each other — the `promotionType` reward is triggered before the `conflictingType` reward."
+            },
+            {
+              "const": "DISQUALIFIES",
+              "title": "Disqualifies",
+              "description": "In a 1:1 conflict, `promotionType` disqualifies `conflictingType`: only the `promotionType` reward is triggered."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "required": [],
+  "properties": {
+    "conflictResolution": {
+      "description": "Overrides the Promotion Engine's automatic reward selection for specific pairs of promotion types. By default, when multiple promotions could apply to the same purchase, the engine keeps whichever combination gives the customer the largest total discount. The rules configured here override that automatic comparison for the promotion type pairs they name — even if a promotion type would otherwise produce the bigger discount, a configured rule can still rank it lower or block it outright.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [ "types", "relations", "validFrom" ],
+      "properties": {
+        "types": {
+          "description": "The promotion type labels available to use in the rules below (for example \"BOGO\" or \"Loyalty\"). Each rule refers to two of these types.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 100,
+          "items": { "$ref": "#/$defs/Type" }
+        },
+        "relations": {
+          "description": "The rules that override automatic reward selection between specific pairs of promotion types.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 100,
+          "items": { "$ref": "#/$defs/Relation" }
+        },
+        "validFrom": {
+          "description": "The date and time from which this configuration is valid.",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
