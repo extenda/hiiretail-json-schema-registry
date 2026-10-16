@@ -355,39 +355,16 @@
         "section": {
           "title": "Section",
           "description": "The section the button is shown in. Sections and their headings are set on the General tab. Empty puts the button before the first section.",
-          "oneOf": [
-            {
-              "const": "section1",
-              "title": "Section 1"
-            },
-            {
-              "const": "section2",
-              "title": "Section 2"
-            },
-            {
-              "const": "section3",
-              "title": "Section 3"
-            },
-            {
-              "const": "section4",
-              "title": "Section 4"
-            },
-            {
-              "const": "section5",
-              "title": "Section 5"
-            },
-            {
-              "const": "section6",
-              "title": "Section 6"
-            },
-            {
-              "const": "section7",
-              "title": "Section 7"
-            },
-            {
-              "const": "section8",
-              "title": "Section 8"
-            }
+          "type": "string",
+          "enum": [
+            "section1",
+            "section2",
+            "section3",
+            "section4",
+            "section5",
+            "section6",
+            "section7",
+            "section8"
           ]
         },
         "action": {
