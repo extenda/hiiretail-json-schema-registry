@@ -19,6 +19,16 @@
       "minLength": 1,
       "description": "Store identificator"
     },
+    "rescanWorkstationId": {
+      "type": "string",
+      "description": "Workstation ID (optional)",
+      "nullable": true
+    },
+    "rescanOperatorId": {
+      "type": "string",
+      "description": "Operator ID (optional)",
+      "nullable": true
+    },
     "tripRescan": {
       "$ref": "#/$defs/Rescan"
     },
@@ -28,6 +38,11 @@
       "items": {
         "$ref": "#/$defs/RescanItemAndScan"
       },
+      "nullable": true
+    },
+    "loadType": {
+      "type": "string",
+      "description": "Specifies the type of data load. If null or empty, it is treated as live data.",
       "nullable": true
     }
   },
