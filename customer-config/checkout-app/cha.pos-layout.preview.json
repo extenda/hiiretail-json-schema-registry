@@ -419,6 +419,10 @@
                     {
                       "const": "tare",
                       "title": "Tare (line selected)"
+                    },
+                    {
+                      "const": "rfidRead",
+                      "title": "Read RFID"
                     }
                   ]
                 }
@@ -464,6 +468,10 @@
                     {
                       "const": "complaint",
                       "title": "Complaint"
+                    },
+                    {
+                      "const": "exchange",
+                      "title": "Exchange"
                     }
                   ]
                 }
@@ -661,6 +669,10 @@
                     {
                       "const": "externalLinks",
                       "title": "Web links"
+                    },
+                    {
+                      "const": "activePromotions",
+                      "title": "Active promotions"
                     }
                   ]
                 }
@@ -869,6 +881,10 @@
                     {
                       "const": "tare",
                       "title": "Tare (line selected)"
+                    },
+                    {
+                      "const": "rfidRead",
+                      "title": "Read RFID"
                     }
                   ]
                 }
@@ -914,6 +930,10 @@
                     {
                       "const": "complaint",
                       "title": "Complaint"
+                    },
+                    {
+                      "const": "exchange",
+                      "title": "Exchange"
                     }
                   ]
                 }
@@ -1111,6 +1131,10 @@
                     {
                       "const": "externalLinks",
                       "title": "Web links"
+                    },
+                    {
+                      "const": "activePromotions",
+                      "title": "Active promotions"
                     }
                   ]
                 }
