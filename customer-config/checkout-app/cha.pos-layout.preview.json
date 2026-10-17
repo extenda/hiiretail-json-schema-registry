@@ -419,6 +419,10 @@
                     {
                       "const": "tare",
                       "title": "Tare (line selected)"
+                    },
+                    {
+                      "const": "rfidRead",
+                      "title": "Read RFID"
                     }
                   ]
                 }
@@ -464,6 +468,10 @@
                     {
                       "const": "complaint",
                       "title": "Complaint"
+                    },
+                    {
+                      "const": "exchange",
+                      "title": "Exchange"
                     }
                   ]
                 }
@@ -661,13 +669,17 @@
                     {
                       "const": "externalLinks",
                       "title": "Web links"
+                    },
+                    {
+                      "const": "activePromotions",
+                      "title": "Active promotions"
                     }
                   ]
                 }
               }
             },
             {
-              "title": "Advanced: engine command",
+              "title": "Custom commands",
               "type": "object",
               "additionalProperties": false,
               "required": [
@@ -680,7 +692,7 @@
                   "const": "command"
                 },
                 "command": {
-                  "title": "Engine command",
+                  "title": "Custom command",
                   "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
                   "type": "string",
                   "pattern": "^[A-Za-z0-9_.]{1,80}$"
@@ -869,6 +881,10 @@
                     {
                       "const": "tare",
                       "title": "Tare (line selected)"
+                    },
+                    {
+                      "const": "rfidRead",
+                      "title": "Read RFID"
                     }
                   ]
                 }
@@ -914,6 +930,10 @@
                     {
                       "const": "complaint",
                       "title": "Complaint"
+                    },
+                    {
+                      "const": "exchange",
+                      "title": "Exchange"
                     }
                   ]
                 }
@@ -1111,13 +1131,17 @@
                     {
                       "const": "externalLinks",
                       "title": "Web links"
+                    },
+                    {
+                      "const": "activePromotions",
+                      "title": "Active promotions"
                     }
                   ]
                 }
               }
             },
             {
-              "title": "Advanced: engine command",
+              "title": "Custom commands",
               "type": "object",
               "additionalProperties": false,
               "required": [
@@ -1130,7 +1154,7 @@
                   "const": "command"
                 },
                 "command": {
-                  "title": "Engine command",
+                  "title": "Custom command",
                   "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
                   "type": "string",
                   "pattern": "^[A-Za-z0-9_.]{1,80}$"
@@ -1298,7 +1322,7 @@
           ]
         },
         "command": {
-          "title": "Engine tender command (advanced)",
+          "title": "Custom tender command",
           "description": "Only for a tender missing from the list: the exact Checkout Engine tender command. Ask Extenda before using it. A tender above wins over this field.",
           "type": "string",
           "pattern": "^[A-Za-z0-9_.]{1,80}$"
@@ -1339,7 +1363,7 @@
           "maximum": 999
         }
       },
-      "description": "A payment button needs a tender type or, for a tender missing from the list, an engine tender command.",
+      "description": "A payment button needs a tender type or, for a tender missing from the list, a custom tender command.",
       "if": {
         "not": {
           "type": "object",
