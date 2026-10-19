@@ -100,7 +100,8 @@
               "PackageRedAmnt",
               "PackageRedPrcnt",
               "StockCorrection",
-              "CashManagement"
+              "CashManagement",
+              "SupplierReturn"
             ]
           },
           "uniqueItems": true
