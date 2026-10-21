@@ -2214,6 +2214,18 @@
       "type": "object",
       "description": "Quick search settings.",
       "properties": {
+        "additionalFilterExpression": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null",
+              "description": "No additional filter expression."
+            }
+          ],
+          "description": "Extra Kibana Query Language (KQL) clause that is always AND-ed with every quick search. Use it to pre-narrow the catalog (assortment, brand, tags, additional properties, and similar) so typical searches run against a smaller set of items. This is not a default search term and is not shown or editable in the POS. Cashiers still type a query as usual. Leave unset, null, or empty for no extra filtering. Platform constraints still apply (sellable STOCK/SERVICE items, current sales prices, active identifiers, and item status). Invalid KQL makes quick search fail for all users — test the expression in the Complete Item query playground before rollout. KQL syntax: https://www.elastic.co/docs/explore-analyze/query-filter/languages/kql Complete Item fields and nested additional-property syntax: https://developer.hiiretail.com/docs/product-price-and-promotion/concepts/capabilities/querying-for-data/#how-it-works"
+        },
         "showItemIdentifier": {
           "description": "Controls whether and how an item identifier is shown in quick search results.",
           "oneOf": [
