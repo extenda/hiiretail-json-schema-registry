@@ -431,27 +431,27 @@
         },
         "customerWeight": {
           "type": "number",
-          "format": "double",
+          "format": "decimal",
           "description": "The (aggregated) weight the customer registered for the pair."
         },
         "operatorWeight": {
           "type": "number",
-          "format": "double",
+          "format": "decimal",
           "description": "The (aggregated) weight the operator rescanned for the pair."
         },
         "maxDeviation": {
           "type": "number",
-          "format": "double",
+          "format": "decimal",
           "description": "The allowance applied in grams, calculated from the operator weight. Not rounded."
         },
         "measuredDeviation": {
           "type": "number",
-          "format": "double",
+          "format": "decimal",
           "description": "OperatorWeight - CustomerWeight; positive means the customer under-registered. Not rounded."
         }
       },
       "additionalProperties": false,
-      "description": "The weight tolerance evaluation of the matched weighed customer/operator pair the item was derived from. Absent when the item was not compared by weight; when present, all six fields are set."
+      "description": "The weight tolerance evaluation of the matched weighed customer/operator pair the item was derived from. Absent when the item was not compared by weight; when present, all six fields are set. The numeric fields are .NET decimal values (up to 28-29 significant digits) and are not rounded; parse them as decimal to keep full precision. Parsing them as IEEE 754 double keeps only about 15-17 significant digits."
     }
   }
 }
