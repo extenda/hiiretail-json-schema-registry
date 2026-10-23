@@ -24,7 +24,7 @@
       "title": "Enable Concurrent HHS Limit Per Shopper",
       "default": false,
       "description": "When set to true, it limits the number of active handheld scanners a shopper can have at the same time.",
-      "type": "boolean" 
+      "type": "boolean"
     },
     "maximumConcurrentHhsAllowedPerShopper": {
       "title": "Maximum Concurrent HHS Devices Per Shopper",
@@ -42,12 +42,12 @@
       "maximum": 30240,
       "description": "Time to live (in minutes) for shopper active handheld scanners count. This is the duration after which the count of active handheld scanners for a shopper is reset. The default is set to 1440 minutes (24 hours)."
     },
-    "euStatusThresholds": {
-      "title": "EU Status Thresholds",
+    "wallStatusThresholds": {
+      "title": "Wall Status Thresholds",
       "type": "string",
       "pattern": "^[0-9]+,[0-9]+,[0-9]+,[0-9]+$",
       "default": "10,20,50,80",
-      "description": "Percentage thresholds for Entrance Unit (EU) status calculation. Format: {Low},{Normal},{High},{Full}. Values must be increasing integers between 0 and 100."
+      "description": "Percentage thresholds for Wall status calculation. Format: {Low},{Normal},{High},{Full}. Values must be increasing integers between 0 and 100."
     }
   },
   "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
