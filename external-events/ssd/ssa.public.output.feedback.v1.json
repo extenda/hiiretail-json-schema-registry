@@ -119,7 +119,8 @@
         "NO_RESCAN",
         "RESCAN_DONE",
         "CANCELLED",
-        "SKIPPED"
+        "SKIPPED",
+        "ABANDONED"
       ],
       "description": "Possible actions for a rescan process."
     },
@@ -175,6 +176,9 @@
         "USER_ATTRIBUTE_COUNT",
         "RESCAN_ON_SPECIFIC_ITEM",
         "OPEN_AUDIT_EXISTS_FOR_CUSTOMER",
+        "EVERY_N_VISIT_IN_STORE",
+        "GRAYLIST_AUDIT_COUNT",
+        "EVERY_ATMOST_N_VISIT_IN_STORE",
         "OTHER"
       ],
       "description": "Possible reasons for triggering a rescan."
@@ -208,7 +212,8 @@
           "$ref": "#/$defs/RescanItemIndicator"
         },
         "weightToleranceEvaluation": {
-          "$ref": "#/$defs/RescanItemWeightToleranceEvaluation"
+          "$ref": "#/$defs/RescanItemWeightToleranceEvaluation",
+          "nullable": true
         }
       },
       "additionalProperties": false,
@@ -255,6 +260,12 @@
         },
         "quantity": {
           "$ref": "#/$defs/Quantity"
+        },
+        "weight": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The weight of the item.",
+          "nullable": true
         },
         "price": {
           "$ref": "#/$defs/FeedbackPrice"
@@ -466,7 +477,7 @@
         }
       },
       "additionalProperties": false,
-      "description": "The weight tolerance evaluation of the matched weighed customer/operator pair the item was derived from. Absent when the item was not compared by weight; when present, all six fields are set. The numeric fields are .NET decimal values (up to 28-29 significant digits) and are not rounded; parse them as decimal to keep full precision. Parsing them as IEEE 754 double keeps only about 15-17 significant digits."
+      "description": "The weight tolerance evaluation of the matched weighed customer/operator pair the item was derived from. Null or absent when the item was not compared by weight; when present, all six fields are set. The numeric fields are .NET decimal values (up to 28-29 significant digits) and are not rounded; parse them as decimal to keep full precision. Parsing them as IEEE 754 double keeps only about 15-17 significant digits."
     }
   }
 }
