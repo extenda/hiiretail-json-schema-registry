@@ -10,9 +10,13 @@
     "businessUnitId",
     "repositoryId",
     "audits",
-    "eventDatetime"
+    "eventDateTime"
   ],
   "properties": {
+    "safeAuditId": {
+      "type": "string",
+      "description": "Id of the safe audit. Stable across redeliveries; use it to deduplicate. Equals eventId on the Correction and BankDeposit transactions the audit produced."
+    },
     "tenantId": {
       "type": "string",
       "description": "Id of tenant"
@@ -82,7 +86,7 @@
         },
         "safeAmount": {
           "type": "number",
-          "description": "Total amount in safe (including any cash transferred to safe, like reconciliations or cash changer)"
+          "description": "Cash counted in the safe, excluding the day's cash from till audits and the cash changer (reported separately in reconciledAmount and cashChangerAmount)."
         },
         "safeDeviationAmount": {
           "type": "number",
