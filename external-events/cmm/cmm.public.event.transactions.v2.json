@@ -24,11 +24,11 @@
     },
     "eventId": {
       "type": "string",
-      "description": "Unique event id for deduplication"
+      "description": "Id of the source event. Together with eventType it identifies the event; deduplicate on both."
     },
     "eventType": {
       "type": "string",
-      "description": "Type of the event, possible values: InitialBalance, Reconciliation, ReconciliationRecount, Transfer, BankDeposit, BankWithdrawal, Correction"
+      "description": "Type of the event. Fixed values: InitialBalance, Reconciliation, ReconciliationRecount, CashChangerTransfer, CashChangerRecount, Transfer, BankDeposit, BankWithdrawal, Correction. A safe audit also posts one event per dynamic property, with the property id as eventType, so the set is open-ended per tenant; consumers must handle unrecognised values."
     },
     "eventDateTime": {
       "type": "string",
