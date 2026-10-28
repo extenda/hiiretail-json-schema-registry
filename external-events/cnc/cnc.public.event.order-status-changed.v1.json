@@ -184,6 +184,18 @@
         "unitOfMeasure": {
           "type": ["string", "null"],
           "description": "Unit of measure the quantity is expressed in"
+        },
+        "unitPrice": {
+          "type": "number",
+          "description": "Regular SALES unit price of the substitute from PnP at the time it was added. Absent when unknown"
+        },
+        "taxableGroupId": {
+          "type": "string",
+          "description": "PnP taxable group of that SALES price. Absent when PnP has none"
+        },
+        "itemCategoryId": {
+          "type": "string",
+          "description": "PnP item category of the substitute. Absent when PnP has none"
         }
       }
     }
