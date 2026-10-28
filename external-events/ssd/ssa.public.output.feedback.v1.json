@@ -19,6 +19,16 @@
       "minLength": 1,
       "description": "Store identificator"
     },
+    "rescanWorkstationId": {
+      "type": "string",
+      "description": "Workstation ID (optional)",
+      "nullable": true
+    },
+    "rescanOperatorId": {
+      "type": "string",
+      "description": "Operator ID (optional)",
+      "nullable": true
+    },
     "tripRescan": {
       "$ref": "#/$defs/Rescan"
     },
@@ -28,6 +38,11 @@
       "items": {
         "$ref": "#/$defs/RescanItemAndScan"
       },
+      "nullable": true
+    },
+    "loadType": {
+      "type": "string",
+      "description": "Specifies the type of data load. If null or empty, it is treated as live data.",
       "nullable": true
     }
   },
@@ -104,7 +119,8 @@
         "NO_RESCAN",
         "RESCAN_DONE",
         "CANCELLED",
-        "SKIPPED"
+        "SKIPPED",
+        "ABANDONED"
       ],
       "description": "Possible actions for a rescan process."
     },
@@ -160,6 +176,9 @@
         "USER_ATTRIBUTE_COUNT",
         "RESCAN_ON_SPECIFIC_ITEM",
         "OPEN_AUDIT_EXISTS_FOR_CUSTOMER",
+        "EVERY_N_VISIT_IN_STORE",
+        "GRAYLIST_AUDIT_COUNT",
+        "EVERY_ATMOST_N_VISIT_IN_STORE",
         "OTHER"
       ],
       "description": "Possible reasons for triggering a rescan."
@@ -191,6 +210,10 @@
         },
         "rescanItemIndicator": {
           "$ref": "#/$defs/RescanItemIndicator"
+        },
+        "weightToleranceEvaluation": {
+          "$ref": "#/$defs/RescanItemWeightToleranceEvaluation",
+          "nullable": true
         }
       },
       "additionalProperties": false,
@@ -237,6 +260,12 @@
         },
         "quantity": {
           "$ref": "#/$defs/Quantity"
+        },
+        "weight": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The weight of the item.",
+          "nullable": true
         },
         "price": {
           "$ref": "#/$defs/FeedbackPrice"
@@ -404,6 +433,51 @@
         }
       },
       "additionalProperties": false
+    },
+    "RescanItemWeightToleranceEvaluation": {
+      "type": "object",
+      "required": [
+        "deviationConfigurationType",
+        "deviationConfigurationValue",
+        "customerWeight",
+        "operatorWeight",
+        "maxDeviation",
+        "measuredDeviation"
+      ],
+      "properties": {
+        "deviationConfigurationType": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the allowance was derived, e.g. \"LogarithmicCategory\"."
+        },
+        "deviationConfigurationValue": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The configured value for the type, e.g. \"Medium\". Only meaningful together with the type."
+        },
+        "customerWeight": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The (aggregated) weight the customer registered for the pair."
+        },
+        "operatorWeight": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The (aggregated) weight the operator rescanned for the pair."
+        },
+        "maxDeviation": {
+          "type": "number",
+          "format": "decimal",
+          "description": "The allowance applied in grams, calculated from the operator weight. Not rounded."
+        },
+        "measuredDeviation": {
+          "type": "number",
+          "format": "decimal",
+          "description": "OperatorWeight - CustomerWeight; positive means the customer under-registered. Not rounded."
+        }
+      },
+      "additionalProperties": false,
+      "description": "The weight tolerance evaluation of the matched weighed customer/operator pair the item was derived from. Null or absent when the item was not compared by weight; when present, all six fields are set. The numeric fields are .NET decimal values (up to 28-29 significant digits) and are not rounded; parse them as decimal to keep full precision. Parsing them as IEEE 754 double keeps only about 15-17 significant digits."
     }
   }
 }
