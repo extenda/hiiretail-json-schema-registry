@@ -43,6 +43,12 @@
       "default": 50,
       "minimum": 1,
       "description": "Sellable units a category must have sold in last year's baseline window, at a given level, before its trend is used there. Below it, the calculation moves up a level."
+    },
+    "doEnableDemandCalculation": {
+      "title": "Enable demand calculation",
+      "type": "boolean",
+      "default": false,
+      "description": "Calculates weekly demand for the store. Off by default; sales history is collected either way, so switching it on gives correct figures from the first run."
     }
   },
   "additionalProperties": false
