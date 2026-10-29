@@ -104,6 +104,11 @@
           "type": "string",
           "pattern": "^C[0-9A-HJKMNP-TV-Z]{6}$",
           "description": "Short per-fulfillment order code minted by Customer Order. Present for PICKUP_IN_STORE and HOME_DELIVERY_FROM_STORE fulfillments only; absent for HOME_DELIVERY_FROM_WAREHOUSE and for fulfillments created before this field existed."
+        },
+        "originModifiedDatetime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 time at which Customer Order produced this fulfillment state. The ordering-guard source for consumers of cor.public.event.store-fulfillments-updates.v2: compare it against the value stored for the same fulfillment and skip anything not strictly newer. Minted once per publishing operation, so every fulfillment published together shares one value — including a sync that both cancels one fulfillment and updates another. Not taken from the inbound payload, and never the Pub/Sub envelope publishTime, which a dead-letter replay re-mints. Millisecond precision: two publishes for one fulfillment inside the same millisecond are indistinguishable, and a strict-newer consumer skips the later one until the next publish. Raising precision here alone would not close that window, because the consumer compares with Date.parse, which truncates to milliseconds."
         }
       }
     },
@@ -175,6 +180,10 @@
         "quantity": {
           "type": "number",
           "description": "The quantity of the line item allocated to this fulfillment."
+        },
+        "unitOfMeasure": {
+          "type": "string",
+          "description": "The sales unit of measurement for the line item (UN/CEFACT code, e.g. EA, KGM)."
         },
         "readyForPickupDateTime": {
           "type": "string",
