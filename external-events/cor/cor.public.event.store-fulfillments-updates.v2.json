@@ -181,6 +181,10 @@
           "type": "number",
           "description": "The quantity of the line item allocated to this fulfillment."
         },
+        "orderedQuantity": {
+          "type": "number",
+          "description": "The synced/allocated (ordered) quantity for this fulfillment line."
+        },
         "unitOfMeasure": {
           "type": "string",
           "description": "The sales unit of measurement for the line item (UN/CEFACT code, e.g. EA, KGM)."
