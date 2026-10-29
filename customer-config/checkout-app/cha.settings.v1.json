@@ -30,6 +30,97 @@
     }
   },
   "$defs": {
+    "ColorType": {
+      "oneOf": [
+        {
+          "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+          "type": "string",
+          "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ThemeType": {
+      "description": "This is a definition of the theme settings.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "type": "object",
+          "description": "Theme settings",
+          "additionalProperties": false,
+          "properties": {
+            "accent": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "error": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "errorDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "errorLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "secondary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "success": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "successDark": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "successLight": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "text": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textContrast": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textDisabled": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textSecondary": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "textSelected": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "warning": {
+              "$ref": "#/$defs/ColorType"
+            },
+            "warningLight": {
+              "$ref": "#/$defs/ColorType"
+            }
+          }
+        },
+        "roundness": {
+          "oneOf": [
+            {
+              "type": "number",
+              "description": "The roundness of the UI elements in the app theme.",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
     "MposType": {
       "description": "This is a definition of the MPOS settings.",
       "type": "object",
@@ -54,7 +145,21 @@
         },
         "theme": {
           "type": "object",
-          "description": "Theme object for customization of the app."
+          "description": "Theme object for customization of the app.",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "This is a deprecated free-shape theme definition for backward compatibility. Don't use it for updating theme, as it will be removed in the future.",
+              "deprecated": true
+            },
+            {
+              "type": "object",
+              "$ref": "#/$defs/ThemeType"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "peripherals": {
           "description": "Periperals settings definitions.",
