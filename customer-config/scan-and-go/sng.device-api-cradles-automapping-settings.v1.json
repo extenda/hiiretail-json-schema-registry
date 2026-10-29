@@ -1,14 +1,14 @@
 {
   "$id": "sng.device-api-cradles-automapping-settings.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Configurations for Automapping between Cradles to Entrance Units",
-  "description": "Configurations for Automapping between Cradles to Entrance Units",
+  "title": "Configurations for Automapping between Cradles to Walls",
+  "description": "Configurations for Automapping between Cradles to Walls",
   "type": "object",
   "properties": {
     "enableCradleAutomapping": {
       "title": "Enable Automatic Cradle Mapping",
       "type": "boolean",
-      "description": "Enable or disable Automapping between Cradles and Entrance Units."
+      "description": "Enable or disable Automapping between Cradles and Walls."
     },
     "cradleDataRowRegex": {
       "title": "Cradle Data Row Pattern (Regex)",
