@@ -183,6 +183,10 @@
         },
         "status": {
           "$ref": "#/$defs/FulfillmentStatus"
+        },
+        "isSubstitutionAllowed": {
+          "type": "boolean",
+          "description": "The customer's choice for this line: may the store substitute this item if it is out of stock? Absent when not set, which means substitution is allowed."
         }
       }
     },
