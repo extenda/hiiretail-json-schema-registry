@@ -183,7 +183,7 @@
         },
         "orderedQuantity": {
           "type": "number",
-          "description": "The synced/allocated (ordered) quantity for this fulfillment line."
+          "description": "The synced/allocated (ordered) quantity for this fulfillment line. Present only on cancellation and delete payloads, where it carries the allocated quantity and `quantity` is the stored picked quantity."
         },
         "unitOfMeasure": {
           "type": "string",
