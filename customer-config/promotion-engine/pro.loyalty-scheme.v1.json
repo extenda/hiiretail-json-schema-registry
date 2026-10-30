@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/promotion-engine/pro.loyalty-scheme.v1.json",
+  "title": "Loyalty schemes",
+  "description": "The loyalty schemes a tenant collects points in, such as stamp cards. A promotion names a scheme by its id: the loyaltyPoints activator to redeem points and the loyalty reward to award them. The list is for the promotion user interface to offer the schemes to pick from, for Checkout Engine to let the cashier pick the card of a physical scheme, and for the Promotion Engine to name the points a basket earns.",
+  "type": "array",
+  "maxItems": 100,
+  "items": {
+    "$ref": "#/$defs/LoyaltyScheme"
+  },
+  "examples": [
+    [
+      {
+        "id": "coffee-club",
+        "name": "Coffee club",
+        "type": "PHYSICAL"
+      },
+      {
+        "id": "base",
+        "name": "Base stamps",
+        "type": "DIGITAL"
+      }
+    ]
+  ],
+  "$defs": {
+    "LoyaltyScheme": {
+      "description": "A loyalty scheme, such as a stamp card.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": {
+          "description": "The identifier a promotion names the scheme by, and the scheme of the points the basket holds and earns. Unique within the list. Promotions keep naming the id, so changing it leaves them in a scheme that is no longer configured.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 250
+        },
+        "name": {
+          "description": "The name for people: in the promotion user interface, in the cashier's list of cards, and for the points earned on a receipt. Should be unique within the list.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 250
+        },
+        "type": {
+          "description": "Tells Checkout Engine where to get the balance from. DIGITAL: it is looked up for the identified customer. PHYSICAL: the cashier picks the scheme and reads the count from the card.",
+          "type": "string",
+          "enum": ["DIGITAL", "PHYSICAL"]
+        }
+      }
+    }
+  }
+}
