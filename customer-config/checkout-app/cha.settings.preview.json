@@ -55,7 +55,7 @@
         "theme": {
           "type": "object",
           "description": "Theme object for customization of the app.",
-          "oneOf": [
+          "anyOf": [
             {
               "type": "object",
               "description": "This is a deprecated free-shape theme definition for backward compatibility. Don't use it for updating theme, as it will be removed in the future.",
@@ -238,7 +238,7 @@
         "theme": {
           "type": "object",
           "description": "Theme object for customisation of the app.",
-          "oneOf": [
+          "anyOf": [
             {
               "type": "object",
               "description": "This is a deprecated free-shape theme definition for backward compatibility. Don't use it for updating theme, as it will be removed in the future.",
@@ -577,18 +577,6 @@
           "description": "Theme settings",
           "additionalProperties": false,
           "properties": {
-            "accent": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "error": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "errorDark": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "errorLight": {
-              "$ref": "#/$defs/ColorType"
-            },
             "primary": {
               "$ref": "#/$defs/ColorType"
             },
@@ -599,36 +587,6 @@
               "$ref": "#/$defs/ColorType"
             },
             "secondary": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "success": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "successDark": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "successLight": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "text": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "textContrast": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "textDisabled": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "textSecondary": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "textSelected": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "warning": {
-              "$ref": "#/$defs/ColorType"
-            },
-            "warningLight": {
               "$ref": "#/$defs/ColorType"
             }
           }
