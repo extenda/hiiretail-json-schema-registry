@@ -591,7 +591,7 @@
             }
           }
         },
-        "fonts": {
+        "fontFamilies": {
           "type": "object",
           "description": "Font settings. Applied in SCO mode only. Fonts that are not set keep the default font.",
           "additionalProperties": false,
