@@ -55,7 +55,7 @@
       "type": "boolean",
       "default": false,
       "title": "Book home deliveries through TMS",
-      "description": "When true, Click & Collect books the shipment and prints the labels through TMS for home-delivery-from-store fulfillments that carry a TMS delivery choice. Implies parcel capture: the parcel step is shown even when doCaptureParcels is false. Orders without a TMS delivery choice are never booked."
+      "description": "When true, Click & Collect books the shipment and prints the labels through TMS for home-delivery-from-store fulfillments that carry a TMS delivery choice. For those fulfillments this implies parcel capture: the parcel step is shown even when doCaptureParcels is false. Fulfillments without a TMS delivery choice are not booked and get a parcel step only when doCaptureParcels is true."
     }
   },
   "additionalProperties": false
