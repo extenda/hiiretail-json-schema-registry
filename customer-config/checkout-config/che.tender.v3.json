@@ -675,7 +675,7 @@
         "provider": {
           "type": "string",
           "title": "Card Payment Provider",
-          "description": "The payment service provider for the integrated card terminal. Informational: the provider itself is configured in the payment connector. Not applicable to standalone terminals.",
+          "description": "Optional. The payment service provider for the integrated card terminal, for reference only: the point of sale does not use it, because the provider itself is configured in the payment connector. Not applicable to standalone terminals.",
           "oneOf": [
             {
               "const": "ADYEN",
@@ -701,27 +701,6 @@
         }
       },
       "allOf": [
-        {
-          "title": "Integrated card terminal: provider required",
-          "if": {
-            "properties": {
-              "integration": {
-                "enum": [
-                  "INTEGRATED_CLOUD",
-                  "INTEGRATED_LOCAL"
-                ]
-              }
-            },
-            "required": [
-              "integration"
-            ]
-          },
-          "then": {
-            "required": [
-              "provider"
-            ]
-          }
-        },
         {
           "title": "Standalone card terminal: no provider",
           "if": {
