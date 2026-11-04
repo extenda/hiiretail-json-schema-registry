@@ -1,24 +1,43 @@
 {
   "$id": "loy.voyado-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Voyado Integration Configuration",
+  "title": "Voyado connector",
+  "description": "Connection to Voyado through the Voyado connector. Used when loyalty routing is set to Voyado.",
   "oneOf": [
     {
-      "title": "VoyadoIntegrationConfig",
+      "title": "Voyado API",
+      "description": "Loyalty requests are sent to the Voyado API with an API key.",
       "type": "object",
       "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
+        "baseUrl": {
+          "title": "Base URL",
+          "description": "Address of your Voyado API, for example https://yourcompany.voyado.com/api.",
+          "type": "string",
+          "format": "uri"
+        },
+        "timeout": {
+          "title": "Timeout (ms)",
+          "description": "How long to wait for Voyado to answer, in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
         "enabledBalancePoints": {
-          "description": "Indicates whether balance points request will be made to Voyado API.",
+          "title": "Show balance points",
+          "description": "Fetch the member's points balance from Voyado.",
           "type": "boolean"
         },
-        "authenticationType": { "const": "apiKey" },
+        "authenticationType": { "const": "apiKey", "x-hidden": true },
         "authenticationConfig": {
+          "title": "Authentication",
           "type": "object",
           "properties": {
-            "headerName": { "const": "apiKey" },
-            "key": { "type": "string" }
+            "headerName": { "const": "apiKey", "x-hidden": true },
+            "key": {
+              "title": "API key",
+              "description": "API key created in Voyado for this integration.",
+              "type": "string",
+              "format": "password"
+            }
           },
           "required": ["headerName", "key"],
           "additionalProperties": false
@@ -33,6 +52,10 @@
       ],
       "additionalProperties": false
     },
-    { "type": "null" }
+    {
+      "title": "Not configured",
+      "description": "No Voyado connection is set for this target.",
+      "type": "null"
+    }
   ]
 }

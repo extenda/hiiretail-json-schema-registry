@@ -1,7 +1,7 @@
 {
   "$id": "loy.routing-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Loyalty Routing Configuration",
+  "title": "Loyalty connector",
   "description": "Configuration for routing loyalty requests to different loyalty integrations.",
   "oneOf": [
     {
