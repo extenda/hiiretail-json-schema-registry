@@ -2,7 +2,7 @@
   "$id": "cnc.configurations.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ClickAndCollectConfigurations",
-  "description": "Per-business-unit settings for Click & Collect: how long to wait for a payment to complete, how orders are packed and prioritised, and how the picking app reads barcodes and category menus.",
+  "description": "Per-business-unit settings for Click & Collect: how long to wait for a payment to complete, how orders are packed and prioritised, how home deliveries are shipped, and how the picking app reads barcodes and category menus.",
   "type": "object",
   "properties": {
     "bufferPeriodForCompletingPaymentInMinutes": {
@@ -44,6 +44,18 @@
       "type": "string",
       "description": "Barcode format the picking app expects when scanning items. No default: unset means the app applies its own built-in handling.",
       "enum": ["DataBar", "DataMatrix", "Plu", "VariableWeightGtin"]
+    },
+    "doCaptureParcels": {
+      "type": "boolean",
+      "default": false,
+      "title": "Capture parcels when packing home deliveries",
+      "description": "When true, the picking app asks for the parcels (how many, and an optional storage location per parcel) when packing a home-delivery-from-store fulfillment. Click & Collect stores them and passes them to Customer Order for the OMS/ERP. Nothing is booked with a carrier. Pickup-in-store orders are never affected."
+    },
+    "doUseTmsShipping": {
+      "type": "boolean",
+      "default": false,
+      "title": "Book home deliveries through TMS",
+      "description": "When true, Click & Collect books the shipment and prints the labels through TMS for home-delivery-from-store fulfillments that carry a TMS delivery choice. For those fulfillments this implies parcel capture: the parcel step is shown even when doCaptureParcels is false. Fulfillments without a TMS delivery choice are not booked and get a parcel step only when doCaptureParcels is true."
     }
   },
   "additionalProperties": false
