@@ -69,19 +69,12 @@
             "type": "object",
             "additionalProperties": false,
             "required": [
-              "kind",
-              "currency"
+              "kind"
             ],
             "properties": {
               "kind": {
                 "const": "foreignCurrency",
                 "title": "Foreign Currency Cash"
-              },
-              "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$",
-                "title": "Currency",
-                "description": "ISO 4217 code of the foreign currency, for example 'EUR'. It must differ from the store's own currency, and an exchange rate must exist for it."
               }
             }
           },
@@ -367,6 +360,12 @@
             }
           }
         ]
+      },
+      "currency": {
+        "type": "string",
+        "pattern": "^[A-Z]{3}$",
+        "title": "Currency",
+        "description": "Only for foreign currency cash: ISO 4217 code of the foreign currency, for example 'EUR'. It must be one of the currencies configured for the stores (Currencies configuration) and differ from the store's own currency. Every other tender uses the store's own currency, so the field is not allowed for other types."
       },
       "name": {
         "type": "string",
@@ -755,6 +754,26 @@
       }
     },
     "allOf": [
+      {
+        "$comment": "Only foreign currency cash names its currency; every other tender uses the store's own currency.",
+        "if": {
+          "$ref": "#/$defs/kindForeignCurrency"
+        },
+        "then": {
+          "type": "object",
+          "required": [
+            "currency"
+          ]
+        },
+        "else": {
+          "type": "object",
+          "properties": {
+            "currency": {
+              "not": {}
+            }
+          }
+        }
+      },
       {
         "$comment": "Overpayment, change and rounding only exist for cash-like types.",
         "if": {
@@ -1593,6 +1612,25 @@
       },
       "not": {
         "$ref": "#/$defs/disabled"
+      }
+    },
+    "kindForeignCurrency": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "foreignCurrency"
+            }
+          }
+        }
       }
     }
   }
