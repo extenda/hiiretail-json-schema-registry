@@ -3,7 +3,8 @@
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.v3.json",
   "type": "array",
   "title": "Tenders",
-  "description": "Payment methods (tenders) accepted at the point of sale. The user chooses the tender type and how it is connected; Store Data adds every technical setting the point of sale needs (payment plugin, provider identifier, engine flags) before the tender is sent to the store. The 'id' field is the primary key — it must be unique within the array.",
+  "description": "Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
+  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -12,234 +13,356 @@
     "required": [
       "id",
       "type",
-      "name",
-      "currency"
+      "name"
     ],
     "additionalProperties": false,
     "properties": {
       "id": {
         "type": "string",
         "minLength": 1,
+        "maxLength": 4,
+        "pattern": "^[A-Za-z0-9_-]{1,4}$",
         "title": "Tender ID",
-        "description": "Unique identifier for this tender. Acts as the primary key — must be unique across all tenders and never reused. Referenced by transactions, reports and ERP integrations. Examples: 'CASH_EUR', 'VISA', 'SWISH'."
+        "description": "Unique code of this tender, 1 to 4 letters, digits, '-' or '_'. The point of sale stores at most 4 characters. Transactions, reports and ERP integrations reference it, so never reuse or rename it: renaming creates a new tender. Examples: 'CASH', 'VISA', 'SWSH'. Loyalty redemption and loyalty gift certificates must use the payment code of the loyalty system."
       },
       "type": {
         "type": "object",
         "title": "Tender Type",
-        "description": "The kind of payment this tender is. Choose exactly one type; its own settings appear below it. The type decides how the point of sale handles the payment, including whether it can be cancelled or refunded.",
-        "minProperties": 1,
-        "maxProperties": 1,
-        "additionalProperties": false,
-        "properties": {
-          "cash": {
-            "$ref": "#/$defs/cash"
-          },
-          "creditDebit": {
-            "$ref": "#/$defs/creditDebit"
-          },
-          "mobile": {
-            "$ref": "#/$defs/mobile"
-          },
-          "electronicGiftCard": {
-            "$ref": "#/$defs/electronicGiftCard"
-          },
-          "organizationCharge": {
-            "$ref": "#/$defs/organizationCharge"
-          },
-          "check": {
-            "$ref": "#/$defs/check"
-          },
-          "giftCertificate": {
-            "$ref": "#/$defs/giftCertificate"
-          },
-          "voucher": {
-            "$ref": "#/$defs/voucher"
-          },
-          "coupon": {
-            "$ref": "#/$defs/coupon"
-          },
-          "manufacturerCoupon": {
-            "$ref": "#/$defs/manufacturerCoupon"
-          },
-          "loyaltyRedemption": {
-            "$ref": "#/$defs/loyaltyRedemption"
-          },
-          "houseAccount": {
-            "$ref": "#/$defs/houseAccount"
-          },
-          "foodStamp": {
-            "$ref": "#/$defs/foodStamp"
-          },
-          "wicCheck": {
-            "$ref": "#/$defs/wicCheck"
-          }
-        },
+        "description": "What kind of payment this is. Choose it first: the other settings depend on it. Changing the type of a tender that is already in use makes Store Data replace the tender at every store.",
+        "required": [
+          "kind"
+        ],
         "oneOf": [
           {
             "title": "Cash",
-            "description": "Notes and coins handled at the till, in the local currency or, with 'Foreign Currency' set, in another currency.",
+            "description": "Notes and coins in the store's own currency.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "cash"
+              "kind"
             ],
             "properties": {
-              "cash": {
-                "$ref": "#/$defs/cash"
+              "kind": {
+                "const": "cash",
+                "title": "Cash"
+              },
+              "hardware": {
+                "type": "string",
+                "title": "Cash Handling",
+                "description": "How cash is taken. A cash changer machine counts the cash and pays out change by itself, and the till must also have the cash changer enabled. A cash changer tender cannot be the default cash tender: a store with one also needs a cash tender with a cash drawer as its default, for tills without a machine. Empty means cash drawer.",
+                "oneOf": [
+                  {
+                    "const": "STANDARD_CASH_DRAWER",
+                    "title": "Cash drawer, handled by the cashier"
+                  },
+                  {
+                    "const": "CASH_CHANGER_MACHINE",
+                    "title": "Cash changer machine"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "title": "Foreign Currency Cash",
+            "description": "Notes and coins in another currency than the store's. The till converts the amount due with the exchange rate of this currency.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "currency"
+            ],
+            "properties": {
+              "kind": {
+                "const": "foreignCurrency",
+                "title": "Foreign Currency Cash"
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$",
+                "title": "Currency",
+                "description": "ISO 4217 code of the foreign currency, for example 'EUR'. It must differ from the store's own currency, and an exchange rate must exist for it."
               }
             }
           },
           {
             "title": "Credit / Debit Card",
             "description": "Payment card read by a card terminal.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "creditDebit"
+              "kind",
+              "terminal"
             ],
             "properties": {
-              "creditDebit": {
-                "$ref": "#/$defs/creditDebit"
+              "kind": {
+                "const": "creditDebit",
+                "title": "Credit / Debit Card"
+              },
+              "terminal": {
+                "type": "string",
+                "title": "Card Terminal",
+                "description": "How the terminal is connected. An integrated terminal receives the amount from the till; its payment provider is set up for the store and checkout in Hii Connect, not here. On a standalone terminal the cashier types the amount.",
+                "oneOf": [
+                  {
+                    "const": "INTEGRATED_CLOUD",
+                    "title": "Integrated, through the cloud (Hii Connect)"
+                  },
+                  {
+                    "const": "INTEGRATED_LOCAL",
+                    "title": "Integrated, on the local network"
+                  },
+                  {
+                    "const": "STANDALONE",
+                    "title": "Standalone, the cashier types the amount"
+                  }
+                ]
               }
             }
           },
           {
             "title": "Mobile Payment",
-            "description": "Payment with a mobile app such as Swish or Vipps.",
+            "description": "Payment with a mobile app such as Swish or Vipps. Not supported by ER POS.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "mobile"
+              "kind",
+              "integration"
             ],
             "properties": {
-              "mobile": {
-                "$ref": "#/$defs/mobile"
+              "kind": {
+                "const": "mobile",
+                "title": "Mobile Payment"
+              },
+              "integration": {
+                "type": "string",
+                "title": "Connection",
+                "description": "Integrated: the till sends the payment request to the customer's app. Standalone: the cashier checks the payment by hand; such payments cannot be refunded at the till.",
+                "oneOf": [
+                  {
+                    "const": "INTEGRATED",
+                    "title": "Integrated with the till"
+                  },
+                  {
+                    "const": "STANDALONE",
+                    "title": "Standalone, checked by hand"
+                  }
+                ]
+              },
+              "provider": {
+                "type": "string",
+                "title": "Provider",
+                "description": "The mobile payment service. Required when integrated, ignored when standalone. The provider's credentials are set up for the tenant by Extenda Retail.",
+                "oneOf": [
+                  {
+                    "const": "SWISH",
+                    "title": "Swish"
+                  },
+                  {
+                    "const": "VIPPS",
+                    "title": "Vipps MobilePay"
+                  },
+                  {
+                    "const": "SVEA",
+                    "title": "Svea"
+                  },
+                  {
+                    "const": "RESURSBANK",
+                    "title": "Resurs Bank"
+                  }
+                ]
               }
-            }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "type": "object",
+                  "required": [
+                    "integration"
+                  ],
+                  "properties": {
+                    "integration": {
+                      "const": "INTEGRATED"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "required": [
+                    "provider"
+                  ]
+                }
+              }
+            ]
           },
           {
             "title": "Electronic Gift Card",
-            "description": "Gift card with a balance held in a gift card system.",
+            "description": "Gift card whose balance is held in a gift card system and checked online through Hii Connect.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "electronicGiftCard"
+              "kind"
             ],
             "properties": {
-              "electronicGiftCard": {
-                "$ref": "#/$defs/electronicGiftCard"
-              }
-            }
-          },
-          {
-            "title": "Organization Charge",
-            "description": "Purchase charged to a business customer's account.",
-            "required": [
-              "organizationCharge"
-            ],
-            "properties": {
-              "organizationCharge": {
-                "$ref": "#/$defs/organizationCharge"
-              }
-            }
-          },
-          {
-            "title": "Check",
-            "description": "Paper check.",
-            "required": [
-              "check"
-            ],
-            "properties": {
-              "check": {
-                "$ref": "#/$defs/check"
+              "kind": {
+                "const": "electronicGiftCard",
+                "title": "Electronic Gift Card"
               }
             }
           },
           {
             "title": "Gift Certificate",
             "description": "Paper gift certificate with a fixed value.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "giftCertificate"
+              "kind"
             ],
             "properties": {
-              "giftCertificate": {
-                "$ref": "#/$defs/giftCertificate"
+              "kind": {
+                "const": "giftCertificate",
+                "title": "Gift Certificate"
               }
             }
           },
           {
             "title": "Voucher",
             "description": "Voucher with a value, for example a credit note.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "voucher"
+              "kind"
             ],
             "properties": {
-              "voucher": {
-                "$ref": "#/$defs/voucher"
+              "kind": {
+                "const": "voucher",
+                "title": "Voucher"
+              }
+            }
+          },
+          {
+            "title": "Check",
+            "description": "Paper check.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "check",
+                "title": "Check"
               }
             }
           },
           {
             "title": "Coupon",
             "description": "Store coupon used as payment.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "coupon"
+              "kind"
             ],
             "properties": {
-              "coupon": {
-                "$ref": "#/$defs/coupon"
+              "kind": {
+                "const": "coupon",
+                "title": "Coupon"
               }
             }
           },
           {
             "title": "Manufacturer Coupon",
             "description": "Coupon issued by a manufacturer and used as payment.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "manufacturerCoupon"
+              "kind"
             ],
             "properties": {
-              "manufacturerCoupon": {
-                "$ref": "#/$defs/manufacturerCoupon"
+              "kind": {
+                "const": "manufacturerCoupon",
+                "title": "Manufacturer Coupon"
               }
             }
           },
           {
             "title": "Loyalty Points Redemption",
-            "description": "Payment with loyalty points.",
+            "description": "Payment with the customer's loyalty points. Needs a loyalty customer on the sale.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "loyaltyRedemption"
+              "kind"
             ],
             "properties": {
-              "loyaltyRedemption": {
-                "$ref": "#/$defs/loyaltyRedemption"
+              "kind": {
+                "const": "loyaltyRedemption",
+                "title": "Loyalty Points Redemption"
+              }
+            }
+          },
+          {
+            "title": "Organization Charge",
+            "description": "Purchase charged to a business customer's account.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "const": "organizationCharge",
+                "title": "Organization Charge"
+              },
+              "creditCheck": {
+                "type": "boolean",
+                "default": false,
+                "title": "Check Credit Limit",
+                "description": "When on, the till checks the business customer on the sale and their credit limit before accepting the tender. When off, the tender is accepted without any customer or credit check."
               }
             }
           },
           {
             "title": "House Account",
             "description": "Purchase charged to a customer account held by the store.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "houseAccount"
+              "kind"
             ],
             "properties": {
-              "houseAccount": {
-                "$ref": "#/$defs/houseAccount"
+              "kind": {
+                "const": "houseAccount",
+                "title": "House Account"
               }
             }
           },
           {
             "title": "Food Stamp / SNAP",
-            "description": "Food stamp or SNAP benefit.",
+            "description": "Food stamp or SNAP benefit. Needs an item restriction.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "foodStamp"
+              "kind"
             ],
             "properties": {
-              "foodStamp": {
-                "$ref": "#/$defs/foodStamp"
+              "kind": {
+                "const": "foodStamp",
+                "title": "Food Stamp / SNAP"
               }
             }
           },
           {
             "title": "WIC Check",
-            "description": "WIC benefit check.",
+            "description": "WIC benefit check. Needs an item restriction.",
+            "type": "object",
+            "additionalProperties": false,
             "required": [
-              "wicCheck"
+              "kind"
             ],
             "properties": {
-              "wicCheck": {
-                "$ref": "#/$defs/wicCheck"
+              "kind": {
+                "const": "wicCheck",
+                "title": "WIC Check"
               }
             }
           }
@@ -248,94 +371,133 @@
       "name": {
         "type": "string",
         "minLength": 1,
+        "maxLength": 60,
         "title": "Display Name",
-        "description": "The name shown on the point of sale screen and printed on receipts. Examples: 'Cash', 'Visa / Mastercard', 'Swish'."
+        "description": "Shown on the till and printed on receipts. Examples: 'Cash', 'Visa / Mastercard', 'Swish'."
       },
       "description": {
         "type": "string",
-        "title": "Description",
-        "description": "An internal description for configuration reference. Not shown to cashiers or customers."
-      },
-      "currency": {
-        "type": "string",
-        "pattern": "^[A-Z]{3}$",
-        "title": "Currency",
-        "description": "ISO 4217 currency code of this tender, for example 'SEK' or 'EUR'. The currency must exist at the point of sale. The default cash tender's currency is the store's local currency. For a foreign currency cash tender, this is the foreign currency."
+        "maxLength": 255,
+        "title": "Internal Description",
+        "description": "Note for administrators. Not shown to cashiers or customers."
       },
       "disabled": {
         "type": "boolean",
         "default": false,
         "title": "Disabled",
-        "description": "When true, the tender is removed from the point of sale but its configuration is kept, so it can be enabled again later."
+        "description": "Removes the tender from the stores but keeps its configuration here, so it can be enabled again. A disabled tender cannot be the change tender of another tender."
       },
       "restrictionRuleId": {
         "type": "string",
         "minLength": 1,
         "title": "Item Restriction",
-        "description": "The id of an item restriction rule that limits which items can be paid with this tender. Restriction rules are configured separately and shared between tenders."
+        "description": "Id of the item restriction rule that limits which items this tender can pay for. Required for food stamps and WIC checks."
       },
       "behavior": {
         "type": "object",
-        "title": "Point of Sale Behavior",
-        "description": "Settings that control how the point of sale handles this tender during a transaction. Settings left unset use the default for the tender type.",
+        "title": "At the Till",
+        "description": "How the till handles this tender. Every setting is optional: a setting left empty uses the default for the tender type.",
         "additionalProperties": false,
         "properties": {
-          "isDefault": {
-            "type": "boolean",
+          "defaultTender": {
+            "type": "string",
             "title": "Default Tender of Its Type",
-            "description": "The point of sale uses the default tender of a type when no specific tender of that type is chosen, so each type needs exactly one default tender. Leave unset when the type has only one tender; it then becomes the default. When a type has several tenders, set exactly one to true; otherwise Store Data rejects the tender list. Foreign currency cash tenders count as a type of their own. The default cash tender, which is not a foreign currency tender, sets the store's local currency."
+            "description": "The till uses the default tender of a type when a payment names only the type, and the default cash tender decides the store's change and cash rounding. Automatic (default): this tender becomes the default when no enabled tender of its type is set to 'Yes' and it is the only enabled one of its type not set to 'No'. When a type has several enabled tenders, set 'Yes' on exactly one of them, or 'No' on all but one. A cash changer tender is never the default cash tender.",
+            "oneOf": [
+              {
+                "const": "AUTOMATIC",
+                "title": "Automatic"
+              },
+              {
+                "const": "YES",
+                "title": "Yes"
+              },
+              {
+                "const": "NO",
+                "title": "No"
+              }
+            ]
           },
-          "allowOverpayment": {
+          "exactAmountOnly": {
             "type": "boolean",
-            "title": "Allow Overpayment",
-            "description": "When true, the customer can pay more than the amount due, and the difference is given back as change. Leave unset to use the default for the tender type."
-          },
-          "openCashDrawer": {
-            "type": "boolean",
-            "title": "Open Cash Drawer",
-            "description": "When true, the cash drawer opens when a transaction is finalized with this tender. Leave unset to use the default for the tender type."
-          },
-          "lockTransaction": {
-            "type": "boolean",
-            "title": "Lock Transaction After Payment Entry",
-            "description": "When true, no more items can be added, changed or discounted once the cashier has entered this tender. The payment can still be completed or cancelled."
+            "default": false,
+            "title": "Exact Amount Only",
+            "description": "When on, the customer cannot pay more than the amount due, so no change is given. When off (default), the customer can hand over more and gets change. Only for cash, foreign currency, gift certificates, vouchers and checks; every other type always takes the exact amount."
           },
           "exclusive": {
             "type": "boolean",
+            "default": false,
             "title": "No Split Payment",
-            "description": "When true, this tender cannot be combined with any other tender in the same transaction."
+            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale. For cash, foreign currency, gift certificates, vouchers and checks this also means 'Exact Amount Only'."
           },
-          "autoFinalize": {
+          "lockTransaction": {
             "type": "boolean",
             "default": false,
-            "title": "Auto-Finalize Payment",
-            "description": "When true, the point of sale completes the payment with this tender without asking the cashier to confirm the amount. Intended for unmanned scenarios such as self-checkout. Not available for cash; a cash changer machine is finalized automatically."
+            "title": "Lock Sale After Payment Entry",
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed or cancelled."
+          },
+          "blockCancel": {
+            "type": "boolean",
+            "default": false,
+            "title": "Block Cancelling the Sale",
+            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Not offered for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points or organization charge with credit check, because the cashier would have no way back after money has been taken."
+          },
+          "payRemainingAmount": {
+            "type": "boolean",
+            "default": false,
+            "title": "Pay Remaining Amount Automatically",
+            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Not offered for cash, gift certificates, vouchers, coupons and loyalty points, which pay their own value."
+          },
+          "prefillAmount": {
+            "type": "boolean",
+            "default": false,
+            "title": "Pre-fill Amount Prompt",
+            "description": "When on, the amount prompt on interactive tills starts with the remaining amount instead of zero."
+          },
+          "cashDrawer": {
+            "type": "string",
+            "title": "Cash Drawer",
+            "description": "Whether the cash drawer opens when a sale paid with this tender is completed. Type default: opens for cash, foreign currency, gift certificates, vouchers and checks, stays closed for every other type. Change given in cash always opens the drawer.",
+            "oneOf": [
+              {
+                "const": "TYPE_DEFAULT",
+                "title": "Type default"
+              },
+              {
+                "const": "OPEN",
+                "title": "Open the drawer"
+              },
+              {
+                "const": "KEEP_CLOSED",
+                "title": "Keep the drawer closed"
+              }
+            ]
           }
         }
       },
       "change": {
         "type": "object",
         "title": "Change",
-        "description": "How change is given when the customer pays more than the amount due. Not used when the tender does not allow overpayment, either through 'Allow Overpayment' or the default for the tender type.",
+        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Only for cash, foreign currency, gift certificates, vouchers and checks.",
         "additionalProperties": false,
         "properties": {
-          "maxCashBack": {
-            "type": "number",
-            "minimum": 0,
-            "title": "Cash Back Auto-Finalize Limit",
-            "description": "Below this amount, change is completed automatically. At or above it, the cashier must complete it manually. It is a threshold, not a hard cap."
-          },
           "tenderId": {
             "type": "string",
-            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
-            "description": "The id of another tender in the list, with a currency, used to give change instead of cash."
+            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate, voucher or check tender in this list that allows refunds and has no minimum amounts."
           },
           "threshold": {
             "type": "number",
-            "minimum": 0,
-            "title": "Change Threshold",
-            "description": "Above this amount, change is given with the alternate change tender; at or below it, change is given in cash. Only used together with an alternate change tender."
+            "exclusiveMinimum": 0,
+            "title": "Use Alternate Above",
+            "description": "Change above this amount goes to the alternate change tender; this amount or less is given in cash. Leave empty to send all change to the alternate change tender."
+          },
+          "autoCompleteLimit": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "title": "Complete Change Automatically Below",
+            "description": "Change below this amount is given automatically. Change of this amount or more must be handled by the cashier before the sale completes. Leave empty to always give change automatically."
           }
         },
         "dependentRequired": {
@@ -346,98 +508,131 @@
       },
       "refund": {
         "type": "object",
-        "title": "Refund Limits",
-        "description": "Limits for refunds with this tender. Whether the tender can be used for refunds follows from the tender type; for a type that cannot be refunded these limits are not used. A minimum must not be larger than the maximum.",
+        "title": "Refunds",
+        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Not offered for coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
         "additionalProperties": false,
         "properties": {
+          "blockRefunds": {
+            "type": "boolean",
+            "default": false,
+            "title": "Block Refunds",
+            "description": "When on, this tender cannot be used when money goes back to the customer; the cashier must choose another tender. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash."
+          },
+          "skipAmountPrompt": {
+            "type": "boolean",
+            "default": false,
+            "title": "Skip Amount Prompt on Receipt Refunds",
+            "description": "When on, a refund against the original receipt refunds the remaining amount of this tender without asking the cashier for an amount."
+          },
           "maxAmount": {
             "type": "number",
-            "minimum": 0,
-            "title": "Maximum Refund Amount",
-            "description": "The largest amount that can be refunded with this tender in one refund. Leave unset for no limit."
+            "exclusiveMinimum": 0,
+            "title": "Maximum Refund",
+            "description": "Largest amount that can go back to the customer in one entry with this tender. Above it, a manager must approve. On cash this also limits change. Leave empty for no limit."
           },
           "minAmount": {
             "type": "number",
-            "minimum": 0,
-            "title": "Minimum Refund Amount",
-            "description": "The smallest amount that can be refunded with this tender. Leave unset for no limit."
+            "exclusiveMinimum": 0,
+            "title": "Minimum Refund",
+            "description": "Smallest amount that can go back to the customer in one entry with this tender. Must not be larger than the maximum. Ignored for cash, where it would block change. Leave empty for no minimum."
           }
         }
       },
       "limits": {
         "type": "object",
         "title": "Amount Limits",
-        "description": "Limits on how much can be paid with this tender. The point of sale checks them when the cashier enters the amount. Leave a limit unset for no limit. A minimum must not be larger than the maximum.",
+        "description": "Limits on how much can be paid with this tender. Leave a limit empty for no limit.",
         "additionalProperties": false,
         "properties": {
-          "maxPerTransaction": {
+          "maxPerSale": {
             "type": "number",
-            "minimum": 0,
-            "title": "Maximum per Transaction",
-            "description": "The largest amount that can be paid with this tender in one transaction."
+            "exclusiveMinimum": 0,
+            "title": "Maximum per Sale",
+            "description": "Largest total that can be paid with this tender in one sale, over all its entries."
           },
-          "minPerTransaction": {
+          "maxPerEntry": {
             "type": "number",
-            "minimum": 0,
-            "title": "Minimum per Transaction",
-            "description": "The smallest amount that can be paid with this tender in one transaction."
+            "exclusiveMinimum": 0,
+            "title": "Maximum per Entry",
+            "description": "Largest amount for a single entry of this tender."
           },
-          "maxPerRegistration": {
+          "minPerEntry": {
             "type": "number",
-            "minimum": 0,
-            "title": "Maximum per Registration",
-            "description": "The largest amount for a single entry of this tender, independent of other entries of tenders in the same transaction."
+            "exclusiveMinimum": 0,
+            "title": "Minimum per Entry",
+            "description": "Smallest amount for a single entry of this tender, including change and refunds paid with it. A remaining amount below it cannot be paid with this tender. Must not be larger than the maximums. Ignored for cash, where it would block change."
           }
         }
       },
       "rounding": {
         "type": "object",
-        "title": "Amount Rounding",
-        "description": "Rounds the amount paid with this tender, typically for cash in currencies where the smallest coin is larger than the currency's minor unit. Leave empty for no rounding; method and precision are set together.",
+        "title": "Cash Rounding",
+        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks.",
         "additionalProperties": false,
         "properties": {
           "method": {
             "type": "string",
             "title": "Rounding Method",
-            "description": "How an amount between two units is rounded.",
+            "description": "Whether amounts are rounded, and which way an amount exactly between two units goes.",
             "oneOf": [
               {
+                "const": "NO_ROUNDING",
+                "title": "No rounding"
+              },
+              {
                 "const": "MATHEMATICAL",
-                "title": "Mathematical",
-                "description": "Round half up: an amount exactly in between is rounded up."
+                "title": "Round half up"
               },
               {
                 "const": "ROUND_HALF_DOWN",
-                "title": "Round Half Down",
-                "description": "An amount exactly in between is rounded down."
-              },
-              {
-                "const": "SCIENTIFIC",
-                "title": "Scientific",
-                "description": "Rounds to a multiple of the precision, always in one direction: down unless the point of sale is configured to round up. The direction for positive and negative amounts is set in the point of sale configuration, not on the tender."
+                "title": "Round half down"
               }
             ]
           },
           "precision": {
             "type": "number",
-            "exclusiveMinimum": 0,
-            "title": "Rounding Precision",
-            "description": "The unit to round to. Examples: 0.05 rounds to the nearest 5 cents; 1.0 to the nearest whole unit."
+            "title": "Round To",
+            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency.",
+            "enum": [
+              0.05,
+              0.1,
+              0.25,
+              0.5,
+              1,
+              5,
+              10
+            ]
           }
         },
-        "dependentRequired": {
-          "method": [
-            "precision"
-          ],
-          "precision": [
-            "method"
-          ]
-        }
+        "allOf": [
+          {
+            "if": {
+              "type": "object",
+              "required": [
+                "method"
+              ],
+              "properties": {
+                "method": {
+                  "enum": [
+                    "MATHEMATICAL",
+                    "ROUND_HALF_DOWN"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "required": [
+                "precision"
+              ]
+            }
+          }
+        ]
       },
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Only use when instructed by Extenda Retail support. A name starting with 'Pos.' is an advanced point of sale setting from the documented list of tender properties, for example 'Pos.maximumPerTransaction.amountOverride'; Store Data checks the name and type. Any other name is passed to point of sale extensions as is. Each name may be used only once per tender.",
+        "description": "Only use when Extenda Retail support asks for it. Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; Store Data rejects names that duplicate a setting in this form. Other names are passed to point-of-sale extensions. Each name may be used once.",
         "items": {
           "type": "object",
           "required": [
@@ -450,17 +645,15 @@
             "name": {
               "type": "string",
               "minLength": 1,
-              "title": "Name",
-              "description": "The setting or attribute name."
+              "title": "Name"
             },
             "type": {
               "type": "string",
               "title": "Data Type",
-              "description": "The data type of the value.",
               "oneOf": [
                 {
                   "const": "BOOL",
-                  "title": "Boolean (true / false)"
+                  "title": "Yes / No"
                 },
                 {
                   "const": "DOUBLE",
@@ -479,25 +672,27 @@
             "value": {
               "type": "string",
               "title": "Value",
-              "description": "Always written as text. Examples: 'true' for Boolean, '3.14' for a decimal number, '42' for a whole number."
+              "description": "Written as text: 'true' or 'false', '3.14', '42'."
             }
           },
           "allOf": [
             {
-              "title": "Boolean value",
               "if": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
                 "properties": {
                   "type": {
                     "const": "BOOL"
                   }
-                },
-                "required": [
-                  "type"
-                ]
+                }
               },
               "then": {
+                "type": "object",
                 "properties": {
                   "value": {
+                    "type": "string",
                     "enum": [
                       "true",
                       "false"
@@ -507,41 +702,45 @@
               }
             },
             {
-              "title": "Whole number value",
               "if": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
                 "properties": {
                   "type": {
                     "const": "INT"
                   }
-                },
-                "required": [
-                  "type"
-                ]
+                }
               },
               "then": {
+                "type": "object",
                 "properties": {
                   "value": {
+                    "type": "string",
                     "pattern": "^[+-]?[0-9]+$"
                   }
                 }
               }
             },
             {
-              "title": "Decimal number value",
               "if": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
                 "properties": {
                   "type": {
                     "const": "DOUBLE"
                   }
-                },
-                "required": [
-                  "type"
-                ]
+                }
               },
               "then": {
+                "type": "object",
                 "properties": {
                   "value": {
-                    "pattern": "^[+-]?([0-9]+\\.?[0-9]*|\\.[0-9]+)([eE][+-]?[0-9]+)?$"
+                    "type": "string",
+                    "pattern": "^[+-]?([0-9]+(\\.[0-9]+)?|\\.[0-9]+)$"
                   }
                 }
               }
@@ -552,26 +751,73 @@
     },
     "allOf": [
       {
-        "title": "Cash: auto-finalize is not available",
-        "description": "The cashier handles notes and coins, so the amount must be confirmed. A cash changer machine is finalized automatically by Store Data.",
+        "$comment": "Overpayment, change and rounding only exist for cash-like types.",
         "if": {
+          "$ref": "#/$defs/kindNotCashLike"
+        },
+        "then": {
+          "type": "object",
           "properties": {
-            "type": {
-              "required": [
-                "cash"
-              ]
+            "behavior": {
+              "type": "object",
+              "properties": {
+                "exactAmountOnly": {
+                  "not": {}
+                }
+              }
+            },
+            "change": {
+              "not": {}
+            },
+            "rounding": {
+              "not": {}
             }
-          },
-          "required": [
-            "type"
+          }
+        }
+      },
+      {
+        "$comment": "Exact amount only: there is no change, and a rounded amount above the amount due would be rejected.",
+        "if": {
+          "$ref": "#/$defs/exactAmountOnly"
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "change": {
+              "not": {}
+            },
+            "rounding": {
+              "not": {}
+            }
+          }
+        }
+      },
+      {
+        "$comment": "No split payment on a cash-like type must also take the exact amount.",
+        "if": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/kindCashLike"
+            },
+            {
+              "$ref": "#/$defs/exclusive"
+            }
           ]
         },
         "then": {
+          "type": "object",
+          "required": [
+            "behavior"
+          ],
           "properties": {
             "behavior": {
+              "type": "object",
+              "required": [
+                "exactAmountOnly"
+              ],
               "properties": {
-                "autoFinalize": {
-                  "const": false
+                "exactAmountOnly": {
+                  "const": true
                 }
               }
             }
@@ -579,340 +825,770 @@
         }
       },
       {
-        "title": "Overpayment not allowed: no change settings",
-        "description": "If the customer cannot pay more than the amount due, change never arises.",
+        "$comment": "Cancelling cannot be blocked once a terminal, app, gift card system or credit check has taken the money.",
         "if": {
-          "properties": {
-            "behavior": {
-              "properties": {
-                "allowOverpayment": {
-                  "const": false
-                }
-              },
-              "required": [
-                "allowOverpayment"
-              ]
-            }
-          },
-          "required": [
-            "behavior"
-          ]
+          "not": {
+            "$ref": "#/$defs/kindCancelBlockable"
+          }
         },
         "then": {
+          "type": "object",
           "properties": {
-            "change": {
-              "maxProperties": 0
+            "behavior": {
+              "type": "object",
+              "properties": {
+                "blockCancel": {
+                  "not": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "Paying the remaining amount does not fit types that pay their own value.",
+        "if": {
+          "not": {
+            "$ref": "#/$defs/kindPayRemaining"
+          }
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "behavior": {
+              "type": "object",
+              "properties": {
+                "payRemainingAmount": {
+                  "not": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "Types that can never refund.",
+        "if": {
+          "not": {
+            "$ref": "#/$defs/kindRefundable"
+          }
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "refund": {
+              "not": {}
+            }
+          }
+        }
+      },
+      {
+        "$comment": "Without an item restriction a benefit tender pays for any item.",
+        "if": {
+          "$ref": "#/$defs/kindRestrictionRequired"
+        },
+        "then": {
+          "type": "object",
+          "required": [
+            "restrictionRuleId"
+          ]
+        }
+      },
+      {
+        "$comment": "A cash changer cannot be the default cash tender: tills without a machine need a cash drawer default.",
+        "if": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "object",
+              "required": [
+                "hardware"
+              ],
+              "properties": {
+                "hardware": {
+                  "const": "CASH_CHANGER_MACHINE"
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "behavior": {
+              "type": "object",
+              "properties": {
+                "defaultTender": {
+                  "not": {
+                    "const": "YES"
+                  }
+                }
+              }
             }
           }
         }
       }
     ]
   },
+  "allOf": [
+    {
+      "$comment": "At most one enabled tender per type has 'Default Tender of Its Type' set to Yes.",
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "cash"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "foreignCurrency"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "creditDebit"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "mobile"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "electronicGiftCard"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "giftCertificate"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "voucher"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "check"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "coupon"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "manufacturerCoupon"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "loyaltyRedemption"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "organizationCharge"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "houseAccount"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "foodStamp"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "contains": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/enabledDefault"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "wicCheck"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "$comment": "At most one enabled cash changer tender per list.",
+      "contains": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "object",
+            "required": [
+              "kind",
+              "hardware"
+            ],
+            "properties": {
+              "kind": {
+                "const": "cash"
+              },
+              "hardware": {
+                "const": "CASH_CHANGER_MACHINE"
+              }
+            }
+          }
+        },
+        "not": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "minContains": 0,
+      "maxContains": 1
+    }
+  ],
   "$defs": {
-    "cash": {
+    "kindCashLike": {
       "type": "object",
-      "title": "Cash",
-      "description": "Notes and coins handled at the till, in the local currency or, with 'Foreign Currency' set, in another currency.",
-      "additionalProperties": false,
-      "properties": {
-        "hardware": {
-          "type": "string",
-          "title": "Cash Handling Hardware",
-          "description": "The cash-handling device connected to the point of sale. 'Cash Changer Machine' counts and dispenses change automatically. 'Standard Cash Drawer' is opened by the point of sale but operated by the cashier.",
-          "default": "STANDARD_CASH_DRAWER",
-          "oneOf": [
-            {
-              "const": "STANDARD_CASH_DRAWER",
-              "title": "Standard Cash Drawer",
-              "description": "Opened by the point of sale, operated manually by the cashier."
-            },
-            {
-              "const": "CASH_CHANGER_MACHINE",
-              "title": "Cash Changer Machine",
-              "description": "Counts notes and coins and dispenses change automatically. The till must also have the cash changer enabled in its peripheral settings."
-            }
-          ]
-        },
-        "foreignCurrency": {
-          "type": "boolean",
-          "default": false,
-          "title": "Foreign Currency",
-          "description": "When true, this tender accepts cash in another currency than the store's own, set in 'Currency'. The point of sale converts the amount due with the exchange rate for that currency; an exchange rate for the currency must exist. Foreign currency tenders have their own default tender, separate from local cash."
-        }
-      }
-    },
-    "creditDebit": {
-      "type": "object",
-      "title": "Credit / Debit Card",
-      "description": "Payment card read by a card terminal.",
       "required": [
-        "integration"
+        "type"
       ],
-      "additionalProperties": false,
       "properties": {
-        "integration": {
-          "type": "string",
-          "title": "Card Terminal Integration",
-          "description": "How the card terminal connects to the point of sale. 'Integrated' means the point of sale sends the amount to the terminal automatically. 'Standalone' means the cashier types the amount on a separate, unconnected terminal.",
-          "oneOf": [
-            {
-              "const": "INTEGRATED_CLOUD",
-              "title": "Integrated — Cloud",
-              "description": "The terminal communicates with the point of sale through the cloud. Requires internet access."
-            },
-            {
-              "const": "INTEGRATED_LOCAL",
-              "title": "Integrated — Local",
-              "description": "The terminal communicates with the point of sale over the local network."
-            },
-            {
-              "const": "STANDALONE",
-              "title": "Standalone",
-              "description": "Separate terminal with no connection to the point of sale. The cashier enters the amount manually."
-            }
-          ]
-        },
-        "provider": {
-          "type": "string",
-          "title": "Card Payment Provider",
-          "description": "Optional. The payment service provider for the integrated card terminal, for reference only: the point of sale does not use it, because the provider itself is configured in the payment connector. Not applicable to standalone terminals.",
-          "oneOf": [
-            {
-              "const": "ADYEN",
-              "title": "Adyen"
-            },
-            {
-              "const": "BAMBORA",
-              "title": "Bambora"
-            },
-            {
-              "const": "NETS",
-              "title": "Nets"
-            },
-            {
-              "const": "VERIFONE",
-              "title": "Verifone"
-            },
-            {
-              "const": "WORLDLINE",
-              "title": "Worldline"
-            }
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "title": "Standalone card terminal: no provider",
-          "if": {
-            "properties": {
-              "integration": {
-                "const": "STANDALONE"
-              }
-            },
-            "required": [
-              "integration"
-            ]
-          },
-          "then": {
-            "not": {
-              "required": [
-                "provider"
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "cash",
+                "foreignCurrency",
+                "giftCertificate",
+                "voucher",
+                "check"
               ]
             }
           }
         }
-      ]
+      }
     },
-    "mobile": {
+    "kindNotCashLike": {
       "type": "object",
-      "title": "Mobile Payment",
-      "description": "Payment with a mobile app such as Swish or Vipps.",
       "required": [
-        "integration"
+        "type"
       ],
-      "additionalProperties": false,
       "properties": {
-        "integration": {
-          "type": "string",
-          "title": "Mobile Payment Integration",
-          "description": "How the mobile payment is processed. 'Integrated' means the point of sale sends the payment request to the customer's app. 'Standalone' means a separate terminal is used.",
-          "oneOf": [
-            {
-              "const": "INTEGRATED",
-              "title": "Integrated",
-              "description": "The point of sale sends the payment request directly to the customer's app."
-            },
-            {
-              "const": "STANDALONE",
-              "title": "Standalone",
-              "description": "Separate terminal with no connection to the point of sale."
-            }
-          ]
-        },
-        "provider": {
-          "type": "string",
-          "title": "Mobile Payment Provider",
-          "description": "The mobile payment service. Not applicable to standalone payments.",
-          "oneOf": [
-            {
-              "const": "KLARNA",
-              "title": "Klarna"
-            },
-            {
-              "const": "RESURSBANK",
-              "title": "Resurs Bank"
-            },
-            {
-              "const": "SVEA",
-              "title": "Svea"
-            },
-            {
-              "const": "SWISH",
-              "title": "Swish"
-            },
-            {
-              "const": "VIPPS",
-              "title": "Vipps"
-            }
-          ]
-        }
-      },
-      "allOf": [
-        {
-          "title": "Integrated mobile payment: provider required",
-          "if": {
-            "properties": {
-              "integration": {
-                "const": "INTEGRATED"
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "not": {
+                "enum": [
+                  "cash",
+                  "foreignCurrency",
+                  "giftCertificate",
+                  "voucher",
+                  "check"
+                ]
               }
-            },
-            "required": [
-              "integration"
-            ]
-          },
-          "then": {
-            "required": [
-              "provider"
-            ]
+            }
           }
-        },
-        {
-          "title": "Standalone mobile payment: no provider",
-          "if": {
-            "properties": {
-              "integration": {
-                "const": "STANDALONE"
-              }
-            },
-            "required": [
-              "integration"
-            ]
+        }
+      }
+    },
+    "kindCancelBlockable": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "giftCertificate",
+                "voucher",
+                "check",
+                "coupon",
+                "manufacturerCoupon",
+                "organizationCharge",
+                "houseAccount",
+                "foodStamp",
+                "wicCheck"
+              ]
+            }
           },
-          "then": {
-            "not": {
-              "required": [
-                "provider"
+          "not": {
+            "type": "object",
+            "required": [
+              "creditCheck"
+            ],
+            "properties": {
+              "creditCheck": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "kindPayRemaining": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "creditDebit",
+                "mobile",
+                "electronicGiftCard",
+                "organizationCharge",
+                "houseAccount",
+                "check",
+                "foreignCurrency",
+                "foodStamp",
+                "wicCheck"
               ]
             }
           }
         }
-      ]
+      }
     },
-    "electronicGiftCard": {
+    "kindRefundable": {
       "type": "object",
-      "title": "Electronic Gift Card",
-      "description": "Gift card with a balance held in a gift card system.",
       "required": [
-        "integration"
+        "type"
       ],
-      "additionalProperties": false,
       "properties": {
-        "integration": {
-          "type": "string",
-          "title": "Gift Card Integration",
-          "description": "How the gift card is authorized at the point of sale.",
-          "oneOf": [
-            {
-              "const": "INTEGRATED",
-              "title": "Integrated",
-              "description": "The point of sale checks the balance online and authorizes the payment through the gift card plugin."
-            },
-            {
-              "const": "STANDALONE",
-              "title": "Standalone",
-              "description": "The card is read locally by legacy card-reader hardware, with no online authorization."
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "cash",
+                "foreignCurrency",
+                "creditDebit",
+                "mobile",
+                "electronicGiftCard",
+                "organizationCharge",
+                "houseAccount",
+                "giftCertificate",
+                "voucher",
+                "check"
+              ]
             }
-          ]
+          },
+          "not": {
+            "type": "object",
+            "required": [
+              "integration"
+            ],
+            "properties": {
+              "integration": {
+                "const": "STANDALONE"
+              }
+            }
+          }
         }
       }
     },
-    "organizationCharge": {
+    "kindRestrictionRequired": {
       "type": "object",
-      "title": "Organization Charge",
-      "description": "Purchase charged to a business customer's account.",
-      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
       "properties": {
-        "accountAuthorization": {
-          "type": "boolean",
-          "default": false,
-          "title": "Verify Business Account",
-          "description": "When true, the point of sale verifies that the customer has a registered business account with enough credit before accepting this tender."
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "foodStamp",
+                "wicCheck"
+              ]
+            }
+          }
         }
       }
     },
-    "check": {
+    "exactAmountOnly": {
       "type": "object",
-      "title": "Check",
-      "description": "Paper check.",
-      "additionalProperties": false
+      "required": [
+        "behavior"
+      ],
+      "properties": {
+        "behavior": {
+          "type": "object",
+          "required": [
+            "exactAmountOnly"
+          ],
+          "properties": {
+            "exactAmountOnly": {
+              "const": true
+            }
+          }
+        }
+      }
     },
-    "giftCertificate": {
+    "exclusive": {
       "type": "object",
-      "title": "Gift Certificate",
-      "description": "Paper gift certificate with a fixed value.",
-      "additionalProperties": false
+      "required": [
+        "behavior"
+      ],
+      "properties": {
+        "behavior": {
+          "type": "object",
+          "required": [
+            "exclusive"
+          ],
+          "properties": {
+            "exclusive": {
+              "const": true
+            }
+          }
+        }
+      }
     },
-    "voucher": {
+    "disabled": {
       "type": "object",
-      "title": "Voucher",
-      "description": "Voucher with a value, for example a credit note.",
-      "additionalProperties": false
+      "required": [
+        "disabled"
+      ],
+      "properties": {
+        "disabled": {
+          "const": true
+        }
+      }
     },
-    "coupon": {
+    "enabledDefault": {
       "type": "object",
-      "title": "Coupon",
-      "description": "Store coupon used as payment.",
-      "additionalProperties": false
-    },
-    "manufacturerCoupon": {
-      "type": "object",
-      "title": "Manufacturer Coupon",
-      "description": "Coupon issued by a manufacturer and used as payment.",
-      "additionalProperties": false
-    },
-    "loyaltyRedemption": {
-      "type": "object",
-      "title": "Loyalty Points Redemption",
-      "description": "Payment with loyalty points.",
-      "additionalProperties": false
-    },
-    "houseAccount": {
-      "type": "object",
-      "title": "House Account",
-      "description": "Purchase charged to a customer account held by the store.",
-      "additionalProperties": false
-    },
-    "foodStamp": {
-      "type": "object",
-      "title": "Food Stamp / SNAP",
-      "description": "Food stamp or SNAP benefit.",
-      "additionalProperties": false
-    },
-    "wicCheck": {
-      "type": "object",
-      "title": "WIC Check",
-      "description": "WIC benefit check.",
-      "additionalProperties": false
+      "required": [
+        "type",
+        "behavior"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ]
+        },
+        "behavior": {
+          "type": "object",
+          "required": [
+            "defaultTender"
+          ],
+          "properties": {
+            "defaultTender": {
+              "const": "YES"
+            }
+          }
+        }
+      },
+      "not": {
+        "$ref": "#/$defs/disabled"
+      }
     }
   }
 }
