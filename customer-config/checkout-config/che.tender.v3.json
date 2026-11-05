@@ -21,9 +21,9 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "pattern": "^[A-Za-z0-9_-]{1,4}$",
+        "pattern": "^[A-Z0-9_-]{1,4}$",
         "title": "Tender ID",
-        "description": "Unique code of this tender, 1 to 4 letters, digits, '-' or '_'. The point of sale stores at most 4 characters. Transactions, reports and ERP integrations reference it, so never reuse or rename it: renaming creates a new tender. Examples: 'CASH', 'VISA', 'SWSH'. Loyalty redemption and loyalty gift certificates must use the payment code of the loyalty system."
+        "description": "Unique code of this tender, 1 to 4 capital letters, digits, '-' or '_'. The point of sale stores at most 4 characters. Transactions, reports and ERP integrations reference it, so never reuse or rename it: renaming creates a new tender. Examples: 'CASH', 'VISA', 'SWSH'. Loyalty redemption and loyalty gift certificates must use the payment code of the loyalty system."
       },
       "type": {
         "type": "object",
@@ -402,7 +402,7 @@
           "defaultTender": {
             "type": "string",
             "title": "Default Tender of Its Type",
-            "description": "The till uses the default tender of a type when a payment names only the type, and the default cash tender decides the store's change and cash rounding. Automatic (default): this tender becomes the default when no enabled tender of its type is set to 'Yes' and it is the only enabled one of its type not set to 'No'. When a type has several enabled tenders, set 'Yes' on exactly one of them, or 'No' on all but one. A cash changer tender is never the default cash tender.",
+            "description": "The till uses the default tender of a type when a payment names only the type, and the default cash tender decides the store's change and cash rounding. Automatic (default): this tender becomes the default when no enabled tender of its type is set to 'Yes' and it is the only enabled one of its type not set to 'No'. Cash changer tenders are left out of this count and are never the default cash tender. When a type has several enabled tenders, set 'Yes' on exactly one of them, or 'No' on all but one.",
             "oneOf": [
               {
                 "const": "AUTOMATIC",
@@ -483,7 +483,7 @@
         "properties": {
           "tenderId": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9_-]{1,4}$",
+            "pattern": "^[A-Z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
             "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate, voucher or check tender in this list that allows refunds and has no minimum amounts."
           },
@@ -592,7 +592,7 @@
           "precision": {
             "type": "number",
             "title": "Round To",
-            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency.",
+            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency. Ignored when the method is 'No rounding'.",
             "enum": [
               0.05,
               0.1,
@@ -627,7 +627,12 @@
               ]
             }
           }
-        ]
+        ],
+        "dependentRequired": {
+          "precision": [
+            "method"
+          ]
+        }
       },
       "extraAttributes": {
         "type": "array",
