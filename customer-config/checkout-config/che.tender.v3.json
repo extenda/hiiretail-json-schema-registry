@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders",
   "description": "Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it.",
+  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional fields accept null as empty, because CCC stores the null the portal writes for a removed field. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.v3.json) to show tabs and fields per type.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -19,8 +19,6 @@
     "properties": {
       "id": {
         "type": "string",
-        "minLength": 1,
-        "maxLength": 4,
         "pattern": "^[A-Z0-9_-]{1,4}$",
         "title": "Tender ID",
         "description": "Unique code of this tender, 1 to 4 capital letters, digits, '-' or '_'. The point of sale stores at most 4 characters. Transactions, reports and ERP integrations reference it, so never reuse or rename it: renaming creates a new tender. Examples: 'CASH', 'VISA', 'SWSH'. Loyalty redemption and loyalty gift certificates must use the payment code of the loyalty system."
@@ -37,7 +35,9 @@
             "title": "Cash",
             "description": "Notes and coins in the store's own currency.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -67,7 +67,9 @@
             "title": "Foreign Currency Cash",
             "description": "Notes and coins in another currency than the store's. The till converts the amount due with the exchange rate of this currency.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -82,7 +84,9 @@
             "title": "Credit / Debit Card",
             "description": "Payment card read by a card terminal.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind",
               "terminal"
@@ -117,7 +121,9 @@
             "title": "Mobile Payment",
             "description": "Payment with a mobile app such as Swish or Vipps. Not supported by ER POS.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind",
               "integration"
@@ -192,7 +198,9 @@
             "title": "Electronic Gift Card",
             "description": "Gift card whose balance is held in a gift card system and checked online through Hii Connect.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -207,7 +215,9 @@
             "title": "Gift Certificate",
             "description": "Paper gift certificate with a fixed value.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -222,7 +232,9 @@
             "title": "Voucher",
             "description": "Voucher with a value, for example a credit note.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -237,7 +249,9 @@
             "title": "Check",
             "description": "Paper check.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -252,7 +266,9 @@
             "title": "Coupon",
             "description": "Store coupon used as payment.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -267,7 +283,9 @@
             "title": "Manufacturer Coupon",
             "description": "Coupon issued by a manufacturer and used as payment.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -282,7 +300,9 @@
             "title": "Loyalty Points Redemption",
             "description": "Payment with the customer's loyalty points. Needs a loyalty customer on the sale.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -297,7 +317,9 @@
             "title": "Organization Charge",
             "description": "Purchase charged to a business customer's account.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -318,7 +340,9 @@
             "title": "House Account",
             "description": "Purchase charged to a customer account held by the store.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -333,7 +357,9 @@
             "title": "Food Stamp / SNAP",
             "description": "Food stamp or SNAP benefit. Needs an item restriction.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -348,7 +374,9 @@
             "title": "WIC Check",
             "description": "WIC benefit check. Needs an item restriction.",
             "type": "object",
-            "additionalProperties": false,
+            "additionalProperties": {
+              "type": "null"
+            },
             "required": [
               "kind"
             ],
@@ -362,10 +390,13 @@
         ]
       },
       "currency": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "pattern": "^[A-Z]{3}$",
         "title": "Currency",
-        "description": "Only for foreign currency cash: ISO 4217 code of the foreign currency, for example 'EUR'. It must be one of the currencies configured for the stores (Currencies configuration) and differ from the store's own currency. Every other tender uses the store's own currency, so the field is not allowed for other types."
+        "description": "ISO 4217 code of the foreign currency, for example 'EUR'. Required for foreign currency cash, and ignored for every other type, which uses the store's own currency. It must be one of the currencies configured for the stores and differ from the store's own currency."
       },
       "name": {
         "type": "string",
@@ -375,7 +406,10 @@
         "description": "Shown on the till and printed on receipts. Examples: 'Cash', 'Visa / Mastercard', 'Swish'."
       },
       "description": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "maxLength": 255,
         "title": "Internal Description",
         "description": "Note for administrators. Not shown to cashiers or customers."
@@ -387,10 +421,13 @@
         "description": "Removes the tender from the stores but keeps its configuration here, so it can be enabled again. A disabled tender cannot be the change tender of another tender."
       },
       "restrictionRuleId": {
-        "type": "string",
+        "type": [
+          "string",
+          "null"
+        ],
         "minLength": 1,
         "title": "Item Restriction",
-        "description": "Id of the item restriction rule that limits which items this tender can pay for. Required for food stamps and WIC checks."
+        "description": "Id of the item restriction rule that limits which items this tender can pay for. Required for food stamps and WIC checks. The kind that holds these rules is not available yet, so food stamp and WIC tenders are not delivered to the stores until it is."
       },
       "behavior": {
         "type": "object",
@@ -419,15 +456,14 @@
           },
           "exactAmountOnly": {
             "type": "boolean",
-            "default": false,
             "title": "Exact Amount Only",
-            "description": "When on, the customer cannot pay more than the amount due, so no change is given. When off (default), the customer can hand over more and gets change. Only for cash, foreign currency, gift certificates, vouchers and checks; every other type always takes the exact amount."
+            "description": "When on, the customer cannot pay more than the amount due, so no change is given. When off (default), the customer can hand over more and gets change. Only for cash, foreign currency, gift certificates, vouchers and checks; every other type always takes the exact amount, and the setting is ignored for them."
           },
           "exclusive": {
             "type": "boolean",
             "default": false,
             "title": "No Split Payment",
-            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale. For cash, foreign currency, gift certificates, vouchers and checks this also means 'Exact Amount Only'."
+            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale, and it always takes the exact amount, whatever 'Exact Amount Only' says."
           },
           "lockTransaction": {
             "type": "boolean",
@@ -439,13 +475,13 @@
             "type": "boolean",
             "default": false,
             "title": "Block Cancelling the Sale",
-            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Not offered for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points or organization charge with credit check, because the cashier would have no way back after money has been taken."
+            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back."
           },
           "payRemainingAmount": {
             "type": "boolean",
             "default": false,
             "title": "Pay Remaining Amount Automatically",
-            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Not offered for cash, gift certificates, vouchers, coupons and loyalty points, which pay their own value."
+            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for cash, gift certificates, vouchers, coupons and loyalty points, which pay their own value."
           },
           "prefillAmount": {
             "type": "boolean",
@@ -477,38 +513,42 @@
       "change": {
         "type": "object",
         "title": "Change",
-        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Only for cash, foreign currency, gift certificates, vouchers and checks.",
+        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Only for cash, foreign currency, gift certificates, vouchers and checks that do not take the exact amount; ignored otherwise.",
         "additionalProperties": false,
         "properties": {
           "tenderId": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "pattern": "^[A-Z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
             "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate, voucher or check tender in this list that allows refunds and has no minimum amounts."
           },
           "threshold": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Use Alternate Above",
-            "description": "Change above this amount goes to the alternate change tender; this amount or less is given in cash. Leave empty to send all change to the alternate change tender."
+            "description": "Change above this amount goes to the alternate change tender; this amount or less is given in cash. Leave empty to send all change to the alternate change tender. Ignored without an alternate change tender."
           },
           "autoCompleteLimit": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Complete Change Automatically Below",
             "description": "Change below this amount is given automatically. Change of this amount or more must be handled by the cashier before the sale completes. Leave empty to always give change automatically."
           }
-        },
-        "dependentRequired": {
-          "threshold": [
-            "tenderId"
-          ]
         }
       },
       "refund": {
         "type": "object",
         "title": "Refunds",
-        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Not offered for coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
+        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Ignored for coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
         "additionalProperties": false,
         "properties": {
           "blockRefunds": {
@@ -524,13 +564,19 @@
             "description": "When on, a refund against the original receipt refunds the remaining amount of this tender without asking the cashier for an amount."
           },
           "maxAmount": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Maximum Refund",
-            "description": "Largest amount that can go back to the customer in one entry with this tender. Above it, a manager must approve. On cash this also limits change. Leave empty for no limit."
+            "description": "Largest amount that can go back to the customer in one entry with this tender. Above it, a manager must approve. On cash this also limits change. Leave empty for no limit. Ignored when refunds are blocked."
           },
           "minAmount": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Minimum Refund",
             "description": "Smallest amount that can go back to the customer in one entry with this tender. Must not be larger than the maximum. Ignored for cash, where it would block change. Leave empty for no minimum."
@@ -544,19 +590,28 @@
         "additionalProperties": false,
         "properties": {
           "maxPerSale": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Maximum per Sale",
             "description": "Largest total that can be paid with this tender in one sale, over all its entries."
           },
           "maxPerEntry": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Maximum per Entry",
             "description": "Largest amount for a single entry of this tender."
           },
           "minPerEntry": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "exclusiveMinimum": 0,
             "title": "Minimum per Entry",
             "description": "Smallest amount for a single entry of this tender, including change and refunds paid with it. A remaining amount below it cannot be paid with this tender. Must not be larger than the maximums. Ignored for cash, where it would block change."
@@ -566,7 +621,7 @@
       "rounding": {
         "type": "object",
         "title": "Cash Rounding",
-        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks.",
+        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks; ignored otherwise.",
         "additionalProperties": false,
         "properties": {
           "method": {
@@ -589,9 +644,12 @@
             ]
           },
           "precision": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "title": "Round To",
-            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency. Ignored when the method is 'No rounding'.",
+            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency. Ignored without a rounding method or with 'No rounding'.",
             "enum": [
               0.05,
               0.1,
@@ -599,54 +657,26 @@
               0.5,
               1,
               5,
-              10
+              10,
+              null
             ]
           }
-        },
-        "allOf": [
-          {
-            "if": {
-              "type": "object",
-              "required": [
-                "method"
-              ],
-              "properties": {
-                "method": {
-                  "enum": [
-                    "MATHEMATICAL",
-                    "ROUND_HALF_DOWN"
-                  ]
-                }
-              }
-            },
-            "then": {
-              "type": "object",
-              "required": [
-                "precision"
-              ]
-            }
-          }
-        ],
-        "dependentRequired": {
-          "precision": [
-            "method"
-          ]
         }
       },
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Only use when Extenda Retail support asks for it. Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; Store Data rejects names that duplicate a setting in this form. Other names are passed to point-of-sale extensions. Each name may be used once.",
+        "description": "Only use when Extenda Retail support asks for it. Each entry is identified by its name ('id'). Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; Store Data rejects names that duplicate a setting in this form. Other names are passed to point-of-sale extensions.",
         "items": {
           "type": "object",
           "required": [
-            "name",
+            "id",
             "type",
             "value"
           ],
           "additionalProperties": false,
           "properties": {
-            "name": {
+            "id": {
               "type": "string",
               "minLength": 1,
               "title": "Name"
@@ -755,153 +785,104 @@
     },
     "allOf": [
       {
-        "$comment": "Only foreign currency cash names its currency; every other tender uses the store's own currency.",
+        "$comment": "Foreign currency cash names its currency.",
         "if": {
-          "$ref": "#/$defs/kindForeignCurrency"
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "foreignCurrency"
+                }
+              }
+            }
+          }
         },
         "then": {
           "type": "object",
           "required": [
             "currency"
-          ]
-        },
-        "else": {
-          "type": "object",
+          ],
           "properties": {
             "currency": {
-              "not": {}
+              "type": "string"
             }
           }
         }
       },
       {
-        "$comment": "Overpayment, change and rounding only exist for cash-like types.",
-        "if": {
-          "$ref": "#/$defs/kindNotCashLike"
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "behavior": {
-              "type": "object",
-              "properties": {
-                "exactAmountOnly": {
-                  "not": {}
-                }
-              }
-            },
-            "change": {
-              "not": {}
-            },
-            "rounding": {
-              "not": {}
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Exact amount only: there is no change, and a rounded amount above the amount due would be rejected.",
-        "if": {
-          "$ref": "#/$defs/exactAmountOnly"
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "change": {
-              "not": {}
-            },
-            "rounding": {
-              "not": {}
-            }
-          }
-        }
-      },
-      {
-        "$comment": "No split payment on a cash-like type must also take the exact amount.",
+        "$comment": "A rounding method needs a rounding unit on the types that round.",
         "if": {
           "allOf": [
             {
-              "$ref": "#/$defs/kindCashLike"
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "cash",
+                        "foreignCurrency",
+                        "giftCertificate",
+                        "voucher",
+                        "check"
+                      ]
+                    }
+                  }
+                }
+              }
             },
             {
-              "$ref": "#/$defs/exclusive"
+              "type": "object",
+              "required": [
+                "rounding"
+              ],
+              "properties": {
+                "rounding": {
+                  "type": "object",
+                  "required": [
+                    "method"
+                  ],
+                  "properties": {
+                    "method": {
+                      "enum": [
+                        "MATHEMATICAL",
+                        "ROUND_HALF_DOWN"
+                      ]
+                    }
+                  }
+                }
+              }
             }
           ]
         },
         "then": {
           "type": "object",
-          "required": [
-            "behavior"
-          ],
           "properties": {
-            "behavior": {
+            "rounding": {
               "type": "object",
               "required": [
-                "exactAmountOnly"
+                "precision"
               ],
               "properties": {
-                "exactAmountOnly": {
-                  "const": true
+                "precision": {
+                  "type": "number"
                 }
               }
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Cancelling cannot be blocked once a terminal, app, gift card system or credit check has taken the money.",
-        "if": {
-          "not": {
-            "$ref": "#/$defs/kindCancelBlockable"
-          }
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "behavior": {
-              "type": "object",
-              "properties": {
-                "blockCancel": {
-                  "not": {}
-                }
-              }
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Paying the remaining amount does not fit types that pay their own value.",
-        "if": {
-          "not": {
-            "$ref": "#/$defs/kindPayRemaining"
-          }
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "behavior": {
-              "type": "object",
-              "properties": {
-                "payRemainingAmount": {
-                  "not": {}
-                }
-              }
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Types that can never refund.",
-        "if": {
-          "not": {
-            "$ref": "#/$defs/kindRefundable"
-          }
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "refund": {
-              "not": {}
             }
           }
         }
@@ -909,13 +890,37 @@
       {
         "$comment": "Without an item restriction a benefit tender pays for any item.",
         "if": {
-          "$ref": "#/$defs/kindRestrictionRequired"
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "foodStamp",
+                    "wicCheck"
+                  ]
+                }
+              }
+            }
+          }
         },
         "then": {
           "type": "object",
           "required": [
             "restrictionRuleId"
-          ]
+          ],
+          "properties": {
+            "restrictionRuleId": {
+              "type": "string"
+            }
+          }
         }
       },
       {
@@ -959,17 +964,20 @@
   },
   "allOf": [
     {
-      "$comment": "At most one enabled tender per type has 'Default Tender of Its Type' set to Yes.",
+      "$comment": "At most one enabled tender per type is set to Yes as default.",
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "cash"
@@ -977,6 +985,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -984,16 +1024,160 @@
       "maxContains": 1
     },
     {
+      "$comment": "When a type has several enabled tenders that are not set to No (cash changers excluded), one of them must be Yes, so the default is unambiguous.",
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "cash"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "cash"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "foreignCurrency"
@@ -1001,6 +1185,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1008,16 +1224,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "foreignCurrency"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "foreignCurrency"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "creditDebit"
@@ -1025,6 +1384,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1032,16 +1423,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "creditDebit"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "creditDebit"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "mobile"
@@ -1049,6 +1583,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1056,16 +1622,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "mobile"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "mobile"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "electronicGiftCard"
@@ -1073,6 +1782,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1080,16 +1821,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "electronicGiftCard"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "electronicGiftCard"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "giftCertificate"
@@ -1097,6 +1981,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1104,16 +2020,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "giftCertificate"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "giftCertificate"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "voucher"
@@ -1121,6 +2180,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1128,16 +2219,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "voucher"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "voucher"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "check"
@@ -1145,6 +2379,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1152,16 +2418,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "check"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "check"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "coupon"
@@ -1169,6 +2578,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1176,16 +2617,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "coupon"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "coupon"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "manufacturerCoupon"
@@ -1193,6 +2777,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1200,16 +2816,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "manufacturerCoupon"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "manufacturerCoupon"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "loyaltyRedemption"
@@ -1217,6 +2976,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1224,16 +3015,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "loyaltyRedemption"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "loyaltyRedemption"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "organizationCharge"
@@ -1241,6 +3175,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1248,16 +3214,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "organizationCharge"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "organizationCharge"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "houseAccount"
@@ -1265,6 +3374,38 @@
                 }
               }
             }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -1272,16 +3413,159 @@
       "maxContains": 1
     },
     {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "houseAccount"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "houseAccount"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
         "allOf": [
           {
-            "$ref": "#/$defs/enabledDefault"
-          },
-          {
             "type": "object",
+            "required": [
+              "type"
+            ],
             "properties": {
               "type": {
                 "type": "object",
+                "required": [
+                  "kind"
+                ],
                 "properties": {
                   "kind": {
                     "const": "foodStamp"
@@ -1289,26 +3573,34 @@
                 }
               }
             }
-          }
-        ]
-      },
-      "minContains": 0,
-      "maxContains": 1
-    },
-    {
-      "contains": {
-        "allOf": [
+          },
           {
-            "$ref": "#/$defs/enabledDefault"
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
           },
           {
             "type": "object",
+            "required": [
+              "behavior"
+            ],
             "properties": {
-              "type": {
+              "behavior": {
                 "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
                 "properties": {
-                  "kind": {
-                    "const": "wicCheck"
+                  "defaultTender": {
+                    "const": "YES"
                   }
                 }
               }
@@ -1320,35 +3612,522 @@
       "maxContains": 1
     },
     {
-      "$comment": "At most one enabled cash changer tender per list.",
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "foodStamp"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "foodStamp"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
       "contains": {
-        "type": "object",
-        "required": [
-          "type"
-        ],
-        "properties": {
-          "type": {
+        "allOf": [
+          {
             "type": "object",
             "required": [
-              "kind",
-              "hardware"
+              "type"
             ],
             "properties": {
-              "kind": {
-                "const": "cash"
-              },
-              "hardware": {
-                "const": "CASH_CHANGER_MACHINE"
+              "type": {
+                "type": "object",
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "wicCheck"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "behavior"
+            ],
+            "properties": {
+              "behavior": {
+                "type": "object",
+                "required": [
+                  "defaultTender"
+                ],
+                "properties": {
+                  "defaultTender": {
+                    "const": "YES"
+                  }
+                }
               }
             }
           }
-        },
-        "not": {
-          "$ref": "#/$defs/disabled"
-        }
+        ]
       },
       "minContains": 0,
       "maxContains": 1
+    },
+    {
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wicCheck"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "behavior"
+                ],
+                "properties": {
+                  "behavior": {
+                    "type": "object",
+                    "required": [
+                      "defaultTender"
+                    ],
+                    "properties": {
+                      "defaultTender": {
+                        "const": "NO"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "minContains": 2
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wicCheck"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "defaultTender"
+                  ],
+                  "properties": {
+                    "defaultTender": {
+                      "const": "YES"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "$comment": "At most one enabled cash changer tender per list.",
+      "contains": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "object",
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "cash"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "not": {
+              "type": "object",
+              "required": [
+                "disabled"
+              ],
+              "properties": {
+                "disabled": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "object",
+                "required": [
+                  "hardware"
+                ],
+                "properties": {
+                  "hardware": {
+                    "const": "CASH_CHANGER_MACHINE"
+                  }
+                }
+              }
+            },
+            "required": [
+              "type"
+            ]
+          }
+        ]
+      },
+      "minContains": 0,
+      "maxContains": 1
+    },
+    {
+      "$comment": "A cash changer needs a cash tender with a drawer, for tills without the machine.",
+      "if": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "cash"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "hardware"
+                  ],
+                  "properties": {
+                    "hardware": {
+                      "const": "CASH_CHANGER_MACHINE"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "type"
+              ]
+            }
+          ]
+        }
+      },
+      "then": {
+        "contains": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "cash"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "disabled"
+                ],
+                "properties": {
+                  "disabled": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "hardware"
+                    ],
+                    "properties": {
+                      "hardware": {
+                        "const": "CASH_CHANGER_MACHINE"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "$defs": {
@@ -1372,33 +4151,6 @@
                 "voucher",
                 "check"
               ]
-            }
-          }
-        }
-      }
-    },
-    "kindNotCashLike": {
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "not": {
-                "enum": [
-                  "cash",
-                  "foreignCurrency",
-                  "giftCertificate",
-                  "voucher",
-                  "check"
-                ]
-              }
             }
           }
         }
@@ -1512,106 +4264,6 @@
             }
           }
         }
-      }
-    },
-    "kindRestrictionRequired": {
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "enum": [
-                "foodStamp",
-                "wicCheck"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "exactAmountOnly": {
-      "type": "object",
-      "required": [
-        "behavior"
-      ],
-      "properties": {
-        "behavior": {
-          "type": "object",
-          "required": [
-            "exactAmountOnly"
-          ],
-          "properties": {
-            "exactAmountOnly": {
-              "const": true
-            }
-          }
-        }
-      }
-    },
-    "exclusive": {
-      "type": "object",
-      "required": [
-        "behavior"
-      ],
-      "properties": {
-        "behavior": {
-          "type": "object",
-          "required": [
-            "exclusive"
-          ],
-          "properties": {
-            "exclusive": {
-              "const": true
-            }
-          }
-        }
-      }
-    },
-    "disabled": {
-      "type": "object",
-      "required": [
-        "disabled"
-      ],
-      "properties": {
-        "disabled": {
-          "const": true
-        }
-      }
-    },
-    "enabledDefault": {
-      "type": "object",
-      "required": [
-        "type",
-        "behavior"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ]
-        },
-        "behavior": {
-          "type": "object",
-          "required": [
-            "defaultTender"
-          ],
-          "properties": {
-            "defaultTender": {
-              "const": "YES"
-            }
-          }
-        }
-      },
-      "not": {
-        "$ref": "#/$defs/disabled"
       }
     },
     "kindForeignCurrency": {
