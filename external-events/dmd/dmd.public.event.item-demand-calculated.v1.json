@@ -108,7 +108,7 @@
               "NO_WINDOW_DAYS",
               null
             ],
-            "description": "Why baseRatePerDay is null, or null when it is set. NO_IN_STOCK_TIME: the article had no in-stock time in the window. NO_CLEAN_DAYS: every window day was a promotion day. NO_WINDOW_DAYS: the article had no stock position on any day of the window yet (first observed at the store on or after the window's end), so there is nothing to average; its actual figures are 0."
+            "description": "Why baseRatePerDay is null, or null when it is set. NO_IN_STOCK_TIME: the article was not in stock on any day that is not a promotion day. NO_CLEAN_DAYS: every window day was a promotion day. NO_WINDOW_DAYS: the article had no stock position on any day of the window yet (first observed at the store on or after the window's end), so there is nothing to average; its actual figures are 0."
           },
           "cleanInStockDays": {
             "type": "number",
