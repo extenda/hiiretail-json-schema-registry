@@ -593,7 +593,7 @@
         },
         "fontFamilies": {
           "type": "object",
-          "description": "Font settings. Applied in SCO mode only. Fonts that are not set keep the default font.",
+          "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
           "additionalProperties": false,
           "properties": {
             "heading": {
