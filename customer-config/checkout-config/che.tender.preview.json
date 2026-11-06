@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.v3.json",
+  "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.preview.json",
   "type": "array",
-  "title": "Tenders",
-  "description": "Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; clearing a saved amount is therefore refused until the portal deletes a cleared field instead of writing null. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.v3.json) to show tabs and fields per type.",
+  "title": "Tenders (preview)",
+  "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; clearing a saved amount is therefore refused until the portal deletes a cleared field instead of writing null. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.preview.json) to show tabs and fields per type.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -247,7 +247,7 @@
           },
           {
             "title": "Check",
-            "description": "Paper check.",
+            "description": "Paper check. Cannot refund: nothing is issued to the customer.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -492,7 +492,7 @@
           "cashDrawer": {
             "type": "string",
             "title": "Cash Drawer",
-            "description": "Whether the cash drawer opens when a sale paid with this tender is completed. Type default: opens for cash, foreign currency, gift certificates, vouchers and checks, stays closed for every other type. Change given in cash always opens the drawer.",
+            "description": "Whether the cash drawer opens when a sale paid with this tender is completed. Type default: opens for cash, foreign currency, gift certificates, vouchers, checks, coupons and manufacturer coupons, which go into the drawer, and stays closed for every other type. Choose 'Open the drawer' for paper food stamps and WIC checks; electronic benefit cards need no drawer. Change given in cash always opens the drawer.",
             "oneOf": [
               {
                 "const": "TYPE_DEFAULT",
@@ -523,7 +523,7 @@
             ],
             "pattern": "^[A-Z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
-            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate, voucher or check tender in this list that allows refunds and has no minimum amounts."
+            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate or voucher tender in this list that allows refunds and has no minimum amounts."
           },
           "threshold": {
             "type": "number",
@@ -542,7 +542,7 @@
       "refund": {
         "type": "object",
         "title": "Refunds",
-        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Ignored for coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
+        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Ignored for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
         "additionalProperties": false,
         "properties": {
           "blockRefunds": {
@@ -4082,8 +4082,7 @@
                 "organizationCharge",
                 "houseAccount",
                 "giftCertificate",
-                "voucher",
-                "check"
+                "voucher"
               ]
             }
           },
