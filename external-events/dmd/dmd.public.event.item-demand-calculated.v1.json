@@ -1,0 +1,156 @@
+{
+  "$id": "dmd.public.event.item-demand-calculated.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ItemDemandCalculated",
+  "description": "Published by the demand processor once a week per store, after that store's weekly figures are written. One message holds one store and at most 500 articles. Attributes: Tenant-Id, Business-Unit-Id, Correlation-Id, and Event-Id = <tenantId>:<businessUnitId>:<calculationDate>:<chunkIndex>. Ordering key: <tenantId>-<businessUnitId>.",
+  "type": "object",
+  "required": [
+    "tenantId",
+    "businessUnitId",
+    "calculationDate",
+    "windowWeeks",
+    "weeksAhead",
+    "calculatedDatetime",
+    "chunkIndex",
+    "chunkCount",
+    "items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "tenantId": {
+      "type": "string",
+      "description": "Id of the tenant"
+    },
+    "businessUnitId": {
+      "type": "string",
+      "description": "Id of the store the figures apply to"
+    },
+    "calculationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "The Monday the figures apply from"
+    },
+    "windowWeeks": {
+      "type": "integer",
+      "description": "The store's window length in weeks used for this calculation"
+    },
+    "weeksAhead": {
+      "type": "integer",
+      "description": "The store's number of weeks ahead used for this calculation; also the length of every weeklyTrendFactors"
+    },
+    "calculatedDatetime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the store's calculation ran. Identical across all chunks of one calculation"
+    },
+    "chunkIndex": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-based position of this message among the store's chunks"
+    },
+    "chunkCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of chunks the store's week is published in"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The articles in this chunk, at most 500",
+      "items": {
+        "type": "object",
+        "required": [
+          "itemId",
+          "soldQuantity",
+          "actualRatePerDay",
+          "stockoutDays",
+          "promotionDaysExcluded",
+          "baseRatePerDay",
+          "baseRateMissingReason",
+          "cleanInStockDays",
+          "weeklyTrendFactors",
+          "trendSource",
+          "trendCategoryId",
+          "trendMissingReason",
+          "isTrendClamped"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "itemId": {
+            "type": "string",
+            "description": "Id of the article"
+          },
+          "soldQuantity": {
+            "type": "number",
+            "description": "Quantity sold of the article over the whole window"
+          },
+          "actualRatePerDay": {
+            "type": "number",
+            "description": "Actual sales per day over the window, soldQuantity divided by the number of window days. 0 when the article had no window days"
+          },
+          "stockoutDays": {
+            "type": "number",
+            "description": "Days of stockout in the window: the time the article was observed at the store minus the time it was in stock"
+          },
+          "promotionDaysExcluded": {
+            "type": "integer",
+            "description": "Number of promotion days dropped from the clean window"
+          },
+          "baseRatePerDay": {
+            "type": ["number", "null"],
+            "description": "Normal sales per day in sellable units, excluding promotion days and stockout time. Null when it could not be estimated; see baseRateMissingReason. Projected demand over a horizon is the sum, over the horizon's days, of baseRatePerDay multiplied by the factor of the week that day falls in."
+          },
+          "baseRateMissingReason": {
+            "type": ["string", "null"],
+            "enum": [
+              "NO_IN_STOCK_TIME",
+              "NO_CLEAN_DAYS",
+              "NO_WINDOW_DAYS",
+              null
+            ],
+            "description": "Why baseRatePerDay is null, or null when it is set. NO_IN_STOCK_TIME: the article was not in stock on any day that is not a promotion day. NO_CLEAN_DAYS: every window day was a promotion day. NO_WINDOW_DAYS: the article had no stock position on any day of the window yet (first observed at the store on or after the window's end), so there is nothing to average; its actual figures are 0."
+          },
+          "cleanInStockDays": {
+            "type": "number",
+            "description": "In-stock days left in the window after promotion days are excluded"
+          },
+          "weeklyTrendFactors": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Trend factor for each week ahead, exactly weeksAhead entries. Week 1 starts on calculationDate"
+          },
+          "trendSource": {
+            "type": "string",
+            "enum": [
+              "STORE",
+              "COUNTRY",
+              "CHAIN",
+              "NONE"
+            ],
+            "description": "Level of the trend ladder the factors were taken from: the store, its country or its chain. NONE when no trend could be resolved, in which case every factor is 1.0"
+          },
+          "trendCategoryId": {
+            "type": ["string", "null"],
+            "description": "Id of the category whose trend was applied. Null when trendSource is NONE"
+          },
+          "trendMissingReason": {
+            "type": ["string", "null"],
+            "enum": [
+              "NO_HISTORY",
+              "NO_CATEGORY",
+              "INSUFFICIENT_VOLUME",
+              null
+            ],
+            "description": "Why no trend was resolved, or null when one was. NO_HISTORY: the winning level has no last-year baseline. NO_CATEGORY: the article has no category. INSUFFICIENT_VOLUME: no level of the ladder reached the minimum category quantity"
+          },
+          "isTrendClamped": {
+            "type": "boolean",
+            "description": "True when at least one week's trend factor was moved by the store's minimum or maximum trend factor"
+          }
+        }
+      }
+    }
+  }
+}
