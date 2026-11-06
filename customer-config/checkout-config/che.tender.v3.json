@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders",
   "description": "Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional fields accept null as empty, because CCC stores the null the portal writes for a removed field. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.v3.json) to show tabs and fields per type.",
+  "$comment": "Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; clearing a saved amount is therefore refused until the portal deletes a cleared field instead of writing null. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.v3.json) to show tabs and fields per type.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -481,7 +481,7 @@
             "type": "boolean",
             "default": false,
             "title": "Pay Remaining Amount Automatically",
-            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for cash, gift certificates, vouchers, coupons and loyalty points, which pay their own value."
+            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for cash, gift certificates, vouchers, coupons, manufacturer coupons and loyalty points, which pay their own value."
           },
           "prefillAmount": {
             "type": "boolean",
@@ -526,19 +526,13 @@
             "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate, voucher or check tender in this list that allows refunds and has no minimum amounts."
           },
           "threshold": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Use Alternate Above",
             "description": "Change above this amount goes to the alternate change tender; this amount or less is given in cash. Leave empty to send all change to the alternate change tender. Ignored without an alternate change tender."
           },
           "autoCompleteLimit": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Complete Change Automatically Below",
             "description": "Change below this amount is given automatically. Change of this amount or more must be handled by the cashier before the sale completes. Leave empty to always give change automatically."
@@ -564,19 +558,13 @@
             "description": "When on, a refund against the original receipt refunds the remaining amount of this tender without asking the cashier for an amount."
           },
           "maxAmount": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Maximum Refund",
             "description": "Largest amount that can go back to the customer in one entry with this tender. Above it, a manager must approve. On cash this also limits change. Leave empty for no limit. Ignored when refunds are blocked."
           },
           "minAmount": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Minimum Refund",
             "description": "Smallest amount that can go back to the customer in one entry with this tender. Must not be larger than the maximum. Ignored for cash, where it would block change. Leave empty for no minimum."
@@ -590,28 +578,19 @@
         "additionalProperties": false,
         "properties": {
           "maxPerSale": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Maximum per Sale",
             "description": "Largest total that can be paid with this tender in one sale, over all its entries."
           },
           "maxPerEntry": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Maximum per Entry",
             "description": "Largest amount for a single entry of this tender."
           },
           "minPerEntry": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "exclusiveMinimum": 0,
             "title": "Minimum per Entry",
             "description": "Smallest amount for a single entry of this tender, including change and refunds paid with it. A remaining amount below it cannot be paid with this tender. Must not be larger than the maximums. Ignored for cash, where it would block change."
@@ -644,10 +623,7 @@
             ]
           },
           "precision": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": "number",
             "title": "Round To",
             "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency. Ignored without a rounding method or with 'No rounding'.",
             "enum": [
@@ -657,8 +633,7 @@
               0.5,
               1,
               5,
-              10,
-              null
+              10
             ]
           }
         }
