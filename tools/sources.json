@@ -73,6 +73,11 @@
       "source": "bpa/bpa.public.event.warehouse-supply-terms-changed.v1.schema.json",
       "output": "external-events/bpa/bpa.public.event.warehouse-supply-terms-changed.v1.json",
       "$id": "bpa.public.event.warehouse-supply-terms-changed.v1"
+    },
+    {
+      "source": "rtv/rtv.public.event.supplier-return-changed.v1.schema.json",
+      "output": "external-events/rtv/rtv.public.event.supplier-return-changed.v1.json",
+      "$id": "rtv.public.event.supplier-return-changed.v1"
     }
   ]
 }

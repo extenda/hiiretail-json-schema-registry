@@ -1,31 +1,64 @@
 {
   "$id": "loy.external-api.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Loyalty Integration Configuration",
+  "title": "Unified SPI connector",
+  "description": "How Hii Retail connects to your loyalty API through the Unified SPI connector. Used when loyalty routing is set to Unified SPI.",
   "oneOf": [
     {
-      "title": "IntegrationConfig",
+      "title": "No authentication",
+      "description": "Hii Retail calls your API without credentials.",
       "type": "object",
       "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
+        "baseUrl": {
+          "title": "Base URL",
+          "description": "Address of your loyalty API, for example https://loyalty.example.com/api.",
+          "type": "string",
+          "format": "uri"
+        },
+        "timeout": {
+          "title": "Timeout (ms)",
+          "description": "How long Hii Retail waits for your API to answer, in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
         "authenticationType": { "const": "none" }
       },
       "required": ["baseUrl", "timeout", "authenticationType"],
       "additionalProperties": false
     },
     {
-      "title": "BasicAuthIntegrationConfig",
+      "title": "Basic authentication",
+      "description": "Hii Retail calls your API with a username and password.",
       "type": "object",
       "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
+        "baseUrl": {
+          "title": "Base URL",
+          "description": "Address of your loyalty API, for example https://loyalty.example.com/api.",
+          "type": "string",
+          "format": "uri"
+        },
+        "timeout": {
+          "title": "Timeout (ms)",
+          "description": "How long Hii Retail waits for your API to answer, in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
         "authenticationType": { "const": "basic" },
         "authenticationConfig": {
+          "title": "Authentication",
           "type": "object",
           "properties": {
-            "username": { "type": "string" },
-            "password": { "type": "string" }
+            "username": {
+              "title": "Username",
+              "description": "Username Hii Retail uses with your API.",
+              "type": "string"
+            },
+            "password": {
+              "title": "Password",
+              "description": "Password Hii Retail uses with your API.",
+              "type": "string",
+              "format": "password"
+            }
           },
           "required": ["username", "password"],
           "additionalProperties": false
@@ -40,39 +73,104 @@
       "additionalProperties": false
     },
     {
-      "title": "OAuthIntegrationConfig",
+      "title": "OAuth 2.0",
+      "description": "Hii Retail calls your API with an OAuth 2.0 token.",
       "type": "object",
       "properties": {
-        "baseUrl": { "type": "string", "format": "uri" },
-        "timeout": { "type": "number", "minimum": 0 },
+        "baseUrl": {
+          "title": "Base URL",
+          "description": "Address of your loyalty API, for example https://loyalty.example.com/api.",
+          "type": "string",
+          "format": "uri"
+        },
+        "timeout": {
+          "title": "Timeout (ms)",
+          "description": "How long Hii Retail waits for your API to answer, in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
         "authenticationType": { "const": "oauth2" },
         "authenticationConfig": {
+          "title": "Authentication",
+          "description": "How Hii Retail obtains the OAuth 2.0 token. Use a method your API supports.",
           "oneOf": [
             {
-              "title": "OAuthClientCredentialConfig",
+              "title": "Client credentials",
+              "description": "Hii Retail requests a token with a client ID and client secret.",
               "type": "object",
               "properties": {
-                "tokenUrl": { "type": "string", "format": "uri" },
-                "clientId": { "type": "string" },
-                "clientSecret": { "type": "string" },
+                "tokenUrl": {
+                  "title": "Token URL",
+                  "description": "Address of your token endpoint.",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "clientId": {
+                  "title": "Client ID",
+                  "description": "Client ID you issued to Hii Retail.",
+                  "type": "string"
+                },
+                "clientSecret": {
+                  "title": "Client secret",
+                  "description": "Client secret you issued to Hii Retail.",
+                  "type": "string",
+                  "format": "password"
+                },
                 "grantType": { "const": "client_credentials" },
-                "scope": { "type": "string" },
-                "authTimeout": { "type": "number", "minimum": 0 }
+                "scope": {
+                  "title": "Scope",
+                  "description": "Optional. Permissions to request, separated by spaces.",
+                  "type": "string"
+                },
+                "authTimeout": {
+                  "title": "Token timeout (ms)",
+                  "description": "Optional. How long Hii Retail waits for a token, in milliseconds.",
+                  "type": "number",
+                  "minimum": 0
+                }
               },
               "required": ["tokenUrl", "clientId", "clientSecret", "grantType"],
               "additionalProperties": false
             },
             {
-              "title": "OAuthImplicitConfig",
+              "title": "Access token",
+              "description": "Hii Retail uses a fixed access token that you issue.",
               "type": "object",
               "properties": {
-                "tokenUrl": { "type": "string", "format": "uri" },
-                "clientId": { "type": "string" },
-                "accessToken": { "type": "string" },
-                "tokenType": { "type": "string" },
+                "tokenUrl": {
+                  "title": "Token URL",
+                  "description": "Address of your token endpoint.",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "clientId": {
+                  "title": "Client ID",
+                  "description": "Client ID you issued to Hii Retail.",
+                  "type": "string"
+                },
+                "accessToken": {
+                  "title": "Access token",
+                  "description": "Access token you issued to Hii Retail.",
+                  "type": "string",
+                  "format": "password"
+                },
+                "tokenType": {
+                  "title": "Token type",
+                  "description": "Type of the access token, usually Bearer.",
+                  "type": "string"
+                },
                 "grantType": { "const": "implicit" },
-                "scope": { "type": "string" },
-                "authTimeout": { "type": "number", "minimum": 0 }
+                "scope": {
+                  "title": "Scope",
+                  "description": "Optional. Permissions to request, separated by spaces.",
+                  "type": "string"
+                },
+                "authTimeout": {
+                  "title": "Token timeout (ms)",
+                  "description": "Optional. How long Hii Retail waits for a token, in milliseconds.",
+                  "type": "number",
+                  "minimum": 0
+                }
               },
               "required": [
                 "tokenUrl",
@@ -84,16 +182,44 @@
               "additionalProperties": false
             },
             {
-              "title": "OAuthPasswordConfig",
+              "title": "Username and password",
+              "description": "Hii Retail requests a token with a client ID and a user's credentials.",
               "type": "object",
               "properties": {
-                "tokenUrl": { "type": "string", "format": "uri" },
-                "clientId": { "type": "string" },
-                "userName": { "type": "string" },
-                "password": { "type": "string" },
+                "tokenUrl": {
+                  "title": "Token URL",
+                  "description": "Address of your token endpoint.",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "clientId": {
+                  "title": "Client ID",
+                  "description": "Client ID you issued to Hii Retail.",
+                  "type": "string"
+                },
+                "userName": {
+                  "title": "Username",
+                  "description": "Username Hii Retail uses to request tokens.",
+                  "type": "string"
+                },
+                "password": {
+                  "title": "Password",
+                  "description": "Password Hii Retail uses with your API.",
+                  "type": "string",
+                  "format": "password"
+                },
                 "grantType": { "const": "password" },
-                "scope": { "type": "string" },
-                "authTimeout": { "type": "number", "minimum": 0 }
+                "scope": {
+                  "title": "Scope",
+                  "description": "Optional. Permissions to request, separated by spaces.",
+                  "type": "string"
+                },
+                "authTimeout": {
+                  "title": "Token timeout (ms)",
+                  "description": "Optional. How long Hii Retail waits for a token, in milliseconds.",
+                  "type": "number",
+                  "minimum": 0
+                }
               },
               "required": [
                 "tokenUrl",
@@ -115,6 +241,10 @@
       ],
       "additionalProperties": false
     },
-    { "type": "null" }
+    {
+      "title": "Not configured",
+      "description": "No Unified SPI connection is set for this target.",
+      "type": "null"
+    }
   ]
 }
