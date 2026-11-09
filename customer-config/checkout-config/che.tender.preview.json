@@ -469,7 +469,7 @@
             "type": "boolean",
             "default": false,
             "title": "Lock Sale After Payment Entry",
-            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. On types where 'Block Cancelling the Sale' is offered (gift certificates, vouchers, checks, coupons, house accounts, food stamps, WIC checks and organization charge without credit check), the two cannot both be on: the sale would then be stuck until it is paid in full."
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. On types where 'Block Cancelling the Sale' is offered (gift certificates, vouchers, checks, coupons, manufacturer coupons, house accounts, food stamps, WIC checks and organization charge without credit check), the two cannot both be on: the sale would then be stuck until it is paid in full."
           },
           "blockCancel": {
             "type": "boolean",
@@ -936,7 +936,7 @@
         }
       },
       {
-        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Applies only where block cancelling is offered.",
+        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Applies only where block cancelling is offered: the kinds and the credit-check exemption repeat $defs.kindCancelBlockable, so change both together. Disabled tenders are checked too, like every other per-tender rule, so the error shows where the two settings are saved and not later when the tender is enabled.",
         "if": {
           "allOf": [
             {
@@ -977,14 +977,10 @@
                 "behavior": {
                   "type": "object",
                   "required": [
-                    "lockTransaction",
-                    "blockCancel"
+                    "lockTransaction"
                   ],
                   "properties": {
                     "lockTransaction": {
-                      "const": true
-                    },
-                    "blockCancel": {
                       "const": true
                     }
                   }
