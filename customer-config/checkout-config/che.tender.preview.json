@@ -469,13 +469,13 @@
             "type": "boolean",
             "default": false,
             "title": "Lock Sale After Payment Entry",
-            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. Cannot be combined with 'Block Cancelling the Sale': the sale would then be stuck until it is paid in full."
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. On types where 'Block Cancelling the Sale' is offered (gift certificates, vouchers, checks, coupons, house accounts, food stamps, WIC checks and organization charge without credit check), the two cannot both be on: the sale would then be stuck until it is paid in full."
           },
           "blockCancel": {
             "type": "boolean",
             "default": false,
             "title": "Block Cancelling the Sale",
-            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Cannot be combined with 'Lock Sale After Payment Entry'. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back."
+            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back. Where it applies, it cannot be on together with 'Lock Sale After Payment Entry'."
           },
           "payRemainingAmount": {
             "type": "boolean",
