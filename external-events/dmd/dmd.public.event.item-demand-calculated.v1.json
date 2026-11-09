@@ -150,7 +150,69 @@
             "type": "boolean",
             "description": "True when at least one week's trend factor was moved by the store's minimum or maximum trend factor"
           }
-        }
+        },
+        "allOf": [
+          {
+            "description": "Exactly one of baseRatePerDay and baseRateMissingReason is set: the calculator either estimates a rate or records why it could not.",
+            "if": {
+              "properties": {
+                "baseRatePerDay": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "baseRatePerDay"
+              ]
+            },
+            "then": {
+              "properties": {
+                "baseRateMissingReason": {
+                  "type": "string"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "baseRateMissingReason": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "description": "trendSource NONE carries no category and a reason; any other source carries the category it won at and no reason.",
+            "if": {
+              "properties": {
+                "trendSource": {
+                  "const": "NONE"
+                }
+              },
+              "required": [
+                "trendSource"
+              ]
+            },
+            "then": {
+              "properties": {
+                "trendCategoryId": {
+                  "type": "null"
+                },
+                "trendMissingReason": {
+                  "type": "string"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "trendCategoryId": {
+                  "type": "string"
+                },
+                "trendMissingReason": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
       }
     }
   }
