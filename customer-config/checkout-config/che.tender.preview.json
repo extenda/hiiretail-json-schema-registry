@@ -463,19 +463,19 @@
             "type": "boolean",
             "default": false,
             "title": "No Split Payment",
-            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale, and it always takes the exact amount, whatever 'Exact Amount Only' says."
+            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale, and it always takes the exact amount, whatever 'Exact Amount Only' says. A tender with a fixed value, such as a gift certificate, voucher or coupon, can then only be used when its value equals the amount due."
           },
           "lockTransaction": {
             "type": "boolean",
             "default": false,
             "title": "Lock Sale After Payment Entry",
-            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed or cancelled."
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. On types where 'Block Cancelling the Sale' is offered (gift certificates, vouchers, checks, coupons, manufacturer coupons, house accounts, food stamps, WIC checks and organization charge without credit check), the two cannot both be on: the sale would then be stuck until it is paid in full."
           },
           "blockCancel": {
             "type": "boolean",
             "default": false,
             "title": "Block Cancelling the Sale",
-            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back."
+            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back. Where it applies, it cannot be on together with 'Lock Sale After Payment Entry'."
           },
           "payRemainingAmount": {
             "type": "boolean",
@@ -929,6 +929,99 @@
                   "not": {
                     "const": "YES"
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Applies only where block cancelling is offered: the kinds and the credit-check exemption repeat $defs.kindCancelBlockable, so change both together. Disabled tenders are checked too, like every other per-tender rule, so the error shows where the two settings are saved and not later when the tender is enabled.",
+        "if": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "giftCertificate",
+                        "voucher",
+                        "check",
+                        "coupon",
+                        "manufacturerCoupon",
+                        "organizationCharge",
+                        "houseAccount",
+                        "foodStamp",
+                        "wicCheck"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "behavior"
+              ],
+              "properties": {
+                "behavior": {
+                  "type": "object",
+                  "required": [
+                    "lockTransaction"
+                  ],
+                  "properties": {
+                    "lockTransaction": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "not": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "creditCheck"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "organizationCharge"
+                      },
+                      "creditCheck": {
+                        "const": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "then": {
+          "type": "object",
+          "properties": {
+            "behavior": {
+              "type": "object",
+              "properties": {
+                "blockCancel": {
+                  "const": false
                 }
               }
             }
