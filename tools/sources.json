@@ -78,6 +78,11 @@
       "source": "rtv/rtv.public.event.supplier-return-changed.v1.schema.json",
       "output": "external-events/rtv/rtv.public.event.supplier-return-changed.v1.json",
       "$id": "rtv.public.event.supplier-return-changed.v1"
+    },
+    {
+      "source": "dmd/dmd.public.event.item-demand-calculated.v1.schema.json",
+      "output": "external-events/dmd/dmd.public.event.item-demand-calculated.v1.json",
+      "$id": "dmd.public.event.item-demand-calculated.v1"
     }
   ]
 }
