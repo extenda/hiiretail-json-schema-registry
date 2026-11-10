@@ -144,7 +144,7 @@
               "INSUFFICIENT_VOLUME",
               null
             ],
-            "description": "Why no trend was resolved, or null when one was. NO_HISTORY: the winning level has no last-year baseline. NO_CATEGORY: the article has no category. INSUFFICIENT_VOLUME: no level of the ladder reached the minimum category quantity"
+            "description": "Why no trend was resolved, or null when one was. NO_HISTORY: no level of the ladder had a non-zero last-year baseline for the article's category or any of its ancestors. NO_CATEGORY: the article has no category. INSUFFICIENT_VOLUME: no level of the ladder reached the minimum category quantity"
           },
           "isTrendClamped": {
             "type": "boolean",
