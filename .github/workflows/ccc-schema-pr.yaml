@@ -28,6 +28,18 @@ jobs:
           files: |
             customer-config/**/**.json
 
+      # A schema-only change does not trigger the tools workflow, so the tender tests run here.
+      - uses: actions/setup-node@v4
+        if: github.event_name == 'pull_request' && contains(steps.changed-files.outputs.all_changed_files, 'che.tender.')
+        with:
+          node-version: 20
+
+      - name: Test the tender schemas
+        if: github.event_name == 'pull_request' && contains(steps.changed-files.outputs.all_changed_files, 'che.tender.')
+        run: |
+          npm ci --prefix tools
+          node --test tools/test/che.tender.*.test.mjs
+
       - uses: extenda/actions/gcp-secret-manager@v0
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
