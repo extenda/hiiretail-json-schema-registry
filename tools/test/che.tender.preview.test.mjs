@@ -76,3 +76,74 @@ describe('che.tender.preview lock and block cancelling', () => {
     );
   });
 });
+
+describe('che.tender.preview default tender rules', () => {
+  const kinds = schema.items.properties.type.oneOf.map(
+    (branch) => branch.properties.kind.const,
+  );
+  const kindOf = (condition) =>
+    condition?.allOf?.[0]?.properties?.type?.properties?.kind?.const;
+
+  // The rules are written out per type, so a new type without its two rules
+  // would silently get no default tender validation.
+  const isYes = (condition) =>
+    condition?.allOf?.some(
+      (part) =>
+        part.properties?.behavior?.properties?.defaultTender?.const === 'YES',
+    );
+
+  test('every type has its "at most one Yes" rule', () => {
+    const covered = schema.allOf
+      .filter((rule) => rule.maxContains === 1 && isYes(rule.contains))
+      .map((rule) => kindOf(rule.contains));
+    assert.deepEqual(covered.toSorted(), kinds.toSorted());
+  });
+
+  // With several foreign currencies the till always asks the cashier, so none
+  // has to be Yes.
+  test('every type except foreign currency has its "needs one Yes" rule', () => {
+    const covered = schema.allOf
+      .filter((rule) => rule.if?.minContains === 2)
+      .map((rule) => kindOf(rule.if.contains));
+    assert.deepEqual(
+      covered.toSorted(),
+      kinds.filter((kind) => kind !== 'foreignCurrency').toSorted(),
+    );
+  });
+
+  // Cash changers are left out of the count, and hardware exists only on cash,
+  // so the other types' rules need no cash changer clause.
+  test('a cash changer does not count against the drawer cash tender', () => {
+    const changer = tender('CCM', { kind: 'cash', hardware: 'CASH_CHANGER_MACHINE' });
+    assert.deepEqual(errorPaths([cash, changer]), []);
+  });
+
+  test('only cash declares hardware', () => {
+    const withHardware = schema.items.properties.type.oneOf
+      .filter((branch) => 'hardware' in branch.properties)
+      .map((branch) => branch.properties.kind.const);
+    assert.deepEqual(withHardware, ['cash']);
+  });
+
+  test('two automatic card tenders are refused, one set to Yes is accepted', () => {
+    const card = (id, behavior) =>
+      tender(id, { kind: 'creditDebit', terminal: 'STANDALONE' }, { behavior });
+    assert.notDeepEqual(errorPaths([cash, card('A'), card('B')]), []);
+    assert.deepEqual(
+      errorPaths([cash, card('A', { defaultTender: 'YES' }), card('B')]),
+      [],
+    );
+  });
+});
+
+describe('che.tender.preview pay remaining amount', () => {
+  // With auto tender on, the Checkout Engine accepts only the exact converted
+  // amount on foreign currency, so the customer could get no change.
+  test('is not offered on foreign currency', () => {
+    assert.ok(
+      !schema.$defs.kindPayRemaining.properties.type.properties.kind.enum.includes(
+        'foreignCurrency',
+      ),
+    );
+  });
+});

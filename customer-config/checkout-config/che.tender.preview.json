@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders (preview)",
   "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; clearing a saved amount is therefore refused until the portal deletes a cleared field instead of writing null. The kind groups in $defs are used by the Config Portal form (ui-schema/che.tender.preview.json) to show tabs and fields per type.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists (an enabled cash drawer tender not set to No), no two enabled foreign currency tenders share a currency, currency matches the business unit) are checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values; Store Data then sends the type's neutral value. For payRemainingAmount that means off on every type outside $defs.kindPayRemaining, except a cash changer tender, which always gets it on because the machine needs the full amount due. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields defaultTender, cashDrawer, rounding, hardware, terminal, integration and provider refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the kind groups in $defs to show tabs and fields per type.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -49,7 +49,7 @@
               "hardware": {
                 "type": "string",
                 "title": "Cash Handling",
-                "description": "How cash is taken. A cash changer machine counts the cash and pays out change by itself, and the till must also have the cash changer enabled. A cash changer tender cannot be the default cash tender: a store with one also needs a cash tender with a cash drawer as its default, for tills without a machine. Empty means cash drawer.",
+                "description": "How cash is taken. A cash changer machine counts the cash and pays out change by itself, and the till must also have the cash changer enabled. A cash changer tender cannot be the default cash tender: a store with one also needs a cash tender with a cash drawer as its default, for tills without a machine. A cash changer works only when the store's own currency has two decimals. Empty means cash drawer.",
                 "oneOf": [
                   {
                     "const": "STANDARD_CASH_DRAWER",
@@ -119,7 +119,7 @@
           },
           {
             "title": "Mobile Payment",
-            "description": "Payment with a mobile app such as Swish or Vipps. Not supported by ER POS.",
+            "description": "Payment with a mobile app such as Swish or Vipps. Works only when every amount on the sale has at most two decimals, so not in a currency with three decimals. Not supported by ER POS.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -151,7 +151,7 @@
               "provider": {
                 "type": "string",
                 "title": "Provider",
-                "description": "The mobile payment service. Required when integrated, ignored when standalone. The provider's credentials are set up for the tenant by Extenda Retail.",
+                "description": "The mobile payment service. Required when integrated, ignored when standalone. Swish works only in SEK. The provider's credentials are set up for the tenant by Extenda Retail.",
                 "oneOf": [
                   {
                     "const": "SWISH",
@@ -481,7 +481,7 @@
             "type": "boolean",
             "default": false,
             "title": "Pay Remaining Amount Automatically",
-            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for cash, gift certificates, vouchers, coupons, manufacturer coupons and loyalty points, which pay their own value."
+            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for cash and foreign currency, where the customer may hand over more and get change (a cash changer tender always takes the full remaining amount), and for gift certificates, vouchers, coupons, manufacturer coupons and loyalty points, which pay their own value."
           },
           "prefillAmount": {
             "type": "boolean",
@@ -600,7 +600,7 @@
       "rounding": {
         "type": "object",
         "title": "Cash Rounding",
-        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks; ignored otherwise.",
+        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty, or choose 'No rounding', for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks; ignored otherwise.",
         "additionalProperties": false,
         "properties": {
           "method": {
@@ -1390,27 +1390,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -1581,27 +1560,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -1788,27 +1746,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -1979,27 +1916,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -2186,27 +2102,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -2377,27 +2272,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -2584,27 +2458,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -2775,27 +2628,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -2982,27 +2814,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -3173,27 +2984,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -3380,27 +3170,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -3579,27 +3348,6 @@
               "not": {
                 "type": "object",
                 "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
                   "behavior"
                 ],
                 "properties": {
@@ -3770,27 +3518,6 @@
                 "properties": {
                   "disabled": {
                     "const": true
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "hardware"
-                    ],
-                    "properties": {
-                      "hardware": {
-                        "const": "CASH_CHANGER_MACHINE"
-                      }
-                    }
                   }
                 }
               }
@@ -4144,7 +3871,6 @@
                 "organizationCharge",
                 "houseAccount",
                 "check",
-                "foreignCurrency",
                 "foodStamp",
                 "wicCheck"
               ]
