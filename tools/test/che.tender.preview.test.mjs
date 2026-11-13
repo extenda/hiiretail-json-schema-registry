@@ -336,3 +336,41 @@ describe('che.tender.preview type defaults', () => {
     assert.equal(integration.const, 'STANDALONE');
   });
 });
+
+describe('che.tender.preview payment plugin', () => {
+  // A named plugin keeps the kind open for plugins added later, on any type.
+  for (const kind of kinds) {
+    test(`a named plugin is accepted on ${kind}`, () => {
+      const named = ofKind(kind, 'T', {
+        behavior: { defaultTender: 'NO' },
+        authorization: { plugin: 'AucHuFleetCardAuthorizer', mode: 'PRE' },
+        extraAttributes: [{ id: 'providerId', type: 'STRING', value: 'fleet' }],
+      });
+      assert.deepEqual(errorPaths([cash, named]), []);
+    });
+  }
+
+  test('the plugin name follows the till registration names', () => {
+    for (const plugin of ['GiftCardPluginAuthorizer', 'se.extenda.Plugin$1', 'Ogloba-Gift_Card']) {
+      const list = [cash, ofKind('voucher', 'T', { authorization: { plugin } })];
+      assert.deepEqual(errorPaths(list), [], plugin);
+    }
+    for (const plugin of ['', 'two words', '1Plugin', 'a'.repeat(101)]) {
+      const list = [cash, ofKind('voucher', 'T', { authorization: { plugin } })];
+      assert.ok(errorPaths(list).includes('/1/authorization/plugin'), JSON.stringify(plugin));
+    }
+  });
+
+  // The portal writes null for a cleared field; the plugin Store Data derives then applies again.
+  test('a cleared plugin name is accepted', () => {
+    const list = [cash, ofKind('voucher', 'T', { authorization: { plugin: null, mode: 'POST' } })];
+    assert.deepEqual(errorPaths(list), []);
+  });
+
+  test('only the known steps and fields are accepted', () => {
+    const unknownMode = [cash, ofKind('voucher', 'T', { authorization: { plugin: 'P', mode: 'LATER' } })];
+    assert.ok(errorPaths(unknownMode).includes('/1/authorization/mode'));
+    const unknownField = [cash, ofKind('voucher', 'T', { authorization: { plugin: 'P', required: false } })];
+    assert.ok(errorPaths(unknownField).includes('/1/authorization'));
+  });
+});
