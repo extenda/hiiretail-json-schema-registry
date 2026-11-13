@@ -284,20 +284,55 @@ describe('che.tender.preview type defaults', () => {
     foodStamp: /\bfood stamps?\b/,
     wicCheck: /\bWIC\b/,
   };
-  const kindsOf = (name) => schema.$defs[name].properties.type.properties.kind.enum;
+  // A group names its kinds with enum, or with const for a single kind, as the form generator reads it.
+  const kindsOf = (name) => {
+    const { kind } = schema.$defs[name].properties.type.properties;
+    return kind.enum ?? [kind.const];
+  };
   const sentence = (text, start) => text.slice(text.indexOf(start)).split('. ')[0];
+  const standalonePhrase = /standalone [a-z ]+?(payments|cards)/g;
+  const { properties } = schema.items;
+
+  // The form generator reads exactly these groups; any other group would be
+  // read by nothing.
+  test('$defs holds only the groups the form generator reads', () => {
+    assert.deepEqual(Object.keys(schema.$defs).sort(), [
+      'connectionStandalone',
+      'kindForeignCurrency',
+      'kindGivesChangeByDefault',
+      'kindRefundsBlockedByDefault',
+    ]);
+  });
 
   // Standalone mobile payments and gift cards are named by their connection,
   // not their type, so the type names are checked without them.
   for (const [field, group, start] of [
-    [schema.items.properties.behavior.properties.overpayment, 'kindGivesChangeByDefault', 'Type default'],
-    [schema.items.properties.refund.properties.refundsAllowed, 'kindRefundsBlockedByDefault', 'Type default'],
+    [properties.behavior.properties.overpayment, 'kindGivesChangeByDefault', 'Type default'],
+    [properties.change, 'kindGivesChangeByDefault', 'the type default gives change'],
+    [properties.refund.properties.refundsAllowed, 'kindRefundsBlockedByDefault', 'Type default'],
   ]) {
-    test(`the help text names exactly the types of $defs.${group}`, () => {
-      const listed = sentence(field.description, start).replace(/standalone [a-z ]+?(payments|cards)/g, '');
+    test(`the help text of ${field.title} names exactly the types of $defs.${group}`, () => {
+      const listed = sentence(field.description, start).replace(standalonePhrase, '');
       for (const kind of kinds) {
         assert.equal(nameOf[kind].test(listed), kindsOf(group).includes(kind), kind);
       }
     });
   }
+
+  // $defs.connectionStandalone applies to every type with a type.integration
+  // field; the refunds help text names each of them as standalone.
+  test('the refunds help text names every type with a standalone connection', () => {
+    const named = sentence(properties.refund.properties.refundsAllowed.description, 'Type default')
+      .match(standalonePhrase)
+      .join(' ');
+    const withIntegration = properties.type.oneOf
+      .filter((branch) => 'integration' in branch.properties)
+      .map((branch) => branch.properties.kind.const);
+    assert.deepEqual(withIntegration, ['mobile', 'electronicGiftCard']);
+    for (const kind of kinds) {
+      assert.equal(nameOf[kind].test(named), withIntegration.includes(kind), kind);
+    }
+    const integration = schema.$defs.connectionStandalone.properties.type.properties.integration;
+    assert.equal(integration.const, 'STANDALONE');
+  });
 });
