@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders (preview)",
   "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Never rename an id: transactions, reports and ERP integrations reference it. authorization.plugin, when set, replaces the payment plugin Store Data derives from the type: Store Data sends it as the authorizer with required true and mode Post or Pre, derives nothing else for authorization, and passes every extra attribute, providerId included, as written. This keeps the kind open for plugins added later, for example by add-on teams, without a schema change. Evolution: once che.tender.v3 is released, it only grows. Add optional fields, options and types; never tighten a rule or remove a value, because the CCC API validates the stored value against the current schema on every read, and a stricter rule makes stored tender lists unloadable. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema only so that tenders saved earlier still load, and are not read; the form shows a note on a tender that still has one on until an option of the new field is chosen. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the type default groups in $defs to show change and refund settings only where they take effect.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin Store Data derives: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish; these plugin checks do not apply to a tender that names its own plugin in authorization.plugin. Never rename an id: transactions, reports and ERP integrations reference it. authorization.plugin, when set, replaces the payment plugin Store Data derives from the type: Store Data sends it as Pos.externalAuthorization.authorizer with required true and mode Post (mode POST or empty) or Pre (mode PRE), derives nothing else for authorization, and passes every extra attribute, providerId included, as written. A plugin name that is null or absent means the derived plugin. This keeps the kind open for plugins added later, for example by add-on teams, without a schema change. Evolution: once che.tender.v3 is released, it only grows. Add optional fields, options and types; never tighten a rule or remove a value, because the CCC API validates the stored value against the current schema on every read, and a stricter rule makes stored tender lists unloadable. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due, unless it names its own plugin. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema only so that tenders saved earlier still load, and are not read; the form shows a note on a tender that still has one on until an option of the new field is chosen. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the type default groups in $defs to show change and refund settings only where they take effect.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -693,7 +693,7 @@
       "authorization": {
         "type": "object",
         "title": "Payment Plugin",
-        "description": "Only use when Extenda Retail support asks for it. Names a payment plugin installed at the till, for example one delivered by an add-on team for a customer, which then approves every payment with this tender instead of the plugin Store Data chooses for the type. Store Data cannot check that the plugin is installed: with a wrong name, every payment with this tender fails at the till, and the cashier must use another tender. Extra attributes are passed to the plugin as written.",
+        "description": "Names a payment plugin installed at the till, for example one delivered by an add-on team for a customer, which then approves every payment with this tender instead of the plugin Store Data chooses for the type. Store Data cannot check that the plugin is installed: with a wrong name, every payment with this tender fails at the till, and the cashier must use another tender. Extra attributes are passed to the plugin as written. Clear the plugin name to go back to the plugin Store Data chooses.",
         "additionalProperties": false,
         "properties": {
           "plugin": {
@@ -705,12 +705,12 @@
             "description": "The name the plugin is registered under at the till, exactly as its documentation gives it, for example 'GiftCardPluginAuthorizer'. Empty means the plugin Store Data chooses for the type.",
             "minLength": 1,
             "maxLength": 100,
-            "pattern": "^[A-Za-z][A-Za-z0-9._$-]*$"
+            "pattern": "^[A-Za-z_][A-Za-z0-9_.$#:-]*$"
           },
           "mode": {
             "type": "string",
             "title": "Authorization Step",
-            "description": "When the till asks the plugin: 'After the till's checks' (default) suits the plugins delivered by Extenda Retail; choose 'Before the till's checks' only when the plugin's documentation asks for it. Ignored without a plugin name.",
+            "description": "When the till asks the plugin: 'After the till's checks' (the default, also when empty) suits the plugins delivered by Extenda Retail; choose 'Before the till's checks' only when the plugin's documentation asks for it. Used only with a plugin name.",
             "oneOf": [
               {
                 "const": "POST",
@@ -727,7 +727,7 @@
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Only use when Extenda Retail support asks for it. Each entry is identified by its name ('id'). Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; Store Data rejects names that duplicate a setting in this form. Other names are passed to point-of-sale extensions and payment plugins as written; 'providerId', which Store Data sets for integrated mobile payments, may be set here only together with 'Payment Plugin'.",
+        "description": "Only use when Extenda Retail support asks for it. Each entry is identified by its name ('id'). Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; a name for a setting this form offers is refused. Other names are passed to point-of-sale extensions and payment plugins as written; 'providerId', which Store Data sets for integrated mobile payments, is accepted only together with 'Payment Plugin'.",
         "items": {
           "type": "object",
           "required": [
@@ -740,7 +740,35 @@
             "id": {
               "type": "string",
               "minLength": 1,
-              "title": "Name"
+              "title": "Name",
+              "not": {
+                "enum": [
+                  "Pos.default",
+                  "Pos.lock",
+                  "Pos.singleTender",
+                  "Pos.autoTenderAllowed",
+                  "Pos.openCashdrawer",
+                  "Pos.overTenderAllowed",
+                  "Pos.changeAllowed",
+                  "Pos.void",
+                  "Pos.allowInRefund",
+                  "Pos.displayDefaultAmount",
+                  "Pos.hideRefundAmountPrompt",
+                  "Pos.extChangeTenderTypeCode",
+                  "Pos.changeThresholdAmount",
+                  "Pos.cashBackFinalizationLimit",
+                  "Pos.maximumRefund.amount",
+                  "Pos.minimumRefund.amount",
+                  "Pos.maximumPerTransaction.amount",
+                  "Pos.maximumPerRegistration.amount",
+                  "Pos.minimumPerTransaction.amount",
+                  "Pos.roundingRuleTypeCode",
+                  "Pos.roundingPrecision",
+                  "Pos.externalAuthorization.required",
+                  "Pos.externalAuthorization.authorizer",
+                  "Pos.externalAuthorization.mode"
+                ]
+              }
             },
             "type": {
               "type": "string",
@@ -986,6 +1014,50 @@
               "properties": {
                 "blockCancel": {
                   "const": false
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "providerId is derived for integrated mobile payments; set by hand it is accepted only with a named payment plugin, which then receives it as written.",
+        "if": {
+          "type": "object",
+          "required": [
+            "extraAttributes"
+          ],
+          "properties": {
+            "extraAttributes": {
+              "type": "array",
+              "contains": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "providerId"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "type": "object",
+          "required": [
+            "authorization"
+          ],
+          "properties": {
+            "authorization": {
+              "type": "object",
+              "required": [
+                "plugin"
+              ],
+              "properties": {
+                "plugin": {
+                  "type": "string"
                 }
               }
             }
