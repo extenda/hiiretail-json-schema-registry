@@ -3,8 +3,8 @@
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.preview.json",
   "type": "array",
   "title": "Tenders (preview)",
-  "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first: only the settings that make sense for that type are offered, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Rules a JSON Schema cannot express (minimum not above maximum, change tender exists in the list, a default cash tender exists (an enabled cash drawer tender not set to No), no two enabled foreign currency tenders share a currency, currency matches the business unit, the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish) must be checked by Store Data before delivery. Never rename an id: transactions, reports and ERP integrations reference it. Settings that do not apply to a tender's type are ignored, not rejected, because the Config Portal keeps hidden values; the Store Data mapping must then send the type's neutral value. For payRemainingAmount that means off on every type outside $defs.kindPayRemaining, except a cash changer tender, which always gets it on because the machine needs the full amount due. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields defaultTender, cashDrawer, rounding.method, rounding.precision, hardware, terminal, integration and provider refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the kind groups in $defs to show tabs and fields per type.",
+  "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin Store Data derives: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish; these plugin checks do not apply to a tender that names its own plugin in authorization.plugin. Never rename an id: transactions, reports and ERP integrations reference it. authorization.plugin, when set, replaces the payment plugin Store Data derives from the type: Store Data sends it as Pos.externalAuthorization.authorizer with required true and mode Post (mode POST or empty) or Pre (mode PRE), derives nothing else for authorization, and passes every extra attribute, providerId included, as written. A plugin name that is null or absent means the derived plugin. This keeps the kind open for plugins added later, for example by add-on teams, without a schema change. Evolution: once che.tender.v3 is released, it only grows. Add optional fields, options and types; never tighten a rule or remove a value, because the CCC API validates the stored value against the current schema on every read, and a stricter rule makes stored tender lists unloadable. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due, unless it names its own plugin. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema only so that tenders saved earlier still load, and are not read; the form shows a note on a tender that still has one on until an option of the new field is chosen. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the type default groups in $defs to show change and refund settings only where they take effect.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -119,7 +119,7 @@
           },
           {
             "title": "Mobile Payment",
-            "description": "Payment with a mobile app such as Swish or Vipps. Not supported by ER POS.",
+            "description": "Payment with a mobile app such as Swish or Vipps. An integrated mobile payment works only when every amount on the sale has at most two decimals, so not in a currency with three decimals. Not supported by ER POS.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -136,7 +136,7 @@
               "integration": {
                 "type": "string",
                 "title": "Connection",
-                "description": "Integrated: the till sends the payment request to the customer's app; this works only when every amount on the sale has at most two decimals, so not in a currency with three decimals. Standalone: the cashier checks the payment by hand; such payments cannot be refunded at the till.",
+                "description": "Integrated: the till connects to the payment service, which checks every payment. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check.",
                 "oneOf": [
                   {
                     "const": "INTEGRATED",
@@ -196,7 +196,7 @@
           },
           {
             "title": "Electronic Gift Card",
-            "description": "Gift card whose balance is held in a gift card system and checked online through Hii Connect.",
+            "description": "Gift card whose balance is held in a gift card system. Integrated, the default when 'Connection' is empty: the card and its balance are checked online through Hii Connect. Standalone: the till accepts the card without any check, so use it only where the cashier checks the card in the gift card system.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -208,6 +208,21 @@
               "kind": {
                 "const": "electronicGiftCard",
                 "title": "Electronic Gift Card"
+              },
+              "integration": {
+                "type": "string",
+                "title": "Connection",
+                "description": "Integrated: the till connects to the payment service, which checks every payment. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check.",
+                "oneOf": [
+                  {
+                    "const": "INTEGRATED",
+                    "title": "Integrated with the till"
+                  },
+                  {
+                    "const": "STANDALONE",
+                    "title": "Standalone, checked by hand"
+                  }
+                ]
               }
             }
           },
@@ -247,7 +262,7 @@
           },
           {
             "title": "Check",
-            "description": "Paper check. Cannot refund: nothing is issued to the customer.",
+            "description": "Paper check. Does not refund unless 'Refunds' allows it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -355,7 +370,7 @@
           },
           {
             "title": "Food Stamp / SNAP",
-            "description": "Food stamp or SNAP benefit. Needs an item restriction.",
+            "description": "Food stamp or SNAP benefit. Pays for any item unless an item restriction limits it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -372,7 +387,7 @@
           },
           {
             "title": "WIC Check",
-            "description": "WIC benefit check. Needs an item restriction.",
+            "description": "WIC benefit check. Pays for any item unless an item restriction limits it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -427,7 +442,7 @@
         ],
         "minLength": 1,
         "title": "Item Restriction",
-        "description": "Id of the item restriction rule that limits which items this tender can pay for. Required for food stamps and WIC checks. The kind that holds these rules is not available yet, so food stamp and WIC tenders are not delivered to the stores until it is."
+        "description": "Id of the item restriction rule that limits which items this tender can pay for. Without one, the tender pays for any item, also a food stamp or WIC tender: the till does not check benefit eligibility by itself. The kind that holds these rules is not available yet, so a tender with a restriction is not delivered to the stores until it is."
       },
       "behavior": {
         "type": "object",
@@ -454,34 +469,57 @@
               }
             ]
           },
+          "overpayment": {
+            "type": "string",
+            "title": "Overpayment",
+            "description": "Whether the customer can pay more than the amount due with this tender, and whether the difference is given back as change. Type default: allowed with change for cash, foreign currency, gift certificates, vouchers and checks; exact amount for every other type. 'Allowed, no change' keeps the overpaid amount, for example a voucher worth more than the purchase; the cashier confirms before the sale completes. Change goes to the store's default cash tender or to the alternate change tender on the Change tab.",
+            "oneOf": [
+              {
+                "const": "TYPE_DEFAULT",
+                "title": "Type default"
+              },
+              {
+                "const": "EXACT_AMOUNT",
+                "title": "Exact amount only"
+              },
+              {
+                "const": "WITH_CHANGE",
+                "title": "Allowed, give change"
+              },
+              {
+                "const": "WITHOUT_CHANGE",
+                "title": "Allowed, no change"
+              }
+            ]
+          },
           "exactAmountOnly": {
             "type": "boolean",
-            "title": "Exact Amount Only",
-            "description": "When on, the customer cannot pay more than the amount due, so no change is given. When off (default), the customer can hand over more and gets change. Only for cash, foreign currency, gift certificates, vouchers and checks; every other type always takes the exact amount, and the setting is ignored for them."
+            "title": "Exact Amount Only (replaced)",
+            "description": "Replaced by 'Overpayment'. Kept only so that tenders saved earlier still load; not read."
           },
           "exclusive": {
             "type": "boolean",
             "default": false,
             "title": "No Split Payment",
-            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale, and it always takes the exact amount, whatever 'Exact Amount Only' says. A tender with a fixed value, such as a gift certificate, voucher or coupon, can then only be used when its value equals the amount due."
+            "description": "When on, this tender must pay the whole amount due on its own: no other tender may be on the sale, and it always takes the exact amount, whatever 'Overpayment' says. A tender with a fixed value, such as a gift certificate, voucher or coupon, can then only be used when its value equals the amount due."
           },
           "lockTransaction": {
             "type": "boolean",
             "default": false,
             "title": "Lock Sale After Payment Entry",
-            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. On types where 'Block Cancelling the Sale' is offered (gift certificates, vouchers, checks, coupons, manufacturer coupons, house accounts, food stamps, WIC checks and organization charge without credit check), the two cannot both be on: the sale would then be stuck until it is paid in full."
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. It cannot be on together with 'Block Cancelling the Sale': the sale would then be stuck until it is paid in full."
           },
           "blockCancel": {
             "type": "boolean",
             "default": false,
             "title": "Block Cancelling the Sale",
-            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed. Ignored for cash, foreign currency, cards, mobile payments, electronic gift cards, loyalty points and organization charge with credit check: after money has been taken the cashier must always have a way back. Where it applies, it cannot be on together with 'Lock Sale After Payment Entry'."
+            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed, or suspended with a manager override. It cannot be on together with 'Lock Sale After Payment Entry'."
           },
           "payRemainingAmount": {
             "type": "boolean",
             "default": false,
             "title": "Pay Remaining Amount Automatically",
-            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. Ignored for foreign currency, where the till would then accept only the exact converted amount and could give no change; for gift certificates, vouchers, coupons, manufacturer coupons and loyalty points, which pay their own value; and for cash (a cash changer tender always takes the full remaining amount)."
+            "description": "When on and no amount is given, the till uses the full remaining amount and skips the amount prompt. Intended for terminals and unmanned checkouts. On foreign currency the till then accepts only the exact converted amount, so a customer paying with a larger note gets no change. A cash changer tender always takes the full remaining amount."
           },
           "prefillAmount": {
             "type": "boolean",
@@ -513,7 +551,7 @@
       "change": {
         "type": "object",
         "title": "Change",
-        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Only for cash, foreign currency, gift certificates, vouchers and checks that do not take the exact amount; ignored otherwise.",
+        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Used only when 'Overpayment' gives change; the type default gives change for cash, foreign currency, gift certificates, vouchers and checks.",
         "additionalProperties": false,
         "properties": {
           "tenderId": {
@@ -523,7 +561,7 @@
             ],
             "pattern": "^[A-Z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
-            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled cash, foreign currency, gift certificate or voucher tender in this list that allows refunds and has no minimum amounts."
+            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled tender in this list, not loyalty points, that allows refunds and has no minimum refund and no minimum per entry: change is paid as a refund with that tender, and the sale cannot complete if the refund is refused. With an integrated card, mobile payment or electronic gift card, the payment plugin must accept a refund without an original payment."
           },
           "threshold": {
             "type": "number",
@@ -542,14 +580,32 @@
       "refund": {
         "type": "object",
         "title": "Refunds",
-        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty to allow refunds without limits. Ignored for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments, which can never refund.",
+        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty for the type default.",
         "additionalProperties": false,
         "properties": {
+          "refundsAllowed": {
+            "type": "string",
+            "title": "Refunds",
+            "description": "Whether this tender can be used when money goes back to the customer. Type default: allowed, except for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points, standalone mobile payments and standalone electronic gift cards. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash. A loyalty points refund needs a loyalty customer on the sale.",
+            "oneOf": [
+              {
+                "const": "TYPE_DEFAULT",
+                "title": "Type default"
+              },
+              {
+                "const": "YES",
+                "title": "Allowed"
+              },
+              {
+                "const": "NO",
+                "title": "Blocked"
+              }
+            ]
+          },
           "blockRefunds": {
             "type": "boolean",
-            "default": false,
-            "title": "Block Refunds",
-            "description": "When on, this tender cannot be used when money goes back to the customer; the cashier must choose another tender. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash."
+            "title": "Block Refunds (replaced)",
+            "description": "Replaced by 'Refunds'. Kept only so that tenders saved earlier still load; not read."
           },
           "skipAmountPrompt": {
             "type": "boolean",
@@ -599,14 +655,14 @@
       },
       "rounding": {
         "type": "object",
-        "title": "Cash Rounding",
-        "description": "Rounds amounts paid with this tender to the smallest coin in use, for example 0.05. Leave empty, or choose 'No rounding', for no rounding. Only for cash, foreign currency, gift certificates, vouchers and checks; ignored otherwise.",
+        "title": "Rounding",
+        "description": "Rounds amounts paid with this tender, for example to the smallest coin in use. Leave empty, or choose 'No rounding', for no rounding. The amount due is rounded with the default cash tender's rounding: a tender with a coarser unit that gives no overpayment cannot pay a remainder that is not a multiple of its unit.",
         "additionalProperties": false,
         "properties": {
           "method": {
             "type": "string",
             "title": "Rounding Method",
-            "description": "Whether amounts are rounded, and which way an amount exactly between two units goes.",
+            "description": "Whether amounts are rounded, and which way an amount exactly between two units goes. 'Round in one direction' rounds every amount the same way, up or down, as set for the whole till installation, not per tender.",
             "oneOf": [
               {
                 "const": "NO_ROUNDING",
@@ -619,21 +675,51 @@
               {
                 "const": "ROUND_HALF_DOWN",
                 "title": "Round half down"
+              },
+              {
+                "const": "SCIENTIFIC",
+                "title": "Round in one direction"
               }
             ]
           },
           "precision": {
             "type": "number",
+            "exclusiveMinimum": 0,
             "title": "Round To",
-            "description": "The smallest unit amounts are rounded to. Amounts the cashier types must be a multiple of it. It must not be smaller than the smallest unit of the store's currency. Ignored without a rounding method or with 'No rounding'.",
-            "enum": [
-              0.05,
-              0.1,
-              0.25,
-              0.5,
-              1,
-              5,
-              10
+            "description": "The smallest unit amounts are rounded to, for example 0.05 or 1. Amounts the cashier types must be a multiple of it. It must be a multiple of the smallest unit of the store's currency, for example not 0.025 in a currency with two decimals. Ignored without a rounding method or with 'No rounding'."
+          }
+        }
+      },
+      "authorization": {
+        "type": "object",
+        "title": "Payment Plugin",
+        "description": "Names a payment plugin installed at the till, for example one delivered by an add-on team for a customer, which then approves every payment with this tender instead of the plugin Store Data chooses for the type. Store Data cannot check that the plugin is installed: with a wrong name, every payment with this tender fails at the till, and the cashier must use another tender. Extra attributes are passed to the plugin as written. Clear the plugin name to go back to the plugin Store Data chooses.",
+        "additionalProperties": false,
+        "properties": {
+          "plugin": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "title": "Plugin Name",
+            "description": "The name the plugin is registered under at the till, exactly as its documentation gives it, for example 'GiftCardPluginAuthorizer'. Empty means the plugin Store Data chooses for the type.",
+            "minLength": 1,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z_][A-Za-z0-9_.$#:-]*$"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Authorization Step",
+            "description": "When the till asks the plugin: 'After the till's checks' (the default, also when empty) suits the plugins delivered by Extenda Retail; choose 'Before the till's checks' only when the plugin's documentation asks for it. Used only with a plugin name.",
+            "oneOf": [
+              {
+                "const": "POST",
+                "title": "After the till's checks"
+              },
+              {
+                "const": "PRE",
+                "title": "Before the till's checks"
+              }
             ]
           }
         }
@@ -641,7 +727,7 @@
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Only use when Extenda Retail support asks for it. Each entry is identified by its name ('id'). Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; Store Data rejects names that duplicate a setting in this form. Other names are passed to point-of-sale extensions.",
+        "description": "Only use when Extenda Retail support asks for it. Each entry is identified by its name ('id'). Names starting with 'Pos.' are advanced point-of-sale settings that this form does not offer, for example manager overrides of limits or account number capture; a name for a setting this form offers is refused. Other names are passed to point-of-sale extensions and payment plugins as written; 'providerId', which Store Data sets for integrated mobile payments, is accepted only together with 'Payment Plugin'.",
         "items": {
           "type": "object",
           "required": [
@@ -654,7 +740,35 @@
             "id": {
               "type": "string",
               "minLength": 1,
-              "title": "Name"
+              "title": "Name",
+              "not": {
+                "enum": [
+                  "Pos.default",
+                  "Pos.lock",
+                  "Pos.singleTender",
+                  "Pos.autoTenderAllowed",
+                  "Pos.openCashdrawer",
+                  "Pos.overTenderAllowed",
+                  "Pos.changeAllowed",
+                  "Pos.void",
+                  "Pos.allowInRefund",
+                  "Pos.displayDefaultAmount",
+                  "Pos.hideRefundAmountPrompt",
+                  "Pos.extChangeTenderTypeCode",
+                  "Pos.changeThresholdAmount",
+                  "Pos.cashBackFinalizationLimit",
+                  "Pos.maximumRefund.amount",
+                  "Pos.minimumRefund.amount",
+                  "Pos.maximumPerTransaction.amount",
+                  "Pos.maximumPerRegistration.amount",
+                  "Pos.minimumPerTransaction.amount",
+                  "Pos.roundingRuleTypeCode",
+                  "Pos.roundingPrecision",
+                  "Pos.externalAuthorization.required",
+                  "Pos.externalAuthorization.authorizer",
+                  "Pos.externalAuthorization.mode"
+                ]
+              }
             },
             "type": {
               "type": "string",
@@ -793,57 +907,29 @@
         }
       },
       {
-        "$comment": "A rounding method needs a rounding unit on the types that round.",
+        "$comment": "A rounding method needs a rounding unit.",
         "if": {
-          "allOf": [
-            {
+          "type": "object",
+          "required": [
+            "rounding"
+          ],
+          "properties": {
+            "rounding": {
               "type": "object",
               "required": [
-                "type"
+                "method"
               ],
               "properties": {
-                "type": {
-                  "type": "object",
-                  "required": [
-                    "kind"
-                  ],
-                  "properties": {
-                    "kind": {
-                      "enum": [
-                        "cash",
-                        "foreignCurrency",
-                        "giftCertificate",
-                        "voucher",
-                        "check"
-                      ]
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "type": "object",
-              "required": [
-                "rounding"
-              ],
-              "properties": {
-                "rounding": {
-                  "type": "object",
-                  "required": [
-                    "method"
-                  ],
-                  "properties": {
-                    "method": {
-                      "enum": [
-                        "MATHEMATICAL",
-                        "ROUND_HALF_DOWN"
-                      ]
-                    }
-                  }
+                "method": {
+                  "enum": [
+                    "MATHEMATICAL",
+                    "ROUND_HALF_DOWN",
+                    "SCIENTIFIC"
+                  ]
                 }
               }
             }
-          ]
+          }
         },
         "then": {
           "type": "object",
@@ -858,42 +944,6 @@
                   "type": "number"
                 }
               }
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Without an item restriction a benefit tender pays for any item.",
-        "if": {
-          "type": "object",
-          "required": [
-            "type"
-          ],
-          "properties": {
-            "type": {
-              "type": "object",
-              "required": [
-                "kind"
-              ],
-              "properties": {
-                "kind": {
-                  "enum": [
-                    "foodStamp",
-                    "wicCheck"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "then": {
-          "type": "object",
-          "required": [
-            "restrictionRuleId"
-          ],
-          "properties": {
-            "restrictionRuleId": {
-              "type": "string"
             }
           }
         }
@@ -936,83 +986,25 @@
         }
       },
       {
-        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Applies only where block cancelling is offered: the kinds and the credit-check exemption repeat $defs.kindCancelBlockable, so change both together. Disabled tenders are checked too, like every other per-tender rule, so the error shows where the two settings are saved and not later when the tender is enabled.",
+        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Disabled tenders are checked too, like every other per-tender rule, so the error shows where the two settings are saved and not later when the tender is enabled.",
         "if": {
-          "allOf": [
-            {
+          "type": "object",
+          "required": [
+            "behavior"
+          ],
+          "properties": {
+            "behavior": {
               "type": "object",
               "required": [
-                "type"
+                "lockTransaction"
               ],
               "properties": {
-                "type": {
-                  "type": "object",
-                  "required": [
-                    "kind"
-                  ],
-                  "properties": {
-                    "kind": {
-                      "enum": [
-                        "giftCertificate",
-                        "voucher",
-                        "check",
-                        "coupon",
-                        "manufacturerCoupon",
-                        "organizationCharge",
-                        "houseAccount",
-                        "foodStamp",
-                        "wicCheck"
-                      ]
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "type": "object",
-              "required": [
-                "behavior"
-              ],
-              "properties": {
-                "behavior": {
-                  "type": "object",
-                  "required": [
-                    "lockTransaction"
-                  ],
-                  "properties": {
-                    "lockTransaction": {
-                      "const": true
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "not": {
-                "type": "object",
-                "required": [
-                  "type"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "object",
-                    "required": [
-                      "kind",
-                      "creditCheck"
-                    ],
-                    "properties": {
-                      "kind": {
-                        "const": "organizationCharge"
-                      },
-                      "creditCheck": {
-                        "const": true
-                      }
-                    }
-                  }
+                "lockTransaction": {
+                  "const": true
                 }
               }
             }
-          ]
+          }
         },
         "then": {
           "type": "object",
@@ -1022,6 +1014,50 @@
               "properties": {
                 "blockCancel": {
                   "const": false
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "providerId is derived for integrated mobile payments; set by hand it is accepted only with a named payment plugin, which then receives it as written.",
+        "if": {
+          "type": "object",
+          "required": [
+            "extraAttributes"
+          ],
+          "properties": {
+            "extraAttributes": {
+              "type": "array",
+              "contains": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "const": "providerId"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "then": {
+          "type": "object",
+          "required": [
+            "authorization"
+          ],
+          "properties": {
+            "authorization": {
+              "type": "object",
+              "required": [
+                "plugin"
+              ],
+              "properties": {
+                "plugin": {
+                  "type": "string"
                 }
               }
             }
@@ -3786,7 +3822,27 @@
     }
   ],
   "$defs": {
-    "kindCashLike": {
+    "kindForeignCurrency": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "const": "foreignCurrency"
+            }
+          }
+        }
+      }
+    },
+    "kindGivesChangeByDefault": {
+      "$comment": "Types whose type default for behavior.overpayment is WITH_CHANGE; every other type defaults to EXACT_AMOUNT. Read by the Store Data mapping and by the form generator; the overpayment help text names the same types.",
       "type": "object",
       "required": [
         "type"
@@ -3811,7 +3867,8 @@
         }
       }
     },
-    "kindCancelBlockable": {
+    "kindRefundsBlockedByDefault": {
+      "$comment": "Types whose type default for refund.refundsAllowed is NO; a tender with a standalone connection ($defs.connectionStandalone) defaults to NO too, and every other tender to YES. Read by the Store Data mapping and by the form generator; the refunds help text names the same types.",
       "type": "object",
       "required": [
         "type"
@@ -3825,33 +3882,20 @@
           "properties": {
             "kind": {
               "enum": [
-                "giftCertificate",
-                "voucher",
                 "check",
                 "coupon",
                 "manufacturerCoupon",
-                "organizationCharge",
-                "houseAccount",
                 "foodStamp",
-                "wicCheck"
+                "wicCheck",
+                "loyaltyRedemption"
               ]
-            }
-          },
-          "not": {
-            "type": "object",
-            "required": [
-              "creditCheck"
-            ],
-            "properties": {
-              "creditCheck": {
-                "const": true
-              }
             }
           }
         }
       }
     },
-    "kindPayRemaining": {
+    "connectionStandalone": {
+      "$comment": "A tender whose type.integration is standalone, which exists for mobile payments and electronic gift cards. Its type default for refund.refundsAllowed is NO, because nothing checks the payment. Read by the Store Data mapping and by the form generator.",
       "type": "object",
       "required": [
         "type"
@@ -3860,79 +3904,11 @@
         "type": {
           "type": "object",
           "required": [
-            "kind"
+            "integration"
           ],
           "properties": {
-            "kind": {
-              "enum": [
-                "creditDebit",
-                "mobile",
-                "electronicGiftCard",
-                "organizationCharge",
-                "houseAccount",
-                "check",
-                "foodStamp",
-                "wicCheck"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "kindRefundable": {
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "enum": [
-                "cash",
-                "foreignCurrency",
-                "creditDebit",
-                "mobile",
-                "electronicGiftCard",
-                "organizationCharge",
-                "houseAccount",
-                "giftCertificate",
-                "voucher"
-              ]
-            }
-          },
-          "not": {
-            "type": "object",
-            "required": [
-              "integration"
-            ],
-            "properties": {
-              "integration": {
-                "const": "STANDALONE"
-              }
-            }
-          }
-        }
-      }
-    },
-    "kindForeignCurrency": {
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "const": "foreignCurrency"
+            "integration": {
+              "const": "STANDALONE"
             }
           }
         }
