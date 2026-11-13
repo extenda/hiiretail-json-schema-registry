@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders (preview)",
   "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Never rename an id: transactions, reports and ERP integrations reference it. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema so that tenders saved earlier still load, and are read only when the new field is empty: exactAmountOnly true means EXACT_AMOUNT, blockRefunds true means NO. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Never rename an id: transactions, reports and ERP integrations reference it. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema so that tenders saved earlier still load, and are read only when the new field is empty: exactAmountOnly true means EXACT_AMOUNT, blockRefunds true means NO. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the type default groups in $defs to show change and refund settings only where they take effect.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -119,7 +119,7 @@
           },
           {
             "title": "Mobile Payment",
-            "description": "Payment with a mobile app such as Swish or Vipps. Not supported by ER POS.",
+            "description": "Payment with a mobile app such as Swish or Vipps. An integrated mobile payment works only when every amount on the sale has at most two decimals, so not in a currency with three decimals. Not supported by ER POS.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -136,7 +136,7 @@
               "integration": {
                 "type": "string",
                 "title": "Connection",
-                "description": "Integrated: the till connects to the payment service. A mobile payment then needs every amount on the sale to have at most two decimals, so not a currency with three decimals; an electronic gift card is checked online with its balance. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check. Empty on an electronic gift card means integrated.",
+                "description": "Integrated: the till connects to the payment service, which checks every payment. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check.",
                 "oneOf": [
                   {
                     "const": "INTEGRATED",
@@ -196,7 +196,7 @@
           },
           {
             "title": "Electronic Gift Card",
-            "description": "Gift card whose balance is held in a gift card system. Integrated: checked online through Hii Connect. Standalone: the till accepts the card without any check, and the cashier checks it in the gift card system.",
+            "description": "Gift card whose balance is held in a gift card system. Integrated, the default when 'Connection' is empty: the card and its balance are checked online through Hii Connect. Standalone: the till accepts the card without any check, so use it only where the cashier checks the card in the gift card system.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -212,7 +212,7 @@
               "integration": {
                 "type": "string",
                 "title": "Connection",
-                "description": "Integrated: the till connects to the payment service. A mobile payment then needs every amount on the sale to have at most two decimals, so not a currency with three decimals; an electronic gift card is checked online with its balance. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check. Empty on an electronic gift card means integrated.",
+                "description": "Integrated: the till connects to the payment service, which checks every payment. Standalone: the cashier checks the payment by hand, and the till registers the amount without any check.",
                 "oneOf": [
                   {
                     "const": "INTEGRATED",
@@ -586,7 +586,7 @@
           "refundsAllowed": {
             "type": "string",
             "title": "Refunds",
-            "description": "Whether this tender can be used when money goes back to the customer. Type default: allowed, except for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points and standalone mobile payments. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash. A loyalty points refund needs a loyalty customer on the sale.",
+            "description": "Whether this tender can be used when money goes back to the customer. Type default: allowed, except for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points, standalone mobile payments and standalone electronic gift cards. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash. A loyalty points refund needs a loyalty customer on the sale.",
             "oneOf": [
               {
                 "const": "TYPE_DEFAULT",
@@ -3730,6 +3730,59 @@
           "properties": {
             "kind": {
               "const": "foreignCurrency"
+            }
+          }
+        }
+      }
+    },
+    "kindGivesChangeByDefault": {
+      "$comment": "Types whose type default for behavior.overpayment is WITH_CHANGE; every other type defaults to EXACT_AMOUNT. Read by the Store Data mapping and by the form generator; the overpayment help text names the same types.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "cash",
+                "foreignCurrency",
+                "giftCertificate",
+                "voucher",
+                "check"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "kindRefundsBlockedByDefault": {
+      "$comment": "Types whose type default for refund.refundsAllowed is NO; standalone mobile payments and standalone electronic gift cards default to NO too, and every other type to YES. Read by the Store Data mapping and by the form generator; the refunds help text names the same types.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "check",
+                "coupon",
+                "manufacturerCoupon",
+                "foodStamp",
+                "wicCheck",
+                "loyaltyRedemption"
+              ]
             }
           }
         }

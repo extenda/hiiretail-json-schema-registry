@@ -263,3 +263,41 @@ describe('che.tender.preview rounding', () => {
     assert.ok(errorPaths(zero).includes('/1/rounding/precision'));
   });
 });
+
+describe('che.tender.preview type defaults', () => {
+  // The help texts list by hand the types of each type default group. Each
+  // pattern matches its type's name only, not a longer name that contains it.
+  const nameOf = {
+    cash: /(?<!currency )\bcash\b(?! changer)/,
+    foreignCurrency: /\bforeign currency\b/,
+    creditDebit: /(?<!gift )\bcards?\b/,
+    mobile: /\bmobile\b/,
+    electronicGiftCard: /\belectronic gift cards?\b/,
+    giftCertificate: /\bgift certificates?\b/,
+    voucher: /\bvouchers?\b/,
+    check: /(?<!WIC )\bchecks?\b/,
+    coupon: /(?<!manufacturer )\bcoupons?\b/,
+    manufacturerCoupon: /\bmanufacturer coupons?\b/,
+    loyaltyRedemption: /\bloyalty points\b/,
+    organizationCharge: /\borganization charge\b/,
+    houseAccount: /\bhouse accounts?\b/,
+    foodStamp: /\bfood stamps?\b/,
+    wicCheck: /\bWIC\b/,
+  };
+  const kindsOf = (name) => schema.$defs[name].properties.type.properties.kind.enum;
+  const sentence = (text, start) => text.slice(text.indexOf(start)).split('. ')[0];
+
+  // Standalone mobile payments and gift cards are named by their connection,
+  // not their type, so the type names are checked without them.
+  for (const [field, group, start] of [
+    [schema.items.properties.behavior.properties.overpayment, 'kindGivesChangeByDefault', 'Type default'],
+    [schema.items.properties.refund.properties.refundsAllowed, 'kindRefundsBlockedByDefault', 'Type default'],
+  ]) {
+    test(`the help text names exactly the types of $defs.${group}`, () => {
+      const listed = sentence(field.description, start).replace(/standalone [a-z ]+?(payments|cards)/g, '');
+      for (const kind of kinds) {
+        assert.equal(nameOf[kind].test(listed), kindsOf(group).includes(kind), kind);
+      }
+    });
+  }
+});
