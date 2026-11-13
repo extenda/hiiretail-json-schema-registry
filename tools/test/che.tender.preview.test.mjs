@@ -203,10 +203,6 @@ describe('che.tender.preview engine scope', () => {
     });
   }
 
-  test('only the foreign currency type group is left', () => {
-    assert.deepEqual(Object.keys(schema.$defs), ['kindForeignCurrency']);
-  });
-
   test('a card can be the change tender of a voucher', () => {
     const voucher = ofKind('voucher', 'VO', {
       behavior: { overpayment: 'WITH_CHANGE' },

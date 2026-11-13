@@ -4,7 +4,7 @@
   "type": "array",
   "title": "Tenders (preview)",
   "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. Store Data does not deliver it to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type, and every setting left empty uses the default for the type. Store Data adds every technical setting the point of sale needs (payment plugins, provider codes, currency) and delivers the list to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid; a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Never rename an id: transactions, reports and ERP integrations reference it. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema only so that tenders saved earlier still load, and are not read. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Never rename an id: transactions, reports and ERP integrations reference it. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. exactAmountOnly and refund.blockRefunds are replaced by behavior.overpayment and refund.refundsAllowed; they stay in the schema so that tenders saved earlier still load, and are read only when the new field is empty: exactAmountOnly true means EXACT_AMOUNT, blockRefunds true means NO. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -262,7 +262,7 @@
           },
           {
             "title": "Check",
-            "description": "Paper check. Cannot refund: nothing is issued to the customer.",
+            "description": "Paper check. Does not refund unless 'Refunds' allows it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -370,7 +370,7 @@
           },
           {
             "title": "Food Stamp / SNAP",
-            "description": "Food stamp or SNAP benefit. Needs an item restriction.",
+            "description": "Food stamp or SNAP benefit. Pays for any item unless an item restriction limits it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -387,7 +387,7 @@
           },
           {
             "title": "WIC Check",
-            "description": "WIC benefit check. Needs an item restriction.",
+            "description": "WIC benefit check. Pays for any item unless an item restriction limits it.",
             "type": "object",
             "additionalProperties": {
               "type": "null"
@@ -495,7 +495,7 @@
           "exactAmountOnly": {
             "type": "boolean",
             "title": "Exact Amount Only (replaced)",
-            "description": "Replaced by 'Overpayment'. Kept only so that tenders saved earlier still load; not read."
+            "description": "Replaced by 'Overpayment'. Kept so that tenders saved earlier still load; when 'Overpayment' is empty, on means exact amount only. Choose an 'Overpayment' option to replace it."
           },
           "exclusive": {
             "type": "boolean",
@@ -561,7 +561,7 @@
             ],
             "pattern": "^[A-Z0-9_-]{1,4}$",
             "title": "Alternate Change Tender",
-            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled tender in this list that allows refunds and has no minimum refund and no minimum per entry: change is paid as a refund with that tender, and the sale cannot complete if the refund is refused. With an integrated card, mobile payment or electronic gift card, the payment plugin must accept a refund without an original payment."
+            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled tender in this list, not loyalty points, that allows refunds and has no minimum refund and no minimum per entry: change is paid as a refund with that tender, and the sale cannot complete if the refund is refused. With an integrated card, mobile payment or electronic gift card, the payment plugin must accept a refund without an original payment."
           },
           "threshold": {
             "type": "number",
@@ -605,7 +605,7 @@
           "blockRefunds": {
             "type": "boolean",
             "title": "Block Refunds (replaced)",
-            "description": "Replaced by 'Refunds'. Kept only so that tenders saved earlier still load; not read."
+            "description": "Replaced by 'Refunds'. Kept so that tenders saved earlier still load; when 'Refunds' is empty, on means refunds are blocked. Choose a 'Refunds' option to replace it."
           },
           "skipAmountPrompt": {
             "type": "boolean",
@@ -686,7 +686,7 @@
             "type": "number",
             "exclusiveMinimum": 0,
             "title": "Round To",
-            "description": "The smallest unit amounts are rounded to, for example 0.05 or 1. Amounts the cashier types must be a multiple of it. Ignored without a rounding method or with 'No rounding'."
+            "description": "The smallest unit amounts are rounded to, for example 0.05 or 1. Amounts the cashier types must be a multiple of it. It must be a multiple of the smallest unit of the store's currency, for example not 0.025 in a currency with two decimals. Ignored without a rounding method or with 'No rounding'."
           }
         }
       },
