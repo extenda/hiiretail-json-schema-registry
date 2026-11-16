@@ -340,93 +340,28 @@ describe('che.tender.preview type defaults', () => {
 });
 
 describe('che.tender.preview payment plugin', () => {
-  // A named plugin keeps the kind open for plugins added later, on any type.
-  for (const kind of kinds) {
-    test(`a named plugin is accepted on ${kind}`, () => {
-      const named = ofKind(kind, 'T', {
-        behavior: { defaultTender: 'NO' },
-        authorization: { plugin: 'AucHuFleetCardAuthorizer', mode: 'PRE' },
-        extraAttributes: [{ id: 'providerId', type: 'STRING', value: 'fleet' }],
-      });
-      assert.deepEqual(errorPaths([cash, named]), []);
-    });
-  }
-
-  // Names registered at the tills today, and the shapes Spring gives beans without an explicit id.
-  test('the plugin name accepts the names plugins are registered under', () => {
-    for (const plugin of [
-      'GiftCardPluginAuthorizer',
-      'B2bCreditLimitExternalAuthorizer',
-      'ApiEgcAuthorizer',
-      'EpsCheckAuthorizer',
-      'HMOmniCreditTenderAuthorizer',
-      'se.extenda.pos.plugin.FleetAuthorizer#0',
-      '_fleetAuthorizer',
-    ]) {
-      const list = [cash, ofKind('voucher', 'T', { authorization: { plugin } })];
-      assert.deepEqual(errorPaths(list), [], plugin);
-    }
-    for (const plugin of ['', 'two words', '1Plugin', 'a'.repeat(101)]) {
-      const list = [cash, ofKind('voucher', 'T', { authorization: { plugin } })];
-      assert.ok(errorPaths(list).includes('/1/authorization/plugin'), JSON.stringify(plugin));
-    }
+  // Store Data derives the plugin from the type; a retailer never names one.
+  test('a tender cannot name a payment plugin', () => {
+    const named = ofKind('voucher', 'T', { authorization: { plugin: 'GiftCardPluginAuthorizer' } });
+    assert.ok(errorPaths([cash, named]).includes('/1'));
   });
 
-  test('without a plugin name the derived plugin applies', () => {
-    for (const authorization of [{}, { mode: 'PRE' }]) {
-      const list = [cash, ofKind('voucher', 'T', { authorization })];
-      assert.deepEqual(errorPaths(list), [], JSON.stringify(authorization));
-    }
-  });
-
-  // providerId belongs to the derived mobile plugin unless the tender names its own.
-  test('providerId is accepted only with a plugin name', () => {
-    const providerId = [{ id: 'providerId', type: 'STRING', value: 'swish' }];
-    for (const authorization of [undefined, { plugin: null }, { mode: 'POST' }]) {
-      const tender = ofKind('mobile', 'T', {
-        extraAttributes: providerId,
-        ...(authorization && { authorization }),
-      });
-      assert.ok(errorPaths([cash, tender]).length > 0, JSON.stringify(authorization));
-    }
-  });
-
-  // A till setting the form offers would contradict the form as an extra attribute.
-  test('extra attributes cannot set what the form sets', () => {
+  // What Store Data derives or the form offers would contradict them as an extra attribute.
+  test('extra attributes cannot set what Store Data derives or the form sets', () => {
     for (const id of [
+      'providerId',
       'Pos.externalAuthorization.authorizer',
       'Pos.externalAuthorization.required',
       'Pos.externalAuthorization.mode',
       'Pos.overTenderAllowed',
       'Pos.void',
     ]) {
-      const tender = ofKind('voucher', 'T', {
-        authorization: { plugin: 'P' },
-        extraAttributes: [{ id, type: 'STRING', value: 'x' }],
-      });
+      const tender = ofKind('mobile', 'T', { extraAttributes: [{ id, type: 'STRING', value: 'x' }] });
       assert.ok(errorPaths([cash, tender]).includes('/1/extraAttributes/0/id'), id);
     }
     const allowed = ofKind('voucher', 'T', {
       extraAttributes: [{ id: 'Pos.externalAuthorization.authorizationCodeMaximumLength', type: 'INT', value: '6' }],
     });
     assert.deepEqual(errorPaths([cash, allowed]), []);
-  });
-
-  test('the authorization step refuses null, as the other choices do', () => {
-    const list = [cash, ofKind('voucher', 'T', { authorization: { plugin: 'P', mode: null } })];
-    assert.ok(errorPaths(list).includes('/1/authorization/mode'));
-  });
-
-  // The portal writes null for a cleared field; the plugin Store Data derives then applies again.
-  test('a cleared plugin name is accepted', () => {
-    const list = [cash, ofKind('voucher', 'T', { authorization: { plugin: null, mode: 'POST' } })];
-    assert.deepEqual(errorPaths(list), []);
-  });
-
-  test('only the known steps and fields are accepted', () => {
-    const unknownMode = [cash, ofKind('voucher', 'T', { authorization: { plugin: 'P', mode: 'LATER' } })];
-    assert.ok(errorPaths(unknownMode).includes('/1/authorization/mode'));
-    const unknownField = [cash, ofKind('voucher', 'T', { authorization: { plugin: 'P', required: false } })];
-    assert.ok(errorPaths(unknownField).includes('/1/authorization'));
   });
 });
