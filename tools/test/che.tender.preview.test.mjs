@@ -343,7 +343,9 @@ describe('che.tender.preview payment plugin', () => {
   // Store Data derives the plugin from the type; a retailer never names one.
   test('a tender cannot name a payment plugin', () => {
     const named = ofKind('voucher', 'T', { authorization: { plugin: 'GiftCardPluginAuthorizer' } });
-    assert.ok(errorPaths([cash, named]).includes('/1'));
+    validate([cash, named]);
+    assert.ok(validate.errors?.some((e) => e.instancePath === '/1' && e.keyword === 'additionalProperties'
+      && e.params.additionalProperty === 'authorization'));
   });
 
   // What Store Data derives or the form offers would contradict them as an extra attribute.
