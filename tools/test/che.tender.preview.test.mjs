@@ -216,6 +216,12 @@ describe('che.tender.preview engine scope', () => {
     assert.deepEqual(errorPaths([cash, ofKind('foodStamp', 'FS'), ofKind('wicCheck', 'WIC')]), []);
   });
 
+  // Purchase constraints belong to Entity Conditions, not to the tender.
+  test('a tender has no item restriction', () => {
+    const restricted = ofKind('foodStamp', 'FS', { restrictionRuleId: 'FOOD' });
+    assert.ok(errorPaths([cash, restricted]).length > 0);
+  });
+
   test('an electronic gift card can be standalone', () => {
     const standalone = tender('EGC', { kind: 'electronicGiftCard', integration: 'STANDALONE' });
     assert.deepEqual(errorPaths([cash, standalone]), []);
@@ -228,15 +234,11 @@ describe('che.tender.preview engine scope', () => {
     assert.ok(errorPaths([cash, ofKind('voucher', 'VO', { refund: { refundsAllowed: true } })]).length > 0);
   });
 
-  // The replaced fields stay so that tenders saved before still load: the CCC
-  // API validates a stored value against the current schema on every read.
-  test('a tender saved with the replaced fields still loads', () => {
-    const saved = ofKind('voucher', 'VO', {
-      behavior: { exactAmountOnly: true },
-      refund: { blockRefunds: true },
-      rounding: { method: 'MATHEMATICAL', precision: 0.05 },
-    });
-    assert.deepEqual(errorPaths([cash, saved]), []);
+  // 'Exact Amount Only' and 'Block Refunds' were replaced by the two choices above.
+  test('the replaced fields are refused', () => {
+    for (const extra of [{ behavior: { exactAmountOnly: true } }, { refund: { blockRefunds: true } }]) {
+      assert.ok(errorPaths([cash, ofKind('voucher', 'VO', extra)]).length > 0, JSON.stringify(extra));
+    }
   });
 });
 
