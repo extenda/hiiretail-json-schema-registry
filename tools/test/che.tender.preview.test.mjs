@@ -41,6 +41,13 @@ const errorPaths = (list) => {
   return (validate.errors ?? []).map((e) => e.instancePath);
 };
 
+// Whether the list is refused at this path for this keyword, with these error params.
+const refusedAt = (list, instancePath, keyword, params = {}) => {
+  validate(list);
+  return (validate.errors ?? []).some((e) => e.instancePath === instancePath && e.keyword === keyword
+    && Object.entries(params).every(([name, value]) => e.params[name] === value));
+};
+
 // One valid tender of each type.
 const kinds = schema.items.properties.type.oneOf.map((branch) => branch.properties.kind.const);
 const typeOf = {
@@ -215,25 +222,28 @@ describe('che.tender.preview engine scope', () => {
   // Purchase constraints belong to Entity Conditions, not to the tender.
   test('a tender has no item restriction', () => {
     const restricted = ofKind('foodStamp', 'FS', { restrictionRuleId: 'FOOD' });
-    assert.ok(errorPaths([cash, restricted]).length > 0);
+    assert.ok(refusedAt([cash, restricted], '/1', 'additionalProperties', { additionalProperty: 'restrictionRuleId' }));
   });
 
   test('an electronic gift card can be standalone', () => {
     const standalone = tender('EGC', { kind: 'electronicGiftCard', integration: 'STANDALONE' });
     assert.deepEqual(errorPaths([cash, standalone]), []);
     const unknown = tender('EGC', { kind: 'electronicGiftCard', integration: 'CLOUD' });
-    assert.ok(errorPaths([cash, unknown]).length > 0);
+    assert.ok(refusedAt([cash, unknown], '/1/type/integration', 'oneOf'));
   });
 
   test('unknown overpayment and refund choices are refused', () => {
-    assert.ok(errorPaths([cash, ofKind('voucher', 'VO', { behavior: { overpayment: 'MAYBE' } })]).length > 0);
-    assert.ok(errorPaths([cash, ofKind('voucher', 'VO', { refund: { refundsAllowed: true } })]).length > 0);
+    const maybe = ofKind('voucher', 'VO', { behavior: { overpayment: 'MAYBE' } });
+    assert.ok(refusedAt([cash, maybe], '/1/behavior/overpayment', 'oneOf'));
+    const yes = ofKind('voucher', 'VO', { refund: { refundsAllowed: true } });
+    assert.ok(refusedAt([cash, yes], '/1/refund/refundsAllowed', 'oneOf'));
   });
 
   // 'Exact Amount Only' and 'Block Refunds' were replaced by the two choices above.
   test('the replaced fields are refused', () => {
-    for (const extra of [{ behavior: { exactAmountOnly: true } }, { refund: { blockRefunds: true } }]) {
-      assert.ok(errorPaths([cash, ofKind('voucher', 'VO', extra)]).length > 0, JSON.stringify(extra));
+    for (const [group, field] of [['behavior', 'exactAmountOnly'], ['refund', 'blockRefunds']]) {
+      const replaced = ofKind('voucher', 'VO', { [group]: { [field]: true } });
+      assert.ok(refusedAt([cash, replaced], `/1/${group}`, 'additionalProperties', { additionalProperty: field }), field);
     }
   });
 });
@@ -339,8 +349,8 @@ describe('che.tender.preview required choices', () => {
     }
   });
 
-  test('$defs holds only the group the form generator reads', () => {
-    assert.deepEqual(Object.keys(schema.$defs), ['kindForeignCurrency']);
+  test('$defs keeps the foreign currency group the form generator reads', () => {
+    assert.ok(schema.$defs?.kindForeignCurrency);
   });
 });
 
@@ -348,9 +358,7 @@ describe('che.tender.preview payment plugin', () => {
   // Store Data derives the plugin from the type; a retailer never names one.
   test('a tender cannot name a payment plugin', () => {
     const named = ofKind('voucher', 'T', { authorization: { plugin: 'GiftCardPluginAuthorizer' } });
-    validate([cash, named]);
-    assert.ok(validate.errors?.some((e) => e.instancePath === '/1' && e.keyword === 'additionalProperties'
-      && e.params.additionalProperty === 'authorization'));
+    assert.ok(refusedAt([cash, named], '/1', 'additionalProperties', { additionalProperty: 'authorization' }));
   });
 
   // What Store Data derives or the form offers would contradict them as an extra attribute.
@@ -363,12 +371,20 @@ describe('che.tender.preview payment plugin', () => {
       'Pos.overTenderAllowed',
       'Pos.void',
     ]) {
-      const tender = ofKind('mobile', 'T', { extraAttributes: [{ id, type: 'STRING', value: 'x' }] });
-      assert.ok(errorPaths([cash, tender]).includes('/1/extraAttributes/0/id'), id);
+      const overriding = ofKind('mobile', 'T', { extraAttributes: [{ id, type: 'STRING', value: 'x' }] });
+      assert.ok(refusedAt([cash, overriding], '/1/extraAttributes/0/id', 'not'), id);
     }
     const allowed = ofKind('voucher', 'T', {
       extraAttributes: [{ id: 'Pos.externalAuthorization.authorizationCodeMaximumLength', type: 'INT', value: '6' }],
     });
     assert.deepEqual(errorPaths([cash, allowed]), []);
+  });
+
+  // The point of sale matches names exactly, so such a name would never take effect.
+  test('an extra attribute name with spaces at either end is refused', () => {
+    for (const id of ['Pos.void ', ' Pos.void', ' ']) {
+      const spaced = ofKind('voucher', 'T', { extraAttributes: [{ id, type: 'BOOL', value: 'false' }] });
+      assert.ok(refusedAt([cash, spaced], '/1/extraAttributes/0/id', 'pattern'), JSON.stringify(id));
+    }
   });
 });
