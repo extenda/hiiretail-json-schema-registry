@@ -23,7 +23,16 @@ const validate = addFormats(
   new Ajv2020({ strict: false, allErrors: true }),
 ).compile(schema);
 
-const tender = (id, type, extra = {}) => ({ id, name: id, type, ...extra });
+// The choices every tender must make; a test overrides them through extra.
+const chosen = { overpayment: 'EXACT_AMOUNT', cashDrawer: 'KEEP_CLOSED' };
+const tender = (id, type, extra = {}) => ({
+  id,
+  name: id,
+  type,
+  ...extra,
+  behavior: { ...chosen, ...extra.behavior },
+  ...(type.kind !== 'cash' && { refund: { refundsAllowed: 'YES', ...extra.refund } }),
+});
 const cash = tender('CASH', { kind: 'cash' });
 const lockAndBlock = { behavior: { lockTransaction: true, blockCancel: true } };
 
@@ -253,76 +262,64 @@ describe('che.tender.preview rounding', () => {
   });
 });
 
-describe('che.tender.preview type defaults', () => {
-  // The help texts list by hand the types of each type default group. Each
-  // pattern matches its type's name only, not a longer name that contains it.
-  const nameOf = {
-    cash: /(?<!currency )\bcash\b(?! changer)/,
-    foreignCurrency: /\bforeign currency\b/,
-    creditDebit: /(?<!gift )\bcards?\b/,
-    mobile: /\bmobile\b/,
-    electronicGiftCard: /\belectronic gift cards?\b/,
-    giftCertificate: /\bgift certificates?\b/,
-    voucher: /\bvouchers?\b/,
-    check: /(?<!WIC )\bchecks?\b/,
-    coupon: /(?<!manufacturer )\bcoupons?\b/,
-    manufacturerCoupon: /\bmanufacturer coupons?\b/,
-    loyaltyRedemption: /\bloyalty points\b/,
-    organizationCharge: /\borganization charge\b/,
-    houseAccount: /\bhouse accounts?\b/,
-    foodStamp: /\bfood stamps?\b/,
-    wicCheck: /\bWIC\b/,
+describe('che.tender.preview required choices', () => {
+  // Overpayment, cash drawer and refunds have no type default: every tender states them where they apply.
+  const without = (t, group, field) => {
+    const copy = structuredClone(t);
+    delete copy[group][field];
+    return copy;
   };
-  // A group names its kinds with enum, or with const for a single kind, as the form generator reads it.
-  const kindsOf = (name) => {
-    const { kind } = schema.$defs[name].properties.type.properties;
-    return kind.enum ?? [kind.const];
+  const missing = (list, path, field) => {
+    validate(list);
+    return (validate.errors ?? []).some(
+      (e) => e.instancePath === path && e.keyword === 'required' && e.params.missingProperty === field,
+    );
   };
-  const sentence = (text, start) => text.slice(text.indexOf(start)).split('. ')[0];
-  const standalonePhrase = /standalone [a-z ]+?(payments|cards)/g;
-  const { properties } = schema.items;
 
-  // The form generator reads exactly these groups; any other group would be
-  // read by nothing.
-  test('$defs holds only the groups the form generator reads', () => {
-    assert.deepEqual(Object.keys(schema.$defs).sort(), [
-      'connectionStandalone',
-      'kindForeignCurrency',
-      'kindGivesChangeByDefault',
-      'kindRefundsBlockedByDefault',
-    ]);
-  });
-
-  // Standalone mobile payments and gift cards are named by their connection,
-  // not their type, so the type names are checked without them.
-  for (const [field, group, start] of [
-    [properties.behavior.properties.overpayment, 'kindGivesChangeByDefault', 'Type default'],
-    [properties.change, 'kindGivesChangeByDefault', 'the type default gives change'],
-    [properties.refund.properties.refundsAllowed, 'kindRefundsBlockedByDefault', 'Type default'],
-  ]) {
-    test(`the help text of ${field.title} names exactly the types of $defs.${group}`, () => {
-      const listed = sentence(field.description, start).replace(standalonePhrase, '');
-      for (const kind of kinds) {
-        assert.equal(nameOf[kind].test(listed), kindsOf(group).includes(kind), kind);
-      }
+  for (const kind of kinds) {
+    test(`overpayment and cash drawer are required on ${kind}`, () => {
+      const t = ofKind(kind, 'T', { behavior: { defaultTender: 'NO' } });
+      assert.ok(missing([cash, without(t, 'behavior', 'overpayment')], '/1/behavior', 'overpayment'));
+      assert.ok(missing([cash, without(t, 'behavior', 'cashDrawer')], '/1/behavior', 'cashDrawer'));
     });
   }
 
-  // $defs.connectionStandalone applies to every type with a type.integration
-  // field; the refunds help text names each of them as standalone.
-  test('the refunds help text names every type with a standalone connection', () => {
-    const named = sentence(properties.refund.properties.refundsAllowed.description, 'Type default')
-      .match(standalonePhrase)
-      .join(' ');
-    const withIntegration = properties.type.oneOf
-      .filter((branch) => 'integration' in branch.properties)
-      .map((branch) => branch.properties.kind.const);
-    assert.deepEqual(withIntegration, ['mobile', 'electronicGiftCard']);
-    for (const kind of kinds) {
-      assert.equal(nameOf[kind].test(named), withIntegration.includes(kind), kind);
+  test('a tender without behavior is refused', () => {
+    const t = ofKind('voucher', 'T');
+    delete t.behavior;
+    assert.ok(missing([cash, t], '/1', 'behavior'));
+  });
+
+  test('no split payment needs no overpayment, because it takes the exact amount', () => {
+    const t = without(ofKind('voucher', 'T', { behavior: { exclusive: true } }), 'behavior', 'overpayment');
+    assert.deepEqual(errorPaths([cash, t]), []);
+  });
+
+  for (const kind of kinds.filter((k) => k !== 'cash')) {
+    test(`refunds are required on ${kind}`, () => {
+      const t = ofKind(kind, 'T', { behavior: { defaultTender: 'NO' } });
+      assert.ok(missing([cash, without(t, 'refund', 'refundsAllowed')], '/1/refund', 'refundsAllowed'));
+      const noRefund = structuredClone(t);
+      delete noRefund.refund;
+      assert.ok(missing([cash, noRefund], '/1', 'refund'));
+    });
+  }
+
+  test('cash needs no refunds choice, because it always refunds', () => {
+    assert.deepEqual(errorPaths([cash]), []);
+    assert.equal(cash.refund, undefined);
+  });
+
+  test('type default is no longer an option', () => {
+    const choices = [['behavior', 'overpayment'], ['behavior', 'cashDrawer'], ['refund', 'refundsAllowed']];
+    for (const [group, field] of choices) {
+      const t = ofKind('voucher', 'T', { [group]: { [field]: 'TYPE_DEFAULT' } });
+      assert.ok(errorPaths([cash, t]).includes(`/1/${group}/${field}`), field);
     }
-    const integration = schema.$defs.connectionStandalone.properties.type.properties.integration;
-    assert.equal(integration.const, 'STANDALONE');
+  });
+
+  test('$defs holds only the group the form generator reads', () => {
+    assert.deepEqual(Object.keys(schema.$defs), ['kindForeignCurrency']);
   });
 });
 

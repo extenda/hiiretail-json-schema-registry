@@ -3,8 +3,8 @@
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-config/che.tender.preview.json",
   "type": "array",
   "title": "Tenders (preview)",
-  "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. It is not delivered to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type, and every setting left empty uses the default for the type. The technical settings the point of sale needs, such as the payment service settings, provider codes and currency, are added automatically when the list is delivered to the stores. The 'id' identifies a tender and must be unique in the list.",
-  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Two foreign currency tenders may share a currency: the till lists both. Never rename an id: transactions, reports and ERP integrations reference it. Store Data derives the payment plugin from the type, with its authorization mode and providerId; no tender names a plugin, and extra attributes cannot set what Store Data derives. A plugin delivered for one customer is bound outside the tender, not by the retailer. Evolution: once che.tender.v3 is released, it only grows. Add optional fields, options and types; never tighten a rule or remove a value, because the CCC API validates the stored value against the current schema on every read, and a stricter rule makes stored tender lists unloadable. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. SCIENTIFIC rounds toward zero: the till rounds it down unless its installation sets /Tenders/Rounding/Scientific otherwise, and Store Data sends no direction. Item restrictions are not part of a tender: purchase constraints belong to Entity Conditions, or to a kind of their own if a tenant needs tender restrictions. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields defaultTender, overpayment, cashDrawer, refund.refundsAllowed, rounding.method, hardware, terminal, integration, provider and extraAttributes[].type, and every on/off field, refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads the type default groups in $defs to show change and refund settings only where they take effect.",
+  "description": "Preview of the new tender configuration, for trying out the form in the Config Portal. It is not delivered to the stores. Payment methods (tenders) accepted at the point of sale. Choose the tender type first. Every setting the point of sale supports is offered for every type. 'Overpayment', 'Refunds' and 'Cash Drawer' must be chosen; every other setting left empty uses its default. The technical settings the point of sale needs, such as the payment service settings, provider codes and currency, are added automatically when the list is delivered to the stores. The 'id' identifies a tender and must be unique in the list.",
+  "$comment": "Preview kind for the Config Portal only: Store Data does not subscribe to it, so nothing reaches a till. The content is the planned che.tender.v3, which is created once this schema is stable; the mapping described here applies to that kind. Read by Store Data (Store Data Resolver and Store Data Connector), which maps each tender to the tender message for ER POS and the Checkout Engine. Scope: every combination the Checkout Engine supports can be configured. A combination is refused only when it breaks the till: an exception, a sale that cannot be completed or cancelled, or change that cannot be paid. Rules a JSON Schema cannot express must be checked by Store Data before delivery: a minimum is not above its maximum; the change tender exists in the list, is enabled, is not loyalty points, allows refunds and has no minimum refund and no minimum per entry, because change is paid as a refund line on it and is otherwise never paid (loyalty points need a loyalty customer on the sale); a default cash tender exists (an enabled cash drawer tender not set to No); the currency matches the business unit; a rounding unit is a multiple of the smallest unit of the currency it rounds, because a finer unit gives amounts the payment plugins and the till cannot pay; the own currency suits the payment plugin: two decimals for a cash changer, at most two decimals for integrated mobile payment, SEK for Swish. Two foreign currency tenders may share a currency: the till lists both. overpayment (unless behavior.exclusive is on), cashDrawer and, except for cash, refund.refundsAllowed have no type default and must be chosen, so every tender states them; Store Data maps them as written. Never rename an id: transactions, reports and ERP integrations reference it. Store Data derives the payment plugin from the type, with its authorization mode and providerId; no tender names a plugin, and extra attributes cannot set what Store Data derives. A plugin delivered for one customer is bound outside the tender, not by the retailer. Evolution: once che.tender.v3 is released, it only grows. Add optional fields, options and types; never tighten a rule or remove a value, because the CCC API validates the stored value against the current schema on every read, and a stricter rule makes stored tender lists unloadable. The few settings without meaning for a tender are ignored, not rejected, because the Config Portal keeps hidden values: currency on every type except foreign currency (the Checkout Engine converts only foreign currency), provider on standalone mobile payments, change settings when the tender gives no change, a threshold without a change tender, a rounding unit with no rounding, and on cash blocked refunds and minimum amounts, because change on cash is paid as a cash refund. A cash changer tender always gets payRemainingAmount on, because the machine needs the full amount due. SCIENTIFIC rounds toward zero: the till rounds it down unless its installation sets /Tenders/Rounding/Scientific otherwise, and Store Data sends no direction. Item restrictions are not part of a tender: purchase constraints belong to Entity Conditions, or to a kind of their own if a tenant needs tender restrictions. Optional text fields accept null as empty, because CCC stores the null the portal writes for a removed field. Amounts and the rounding unit are plain numbers, because the Config Portal renders a number input only for type \"number\"; the choice fields defaultTender, overpayment, cashDrawer, refund.refundsAllowed, rounding.method, hardware, terminal, integration, provider and extraAttributes[].type, and every on/off field, refuse null too. Clearing a saved amount or one of those choices is therefore refused until the portal deletes a cleared field instead of writing null; choosing the default option works where the field has one. change.tenderId accepts null, which means change in the default cash tender. The Config Portal form (ui-schema/che.tender.preview.json in hiiretail-config-portal-ui-schema-config) is generated from this schema by tools/che.tender.preview/build_ui.py in that repository, which reads $defs.kindForeignCurrency to show the currency field only for foreign currency.",
   "x-primary-key": "id",
   "enforceArrayItemUniquenessById": true,
   "items": {
@@ -13,7 +13,8 @@
     "required": [
       "id",
       "type",
-      "name"
+      "name",
+      "behavior"
     ],
     "additionalProperties": false,
     "properties": {
@@ -438,7 +439,7 @@
       "behavior": {
         "type": "object",
         "title": "At the Till",
-        "description": "How the till handles this tender. Every setting is optional: a setting left empty uses the default for the tender type.",
+        "description": "How the till handles this tender. 'Overpayment' and 'Cash Drawer' must be chosen; every other setting is optional and left empty uses its default.",
         "additionalProperties": false,
         "properties": {
           "defaultTender": {
@@ -463,12 +464,8 @@
           "overpayment": {
             "type": "string",
             "title": "Overpayment",
-            "description": "Whether the customer can pay more than the amount due with this tender, and whether the difference is given back as change. Type default: allowed with change for cash, foreign currency, gift certificates, vouchers and checks; exact amount for every other type. 'Allowed, no change' keeps the overpaid amount, for example a voucher worth more than the purchase; the cashier confirms before the sale completes. Change goes to the store's default cash tender or to the change tender on the Change tab.",
+            "description": "Whether the customer can pay more than the amount due with this tender, and whether the difference is given back as change. Required, except with 'No Split Payment', which always takes the exact amount. Usual choice: 'Allowed, give change' for cash, foreign currency, gift certificates, vouchers and checks, and 'Exact amount only' for the other types. 'Allowed, no change' keeps the overpaid amount, for example a voucher worth more than the purchase; the cashier confirms before the sale completes. Change goes to the store's default cash tender or to the change tender on the Change tab.",
             "oneOf": [
-              {
-                "const": "TYPE_DEFAULT",
-                "title": "Type default"
-              },
               {
                 "const": "EXACT_AMOUNT",
                 "title": "Exact amount only"
@@ -516,12 +513,8 @@
           "cashDrawer": {
             "type": "string",
             "title": "Cash Drawer",
-            "description": "Whether the cash drawer opens when a sale paid with this tender is completed. Type default: opens for cash, foreign currency, gift certificates, vouchers, checks, coupons and manufacturer coupons, which go into the drawer, and stays closed for every other type. Choose 'Open the drawer' for paper food stamps and WIC checks; electronic benefit cards need no drawer. Change given in cash always opens the drawer.",
+            "description": "Whether the cash drawer opens when a sale paid with this tender is completed. Required. Usual choice: open for cash, foreign currency, gift certificates, vouchers, checks, coupons and manufacturer coupons, which go into the drawer, and closed for the other types. Choose 'Open the drawer' for paper food stamps and WIC checks; electronic benefit cards need no drawer. Change given in cash always opens the drawer.",
             "oneOf": [
-              {
-                "const": "TYPE_DEFAULT",
-                "title": "Type default"
-              },
               {
                 "const": "OPEN",
                 "title": "Open the drawer"
@@ -532,12 +525,30 @@
               }
             ]
           }
+        },
+        "required": [
+          "cashDrawer"
+        ],
+        "if": {
+          "required": [
+            "exclusive"
+          ],
+          "properties": {
+            "exclusive": {
+              "const": true
+            }
+          }
+        },
+        "else": {
+          "required": [
+            "overpayment"
+          ]
         }
       },
       "change": {
         "type": "object",
         "title": "Change",
-        "description": "Where change goes when the customer pays more than the amount due. Every setting here is optional: leave them empty to give all change in cash, in the store's default cash tender. Used only when 'Overpayment' gives change; the type default gives change for cash, foreign currency, gift certificates, vouchers and checks.",
+        "description": "Where change goes when the customer pays more than the amount due. Every setting here is optional: leave them empty to give all change in cash, in the store's default cash tender. Used only when 'Overpayment' is 'Allowed, give change'.",
         "additionalProperties": false,
         "properties": {
           "tenderId": {
@@ -566,18 +577,14 @@
       "refund": {
         "type": "object",
         "title": "Refunds",
-        "description": "Whether money can go back to the customer with this tender, and the limits for it. Leave empty for the type default.",
+        "description": "Whether money can go back to the customer with this tender, and the limits for it. 'Refunds' must be chosen, except for cash.",
         "additionalProperties": false,
         "properties": {
           "refundsAllowed": {
             "type": "string",
             "title": "Refunds",
-            "description": "Whether this tender can be used when money goes back to the customer. Type default: allowed, except for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points, standalone mobile payments and standalone electronic gift cards. Cash always allows refunds, because change is paid out as a cash refund; the setting is ignored for cash. A loyalty points refund needs a loyalty customer on the sale.",
+            "description": "Whether this tender can be used when money goes back to the customer. Required, except for cash, which always allows refunds because change is paid out as a cash refund. Usual choice: blocked for checks, coupons, manufacturer coupons, food stamps, WIC checks, loyalty points, and standalone mobile payments and electronic gift cards, where nothing checks the payment; allowed for the other types. A loyalty points refund needs a loyalty customer on the sale.",
             "oneOf": [
-              {
-                "const": "TYPE_DEFAULT",
-                "title": "Type default"
-              },
               {
                 "const": "YES",
                 "title": "Allowed"
@@ -929,6 +936,42 @@
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      {
+        "$comment": "Every type except cash chooses whether it refunds; cash always refunds, because change is a cash refund.",
+        "if": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "cash"
+                }
+              }
+            }
+          }
+        },
+        "else": {
+          "type": "object",
+          "required": [
+            "refund"
+          ],
+          "properties": {
+            "refund": {
+              "type": "object",
+              "required": [
+                "refundsAllowed"
+              ]
             }
           }
         }
@@ -3705,79 +3748,6 @@
           "properties": {
             "kind": {
               "const": "foreignCurrency"
-            }
-          }
-        }
-      }
-    },
-    "kindGivesChangeByDefault": {
-      "$comment": "Types whose type default for behavior.overpayment is WITH_CHANGE; every other type defaults to EXACT_AMOUNT. Read by the Store Data mapping and by the form generator; the overpayment help text names the same types.",
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "enum": [
-                "cash",
-                "foreignCurrency",
-                "giftCertificate",
-                "voucher",
-                "check"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "kindRefundsBlockedByDefault": {
-      "$comment": "Types whose type default for refund.refundsAllowed is NO; a tender with a standalone connection ($defs.connectionStandalone) defaults to NO too, and every other tender to YES. Read by the Store Data mapping and by the form generator; the refunds help text names the same types.",
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "kind"
-          ],
-          "properties": {
-            "kind": {
-              "enum": [
-                "check",
-                "coupon",
-                "manufacturerCoupon",
-                "foodStamp",
-                "wicCheck",
-                "loyaltyRedemption"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "connectionStandalone": {
-      "$comment": "A tender whose type.integration is standalone, which exists for mobile payments and electronic gift cards. Its type default for refund.refundsAllowed is NO, because nothing checks the payment. Read by the Store Data mapping and by the form generator.",
-      "type": "object",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "object",
-          "required": [
-            "integration"
-          ],
-          "properties": {
-            "integration": {
-              "const": "STANDALONE"
             }
           }
         }
