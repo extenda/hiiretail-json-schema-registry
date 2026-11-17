@@ -42,27 +42,14 @@ const currencyOf = { foreignCurrency: 'EUR' };
 const ofKind = (kind, id, extra = {}) =>
   tender(id, { kind, ...typeOf[kind] }, { ...(currencyOf[kind] && { currency: currencyOf[kind] }), ...extra });
 
-describe('che.tender.preview lock and block cancelling', () => {
-  // Together they leave a sale stuck: no items, no suspend, no void of the
-  // tender line and no cancel, so the cashier can only pay it in full.
+describe('che.tender.preview lock and block removing the payment', () => {
+  // Together they lock the register until the sale is paid in full, which is a valid setup.
   for (const kind of kinds) {
-    test(`refused on ${kind}`, () => {
-      const list = [cash, ofKind(kind, 'T', lockAndBlock)];
-      assert.ok(errorPaths(list).includes('/1/behavior/blockCancel'));
+    test(`accepted together on ${kind}`, () => {
+      const list = [cash, ofKind(kind, 'T', { behavior: { defaultTender: 'NO', ...lockAndBlock.behavior } })];
+      assert.deepEqual(errorPaths(list), []);
     });
   }
-
-  test('refused on a disabled tender', () => {
-    const list = [cash, ofKind('voucher', 'T', { disabled: true, ...lockAndBlock })];
-    assert.ok(errorPaths(list).includes('/1/behavior/blockCancel'));
-  });
-
-  test('each setting alone is accepted', () => {
-    for (const behavior of [{ lockTransaction: true }, { blockCancel: true }]) {
-      const list = [cash, ofKind('creditDebit', 'T', { behavior })];
-      assert.deepEqual(errorPaths(list), [], JSON.stringify(behavior));
-    }
-  });
 });
 
 describe('che.tender.preview default tender rules', () => {

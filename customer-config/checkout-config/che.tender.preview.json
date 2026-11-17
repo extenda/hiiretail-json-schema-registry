@@ -463,7 +463,7 @@
           "overpayment": {
             "type": "string",
             "title": "Overpayment",
-            "description": "Whether the customer can pay more than the amount due with this tender, and whether the difference is given back as change. Type default: allowed with change for cash, foreign currency, gift certificates, vouchers and checks; exact amount for every other type. 'Allowed, no change' keeps the overpaid amount, for example a voucher worth more than the purchase; the cashier confirms before the sale completes. Change goes to the store's default cash tender or to the alternate change tender on the Change tab.",
+            "description": "Whether the customer can pay more than the amount due with this tender, and whether the difference is given back as change. Type default: allowed with change for cash, foreign currency, gift certificates, vouchers and checks; exact amount for every other type. 'Allowed, no change' keeps the overpaid amount, for example a voucher worth more than the purchase; the cashier confirms before the sale completes. Change goes to the store's default cash tender or to the change tender on the Change tab.",
             "oneOf": [
               {
                 "const": "TYPE_DEFAULT",
@@ -493,13 +493,13 @@
             "type": "boolean",
             "default": false,
             "title": "Lock Sale After Payment Entry",
-            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the tender line voided, or the sale cancelled. It cannot be on together with 'Block Cancelling the Sale': the sale would then be stuck until it is paid in full."
+            "description": "When on, no items can be added, changed or discounted once this tender is entered, and the sale cannot be suspended. The sale can still be completed, the payment removed, or the sale cancelled. Together with 'Block Removing the Payment', the sale can only be finished by paying it in full, even when the customer cannot pay."
           },
           "blockCancel": {
             "type": "boolean",
             "default": false,
-            "title": "Block Cancelling the Sale",
-            "description": "When on, a sale that contains this tender cannot be cancelled and the tender line cannot be voided; the sale can only be completed, or suspended with a manager override. It cannot be on together with 'Lock Sale After Payment Entry'."
+            "title": "Block Removing the Payment",
+            "description": "When on, a payment with this tender cannot be removed from the sale once entered, so the sale cannot be cancelled either. The sale can only be completed, or suspended with a manager override. Together with 'Lock Sale After Payment Entry', the sale can only be finished by paying it in full."
           },
           "payRemainingAmount": {
             "type": "boolean",
@@ -537,7 +537,7 @@
       "change": {
         "type": "object",
         "title": "Change",
-        "description": "Where change goes when the customer pays more than the amount due. Leave empty to give all change in the store's default cash tender. Used only when 'Overpayment' gives change; the type default gives change for cash, foreign currency, gift certificates, vouchers and checks.",
+        "description": "Where change goes when the customer pays more than the amount due. Every setting here is optional: leave them empty to give all change in cash, in the store's default cash tender. Used only when 'Overpayment' gives change; the type default gives change for cash, foreign currency, gift certificates, vouchers and checks.",
         "additionalProperties": false,
         "properties": {
           "tenderId": {
@@ -546,20 +546,20 @@
               "null"
             ],
             "pattern": "^[A-Z0-9_-]{1,4}$",
-            "title": "Alternate Change Tender",
-            "description": "Id of the tender that pays change instead of cash, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled tender in this list, not loyalty points, that allows refunds and has no minimum refund and no minimum per entry: change is paid as a refund with that tender, and the sale cannot complete if the refund is refused. With an integrated card, mobile payment or electronic gift card, the payment provider must accept a refund without an original payment."
+            "title": "Change Tender (optional)",
+            "description": "Leave empty to give change in cash, in the store's default cash tender. Otherwise, the tender that pays change instead, for example a gift certificate that issues the remainder as a new certificate. It may be this tender itself. It must be an enabled tender in this list, not loyalty points, that allows refunds and has no minimum refund and no minimum per entry: change is paid as a refund with that tender, and the sale cannot complete if the refund is refused. With an integrated card, mobile payment or electronic gift card, the payment provider must accept a refund without an original payment."
           },
           "threshold": {
             "type": "number",
             "exclusiveMinimum": 0,
-            "title": "Use Alternate Above",
-            "description": "Change above this amount goes to the alternate change tender; this amount or less is given in cash. Leave empty to send all change to the alternate change tender. Ignored without an alternate change tender."
+            "title": "Change Tender Threshold",
+            "description": "Change above this amount goes to the change tender; this amount or less is given in cash. Leave empty to give all change in the change tender. Ignored without a change tender."
           },
           "autoCompleteLimit": {
             "type": "number",
             "exclusiveMinimum": 0,
-            "title": "Complete Change Automatically Below",
-            "description": "Change below this amount is given automatically. Change of this amount or more must be handled by the cashier before the sale completes. Leave empty to always give change automatically."
+            "title": "Automatic Change Limit",
+            "description": "Change below this amount is given automatically. From this amount up, the cashier must handle the change before the sale completes. Leave empty to always give change automatically."
           }
         }
       },
@@ -927,41 +927,6 @@
                   "not": {
                     "const": "YES"
                   }
-                }
-              }
-            }
-          }
-        }
-      },
-      {
-        "$comment": "Lock and block cancelling together leave a sale stuck: no items, no suspend, no void of the tender line and no cancel. Disabled tenders are checked too, like every other per-tender rule, so the error shows where the two settings are saved and not later when the tender is enabled.",
-        "if": {
-          "type": "object",
-          "required": [
-            "behavior"
-          ],
-          "properties": {
-            "behavior": {
-              "type": "object",
-              "required": [
-                "lockTransaction"
-              ],
-              "properties": {
-                "lockTransaction": {
-                  "const": true
-                }
-              }
-            }
-          }
-        },
-        "then": {
-          "type": "object",
-          "properties": {
-            "behavior": {
-              "type": "object",
-              "properties": {
-                "blockCancel": {
-                  "const": false
                 }
               }
             }
