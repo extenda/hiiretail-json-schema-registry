@@ -1733,6 +1733,16 @@
           "type": "object",
           "$ref": "#/$defs/ScoBagsType"
         },
+        "itemDetails": {
+          "type": "object",
+          "description": "Settings for the item details view in SCO mode.",
+          "properties": {
+            "voidItemEnabled": {
+              "type": "boolean",
+              "description": "Shows the 'Remove from receipt' button in the item details panel."
+            }
+          }
+        },
         "language": {
           "description": "Language settings in SCO mode.",
           "type": "object",
