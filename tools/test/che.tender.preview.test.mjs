@@ -305,6 +305,27 @@ describe('che.tender.preview required choices', () => {
     });
   }
 
+  test('no split payment off still needs overpayment, and cash drawer is needed either way', () => {
+    for (const exclusive of [false, null]) {
+      const t = without(ofKind('voucher', 'T', { behavior: { exclusive } }), 'behavior', 'overpayment');
+      assert.ok(missing([cash, t], '/1/behavior', 'overpayment'), String(exclusive));
+    }
+    const t = without(ofKind('voucher', 'T', { behavior: { exclusive: true } }), 'behavior', 'cashDrawer');
+    assert.ok(missing([cash, t], '/1/behavior', 'cashDrawer'));
+  });
+
+  // Disabled tenders are checked like every other per-tender rule, so the error shows where the tender is saved.
+  test('a disabled tender makes the choices too', () => {
+    const t = without(ofKind('voucher', 'T', { disabled: true }), 'behavior', 'overpayment');
+    assert.ok(missing([cash, t], '/1/behavior', 'overpayment'));
+  });
+
+  // The form hides 'Refunds' on cash but saves the refund limits it shows there.
+  test('cash with refund limits needs no refunds choice', () => {
+    const limited = tender('CASH', { kind: 'cash' }, { refund: { maxAmount: 50, skipAmountPrompt: true } });
+    assert.deepEqual(errorPaths([limited]), []);
+  });
+
   test('cash needs no refunds choice, because it always refunds', () => {
     assert.deepEqual(errorPaths([cash]), []);
     assert.equal(cash.refund, undefined);
