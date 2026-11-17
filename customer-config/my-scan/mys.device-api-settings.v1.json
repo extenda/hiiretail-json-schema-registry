@@ -39,7 +39,7 @@
       "type": "integer",
       "default": 30,
       "minimum": 1,
-      "maximum": 120,
+      "maximum": 300,
       "description": "Maximum time (in minutes) since a handheld scanner last sent a status report for it to be released. A scanner that has not reported within this time is not ready for release. The default is set to 30 minutes."
     },
     "concurrentHhsCountExpiry": {
