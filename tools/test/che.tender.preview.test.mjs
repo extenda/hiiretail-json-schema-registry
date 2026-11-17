@@ -23,7 +23,16 @@ const validate = addFormats(
   new Ajv2020({ strict: false, allErrors: true }),
 ).compile(schema);
 
-const tender = (id, type, extra = {}) => ({ id, name: id, type, ...extra });
+// The choices every tender must make; a test overrides them through extra.
+const chosen = { overpayment: 'EXACT_AMOUNT', cashDrawer: 'KEEP_CLOSED' };
+const tender = (id, type, extra = {}) => ({
+  id,
+  name: id,
+  type,
+  ...extra,
+  behavior: { ...chosen, ...extra.behavior },
+  ...(type.kind !== 'cash' && { refund: { refundsAllowed: 'YES', ...extra.refund } }),
+});
 const cash = tender('CASH', { kind: 'cash' });
 const lockAndBlock = { behavior: { lockTransaction: true, blockCancel: true } };
 
@@ -32,72 +41,45 @@ const errorPaths = (list) => {
   return (validate.errors ?? []).map((e) => e.instancePath);
 };
 
-describe('che.tender.preview lock and block cancelling', () => {
-  // Together they leave a sale stuck: no items, no suspend, no void of the
-  // tender line and no cancel, so the cashier can only pay it in full.
-  for (const [name, type, extra] of [
-    ['voucher', { kind: 'voucher' }, {}],
-    ['manufacturer coupon', { kind: 'manufacturerCoupon' }, {}],
-    ['organization charge without credit check', { kind: 'organizationCharge' }, {}],
-    ['disabled voucher', { kind: 'voucher' }, { disabled: true }],
-  ]) {
-    test(`refused on a ${name}`, () => {
-      const list = [cash, tender('T', type, { ...extra, ...lockAndBlock })];
-      assert.ok(errorPaths(list).includes('/1/behavior/blockCancel'));
-    });
-  }
+// Whether the list is refused at this path for this keyword, with these error params.
+const refusedAt = (list, instancePath, keyword, params = {}) => {
+  validate(list);
+  return (validate.errors ?? []).some((e) => e.instancePath === instancePath && e.keyword === keyword
+    && Object.entries(params).every(([name, value]) => e.params[name] === value));
+};
 
-  // Block cancelling is ignored on these types, so the combination is harmless.
-  for (const [name, type, extra] of [
-    ['foreign currency', { kind: 'foreignCurrency' }, { currency: 'EUR' }],
-    ['card', { kind: 'creditDebit', terminal: 'STANDALONE' }, {}],
-    ['credit-checked organization charge', { kind: 'organizationCharge', creditCheck: true }, {}],
-  ]) {
-    test(`accepted on ${name}`, () => {
-      const list = [cash, tender('T', type, { ...extra, ...lockAndBlock })];
+// One valid tender of each type.
+const kinds = schema.items.properties.type.oneOf.map((branch) => branch.properties.kind.const);
+const typeOf = {
+  creditDebit: { terminal: 'STANDALONE' },
+  mobile: { integration: 'INTEGRATED', provider: 'SWISH' },
+};
+const currencyOf = { foreignCurrency: 'EUR' };
+const ofKind = (kind, id, extra = {}) =>
+  tender(id, { kind, ...typeOf[kind] }, { ...(currencyOf[kind] && { currency: currencyOf[kind] }), ...extra });
+
+describe('che.tender.preview lock and block removing the payment', () => {
+  // Together they lock the register until the sale is paid in full, which is a valid setup.
+  for (const kind of kinds) {
+    test(`accepted together on ${kind}`, () => {
+      const list = [cash, ofKind(kind, 'T', { behavior: { defaultTender: 'NO', ...lockAndBlock.behavior } })];
       assert.deepEqual(errorPaths(list), []);
     });
   }
-
-  test('each setting alone is accepted on a voucher', () => {
-    for (const behavior of [{ lockTransaction: true }, { blockCancel: true }]) {
-      const list = [cash, tender('VO', { kind: 'voucher' }, { behavior })];
-      assert.deepEqual(errorPaths(list), [], JSON.stringify(behavior));
-    }
-  });
-
-  test('applies to the same types as $defs.kindCancelBlockable', () => {
-    const rule = schema.items.allOf.find((r) =>
-      r.$comment?.startsWith('Lock and block cancelling'),
-    );
-    assert.deepEqual(
-      rule.if.allOf[0].properties.type.properties.kind.enum,
-      schema.$defs.kindCancelBlockable.properties.type.properties.kind.enum,
-    );
-  });
 });
 
 describe('che.tender.preview default tender rules', () => {
-  const kinds = schema.items.properties.type.oneOf.map(
-    (branch) => branch.properties.kind.const,
-  );
-
   // A valid tender of each type; the foreign currency tenders A and B get distinct currencies.
-  const currencyOf = { A: 'EUR', B: 'NOK' };
-  const typeOf = {
-    creditDebit: { terminal: 'STANDALONE' },
-    mobile: { integration: 'INTEGRATED', provider: 'SWISH' },
-  };
-  const extraOf = {
-    foreignCurrency: (id) => ({ currency: currencyOf[id] }),
-    foodStamp: () => ({ restrictionRuleId: 'FOOD' }),
-    wicCheck: () => ({ restrictionRuleId: 'WIC' }),
-  };
-  const ofKind = (kind, id, behavior, extra = {}) =>
+  const currencyOfId = { A: 'EUR', B: 'NOK' };
+  const candidate = (kind, id, behavior, extra = {}) =>
     tender(
       id,
       { kind, ...typeOf[kind] },
-      { ...extraOf[kind]?.(id), ...extra, ...(behavior && { behavior }) },
+      {
+        ...(kind === 'foreignCurrency' && { currency: currencyOfId[id] }),
+        ...extra,
+        ...(behavior && { behavior }),
+      },
     );
   // Every list needs its default cash tender; for cash, the tenders under test are it.
   const listOf = (kind, ...tenders) =>
@@ -115,22 +97,22 @@ describe('che.tender.preview default tender rules', () => {
   for (const kind of kinds) {
     describe(kind, () => {
       test('one set to Yes next to an Automatic one is accepted', () => {
-        const list = listOf(kind, ofKind(kind, 'A', { defaultTender: 'YES' }), ofKind(kind, 'B'));
+        const list = listOf(kind, candidate(kind, 'A', { defaultTender: 'YES' }), candidate(kind, 'B'));
         assert.deepEqual(errorPaths(list), []);
       });
 
       test('two set to Yes are refused', () => {
         const yes = { defaultTender: 'YES' };
-        assert.ok(refusedOnTheList(listOf(kind, ofKind(kind, 'A', yes), ofKind(kind, 'B', yes))));
+        assert.ok(refusedOnTheList(listOf(kind, candidate(kind, 'A', yes), candidate(kind, 'B', yes))));
       });
 
       test('a disabled or No tender does not count', () => {
         for (const [first, second] of [
-          [undefined, ofKind(kind, 'B', undefined, { disabled: true })],
-          [undefined, ofKind(kind, 'B', { defaultTender: 'NO' })],
-          [{ defaultTender: 'YES' }, ofKind(kind, 'B', { defaultTender: 'YES' }, { disabled: true })],
+          [undefined, candidate(kind, 'B', undefined, { disabled: true })],
+          [undefined, candidate(kind, 'B', { defaultTender: 'NO' })],
+          [{ defaultTender: 'YES' }, candidate(kind, 'B', { defaultTender: 'YES' }, { disabled: true })],
         ]) {
-          const list = listOf(kind, ofKind(kind, 'A', first), second);
+          const list = listOf(kind, candidate(kind, 'A', first), second);
           assert.deepEqual(errorPaths(list), [], JSON.stringify(second));
         }
       });
@@ -138,14 +120,14 @@ describe('che.tender.preview default tender rules', () => {
       // A Yes that is disabled, or on another type, does not settle the default.
       if (kind !== 'foreignCurrency') {
         test('two Automatic ones next to a disabled Yes are refused', () => {
-          const disabledYes = ofKind(kind, 'C', { defaultTender: 'YES' }, { disabled: true });
-          assert.ok(refusedOnTheList(listOf(kind, ofKind(kind, 'A'), ofKind(kind, 'B'), disabledYes)));
+          const disabledYes = candidate(kind, 'C', { defaultTender: 'YES' }, { disabled: true });
+          assert.ok(refusedOnTheList(listOf(kind, candidate(kind, 'A'), candidate(kind, 'B'), disabledYes)));
         });
 
         test('two Automatic ones next to a Yes of another type are refused', () => {
           const other = kind === 'voucher' ? 'giftCertificate' : 'voucher';
-          const otherYes = ofKind(other, 'C', { defaultTender: 'YES' });
-          assert.ok(refusedOnTheList(listOf(kind, ofKind(kind, 'A'), ofKind(kind, 'B'), otherYes)));
+          const otherYes = candidate(other, 'C', { defaultTender: 'YES' });
+          assert.ok(refusedOnTheList(listOf(kind, candidate(kind, 'A'), candidate(kind, 'B'), otherYes)));
         });
       }
 
@@ -156,7 +138,7 @@ describe('che.tender.preview default tender rules', () => {
           ? 'two Automatic ones are accepted'
           : 'two Automatic ones are refused',
         () => {
-          const list = listOf(kind, ofKind(kind, 'A'), ofKind(kind, 'B'));
+          const list = listOf(kind, candidate(kind, 'A'), candidate(kind, 'B'));
           if (kind === 'foreignCurrency') {
             assert.deepEqual(errorPaths(list), []);
           } else {
@@ -199,70 +181,210 @@ describe('che.tender.preview default tender rules', () => {
   });
 });
 
-describe('che.tender.preview pay remaining amount', () => {
-  const offered = schema.$defs.kindPayRemaining.properties.type.properties.kind.enum;
-  const { description } = schema.items.properties.behavior.properties.payRemainingAmount;
-  const ignoredSentence = description.slice(description.indexOf('Ignored for'));
+describe('che.tender.preview engine scope', () => {
+  // Every combination the Checkout Engine supports can be configured; only
+  // combinations that break the till are refused.
+  const everySetting = {
+    behavior: {
+      defaultTender: 'NO',
+      overpayment: 'WITHOUT_CHANGE',
+      blockCancel: true,
+      payRemainingAmount: true,
+      prefillAmount: true,
+      exclusive: false,
+      cashDrawer: 'OPEN',
+    },
+    change: { tenderId: 'CASH', threshold: 10, autoCompleteLimit: 500 },
+    refund: { refundsAllowed: 'YES', skipAmountPrompt: true, maxAmount: 100, minAmount: 1 },
+    limits: { maxPerSale: 1000, maxPerEntry: 500, minPerEntry: 1 },
+    rounding: { method: 'SCIENTIFIC', precision: 0.02 },
+  };
 
-  // With auto tender on, the Checkout Engine accepts only the exact converted
-  // amount on foreign currency, so the customer could get no change.
-  test('is not offered on foreign currency', () => {
-    assert.ok(!offered.includes('foreignCurrency'));
+  for (const kind of kinds) {
+    test(`every setting is accepted on ${kind}`, () => {
+      assert.deepEqual(errorPaths([cash, ofKind(kind, 'T', everySetting)]), []);
+    });
+  }
+
+  test('a card can be the change tender of a voucher', () => {
+    const voucher = ofKind('voucher', 'VO', {
+      behavior: { overpayment: 'WITH_CHANGE' },
+      change: { tenderId: 'CARD' },
+    });
+    const card = tender('CARD', { kind: 'creditDebit', terminal: 'INTEGRATED_CLOUD' });
+    assert.deepEqual(errorPaths([cash, voucher, card]), []);
   });
 
-  // The help text lists by hand the types that do not offer it. Each pattern
-  // matches its type's name only, not a longer name that contains it.
-  test('the help text names exactly the types that do not offer it', () => {
-    const nameOf = {
-      cash: /(?<!currency )\bcash\b(?! changer)/,
-      foreignCurrency: /\bforeign currency\b/,
-      creditDebit: /(?<!gift )\bcards?\b/,
-      mobile: /\bmobile\b/,
-      electronicGiftCard: /\belectronic gift cards?\b/,
-      giftCertificate: /\bgift certificates?\b/,
-      voucher: /\bvouchers?\b/,
-      check: /(?<!WIC )\bchecks?\b/,
-      coupon: /(?<!manufacturer )\bcoupons?\b/,
-      manufacturerCoupon: /\bmanufacturer coupons?\b/,
-      loyaltyRedemption: /\bloyalty points\b/,
-      organizationCharge: /\borganization charge\b/,
-      houseAccount: /\bhouse accounts?\b/,
-      foodStamp: /\bfood stamps?\b/,
-      wicCheck: /\bWIC\b/,
-    };
-    for (const kind of schema.items.properties.type.oneOf.map(
-      (branch) => branch.properties.kind.const,
-    )) {
-      assert.equal(
-        nameOf[kind].test(ignoredSentence),
-        !offered.includes(kind),
-        kind,
-      );
+  test('food stamp and WIC tenders need no item restriction', () => {
+    assert.deepEqual(errorPaths([cash, ofKind('foodStamp', 'FS'), ofKind('wicCheck', 'WIC')]), []);
+  });
+
+  // Purchase constraints belong to Entity Conditions, not to the tender.
+  test('a tender has no item restriction', () => {
+    const restricted = ofKind('foodStamp', 'FS', { restrictionRuleId: 'FOOD' });
+    assert.ok(refusedAt([cash, restricted], '/1', 'additionalProperties', { additionalProperty: 'restrictionRuleId' }));
+  });
+
+  test('an electronic gift card can be standalone', () => {
+    const standalone = tender('EGC', { kind: 'electronicGiftCard', integration: 'STANDALONE' });
+    assert.deepEqual(errorPaths([cash, standalone]), []);
+    const unknown = tender('EGC', { kind: 'electronicGiftCard', integration: 'CLOUD' });
+    assert.ok(refusedAt([cash, unknown], '/1/type/integration', 'oneOf'));
+  });
+
+  test('unknown overpayment and refund choices are refused', () => {
+    const maybe = ofKind('voucher', 'VO', { behavior: { overpayment: 'MAYBE' } });
+    assert.ok(refusedAt([cash, maybe], '/1/behavior/overpayment', 'oneOf'));
+    const yes = ofKind('voucher', 'VO', { refund: { refundsAllowed: true } });
+    assert.ok(refusedAt([cash, yes], '/1/refund/refundsAllowed', 'oneOf'));
+  });
+
+  // 'Exact Amount Only' and 'Block Refunds' were replaced by the two choices above.
+  test('the replaced fields are refused', () => {
+    for (const [group, field] of [['behavior', 'exactAmountOnly'], ['refund', 'blockRefunds']]) {
+      const replaced = ofKind('voucher', 'VO', { [group]: { [field]: true } });
+      assert.ok(refusedAt([cash, replaced], `/1/${group}`, 'additionalProperties', { additionalProperty: field }), field);
     }
-  });
-
-  // Settings that do not apply are ignored, not rejected: the portal keeps
-  // hidden values, so a tender saved before the field was hidden stays valid.
-  test('a foreign currency tender saved with it on stays valid', () => {
-    const euro = tender(
-      'EUR',
-      { kind: 'foreignCurrency' },
-      { currency: 'EUR', behavior: { payRemainingAmount: true } },
-    );
-    assert.deepEqual(errorPaths([cash, euro]), []);
   });
 });
 
 describe('che.tender.preview rounding', () => {
-  // The rule that requires a rounding unit repeats $defs.kindCashLike, which
-  // the form uses to show the Rounding tab.
-  test('applies to the same types as $defs.kindCashLike', () => {
-    const rule = schema.items.allOf.find((r) =>
-      r.$comment?.startsWith('A rounding method needs a rounding unit'),
+  for (const method of ['MATHEMATICAL', 'ROUND_HALF_DOWN', 'SCIENTIFIC']) {
+    test(`${method} needs a rounding unit, on any type`, () => {
+      for (const kind of ['voucher', 'creditDebit']) {
+        const list = [cash, ofKind(kind, 'T', { rounding: { method } })];
+        assert.ok(errorPaths(list).includes('/1/rounding'), kind);
+      }
+    });
+  }
+
+  test('no rounding needs no unit', () => {
+    assert.deepEqual(errorPaths([cash, ofKind('voucher', 'T', { rounding: { method: 'NO_ROUNDING' } })]), []);
+  });
+
+  test('any unit above zero is accepted, zero is refused', () => {
+    for (const precision of [0.01, 0.02, 0.2, 100]) {
+      const list = [cash, ofKind('voucher', 'T', { rounding: { method: 'MATHEMATICAL', precision } })];
+      assert.deepEqual(errorPaths(list), [], String(precision));
+    }
+    const zero = [cash, ofKind('voucher', 'T', { rounding: { method: 'MATHEMATICAL', precision: 0 } })];
+    assert.ok(errorPaths(zero).includes('/1/rounding/precision'));
+  });
+});
+
+describe('che.tender.preview required choices', () => {
+  // Overpayment, cash drawer and refunds have no type default: every tender states them where they apply.
+  const without = (t, group, field) => {
+    const copy = structuredClone(t);
+    delete copy[group][field];
+    return copy;
+  };
+  const missing = (list, path, field) => {
+    validate(list);
+    return (validate.errors ?? []).some(
+      (e) => e.instancePath === path && e.keyword === 'required' && e.params.missingProperty === field,
     );
-    assert.deepEqual(
-      rule.if.allOf[0].properties.type.properties.kind.enum,
-      schema.$defs.kindCashLike.properties.type.properties.kind.enum,
-    );
+  };
+
+  for (const kind of kinds) {
+    test(`overpayment and cash drawer are required on ${kind}`, () => {
+      const t = ofKind(kind, 'T', { behavior: { defaultTender: 'NO' } });
+      assert.ok(missing([cash, without(t, 'behavior', 'overpayment')], '/1/behavior', 'overpayment'));
+      assert.ok(missing([cash, without(t, 'behavior', 'cashDrawer')], '/1/behavior', 'cashDrawer'));
+    });
+  }
+
+  test('a tender without behavior is refused', () => {
+    const t = ofKind('voucher', 'T');
+    delete t.behavior;
+    assert.ok(missing([cash, t], '/1', 'behavior'));
+  });
+
+  test('no split payment needs no overpayment, because it takes the exact amount', () => {
+    const t = without(ofKind('voucher', 'T', { behavior: { exclusive: true } }), 'behavior', 'overpayment');
+    assert.deepEqual(errorPaths([cash, t]), []);
+  });
+
+  for (const kind of kinds.filter((k) => k !== 'cash')) {
+    test(`refunds are required on ${kind}`, () => {
+      const t = ofKind(kind, 'T', { behavior: { defaultTender: 'NO' } });
+      assert.ok(missing([cash, without(t, 'refund', 'refundsAllowed')], '/1/refund', 'refundsAllowed'));
+      const noRefund = structuredClone(t);
+      delete noRefund.refund;
+      assert.ok(missing([cash, noRefund], '/1', 'refund'));
+    });
+  }
+
+  test('no split payment off still needs overpayment, and cash drawer is needed either way', () => {
+    for (const exclusive of [false, null]) {
+      const t = without(ofKind('voucher', 'T', { behavior: { exclusive } }), 'behavior', 'overpayment');
+      assert.ok(missing([cash, t], '/1/behavior', 'overpayment'), String(exclusive));
+    }
+    const t = without(ofKind('voucher', 'T', { behavior: { exclusive: true } }), 'behavior', 'cashDrawer');
+    assert.ok(missing([cash, t], '/1/behavior', 'cashDrawer'));
+  });
+
+  // Disabled tenders are checked like every other per-tender rule, so the error shows where the tender is saved.
+  test('a disabled tender makes the choices too', () => {
+    const t = without(ofKind('voucher', 'T', { disabled: true }), 'behavior', 'overpayment');
+    assert.ok(missing([cash, t], '/1/behavior', 'overpayment'));
+  });
+
+  // The form hides 'Refunds' on cash but saves the refund limits it shows there.
+  test('cash with refund limits needs no refunds choice', () => {
+    const limited = tender('CASH', { kind: 'cash' }, { refund: { maxAmount: 50, skipAmountPrompt: true } });
+    assert.deepEqual(errorPaths([limited]), []);
+  });
+
+  test('cash needs no refunds choice, because it always refunds', () => {
+    assert.deepEqual(errorPaths([cash]), []);
+    assert.equal(cash.refund, undefined);
+  });
+
+  test('type default is no longer an option', () => {
+    const choices = [['behavior', 'overpayment'], ['behavior', 'cashDrawer'], ['refund', 'refundsAllowed']];
+    for (const [group, field] of choices) {
+      const t = ofKind('voucher', 'T', { [group]: { [field]: 'TYPE_DEFAULT' } });
+      assert.ok(errorPaths([cash, t]).includes(`/1/${group}/${field}`), field);
+    }
+  });
+
+  test('$defs keeps the foreign currency group the form generator reads', () => {
+    assert.ok(schema.$defs?.kindForeignCurrency);
+  });
+});
+
+describe('che.tender.preview payment plugin', () => {
+  // Store Data derives the plugin from the type; a retailer never names one.
+  test('a tender cannot name a payment plugin', () => {
+    const named = ofKind('voucher', 'T', { authorization: { plugin: 'GiftCardPluginAuthorizer' } });
+    assert.ok(refusedAt([cash, named], '/1', 'additionalProperties', { additionalProperty: 'authorization' }));
+  });
+
+  // What Store Data derives or the form offers would contradict them as an extra attribute.
+  test('extra attributes cannot set what Store Data derives or the form sets', () => {
+    for (const id of [
+      'providerId',
+      'Pos.externalAuthorization.authorizer',
+      'Pos.externalAuthorization.required',
+      'Pos.externalAuthorization.mode',
+      'Pos.overTenderAllowed',
+      'Pos.void',
+    ]) {
+      const overriding = ofKind('mobile', 'T', { extraAttributes: [{ id, type: 'STRING', value: 'x' }] });
+      assert.ok(refusedAt([cash, overriding], '/1/extraAttributes/0/id', 'not'), id);
+    }
+    const allowed = ofKind('voucher', 'T', {
+      extraAttributes: [{ id: 'Pos.externalAuthorization.authorizationCodeMaximumLength', type: 'INT', value: '6' }],
+    });
+    assert.deepEqual(errorPaths([cash, allowed]), []);
+  });
+
+  // The point of sale matches names exactly, so such a name would never take effect.
+  test('an extra attribute name with spaces at either end is refused', () => {
+    for (const id of ['Pos.void ', ' Pos.void', ' ']) {
+      const spaced = ofKind('voucher', 'T', { extraAttributes: [{ id, type: 'BOOL', value: 'false' }] });
+      assert.ok(refusedAt([cash, spaced], '/1/extraAttributes/0/id', 'pattern'), JSON.stringify(id));
+    }
   });
 });
