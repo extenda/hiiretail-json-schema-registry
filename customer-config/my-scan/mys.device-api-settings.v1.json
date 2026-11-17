@@ -34,6 +34,14 @@
       "maximum": 100,
       "description": "Number of active handheld scanners a shopper can have at the same time."
     },
+    "hhsMaximumMinutesSinceLastReportToRelease": {
+      "title": "Maximum Minutes Since Last HHS Report to Release",
+      "type": "integer",
+      "default": 30,
+      "minimum": 1,
+      "maximum": 120,
+      "description": "Maximum time (in minutes) since a handheld scanner last sent a status report for it to be released. A scanner that has not reported within this time is not ready for release. The default is set to 30 minutes."
+    },
     "concurrentHhsCountExpiry": {
       "title": "Concurrent HHS Count Expiry Time",
       "type": "integer",
@@ -50,5 +58,7 @@
       "description": "Percentage thresholds for Wall status calculation. Format: {Low},{Normal},{High},{Full}. Values must be increasing integers between 0 and 100."
     }
   },
-  "required": [ "hhsMinimumBatteryLevelRequiredToRelease" ]
+  "required": [
+    "hhsMinimumBatteryLevelRequiredToRelease"
+  ]
 }
