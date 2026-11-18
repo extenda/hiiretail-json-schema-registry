@@ -195,7 +195,7 @@
     "BusinessPartnerRole": {
       "title": "BusinessPartnerRole",
       "type": "object",
-      "description": "A role the business partner holds. defaultLeadTimeHours, minimumOrderQuantity and reliabilityScore are SUPPLIER-only",
+      "description": "A role the business partner holds. defaultLeadTimeHours and reliabilityScore are SUPPLIER-only",
       "required": [
         "role",
         "isActive"
@@ -219,11 +219,6 @@
           "minimum": 0,
           "description": "SUPPLIER only. Calendar hours from order to delivery. A day-level ERP value is multiplied by 24"
         },
-        "minimumOrderQuantity": {
-          "type": ["number", "null"],
-          "minimum": 0,
-          "description": "SUPPLIER only. Smallest total quantity, in sellable units, of one order to this source"
-        },
         "reliabilityScore": {
           "type": ["number", "null"],
           "minimum": 0,
@@ -244,7 +239,6 @@
       "then": {
         "properties": {
           "defaultLeadTimeHours": false,
-          "minimumOrderQuantity": false,
           "reliabilityScore": false
         }
       }
