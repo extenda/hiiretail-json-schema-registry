@@ -1,0 +1,88 @@
+{
+  "$id": "csm.auto-update.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "The channel, maintenanceWindow and maintenanceExclusion shape mirrors cha.settings.v1#/$defs/AutoUpdateType (object-form days only, without the deleted flag). Keep the two in sync: the Service Manager API maps both kinds to the same model.",
+  "title": "Service Manager Auto Update",
+  "description": "Controls when the Hii Retail Checkout Service Manager installs and updates the services it manages on a workstation. Read by the Service Manager API when the calling Service Manager's OCMS token carries the software ID csm. When no value is set, the kind default applies: the stable channel with a maintenance window on Monday, Tuesday and Wednesday from 21:00 to 23:59 UTC, the same as the Checkout App default.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["channel", "maintenanceWindow"],
+  "properties": {
+    "channel": {
+      "type": "string",
+      "title": "Update channel",
+      "description": "Which release channel this workstation follows. New releases land in preview first and are promoted to stable. A workstation on preview receives both preview and stable releases; a workstation on stable receives only stable releases. Keep a few workstations on preview to try releases before they reach the estate. The internal channel is reserved for Extenda Retail.",
+      "enum": ["internal", "preview", "stable"],
+      "default": "stable"
+    },
+    "maintenanceWindow": {
+      "type": "object",
+      "title": "Maintenance window",
+      "description": "The recurring window in which the Service Manager may download and install updates to its managed services. Outside the window nothing is installed. A workstation that is off during its whole window updates in the next one. Applies to the preview and stable channels and to major, minor and patch releases.",
+      "additionalProperties": false,
+      "required": ["days", "start", "end"],
+      "properties": {
+        "days": {
+          "type": "array",
+          "title": "Maintenance days",
+          "description": "Days of the week the maintenance window is open. At least one day is required. To change the set of days at a lower target level, PUT the whole maintenance window at that level; a PATCH can add a day but cannot remove an inherited one.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "title": "Maintenance day",
+            "description": "A single day the maintenance window is open. Days are objects rather than bare strings so that a CCC PATCH merges them by id instead of concatenating duplicates.",
+            "additionalProperties": false,
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Day",
+                "description": "The day of the week.",
+                "enum": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
+              }
+            }
+          }
+        },
+        "start": {
+          "type": "string",
+          "format": "iso-time",
+          "title": "Window start (UTC)",
+          "description": "The time the maintenance window opens, in UTC.",
+          "examples": ["22:00:00"]
+        },
+        "end": {
+          "type": "string",
+          "format": "iso-time",
+          "title": "Window end (UTC)",
+          "description": "The time the maintenance window closes, in UTC. Must be later than start on the same day.",
+          "examples": ["23:59:00"]
+        }
+      }
+    },
+    "maintenanceExclusion": {
+      "type": "object",
+      "title": "Maintenance exclusion",
+      "description": "A one-off freeze period during which no updates are installed, even inside the maintenance window. Use it to hold the estate steady over a trading peak. Applies to the stable channel and to major and minor releases only, so patches still reach the workstation.",
+      "additionalProperties": false,
+      "required": ["start", "duration"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Exclusion start (UTC)",
+          "description": "The date and time the freeze period starts, in UTC.",
+          "examples": ["2026-11-27T00:00:00.000Z"]
+        },
+        "duration": {
+          "type": "integer",
+          "title": "Exclusion duration (days)",
+          "description": "How many days from the start date the freeze period lasts. Maximum 30.",
+          "minimum": 1,
+          "maximum": 30,
+          "examples": [14]
+        }
+      }
+    }
+  }
+}
