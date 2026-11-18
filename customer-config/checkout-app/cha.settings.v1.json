@@ -230,8 +230,7 @@
           "$ref": "#/$defs/VariantSearchType"
         },
         "wallpaperUri": {
-          "type": "string",
-          "nullable": true,
+          "type": ["string", "null"],
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for the wallaper image."
         },
@@ -784,19 +783,21 @@
         "cameraScanner": {
           "type": "object",
           "description": "Defines whether camera scanning is enabled",
-          "enabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable camera scanning buttons in main view and prompts"
-          },
-          "whitelistedPrompts": {
-            "type": "array",
-            "items": {
-              "type": "string"
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable camera scanning buttons in main view and prompts"
             },
-            "uniqueItems": true,
-            "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
-            "default": []
+            "whitelistedPrompts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true,
+              "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
+              "default": []
+            }
           }
         },
         "scan": {
@@ -837,7 +838,6 @@
             "local",
             "cloud"
           ],
-          "nullable": true,
           "default": "cloud",
           "description": "Sets the connection mode for reading payment messages."
         }
@@ -1717,8 +1717,7 @@
           "description": "Enables the hybrid mode."
         },
         "logoUri": {
-          "type": "string",
-          "nullable": true,
+          "type": ["string", "null"],
           "pattern": "^(https:\/\/[^\\s]+(.(jpg|jpeg|png))|data:image\/(jpg|jpeg|png);base64,[^\\s]+)$",
           "description": "URI for logo in SCO mode."
         },
