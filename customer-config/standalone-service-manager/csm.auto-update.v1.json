@@ -1,7 +1,7 @@
 {
   "$id": "csm.auto-update.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "The channel, maintenanceWindow and maintenanceExclusion shape mirrors cha.settings.v1#/$defs/AutoUpdateType (object-form days only, without the deleted flag). Keep the two in sync: the Service Manager API maps both kinds to the same model.",
+  "$comment": "The channel, maintenanceWindow and maintenanceExclusion shape mirrors cha.settings.v1#/$defs/AutoUpdateType (object-form days only). Keep the two in sync: the Service Manager API maps both kinds to the same model.",
   "title": "Service Manager Auto Update",
   "description": "Controls when the Hii Retail Checkout Service Manager installs and updates the services it manages on a workstation. Read by the Service Manager API when the calling Service Manager's OCMS token carries the software ID csm. When no value is set, the kind default applies: the stable channel with a maintenance window on Monday, Tuesday and Wednesday from 21:00 to 23:59 UTC, the same as the Checkout App default.",
   "type": "object",
@@ -25,7 +25,7 @@
         "days": {
           "type": "array",
           "title": "Maintenance days",
-          "description": "Days of the week the maintenance window is open. At least one day is required. To change the set of days at a lower target level, PUT the whole maintenance window at that level; a PATCH can add a day but cannot remove an inherited one.",
+          "description": "Days of the week the maintenance window is open. At least one day is required. To remove an inherited day at a lower target level, PATCH that day with deleted set to true.",
           "minItems": 1,
           "uniqueItems": true,
           "items": {
@@ -40,6 +40,12 @@
                 "title": "Day",
                 "description": "The day of the week.",
                 "enum": ["MO", "TU", "WE", "TH", "FR", "SA", "SU"]
+              },
+              "deleted": {
+                "type": "boolean",
+                "default": false,
+                "title": "Deleted",
+                "description": "Soft-delete flag. When true, this day is excluded from the maintenance window."
               }
             }
           }
