@@ -9,7 +9,6 @@
     "encryptionKeyVersion",
     "encryptionKeyIdentifier",
     "encryptionKeyPassphrase",
-    "receiptLineWidth",
     "webhookPort",
     "apiKey"
   ],
@@ -45,14 +44,6 @@
       "minLength": 12,
       "maxLength": 256,
       "example": "key-passphrase"
-    },
-    "receiptLineWidth": {
-      "description": "Line width for the merchant and customer receipts",
-      "type": "integer",
-      "minLength": 1,
-      "maxLength": 2,
-      "default": 42,
-      "example": "42"
     },
     "webhookPort": {
       "description": "Webhook port for receiving notifications",
