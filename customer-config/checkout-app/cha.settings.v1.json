@@ -695,6 +695,10 @@
             "days": {
               "description": "Days of the week when the maintenance can occur.",
               "type": "array",
+              "x-softDelete": {
+                "property": "deleted",
+                "showDeleted": false
+              },
               "items": {
                 "oneOf": [
                   {
