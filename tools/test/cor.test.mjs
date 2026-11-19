@@ -58,7 +58,18 @@ describe('cor.public.event.store-fulfillments-updates.v2', () => {
     assert.equal(validate(message()), true, JSON.stringify(validate.errors));
   });
 
-  test('a string isTmsShipment is rejected', () => {
+  // additionalProperties: false rejects any unknown key, so rejection alone
+  // proves nothing: the error must be a type error on isTmsShipment itself.
+  test('a string isTmsShipment is rejected as a type error on the property', () => {
     assert.equal(validate(message({ isTmsShipment: 'true' })), false);
+    assert.ok(
+      validate.errors.some(
+        (e) =>
+          e.keyword === 'type' &&
+          e.instancePath.endsWith('/isTmsShipment') &&
+          e.params.type === 'boolean',
+      ),
+      JSON.stringify(validate.errors),
+    );
   });
 });
