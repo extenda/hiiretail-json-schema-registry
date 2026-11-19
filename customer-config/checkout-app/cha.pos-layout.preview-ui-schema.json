@@ -1,0 +1,139 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Menu trees",
+      "elements": [
+        {
+          "type": "Label",
+          "text": "Each list is a hierarchy of groups and items. Type, application and mode decide where and when the till shows the list."
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/menuTrees",
+          "label": "Menu lists",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name",
+                      "label": "Menu list name",
+                      "options": {
+                        "showUnfocusedDescription": true
+                      }
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/id",
+                      "label": "Menu list id",
+                      "options": {
+                        "showUnfocusedDescription": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Where this list is shown",
+                  "elements": [
+                    {
+                      "type": "Group",
+                      "label": "List type",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/type",
+                          "label": "List type",
+                          "options": {
+                            "showUnfocusedDescription": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Group",
+                      "label": "Application type",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/applicationType",
+                          "label": "Application type",
+                          "options": {
+                            "showUnfocusedDescription": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Group",
+                      "label": "Mode",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/mode",
+                          "label": "Mode",
+                          "options": {
+                            "showUnfocusedDescription": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "label": "Menu list description",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "multi": true
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/deleted",
+                  "label": "Menu list deleted",
+                  "options": {
+                    "showUnfocusedDescription": true
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/content",
+                  "label": "Menu list content",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "elementLabelProp": "name",
+                    "detail": {
+                      "type": "VerticalLayout",
+                      "elements": [
+                        {
+                          "type": "Label",
+                          "text": "Choose Menu item (a button) or Menu group (a folder), then fill in the fields."
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#",
+                          "label": "Menu content item",
+                          "options": {
+                            "showUnfocusedDescription": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
