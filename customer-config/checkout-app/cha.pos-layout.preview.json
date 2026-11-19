@@ -2,1239 +2,24 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/extenda/hiiretail-json-schema-registry/master/customer-config/checkout-app/cha.pos-layout.preview.json",
   "title": "POS buttons and layout (preview)",
-  "description": "Preview kind for the CRG pre-sales demo: describes the function buttons, the payment row and the grid of the Checkout App POS. The app overlays this on the Checkout Engine menu tree; a button only works when its command exists in the engine menu for the store. Temporary kind, to be removed or promoted after the demo.",
+  "description": "Checkout App POS menu layout. Defines menu trees per application type, mode and function",
   "type": "object",
   "additionalProperties": false,
+  "required": [
+    "menuTrees"
+  ],
   "properties": {
-    "enabled": {
-      "title": "Use this layout",
-      "description": "When off, the POS shows the Checkout Engine menu unchanged.",
-      "type": "boolean",
-      "default": false
-    },
-    "mainMenu": {
-      "title": "Main menu",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "sections": {
-          "title": "Sections",
-          "description": "The sections in use, up to 8. Each gets a heading and its place in the grid; buttons pick a section by its number.",
-          "type": "array",
-          "maxItems": 8,
-          "x-primary-key": "heading",
-          "allOf": [
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section1"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section2"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section3"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section4"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section5"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section6"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section7"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            },
-            {
-              "contains": {
-                "type": "object",
-                "required": [
-                  "slot"
-                ],
-                "properties": {
-                  "slot": {
-                    "const": "section8"
-                  }
-                }
-              },
-              "minContains": 0,
-              "maxContains": 1
-            }
-          ],
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "slot",
-              "heading",
-              "order"
-            ],
-            "properties": {
-              "slot": {
-                "title": "Section",
-                "description": "Which of the 8 sections this is. Buttons pick it by this number.",
-                "oneOf": [
-                  {
-                    "const": "section1",
-                    "title": "Section 1"
-                  },
-                  {
-                    "const": "section2",
-                    "title": "Section 2"
-                  },
-                  {
-                    "const": "section3",
-                    "title": "Section 3"
-                  },
-                  {
-                    "const": "section4",
-                    "title": "Section 4"
-                  },
-                  {
-                    "const": "section5",
-                    "title": "Section 5"
-                  },
-                  {
-                    "const": "section6",
-                    "title": "Section 6"
-                  },
-                  {
-                    "const": "section7",
-                    "title": "Section 7"
-                  },
-                  {
-                    "const": "section8",
-                    "title": "Section 8"
-                  }
-                ]
-              },
-              "heading": {
-                "title": "Heading",
-                "description": "Small heading drawn above the section's buttons.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 30
-              },
-              "order": {
-                "title": "Order",
-                "description": "Position of the section in the grid, starting at 1.",
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 999
-              }
-            }
-          }
-        },
-        "columns": {
-          "title": "Columns",
-          "description": "Number of button columns in the function grid.",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 4,
-          "default": 2
-        },
-        "hideUnlisted": {
-          "title": "Hide buttons not listed here",
-          "description": "When off, engine buttons that are not configured are shown after the configured ones.",
-          "type": "boolean",
-          "default": false
-        },
-        "hideShortcuts": {
-          "title": "Hide the fixed shortcut strip",
-          "description": "Hides the row of fixed shortcuts under the number pad (PLU, receipt search, business customer, web links, ...). Put the ones you need in the button grid instead.",
-          "type": "boolean",
-          "default": false
-        },
-        "buttons": {
-          "title": "Always",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Button"
-          },
-          "x-primary-key": "label",
-          "description": "Shown in every state where the checkout allows the action. The state tabs add buttons for one state."
-        },
-        "states": {
-          "title": "Buttons per state",
-          "description": "Buttons added to the Always buttons in one state of the till.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "betweenSales": {
-              "title": "Between sales",
-              "description": "Added to the Always buttons while no sale is open.",
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/Button"
-              },
-              "x-primary-key": "label"
-            },
-            "duringSale": {
-              "title": "During a sale",
-              "description": "Added to the Always buttons while a sale is open.",
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/Button"
-              },
-              "x-primary-key": "label"
-            },
-            "lineSelected": {
-              "title": "Line selected",
-              "description": "Added on top of During a sale while a line on the receipt is selected.",
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/Button"
-              },
-              "x-primary-key": "label"
-            },
-            "refund": {
-              "title": "Refund mode",
-              "description": "With buttons here, refund mode shows the Always buttons plus these. Leave it empty to keep the checkout's own refund menu, including its way out of refund mode.",
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/Button"
-              },
-              "x-primary-key": "label"
-            }
-          }
-        }
-      }
-    },
-    "paymentRow": {
-      "title": "Payment row",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "hideUnlisted": {
-          "title": "Hide tenders not listed here",
-          "description": "When off, the tenders the checkout offers that are not listed here are shown under Other after the listed ones.",
-          "type": "boolean",
-          "default": false
-        },
-        "buttons": {
-          "title": "Payment buttons",
-          "description": "Tenders in the order the till shows them. The first two are the quick buttons on the main screen: the first the small one on the left, the second the large one on the right. The rest open under Other.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/PayButton"
-          },
-          "x-primary-key": "label"
-        }
-      }
-    },
-    "numpad": {
-      "title": "Number pad",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "collapsed": {
-          "title": "Number pad folded away at start",
-          "description": "Starts the till with the number pad hidden to give the buttons more room. The cashier can still open it with the toggle under the buttons.",
-          "type": "boolean",
-          "default": false
-        }
+    "menuTrees": {
+      "description": "Menu lists available to the Checkout App. Each list is a hierarchy of groups and items.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MenuListType"
       }
     }
   },
   "$defs": {
-    "Button": {
-      "title": "Button",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "label"
-      ],
-      "properties": {
-        "id": {
-          "title": "Id",
-          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9_-]{1,40}$"
-        },
-        "label": {
-          "title": "Label",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "description": "Text on the button. Keep it short: two lines fit."
-        },
-        "subtitle": {
-          "title": "Subtitle",
-          "description": "Small text under the label.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "maxLength": 60
-        },
-        "section": {
-          "title": "Section",
-          "description": "The section the button is shown in. Sections and their headings are set on the General tab. Empty puts the button before the first section.",
-          "type": "string",
-          "enum": [
-            "section1",
-            "section2",
-            "section3",
-            "section4",
-            "section5",
-            "section6",
-            "section7",
-            "section8"
-          ]
-        },
-        "action": {
-          "title": "Action",
-          "description": "Pick a category, then the action from that category's list. Leave the category unset to make a folder.",
-          "oneOf": [
-            {
-              "title": "Sale",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "saleAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "sale"
-                },
-                "saleAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "suspendOrder",
-                      "title": "Suspend order (during a sale)"
-                    },
-                    {
-                      "const": "retrieveOrder",
-                      "title": "Retrieve suspended order (between sales)"
-                    },
-                    {
-                      "const": "cancelOrder",
-                      "title": "Cancel order (during a sale)"
-                    },
-                    {
-                      "const": "voidLine",
-                      "title": "Void selected line (line selected)"
-                    },
-                    {
-                      "const": "quantity",
-                      "title": "Change quantity (line selected)"
-                    },
-                    {
-                      "const": "repeatLastItem",
-                      "title": "Repeat last item (during a sale)"
-                    },
-                    {
-                      "const": "manualDepartment",
-                      "title": "Manual department sale"
-                    },
-                    {
-                      "const": "tare",
-                      "title": "Tare (line selected)"
-                    },
-                    {
-                      "const": "rfidRead",
-                      "title": "Read RFID"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Returns and receipts",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "receiptAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "receipt"
-                },
-                "receiptAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "returnFromReceipt",
-                      "title": "Return from a receipt"
-                    },
-                    {
-                      "const": "findReceipt",
-                      "title": "Find a receipt"
-                    },
-                    {
-                      "const": "receiptComment",
-                      "title": "Receipt comment (during a sale)"
-                    },
-                    {
-                      "const": "lineComment",
-                      "title": "Comment on line (line selected)"
-                    },
-                    {
-                      "const": "returnWithoutReceipt",
-                      "title": "Return without receipt"
-                    },
-                    {
-                      "const": "complaint",
-                      "title": "Complaint"
-                    },
-                    {
-                      "const": "exchange",
-                      "title": "Exchange"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Discounts and prices",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "priceAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "price"
-                },
-                "priceAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "discountLineAmount",
-                      "title": "Discount on line, amount (line selected)"
-                    },
-                    {
-                      "const": "discountLinePercent",
-                      "title": "Discount on line, percent (line selected)"
-                    },
-                    {
-                      "const": "discountOrder",
-                      "title": "Discount on whole order (during a sale)"
-                    },
-                    {
-                      "const": "removeLineDiscount",
-                      "title": "Remove discount from line (line selected)"
-                    },
-                    {
-                      "const": "changePrice",
-                      "title": "Change price of line (line selected)"
-                    },
-                    {
-                      "const": "priceCheck",
-                      "title": "Check a price"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Customer",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "customerAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "customer"
-                },
-                "customerAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "b2bCustomer",
-                      "title": "Business customer"
-                    },
-                    {
-                      "const": "customerOrderSearch",
-                      "title": "Find a customer order"
-                    },
-                    {
-                      "const": "customer",
-                      "title": "Customer (during a sale)"
-                    },
-                    {
-                      "const": "loyaltyVoucher",
-                      "title": "Loyalty voucher (during a sale)"
-                    },
-                    {
-                      "const": "externalCustomer",
-                      "title": "Register external customer (during a sale)"
-                    },
-                    {
-                      "const": "customerCardNumber",
-                      "title": "Register customer card (during a sale)"
-                    },
-                    {
-                      "const": "retrieveCustomerOrder",
-                      "title": "Retrieve customer order"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Cash drawer",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "cashAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "cash"
-                },
-                "cashAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "openCashDrawer",
-                      "title": "Open cash drawer"
-                    },
-                    {
-                      "const": "paidIn",
-                      "title": "Paid in"
-                    },
-                    {
-                      "const": "paidOut",
-                      "title": "Paid out"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Gift cards",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "giftCardAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "giftCard"
-                },
-                "giftCardAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "giftCardBalance",
-                      "title": "Gift card balance"
-                    },
-                    {
-                      "const": "issueGiftCard",
-                      "title": "Issue gift card"
-                    },
-                    {
-                      "const": "reloadGiftCard",
-                      "title": "Reload gift card"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Lookups and screens",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "screenAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "screen"
-                },
-                "screenAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "findItem",
-                      "title": "Find an item"
-                    },
-                    {
-                      "const": "pluMenu",
-                      "title": "PLU menu"
-                    },
-                    {
-                      "const": "variantSearch",
-                      "title": "Browse categories"
-                    },
-                    {
-                      "const": "externalLinks",
-                      "title": "Web links"
-                    },
-                    {
-                      "const": "activePromotions",
-                      "title": "Active promotions"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Custom commands",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "command"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "command"
-                },
-                "command": {
-                  "title": "Custom command",
-                  "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
-                  "type": "string",
-                  "pattern": "^[A-Za-z0-9_.]{1,80}$"
-                }
-              }
-            }
-          ]
-        },
-        "icon": {
-          "$ref": "#/$defs/Icon",
-          "description": "Leave empty to use the icon of the action. Pick one only to replace it."
-        },
-        "imageUrl": {
-          "title": "Picture",
-          "description": "Optional. Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "uri",
-          "contentMediaType": "image/*",
-          "pattern": "^https://",
-          "maxLength": 2048
-        },
-        "color": {
-          "$ref": "#/$defs/Color"
-        },
-        "size": {
-          "title": "Size",
-          "description": "Wide takes two columns, tall two rows, large both.",
-          "default": "1x1",
-          "oneOf": [
-            {
-              "const": "1x1",
-              "title": "Normal"
-            },
-            {
-              "const": "2x1",
-              "title": "Wide"
-            },
-            {
-              "const": "1x2",
-              "title": "Tall"
-            },
-            {
-              "const": "2x2",
-              "title": "Large"
-            }
-          ]
-        },
-        "fontSize": {
-          "title": "Font size",
-          "default": "medium",
-          "oneOf": [
-            {
-              "const": "small",
-              "title": "Small"
-            },
-            {
-              "const": "medium",
-              "title": "Medium"
-            },
-            {
-              "const": "large",
-              "title": "Large"
-            }
-          ],
-          "description": "Size of the label text."
-        },
-        "order": {
-          "title": "Order",
-          "description": "Position inside the button's section, starting at 1. Lower numbers come first.",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 999
-        },
-        "prominent": {
-          "title": "Prominent",
-          "description": "Pinned to the top of the grid.",
-          "type": "boolean",
-          "default": false
-        },
-        "buttons": {
-          "title": "Buttons in this folder",
-          "description": "Buttons that open from this folder. Leave Select type empty on the folder itself.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/FolderItem"
-          },
-          "x-primary-key": "label"
-        }
-      },
-      "description": "A button runs an action or opens a folder of buttons, never both. A button with neither is ignored by the till.",
-      "not": {
-        "type": "object",
-        "properties": {
-          "action": {},
-          "buttons": {}
-        },
-        "required": [
-          "action",
-          "buttons"
-        ]
-      }
-    },
-    "FolderItem": {
-      "title": "Button in a folder",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "label"
-      ],
-      "properties": {
-        "id": {
-          "title": "Id",
-          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button.",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9_-]{1,40}$"
-        },
-        "label": {
-          "title": "Label",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40,
-          "description": "Text on the button. Keep it short: two lines fit."
-        },
-        "subtitle": {
-          "title": "Subtitle",
-          "description": "Small text under the label.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "maxLength": 60
-        },
-        "action": {
-          "title": "Action",
-          "description": "Pick a category, then the action from that category's list. Leave the category unset to make a folder.",
-          "oneOf": [
-            {
-              "title": "Sale",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "saleAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "sale"
-                },
-                "saleAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "suspendOrder",
-                      "title": "Suspend order (during a sale)"
-                    },
-                    {
-                      "const": "retrieveOrder",
-                      "title": "Retrieve suspended order (between sales)"
-                    },
-                    {
-                      "const": "cancelOrder",
-                      "title": "Cancel order (during a sale)"
-                    },
-                    {
-                      "const": "voidLine",
-                      "title": "Void selected line (line selected)"
-                    },
-                    {
-                      "const": "quantity",
-                      "title": "Change quantity (line selected)"
-                    },
-                    {
-                      "const": "repeatLastItem",
-                      "title": "Repeat last item (during a sale)"
-                    },
-                    {
-                      "const": "manualDepartment",
-                      "title": "Manual department sale"
-                    },
-                    {
-                      "const": "tare",
-                      "title": "Tare (line selected)"
-                    },
-                    {
-                      "const": "rfidRead",
-                      "title": "Read RFID"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Returns and receipts",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "receiptAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "receipt"
-                },
-                "receiptAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "returnFromReceipt",
-                      "title": "Return from a receipt"
-                    },
-                    {
-                      "const": "findReceipt",
-                      "title": "Find a receipt"
-                    },
-                    {
-                      "const": "receiptComment",
-                      "title": "Receipt comment (during a sale)"
-                    },
-                    {
-                      "const": "lineComment",
-                      "title": "Comment on line (line selected)"
-                    },
-                    {
-                      "const": "returnWithoutReceipt",
-                      "title": "Return without receipt"
-                    },
-                    {
-                      "const": "complaint",
-                      "title": "Complaint"
-                    },
-                    {
-                      "const": "exchange",
-                      "title": "Exchange"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Discounts and prices",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "priceAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "price"
-                },
-                "priceAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "discountLineAmount",
-                      "title": "Discount on line, amount (line selected)"
-                    },
-                    {
-                      "const": "discountLinePercent",
-                      "title": "Discount on line, percent (line selected)"
-                    },
-                    {
-                      "const": "discountOrder",
-                      "title": "Discount on whole order (during a sale)"
-                    },
-                    {
-                      "const": "removeLineDiscount",
-                      "title": "Remove discount from line (line selected)"
-                    },
-                    {
-                      "const": "changePrice",
-                      "title": "Change price of line (line selected)"
-                    },
-                    {
-                      "const": "priceCheck",
-                      "title": "Check a price"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Customer",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "customerAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "customer"
-                },
-                "customerAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "b2bCustomer",
-                      "title": "Business customer"
-                    },
-                    {
-                      "const": "customerOrderSearch",
-                      "title": "Find a customer order"
-                    },
-                    {
-                      "const": "customer",
-                      "title": "Customer (during a sale)"
-                    },
-                    {
-                      "const": "loyaltyVoucher",
-                      "title": "Loyalty voucher (during a sale)"
-                    },
-                    {
-                      "const": "externalCustomer",
-                      "title": "Register external customer (during a sale)"
-                    },
-                    {
-                      "const": "customerCardNumber",
-                      "title": "Register customer card (during a sale)"
-                    },
-                    {
-                      "const": "retrieveCustomerOrder",
-                      "title": "Retrieve customer order"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Cash drawer",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "cashAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "cash"
-                },
-                "cashAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "openCashDrawer",
-                      "title": "Open cash drawer"
-                    },
-                    {
-                      "const": "paidIn",
-                      "title": "Paid in"
-                    },
-                    {
-                      "const": "paidOut",
-                      "title": "Paid out"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Gift cards",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "giftCardAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "giftCard"
-                },
-                "giftCardAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "giftCardBalance",
-                      "title": "Gift card balance"
-                    },
-                    {
-                      "const": "issueGiftCard",
-                      "title": "Issue gift card"
-                    },
-                    {
-                      "const": "reloadGiftCard",
-                      "title": "Reload gift card"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Lookups and screens",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "screenAction"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "screen"
-                },
-                "screenAction": {
-                  "title": "Action",
-                  "description": "The note in brackets says when the till shows the button; without a note it shows at all times.",
-                  "oneOf": [
-                    {
-                      "const": "findItem",
-                      "title": "Find an item"
-                    },
-                    {
-                      "const": "pluMenu",
-                      "title": "PLU menu"
-                    },
-                    {
-                      "const": "variantSearch",
-                      "title": "Browse categories"
-                    },
-                    {
-                      "const": "externalLinks",
-                      "title": "Web links"
-                    },
-                    {
-                      "const": "activePromotions",
-                      "title": "Active promotions"
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "title": "Custom commands",
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "category",
-                "command"
-              ],
-              "properties": {
-                "category": {
-                  "title": "Category",
-                  "const": "command"
-                },
-                "command": {
-                  "title": "Custom command",
-                  "description": "The exact Checkout Engine command name, for example SuspendOrderCommand. Ask Extenda before using it.",
-                  "type": "string",
-                  "pattern": "^[A-Za-z0-9_.]{1,80}$"
-                }
-              }
-            }
-          ]
-        },
-        "icon": {
-          "$ref": "#/$defs/Icon",
-          "description": "Leave empty to use the icon of the action. Pick one only to replace it."
-        },
-        "imageUrl": {
-          "title": "Picture",
-          "description": "Optional. Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "uri",
-          "contentMediaType": "image/*",
-          "pattern": "^https://",
-          "maxLength": 2048
-        },
-        "color": {
-          "$ref": "#/$defs/Color"
-        },
-        "size": {
-          "title": "Size",
-          "description": "Wide takes two columns, tall two rows, large both.",
-          "default": "1x1",
-          "oneOf": [
-            {
-              "const": "1x1",
-              "title": "Normal"
-            },
-            {
-              "const": "2x1",
-              "title": "Wide"
-            },
-            {
-              "const": "1x2",
-              "title": "Tall"
-            },
-            {
-              "const": "2x2",
-              "title": "Large"
-            }
-          ]
-        },
-        "fontSize": {
-          "title": "Font size",
-          "default": "medium",
-          "oneOf": [
-            {
-              "const": "small",
-              "title": "Small"
-            },
-            {
-              "const": "medium",
-              "title": "Medium"
-            },
-            {
-              "const": "large",
-              "title": "Large"
-            }
-          ],
-          "description": "Size of the label text."
-        },
-        "order": {
-          "title": "Order",
-          "description": "Position inside the folder, starting at 1. Lower numbers come first.",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 999
-        }
-      }
-    },
-    "PayButton": {
-      "title": "Payment button",
+    "Condition": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -1242,290 +27,926 @@
       ],
       "properties": {
         "id": {
-          "title": "Id",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9_-]{1,40}$",
-          "description": "Unique within its list, for example return. The store and its workstations match buttons by this id, so keep it when you change a button."
-        },
-        "tender": {
-          "title": "Tender",
-          "description": "The way of paying this button stands for. Pick from the list. The till shows the button only when the store's checkout offers that tender.",
+          "title": "Condition",
+          "description": "Undocumented values can be ignored by the client. There is no expectation on clients to handle conditions until they are described in the API.",
           "oneOf": [
             {
-              "const": "cash",
-              "title": "Cash"
+              "const": "HAS_TRANSACTION",
+              "title": "Active transaction",
+              "description": "An active transaction must exist."
             },
             {
-              "const": "card",
-              "title": "Card"
+              "const": "NO_TRANSACTION",
+              "title": "No active transaction",
+              "description": "A transaction should not be active. If a transaction already exists, the operation will fail if invoked."
             },
             {
-              "const": "cardExternalTerminal",
-              "title": "Card, external terminal"
+              "const": "INPUT_SELECTION",
+              "title": "Line selected",
+              "description": "The operation requires an entity to be selected and passed as input. The selected entity should be passed as a parameter. If set, this implies that the HAS_TRANSACTION condition is fulfilled."
             },
             {
-              "const": "mobilePayment",
-              "title": "Mobile payment"
+              "const": "HAS_LOYALTY",
+              "title": "Loyalty present",
+              "description": "The loyalty information should be present in the transaction. If loyalty is not present, the operation will fail if invoked."
             },
             {
-              "const": "giftCard",
-              "title": "Gift card"
+              "const": "NO_LOYALTY",
+              "title": "No loyalty",
+              "description": "No loyalty information should be present in the transaction. If loyalty is present, the operation will fail if invoked."
             },
             {
-              "const": "giftCertificate",
-              "title": "Gift certificate"
+              "const": "NO_TENDER",
+              "title": "No tender",
+              "description": "No tender (payment) information should be present in the transaction. If the transaction is partially paid, the operation will fail if invoked."
             },
             {
-              "const": "voucher",
-              "title": "Voucher"
-            },
-            {
-              "const": "coupon",
-              "title": "Coupon"
-            },
-            {
-              "const": "organizationCharge",
-              "title": "Invoice to organisation"
-            },
-            {
-              "const": "loyaltyRedemption",
-              "title": "Loyalty points"
-            },
-            {
-              "const": "check",
-              "title": "Check"
-            },
-            {
-              "const": "bottleDeposit",
-              "title": "Bottle deposit"
-            },
-            {
-              "const": "cardLocalTerminal",
-              "title": "Card, local terminal"
-            },
-            {
-              "const": "mobileVipps",
-              "title": "Mobile payment, Vipps"
-            },
-            {
-              "const": "mobileSvea",
-              "title": "Mobile payment, Svea"
-            },
-            {
-              "const": "foodStamp",
-              "title": "Food stamp"
-            },
-            {
-              "const": "damagedBill",
-              "title": "Damaged bill"
+              "const": "HAS_ITEMS",
+              "title": "Has items",
+              "description": "Active (non-voided) items should be present in the transaction. If no items present in the transaction, the operation will fail if invoked."
             }
           ]
         },
-        "command": {
-          "title": "Custom tender command",
-          "description": "Only for a tender missing from the list: the exact Checkout Engine tender command. Ask Extenda before using it. A tender above wins over this field.",
-          "type": "string",
-          "pattern": "^[A-Za-z0-9_.]{1,80}$"
-        },
-        "label": {
-          "title": "Label",
-          "description": "Shown instead of the engine label.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "maxLength": 40
-        },
-        "icon": {
-          "$ref": "#/$defs/Icon",
-          "description": "Leave empty to use the icon of the tender. Pick one only to replace it."
-        },
-        "imageUrl": {
-          "title": "Picture",
-          "description": "Https link to a PNG or JPEG, shown instead of the icon.",
-          "type": [
-            "string",
-            "null"
-          ],
-          "format": "uri",
-          "contentMediaType": "image/*",
-          "pattern": "^https://",
-          "maxLength": 2048
-        },
-        "color": {
-          "$ref": "#/$defs/Color"
-        },
-        "order": {
-          "title": "Order",
-          "description": "Position in the payment row, starting at 1. The first two are the quick buttons on the main screen.",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 999
+        "deleted": {
+          "title": "Deleted",
+          "description": "If true, this condition will be ignored",
+          "type": "boolean"
         }
-      },
-      "description": "A payment button needs a tender type or, for a tender missing from the list, a custom tender command.",
-      "if": {
-        "not": {
-          "type": "object",
-          "properties": {
-            "tender": {}
-          },
-          "required": [
-            "tender"
-          ]
-        }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "command": {}
-        },
-        "required": [
-          "command"
-        ]
       }
     },
-    "Icon": {
-      "title": "Icon",
-      "description": "Built-in icon shown beside the label. A picture, when set, replaces it.",
-      "default": "none",
+    "MenuItemAction": {
+      "title": "Action",
+      "description": "The action to perform when the Menu item is selected. Catalogue actions pick a category and type. Custom commands set category command plus the Checkout Engine command name.",
       "oneOf": [
         {
-          "const": "none",
-          "title": "None"
+          "title": "Sale functions",
+          "description": "Sale, refund, price, customer, cash drawer and gift-card functions.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "type"
+          ],
+          "properties": {
+            "category": {
+              "title": "Category",
+              "const": "saleFunctions"
+            },
+            "type": {
+              "title": "Action",
+              "oneOf": [
+                {
+                  "const": "suspendOrder",
+                  "title": "Suspend order",
+                  "description": "Parks the current sale so it can be finished later. Aliases to SuspendOrderCommand. An active transaction must exist."
+                },
+                {
+                  "const": "retrieveOrder",
+                  "title": "Retrieve suspended order",
+                  "description": "Brings back a parked sale so the cashier can continue. Aliases to ResumeOrderCommand. A transaction should not be active."
+                },
+                {
+                  "const": "cancelOrder",
+                  "title": "Cancel order",
+                  "description": "Cancels the current sale. Nothing is kept to resume later. Aliases to CancelOrderCommand. An active transaction must exist."
+                },
+                {
+                  "const": "voidLine",
+                  "title": "Void selected line",
+                  "description": "Voids the selected receipt line so it no longer counts toward the total. Aliases to VoidModeKeyCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "quantity",
+                  "title": "Change quantity",
+                  "description": "Changes the quantity of the selected receipt line. Aliases to QuantityKeyCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "receiptComment",
+                  "title": "Receipt comment",
+                  "description": "Adds a comment to the whole receipt. Aliases to ReceiptCommentCommand. An active transaction must exist."
+                },
+                {
+                  "const": "lineComment",
+                  "title": "Comment on line",
+                  "description": "Adds a comment to the selected receipt line. Aliases to ReceiptCommentLineCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "returnWithoutReceipt",
+                  "title": "Return without receipt",
+                  "description": "Puts the till into refund mode so the next item is refunded without looking up an original receipt. Aliases to RefundModeKeyCommand."
+                },
+                {
+                  "const": "complaint",
+                  "title": "Complaint",
+                  "description": "Puts the till into complaint mode so the next item is treated as a complaint without looking up an original receipt. Aliases to ComplaintModeKeyCommand."
+                },
+                {
+                  "const": "refundPreviousOrder",
+                  "title": "Refund previous order",
+                  "description": "Looks up a previous receipt and starts a refund against that sale. Aliases to RefundPreviousOrderCommand."
+                },
+                {
+                  "const": "complaintPreviousOrder",
+                  "title": "Complaint previous order",
+                  "description": "Looks up a previous receipt and starts a complaint against that sale. Aliases to ComplaintPreviousOrderCommand."
+                },
+                {
+                  "const": "exitRefundPreviousOrder",
+                  "title": "Exit refund previous order",
+                  "description": "Completes a refund of a previous receipt so the cashier can pay it out. Aliases to ExitRefundPreviousOrderCommand. An active transaction must exist."
+                },
+                {
+                  "const": "cancelRefundPreviousOrder",
+                  "title": "Cancel refund previous order",
+                  "description": "Abandons a refund of a previous receipt without completing it. Aliases to CancelRefundPreviousOrderCommand."
+                },
+                {
+                  "const": "refundElement",
+                  "title": "Refund selected line",
+                  "description": "Refunds the selected line while returning items from a previous receipt. Aliases to RefundElementCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "printCopy",
+                  "title": "Print receipt copy",
+                  "description": "Prints a copy of a completed receipt. Aliases to PrintCopyCommand."
+                },
+                {
+                  "const": "printGiftReceipt",
+                  "title": "Print gift receipt",
+                  "description": "Requests a gift receipt for the current sale. Aliases to PrintGiftReceiptCommand. An active transaction must exist."
+                },
+                {
+                  "const": "vatInvoice",
+                  "title": "VAT invoice",
+                  "description": "Marks that the customer wants a VAT invoice when the sale is completed. Aliases to RequestVatInvoiceIssueCommand. An active transaction must exist."
+                },
+                {
+                  "const": "extendedReceipt",
+                  "title": "Extended receipt",
+                  "description": "Collects extra customer details onto the receipt, such as name or organisation number. Aliases to ExtendedReceiptCommand. An active transaction must exist."
+                },
+                {
+                  "const": "toggleRefundOnly",
+                  "title": "Toggle refund-only mode",
+                  "description": "Switches the till between normal selling and refund-only mode. Aliases to ToggleRefundOnlyCommand."
+                },
+                {
+                  "const": "toggleComplaintOnly",
+                  "title": "Toggle complaint-only mode",
+                  "description": "Switches the till between normal selling and complaint-only mode. Aliases to ToggleComplaintOnlyCommand."
+                },
+                {
+                  "const": "discountLinePercent",
+                  "title": "Discount on line, percent",
+                  "description": "Applies a percentage discount to the selected receipt line. Aliases to MarkDownPercentageKeyCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "discountLineAmount",
+                  "title": "Discount on line, amount",
+                  "description": "Applies an amount discount to the selected receipt line. Aliases to MarkDownAmountKeyCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "discountOrder",
+                  "title": "Discount on whole order",
+                  "description": "Applies a discount to the whole sale. Aliases to MarkDownOrderKeyCommand. An active transaction must exist."
+                },
+                {
+                  "const": "removeLineDiscount",
+                  "title": "Remove discount from line",
+                  "description": "Removes a discount from the selected receipt line. Aliases to RemoveOfferFromLineItemCommandChooser. A receipt line must be selected."
+                },
+                {
+                  "const": "changePrice",
+                  "title": "Change price of line",
+                  "description": "Overwrites the price of the selected receipt line. Aliases to PriceKeyCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "priceCheck",
+                  "title": "Check a price",
+                  "description": "Looks up an item's price without selling it. Aliases to PriceVerificationModeKeyCommand."
+                },
+                {
+                  "const": "enterItemPackage",
+                  "title": "Enter item package",
+                  "description": "Starts grouping receipt lines into a package so they can be discounted together. Aliases to EnterItemPackageCommand. An active transaction must exist."
+                },
+                {
+                  "const": "exitItemPackage",
+                  "title": "Exit item package",
+                  "description": "Finishes the item package and applies the chosen package discount. Aliases to ExitItemPackageCommand. An active transaction must exist."
+                },
+                {
+                  "const": "addItemToPackage",
+                  "title": "Add item to package",
+                  "description": "Marks the selected line as part of the item package being built. Aliases to AddItemToPackageCommand. A receipt line must be selected."
+                },
+                {
+                  "const": "redeemCoupon",
+                  "title": "Redeem coupon",
+                  "description": "Registers a coupon on the sale so promotions can apply. Aliases to RedeemCouponCommand."
+                },
+                {
+                  "const": "discountCode",
+                  "title": "Discount code",
+                  "description": "Attaches a promotion discount code to the sale. Aliases to DiscountCodeCommand. An active transaction must exist."
+                },
+                {
+                  "const": "retrieveCustomerOrder",
+                  "title": "Retrieve customer order",
+                  "description": "Looks up a customer order and brings it onto the till. Aliases to RetrieveCustomerOrderCommand."
+                },
+                {
+                  "const": "customer",
+                  "title": "Customer",
+                  "description": "Registers a loyalty customer on the sale. Aliases to RegisterLoyaltyCustomerCommand. An active transaction must exist."
+                },
+                {
+                  "const": "loyaltyVoucher",
+                  "title": "Loyalty voucher",
+                  "description": "Applies a loyalty voucher already available on the sale. Aliases to LoyaltyVoucherCommand. An active transaction must exist."
+                },
+                {
+                  "const": "externalCustomer",
+                  "title": "Register external customer",
+                  "description": "Registers an external or business customer on the sale. Aliases to ExternalCustomerRegistrationCommand. An active transaction must exist."
+                },
+                {
+                  "const": "redeemLoyaltyPoints",
+                  "title": "Redeem loyalty points",
+                  "description": "Registers a loyalty points scheme on the sale. Aliases to RedeemLoyaltyPointsCommand."
+                },
+                {
+                  "const": "openCashDrawer",
+                  "title": "Open cash drawer",
+                  "description": "Opens the cash drawer with no sale. Aliases to NoSaleCommand."
+                },
+                {
+                  "const": "paidIn",
+                  "title": "Paid in",
+                  "description": "Records cash paid into the till. Aliases to PaidInCommand."
+                },
+                {
+                  "const": "paidOut",
+                  "title": "Paid out",
+                  "description": "Records cash taken out of the till. Aliases to PaidOutCommand."
+                },
+                {
+                  "const": "tenderPickup",
+                  "title": "Tender pickup",
+                  "description": "Removes cash from the till (tender pickup). Aliases to TenderPickupCommand."
+                },
+                {
+                  "const": "tenderLoan",
+                  "title": "Tender loan",
+                  "description": "Adds cash to the till (tender loan). Aliases to TenderLoanCommand."
+                },
+                {
+                  "const": "epsFinalizeSalesPeriod",
+                  "title": "Finalize EPS sales period",
+                  "description": "Closes the card terminal sales period. Aliases to EpsFinalizeSalesPeriodCommand."
+                },
+                {
+                  "const": "giftCardBalance",
+                  "title": "Gift card balance",
+                  "description": "Checks the balance of a gift card. Aliases to GiftCardBalanceInquryCommand."
+                },
+                {
+                  "const": "issueGiftCard",
+                  "title": "Issue gift card",
+                  "description": "Issues a new gift card. Aliases to IssueGiftCardCommand."
+                },
+                {
+                  "const": "reloadGiftCard",
+                  "title": "Reload gift card",
+                  "description": "Adds value to an existing gift card. Aliases to ReloadGiftCardCommand."
+                },
+                {
+                  "const": "giftCardCashOut",
+                  "title": "Gift card cash out",
+                  "description": "Withdraws the remaining balance from a gift card. Aliases to GiftCardCashOutCommand."
+                },
+                {
+                  "const": "sessionActivation",
+                  "title": "Session activation",
+                  "description": "Runs session start checks after sign-on. Not a typical sale button. Aliases to SessionActivationCommand."
+                },
+                {
+                  "const": "showControlledPrompt",
+                  "title": "Show controlled prompt",
+                  "description": "Shows a timed test prompt. Not intended for store use. Aliases to ShowControlledPromptCommand."
+                }
+              ]
+            }
+          }
         },
         {
-          "const": "return",
-          "title": "Return"
+          "title": "Screen",
+          "description": "Opens a Checkout App screen.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "type"
+          ],
+          "properties": {
+            "category": {
+              "title": "Category",
+              "const": "screen"
+            },
+            "type": {
+              "title": "Action",
+              "oneOf": [
+                {
+                  "const": "returnFromReceipt",
+                  "title": "Return from a receipt",
+                  "description": "Opens receipt search so the cashier can find a past sale and start a return. Opens the transactionSearch screen."
+                },
+                {
+                  "const": "findReceipt",
+                  "title": "Find a receipt",
+                  "description": "Opens receipt search so the cashier can look up a past sale. Opens the transactionSearch screen."
+                },
+                {
+                  "const": "b2bCustomer",
+                  "title": "Business customer",
+                  "description": "Opens business customer search to attach a B2B customer, project and agent to the sale. Opens the b2bCustomer screen."
+                },
+                {
+                  "const": "customerOrderSearch",
+                  "title": "Find a customer order",
+                  "description": "Opens customer order search so the cashier can find and retrieve an order. Opens the customerOrderSearch screen."
+                },
+                {
+                  "const": "findItem",
+                  "title": "Find an item",
+                  "description": "Opens item search. Choosing a result adds it to the receipt. Opens the itemSearch screen."
+                },
+                {
+                  "const": "pluMenu",
+                  "title": "PLU menu",
+                  "description": "Opens the PLU button menu. Choosing a PLU adds it to the receipt. Opens the plu screen."
+                },
+                {
+                  "const": "externalLinks",
+                  "title": "Web links",
+                  "description": "Opens the store's configured web links. Opens the externalLinks screen."
+                }
+              ]
+            }
+          }
         },
         {
-          "const": "suspend",
-          "title": "Suspend"
+          "title": "Tender",
+          "description": "Payment methods for the current sale.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "type"
+          ],
+          "properties": {
+            "category": {
+              "title": "Category",
+              "const": "tender"
+            },
+            "type": {
+              "title": "Action",
+              "oneOf": [
+                {
+                  "const": "cash",
+                  "title": "Cash",
+                  "description": "Accepts cash payment. Aliases to TenderCashCommand. An active transaction must exist."
+                },
+                {
+                  "const": "card",
+                  "title": "Card",
+                  "description": "Accepts card payment on the integrated payment terminal. Aliases to TenderUnifiedPaymentCommand. An active transaction must exist."
+                },
+                {
+                  "const": "cardExternalTerminal",
+                  "title": "Card, external terminal",
+                  "description": "Records a card payment taken on a stand-alone terminal. Aliases to TenderStandAloneEftCommand. An active transaction must exist."
+                },
+                {
+                  "const": "cardLocalTerminal",
+                  "title": "Card, local terminal",
+                  "description": "Accepts card payment on the local unified payment terminal. Aliases to TenderLocalUnifiedPaymentCommand. An active transaction must exist."
+                },
+                {
+                  "const": "mobilePayment",
+                  "title": "Mobile payment",
+                  "description": "Accepts a mobile wallet payment. Aliases to TenderMobilePaymentCommand. An active transaction must exist."
+                },
+                {
+                  "const": "mobileVipps",
+                  "title": "Mobile payment, Vipps",
+                  "description": "Accepts Vipps mobile payment. Aliases to TenderMobilePaymentMOVCommand. An active transaction must exist."
+                },
+                {
+                  "const": "mobileSvea",
+                  "title": "Mobile payment, Svea",
+                  "description": "Accepts Svea mobile payment. Aliases to TenderMobilePaymentMOACommand. An active transaction must exist."
+                },
+                {
+                  "const": "giftCard",
+                  "title": "Gift card",
+                  "description": "Pays with an electronic gift card. Aliases to TenderElectronicGiftCardCommand. An active transaction must exist."
+                },
+                {
+                  "const": "giftCertificate",
+                  "title": "Gift certificate",
+                  "description": "Pays with a gift certificate. Aliases to TenderGiftCertificateCommand. An active transaction must exist."
+                },
+                {
+                  "const": "voucher",
+                  "title": "Voucher",
+                  "description": "Pays with a voucher. Aliases to TenderVoucherCommand. An active transaction must exist."
+                },
+                {
+                  "const": "coupon",
+                  "title": "Coupon",
+                  "description": "Pays with a coupon as tender, not as a promotion. Aliases to TenderCouponCommand. An active transaction must exist."
+                },
+                {
+                  "const": "organizationCharge",
+                  "title": "Invoice to organisation",
+                  "description": "Charges the sale to the organisation already on the receipt. Aliases to TenderOrganizationChargeCommandCust. An active transaction must exist."
+                },
+                {
+                  "const": "organizationChargeStd",
+                  "title": "Invoice to organisation (standard)",
+                  "description": "Charges the sale to an organisation account using the store default type. Aliases to TenderOrganizationChargeCommand. An active transaction must exist."
+                },
+                {
+                  "const": "organizationChargeExtCust",
+                  "title": "Invoice to organisation (external customer)",
+                  "description": "Charges the sale to an external organisation customer on the receipt. Aliases to TenderOrganizationChargeCommandExtCust."
+                },
+                {
+                  "const": "organizationChargeB2b",
+                  "title": "Invoice to organisation (B2B)",
+                  "description": "Charges the sale to the B2B customer on the receipt. Aliases to TenderOrganizationChargeCommandB2bCust."
+                },
+                {
+                  "const": "loyaltyRedemption",
+                  "title": "Loyalty points",
+                  "description": "Pays with loyalty points. Aliases to TenderLoyaltyRedemptionCommand. An active transaction must exist."
+                },
+                {
+                  "const": "check",
+                  "title": "Check",
+                  "description": "Pays by check. Aliases to TenderCheckCommand. An active transaction must exist."
+                },
+                {
+                  "const": "houseAccount",
+                  "title": "House account",
+                  "description": "Charges the sale to a house account. Aliases to TenderHouseAccountCommand."
+                },
+                {
+                  "const": "eft",
+                  "title": "Card, EPS",
+                  "description": "Accepts card payment through the classic EPS terminal. Aliases to TenderEftCommand."
+                },
+                {
+                  "const": "eftSelect",
+                  "title": "Card, EPS (select subtype)",
+                  "description": "Accepts card payment through EPS after the cashier chooses the card type. Aliases to TenderEftSelectCommand."
+                },
+                {
+                  "const": "electronicGiftCardUgcp",
+                  "title": "E-gift card UGCP",
+                  "description": "Pays with an electronic gift card (UGCP). Aliases to TenderElectronicGiftCardUGCPCommand. An active transaction must exist."
+                },
+                {
+                  "const": "electronicGiftCardUgcv",
+                  "title": "E-gift card UGCV",
+                  "description": "Pays with an electronic gift card (UGCV). Aliases to TenderElectronicGiftCardUGCVCommand."
+                },
+                {
+                  "const": "pseudoTender",
+                  "title": "Pseudo tender",
+                  "description": "Registers a preconfigured pseudo tender, not a payment of the amount due. Aliases to PreSelectedPseudoTenderCommand1. An active transaction must exist."
+                },
+                {
+                  "const": "bottleDeposit",
+                  "title": "Bottle deposit",
+                  "description": "Registers a bottle deposit return with a preset deposit item. Aliases to PreSelectedRedeemBottleDepositCommand. An active transaction must exist."
+                },
+                {
+                  "const": "foodStamp",
+                  "title": "Food stamp",
+                  "description": "Pays with food stamps. Aliases to TenderFoodStampCommand. An active transaction must exist."
+                },
+                {
+                  "const": "damagedBill",
+                  "title": "Damaged bill",
+                  "description": "Accepts cash as a damaged banknote. Aliases to DamagedBillTenderCashCommand. An active transaction must exist."
+                }
+              ]
+            }
+          }
         },
         {
-          "const": "retrieve",
-          "title": "Retrieve"
+          "title": "Custom command",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "command"
+          ],
+          "properties": {
+            "category": {
+              "title": "Category",
+              "const": "command"
+            },
+            "command": {
+              "title": "Command",
+              "description": "The Checkout Engine command name, for example SuspendOrderCommand.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "^[A-Za-z][A-Za-z0-9_.]*$",
+              "example": "SuspendOrderCommand"
+            },
+            "conditions": {
+              "title": "Conditions",
+              "description": "List of conditions that should be fulfilled at the client if the choice is selected. A good behaving client prevents selection of choices that doesn't fulfill the conditions.",
+              "example": [
+                {
+                  "id": "HAS_TRANSACTION"
+                },
+                {
+                  "id": "NO_TENDER"
+                }
+              ],
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/Condition"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Color": {
+      "type": "string",
+      "title": "Color",
+      "description": "Background color of the button. Default is the store theme. The till picks black or white text to stay readable. Inapplicable to root groups.",
+      "oneOf": [
+        {
+          "const": "primary",
+          "title": "Primary"
         },
         {
-          "const": "cancel",
-          "title": "Cancel"
+          "const": "primaryLight",
+          "title": "Primary light"
         },
         {
-          "const": "customer",
-          "title": "Customer"
+          "const": "primaryDark",
+          "title": "Primary dark"
         },
         {
-          "const": "discount",
-          "title": "Discount"
+          "const": "secondary",
+          "title": "Secondary"
         },
         {
-          "const": "receipt",
-          "title": "Receipt"
+          "const": "error",
+          "title": "Error"
         },
         {
-          "const": "print",
-          "title": "Print"
+          "const": "errorLight",
+          "title": "Error light"
         },
         {
-          "const": "search",
-          "title": "Search"
+          "const": "success",
+          "title": "Success"
         },
         {
-          "const": "folder",
-          "title": "Folder"
-        },
-        {
-          "const": "cash",
-          "title": "Cash"
-        },
-        {
-          "const": "card",
-          "title": "Card"
-        },
-        {
-          "const": "mobile",
-          "title": "Mobile payment"
-        },
-        {
-          "const": "giftcard",
-          "title": "Gift card"
-        },
-        {
-          "const": "lock",
-          "title": "Lock"
-        },
-        {
-          "const": "person",
-          "title": "Person"
-        },
-        {
-          "const": "bag",
-          "title": "Bag"
-        },
-        {
-          "const": "delivery",
-          "title": "Delivery"
-        },
-        {
-          "const": "help",
-          "title": "Help"
+          "const": "successLight",
+          "title": "Success light"
         },
         {
           "const": "warning",
           "title": "Warning"
         },
         {
-          "const": "settings",
-          "title": "Settings"
+          "const": "warningLight",
+          "title": "Warning light"
+        },
+        {
+          "type": "null",
+          "title": "Default (theme)"
         }
       ]
     },
-    "Color": {
-      "title": "Colour",
-      "description": "Background colour of the button. Default is the store theme. The till picks black or white text to stay readable.",
-      "default": "default",
+    "MenuItem": {
+      "title": "Menu item",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "description": "A unique identifier for the Menu item.",
+          "type": "string",
+          "minLength": 1,
+          "example": "suspend-order"
+        },
+        "deleted": {
+          "title": "Deleted",
+          "description": "If true, this Menu item will not be available",
+          "type": "boolean"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The Menu item title",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "description": {
+          "title": "Description",
+          "description": "The Menu item short subtitle",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "sequenceNumber": {
+          "title": "Sequence number",
+          "description": "A sequence number to sort items.",
+          "type": "integer"
+        },
+        "icon": {
+          "title": "Icon",
+          "description": "The icon URI.",
+          "type": "string",
+          "pattern": "^(https://\\S+|data:image/(png|jpeg|jpg|svg\\+xml|webp);base64,\\S+)$"
+        },
+        "type": {
+          "title": "Type",
+          "description": "The type of the Menu item.",
+          "const": "ITEM"
+        },
+        "action": {
+          "$ref": "#/$defs/MenuItemAction"
+        },
+        "color": {
+          "$ref": "#/$defs/Color"
+        },
+        "size": {
+          "title": "Size",
+          "description": "Grid span. Wide takes two columns, tall two rows, large both.",
+          "default": "1x1",
+          "oneOf": [
+            {
+              "const": "1x1",
+              "title": "Normal"
+            },
+            {
+              "const": "2x1",
+              "title": "Wide"
+            },
+            {
+              "const": "1x2",
+              "title": "Tall"
+            },
+            {
+              "const": "2x2",
+              "title": "Large"
+            }
+          ]
+        }
+      }
+    },
+    "MenuGroup": {
+      "title": "Menu group",
+      "description": "This is a Menu - it contains a set of other Menus to form a hierarchy.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "content"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "description": "A unique identifier for the Menu group.",
+          "type": "string",
+          "minLength": 1,
+          "example": "sale-functions"
+        },
+        "deleted": {
+          "title": "Deleted",
+          "description": "If true, this Menu group will not be available",
+          "type": "boolean"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The Menu group title",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "description": {
+          "title": "Description",
+          "description": "The Menu group description",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "sequenceNumber": {
+          "title": "Sequence number",
+          "description": "A sequence number to sort items.",
+          "type": "integer"
+        },
+        "color": {
+          "$ref": "#/$defs/Color"
+        },
+        "icon": {
+          "title": "Icon",
+          "description": "The icon URI. Inapplicable to root groups.",
+          "type": "string",
+          "pattern": "^(https://\\S+|data:image/(png|jpeg|jpg|svg\\+xml|webp);base64,\\S+)$"
+        },
+        "type": {
+          "title": "Type",
+          "description": "The GROUP type is for Menu lists.",
+          "const": "GROUP"
+        },
+        "content": {
+          "description": "Menu lists can contain other Menu lists and/or items.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MenuContentItem"
+          }
+        }
+      }
+    },
+    "MenuContentItem": {
+      "title": "Menu content item.",
+      "description": "Each item in a menu list can be a menu item or a menu group.",
       "oneOf": [
         {
-          "const": "default",
-          "title": "Default"
+          "$ref": "#/$defs/MenuItem"
         },
         {
-          "const": "white",
-          "title": "White"
-        },
-        {
-          "const": "grey",
-          "title": "Grey"
-        },
-        {
-          "const": "yellow",
-          "title": "Yellow"
-        },
-        {
-          "const": "orange",
-          "title": "Orange"
-        },
-        {
-          "const": "red",
-          "title": "Red"
-        },
-        {
-          "const": "green",
-          "title": "Green"
-        },
-        {
-          "const": "blue",
-          "title": "Blue"
-        },
-        {
-          "const": "purple",
-          "title": "Purple"
-        },
-        {
-          "const": "black",
-          "title": "Black"
+          "$ref": "#/$defs/MenuGroup"
         }
       ]
+    },
+    "MenuListType": {
+      "title": "Menu list",
+      "description": "A menu tree. Type defines where in the app the list is displayed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "content"
+      ],
+      "properties": {
+        "id": {
+          "title": "Id",
+          "description": "A unique identifier for the Menu.",
+          "type": "string",
+          "minLength": 1,
+          "example": "POS-defaul-menu-none-mode"
+        },
+        "deleted": {
+          "title": "Deleted",
+          "description": "If true, this Menu list will not be available",
+          "type": "boolean"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The Menu list title",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "description": {
+          "title": "Description",
+          "description": "The Menu list description",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "type": {
+          "title": "List type",
+          "description": "Where in the app the given list is displayed.",
+          "oneOf": [
+            {
+              "const": "default",
+              "title": "Default",
+              "description": "Rendered in the main menu component. Not applicable for Self checkout application type."
+            },
+            {
+              "const": "payment",
+              "title": "Payment",
+              "description": "Payment options menu. Rendered in dedicated payment menu component."
+            },
+            {
+              "const": "item",
+              "title": "Item",
+              "description": "Item context menu when an item is manually selected. Available for smaller devices only (Mobile POS)."
+            }
+          ]
+        },
+        "applicationType": {
+          "title": "Application type",
+          "description": "The application type required to access the Menu list.",
+          "oneOf": [
+            {
+              "const": "DEFAULT",
+              "title": "POS"
+            },
+            {
+              "const": "MOBILE_POS",
+              "title": "Mobile POS"
+            },
+            {
+              "const": "SELF_CHECKOUT",
+              "title": "Self checkout"
+            }
+          ]
+        },
+        "mode": {
+          "title": "Mode",
+          "description": "The checkout engine mode required to access the Menu list. This menu is shown when the till is in this mode.",
+          "oneOf": [
+            {
+              "const": "NONE",
+              "title": "None (default)",
+              "description": "Normal checkout. Scans and keys add items to the sale."
+            },
+            {
+              "const": "AUDIT",
+              "title": "Till audit",
+              "description": "The cashier is counting the till against expected amounts."
+            },
+            {
+              "const": "ITEM_PACKAGE",
+              "title": "Item package",
+              "description": "The cashier is grouping receipt lines into a package to discount them together."
+            },
+            {
+              "const": "PETTYCASH",
+              "title": "Petty cash",
+              "description": "The cashier is adding or removing till float (petty cash handling)."
+            },
+            {
+              "const": "POST_VOID",
+              "title": "Post void",
+              "description": "The cashier is voiding a completed receipt."
+            },
+            {
+              "const": "PREVIEW_CUSTOMERORDER",
+              "title": "Preview customer order",
+              "description": "The cashier is previewing a customer order before bringing it onto the till."
+            },
+            {
+              "const": "PRICE_VERIFICATION",
+              "title": "Price verification",
+              "description": "The cashier is looking up an item's price without selling it."
+            },
+            {
+              "const": "REFUND",
+              "title": "Refund",
+              "description": "The next item scanned is treated as a refund, not a sale."
+            },
+            {
+              "const": "REFUND_PREVIOUS_ORDER",
+              "title": "Refund previous order",
+              "description": "The cashier is refunding lines from a previous receipt."
+            },
+            {
+              "const": "SPOTBALANCE",
+              "title": "Spot balance",
+              "description": "The cashier is doing a quick till count, not a full audit."
+            },
+            {
+              "const": "VOID",
+              "title": "Void",
+              "description": "The next scan or key voids a line on the current sale."
+            }
+          ]
+        },
+        "content": {
+          "description": "Menu list content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MenuContentItem"
+          }
+        }
+      }
     }
   }
 }
