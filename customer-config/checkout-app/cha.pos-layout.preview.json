@@ -6,7 +6,8 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "menuTrees"
+    "menuTrees",
+    "defaultMenuTreeActionsCatalogue"
   ],
   "properties": {
     "menuTrees": {
@@ -16,9 +17,809 @@
       "items": {
         "$ref": "#/$defs/MenuListType"
       }
+    },
+    "defaultMenuTreeActionsCatalogue": {
+      "title": "Default menu tree actions catalogue",
+      "description": "Defines alias mapping for the Checkout Engine default commands. Used in the menu tree to define actions without having to specify the command name and conditions.",
+      "type": "object",
+      "readOnly": true,
+      "required": [
+        "saleFunctions",
+        "tender"
+      ],
+      "properties": {
+        "saleFunctions": {
+          "required": [
+            "suspendOrder",
+            "retrieveOrder",
+            "cancelOrder",
+            "voidLine",
+            "quantity",
+            "receiptComment",
+            "lineComment",
+            "returnWithoutReceipt",
+            "complaint",
+            "refundPreviousOrder",
+            "complaintPreviousOrder",
+            "exitRefundPreviousOrder",
+            "cancelRefundPreviousOrder",
+            "refundElement",
+            "printCopy",
+            "printGiftReceipt",
+            "vatInvoice",
+            "extendedReceipt",
+            "toggleRefundOnly",
+            "toggleComplaintOnly",
+            "discountLinePercent",
+            "discountLineAmount",
+            "discountOrder",
+            "removeLineDiscount",
+            "changePrice",
+            "priceCheck",
+            "enterItemPackage",
+            "exitItemPackage",
+            "addItemToPackage",
+            "redeemCoupon",
+            "discountCode",
+            "retrieveCustomerOrder",
+            "customer",
+            "loyaltyVoucher",
+            "externalCustomer",
+            "redeemLoyaltyPoints",
+            "openCashDrawer",
+            "paidIn",
+            "paidOut",
+            "tenderPickup",
+            "tenderLoan",
+            "epsFinalizeSalesPeriod",
+            "giftCardBalance",
+            "issueGiftCard",
+            "reloadGiftCard",
+            "giftCardCashOut",
+            "sessionActivation",
+            "showControlledPrompt"
+          ],
+          "type": "object",
+          "properties": {
+            "suspendOrder": {
+              "default": {
+                "command": "SuspendOrderCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "retrieveOrder": {
+              "default": {
+                "command": "ResumeOrderCommand",
+                "conditions": [
+                  {
+                    "id": "NO_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "cancelOrder": {
+              "default": {
+                "command": "CancelOrderCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "voidLine": {
+              "default": {
+                "command": "VoidModeKeyCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "quantity": {
+              "default": {
+                "command": "QuantityKeyCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "receiptComment": {
+              "default": {
+                "command": "ReceiptCommentCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "lineComment": {
+              "default": {
+                "command": "ReceiptCommentLineCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "returnWithoutReceipt": {
+              "default": {
+                "command": "RefundModeKeyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "complaint": {
+              "default": {
+                "command": "ComplaintModeKeyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "refundPreviousOrder": {
+              "default": {
+                "command": "RefundPreviousOrderCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "complaintPreviousOrder": {
+              "default": {
+                "command": "ComplaintPreviousOrderCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "exitRefundPreviousOrder": {
+              "default": {
+                "command": "ExitRefundPreviousOrderCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "cancelRefundPreviousOrder": {
+              "default": {
+                "command": "CancelRefundPreviousOrderCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "refundElement": {
+              "default": {
+                "command": "RefundElementCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "printCopy": {
+              "default": {
+                "command": "PrintCopyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "printGiftReceipt": {
+              "default": {
+                "command": "PrintGiftReceiptCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "vatInvoice": {
+              "default": {
+                "command": "RequestVatInvoiceIssueCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "extendedReceipt": {
+              "default": {
+                "command": "ExtendedReceiptCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "toggleRefundOnly": {
+              "default": {
+                "command": "ToggleRefundOnlyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "toggleComplaintOnly": {
+              "default": {
+                "command": "ToggleComplaintOnlyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "discountLinePercent": {
+              "default": {
+                "command": "MarkDownPercentageKeyCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "discountLineAmount": {
+              "default": {
+                "command": "MarkDownAmountKeyCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "discountOrder": {
+              "default": {
+                "command": "MarkDownOrderKeyCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "removeLineDiscount": {
+              "default": {
+                "command": "RemoveOfferFromLineItemCommandChooser",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "changePrice": {
+              "default": {
+                "command": "PriceKeyCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "priceCheck": {
+              "default": {
+                "command": "PriceVerificationModeKeyCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "enterItemPackage": {
+              "default": {
+                "command": "EnterItemPackageCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "exitItemPackage": {
+              "default": {
+                "command": "ExitItemPackageCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "addItemToPackage": {
+              "default": {
+                "command": "AddItemToPackageCommand",
+                "conditions": [
+                  {
+                    "id": "INPUT_SELECTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "redeemCoupon": {
+              "default": {
+                "command": "RedeemCouponCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "discountCode": {
+              "default": {
+                "command": "DiscountCodeCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "retrieveCustomerOrder": {
+              "default": {
+                "command": "RetrieveCustomerOrderCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "customer": {
+              "default": {
+                "command": "RegisterLoyaltyCustomerCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "loyaltyVoucher": {
+              "default": {
+                "command": "LoyaltyVoucherCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "externalCustomer": {
+              "default": {
+                "command": "ExternalCustomerRegistrationCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "redeemLoyaltyPoints": {
+              "default": {
+                "command": "RedeemLoyaltyPointsCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "openCashDrawer": {
+              "default": {
+                "command": "NoSaleCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "paidIn": {
+              "default": {
+                "command": "PaidInCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "paidOut": {
+              "default": {
+                "command": "PaidOutCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "tenderPickup": {
+              "default": {
+                "command": "TenderPickupCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "tenderLoan": {
+              "default": {
+                "command": "TenderLoanCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "epsFinalizeSalesPeriod": {
+              "default": {
+                "command": "EpsFinalizeSalesPeriodCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "giftCardBalance": {
+              "default": {
+                "command": "GiftCardBalanceInquryCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "issueGiftCard": {
+              "default": {
+                "command": "IssueGiftCardCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "reloadGiftCard": {
+              "default": {
+                "command": "ReloadGiftCardCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "giftCardCashOut": {
+              "default": {
+                "command": "GiftCardCashOutCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "sessionActivation": {
+              "default": {
+                "command": "SessionActivationCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "showControlledPrompt": {
+              "default": {
+                "command": "ShowControlledPromptCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            }
+          }
+        },
+        "tender": {
+          "required": [
+            "cardExternalTerminal",
+            "cash",
+            "card",
+            "mobilePayment",
+            "giftCard",
+            "giftCertificate",
+            "voucher",
+            "coupon",
+            "organizationCharge",
+            "loyaltyRedemption",
+            "check",
+            "houseAccount",
+            "eft",
+            "eftSelect",
+            "electronicGiftCardUgcp",
+            "electronicGiftCardUgcv",
+            "organizationChargeStd",
+            "organizationChargeExtCust",
+            "organizationChargeB2b",
+            "pseudoTender",
+            "bottleDeposit",
+            "cardLocalTerminal",
+            "mobileVipps",
+            "mobileSvea",
+            "foodStamp",
+            "damagedBill"
+          ],
+          "type": "object",
+          "properties": {
+            "cardExternalTerminal": {
+              "default": {
+                "command": "TenderStandAloneEftCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "cash": {
+              "default": {
+                "command": "TenderCashCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "card": {
+              "default": {
+                "command": "TenderUnifiedPaymentCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "mobilePayment": {
+              "default": {
+                "command": "TenderMobilePaymentCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "giftCard": {
+              "default": {
+                "command": "TenderElectronicGiftCardCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "giftCertificate": {
+              "default": {
+                "command": "TenderGiftCertificateCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "voucher": {
+              "default": {
+                "command": "TenderVoucherCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "coupon": {
+              "default": {
+                "command": "TenderCouponCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "organizationCharge": {
+              "default": {
+                "command": "TenderOrganizationChargeCommandCust",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "loyaltyRedemption": {
+              "default": {
+                "command": "TenderLoyaltyRedemptionCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "check": {
+              "default": {
+                "command": "TenderCheckCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "houseAccount": {
+              "default": {
+                "command": "TenderHouseAccountCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "eft": {
+              "default": {
+                "command": "TenderEftCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "eftSelect": {
+              "default": {
+                "command": "TenderEftSelectCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "electronicGiftCardUgcp": {
+              "default": {
+                "command": "TenderElectronicGiftCardUGCPCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "electronicGiftCardUgcv": {
+              "default": {
+                "command": "TenderElectronicGiftCardUGCVCommand"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "organizationChargeStd": {
+              "default": {
+                "command": "TenderOrganizationChargeCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "organizationChargeExtCust": {
+              "default": {
+                "command": "TenderOrganizationChargeCommandExtCust"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "organizationChargeB2b": {
+              "default": {
+                "command": "TenderOrganizationChargeCommandB2bCust"
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "pseudoTender": {
+              "default": {
+                "command": "PreSelectedPseudoTenderCommand1",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "bottleDeposit": {
+              "default": {
+                "command": "PreSelectedRedeemBottleDepositCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "cardLocalTerminal": {
+              "default": {
+                "command": "TenderLocalUnifiedPaymentCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "mobileVipps": {
+              "default": {
+                "command": "TenderMobilePaymentMOVCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "mobileSvea": {
+              "default": {
+                "command": "TenderMobilePaymentMOACommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "foodStamp": {
+              "default": {
+                "command": "TenderFoodStampCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            },
+            "damagedBill": {
+              "default": {
+                "command": "DamagedBillTenderCashCommand",
+                "conditions": [
+                  {
+                    "id": "HAS_TRANSACTION"
+                  }
+                ]
+              },
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {
+    "CheckoutEngineCommandDefinition": {
+      "title": "Command definition",
+      "description": "Defines a Checkout Engine command and the conditions that must be fulfilled for it to be available.",
+      "type": "object",
+      "required": [
+        "command"
+      ],
+      "properties": {
+        "command": {
+          "title": "Command name",
+          "description": "The Checkout Engine command name, for example SuspendOrderCommand.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.]*$",
+          "example": "SuspendOrderCommand"
+        },
+        "conditions": {
+          "title": "Conditions",
+          "description": "List of conditions that should be fulfilled at the client if the choice is selected. A good behaving client prevents selection of choices that doesn't fulfill the conditions.",
+          "example": [
+            {
+              "id": "HAS_TRANSACTION"
+            },
+            {
+              "id": "NO_TENDER"
+            }
+          ],
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Condition"
+          }
+        }
+      }
+    },
     "Condition": {
       "type": "object",
       "additionalProperties": false,
@@ -27,7 +828,7 @@
       ],
       "properties": {
         "id": {
-          "title": "Condition",
+          "title": "Condition id",
           "description": "Undocumented values can be ignored by the client. There is no expectation on clients to handle conditions until they are described in the API.",
           "oneOf": [
             {
@@ -68,14 +869,14 @@
           ]
         },
         "deleted": {
-          "title": "Deleted",
+          "title": "Condition deleted",
           "description": "If true, this condition will be ignored",
           "type": "boolean"
         }
       }
     },
     "MenuItemAction": {
-      "title": "Action",
+      "title": "Menu item action",
       "description": "The action to perform when the Menu item is selected. Catalogue actions pick a category and type. Custom commands set category command plus the Checkout Engine command name.",
       "oneOf": [
         {
@@ -89,11 +890,11 @@
           ],
           "properties": {
             "category": {
-              "title": "Category",
+              "title": "Sale functions category",
               "const": "saleFunctions"
             },
             "type": {
-              "title": "Action",
+              "title": "Sale function",
               "oneOf": [
                 {
                   "const": "suspendOrder",
@@ -350,11 +1151,11 @@
           ],
           "properties": {
             "category": {
-              "title": "Category",
+              "title": "Screen category",
               "const": "screen"
             },
             "type": {
-              "title": "Action",
+              "title": "Screen action",
               "oneOf": [
                 {
                   "const": "returnFromReceipt",
@@ -406,11 +1207,11 @@
           ],
           "properties": {
             "category": {
-              "title": "Category",
+              "title": "Tender category",
               "const": "tender"
             },
             "type": {
-              "title": "Action",
+              "title": "Tender action",
               "oneOf": [
                 {
                   "const": "cash",
@@ -556,41 +1357,17 @@
           ],
           "properties": {
             "category": {
-              "title": "Category",
+              "title": "Command category",
               "const": "command"
             },
             "command": {
-              "title": "Command",
-              "description": "The Checkout Engine command name, for example SuspendOrderCommand.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 80,
-              "pattern": "^[A-Za-z][A-Za-z0-9_.]*$",
-              "example": "SuspendOrderCommand"
-            },
-            "conditions": {
-              "title": "Conditions",
-              "description": "List of conditions that should be fulfilled at the client if the choice is selected. A good behaving client prevents selection of choices that doesn't fulfill the conditions.",
-              "example": [
-                {
-                  "id": "HAS_TRANSACTION"
-                },
-                {
-                  "id": "NO_TENDER"
-                }
-              ],
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "$ref": "#/$defs/Condition"
-              }
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
             }
           }
         }
       ]
     },
     "Color": {
-      "type": "string",
       "title": "Color",
       "description": "Background color of the button. Default is the store theme. The till picks black or white text to stay readable. Inapplicable to root groups.",
       "oneOf": [
@@ -651,44 +1428,44 @@
       ],
       "properties": {
         "id": {
-          "title": "Id",
+          "title": "Menu item id",
           "description": "A unique identifier for the Menu item.",
           "type": "string",
           "minLength": 1,
           "example": "suspend-order"
         },
         "deleted": {
-          "title": "Deleted",
+          "title": "Menu item deleted",
           "description": "If true, this Menu item will not be available",
           "type": "boolean"
         },
         "name": {
-          "title": "Name",
+          "title": "Menu item name",
           "description": "The Menu item title",
           "type": "string",
           "minLength": 1,
           "maxLength": 40
         },
         "description": {
-          "title": "Description",
+          "title": "Menu item description",
           "description": "The Menu item short subtitle",
           "type": "string",
           "minLength": 1,
           "maxLength": 100
         },
         "sequenceNumber": {
-          "title": "Sequence number",
+          "title": "Menu item sequence number",
           "description": "A sequence number to sort items.",
           "type": "integer"
         },
         "icon": {
-          "title": "Icon",
+          "title": "Menu item icon",
           "description": "The icon URI.",
           "type": "string",
           "pattern": "^(https://\\S+|data:image/(png|jpeg|jpg|svg\\+xml|webp);base64,\\S+)$"
         },
         "type": {
-          "title": "Type",
+          "title": "Menu item type",
           "description": "The type of the Menu item.",
           "const": "ITEM"
         },
@@ -736,33 +1513,33 @@
       ],
       "properties": {
         "id": {
-          "title": "Id",
+          "title": "Menu group id",
           "description": "A unique identifier for the Menu group.",
           "type": "string",
           "minLength": 1,
           "example": "sale-functions"
         },
         "deleted": {
-          "title": "Deleted",
+          "title": "Menu group deleted",
           "description": "If true, this Menu group will not be available",
           "type": "boolean"
         },
         "name": {
-          "title": "Name",
+          "title": "Menu group name",
           "description": "The Menu group title",
           "type": "string",
           "minLength": 1,
           "maxLength": 40
         },
         "description": {
-          "title": "Description",
+          "title": "Menu group description",
           "description": "The Menu group description",
           "type": "string",
           "minLength": 1,
           "maxLength": 100
         },
         "sequenceNumber": {
-          "title": "Sequence number",
+          "title": "Menu group sequence number",
           "description": "A sequence number to sort items.",
           "type": "integer"
         },
@@ -770,13 +1547,13 @@
           "$ref": "#/$defs/Color"
         },
         "icon": {
-          "title": "Icon",
+          "title": "Menu group icon",
           "description": "The icon URI. Inapplicable to root groups.",
           "type": "string",
           "pattern": "^(https://\\S+|data:image/(png|jpeg|jpg|svg\\+xml|webp);base64,\\S+)$"
         },
         "type": {
-          "title": "Type",
+          "title": "Menu group type",
           "description": "The GROUP type is for Menu lists.",
           "const": "GROUP"
         },
@@ -814,26 +1591,26 @@
       ],
       "properties": {
         "id": {
-          "title": "Id",
+          "title": "Menu list id",
           "description": "A unique identifier for the Menu.",
           "type": "string",
           "minLength": 1,
           "example": "POS-defaul-menu-none-mode"
         },
         "deleted": {
-          "title": "Deleted",
+          "title": "Menu list deleted",
           "description": "If true, this Menu list will not be available",
           "type": "boolean"
         },
         "name": {
-          "title": "Name",
+          "title": "Menu list name",
           "description": "The Menu list title",
           "type": "string",
           "minLength": 1,
           "maxLength": 40
         },
         "description": {
-          "title": "Description",
+          "title": "Menu list description",
           "description": "The Menu list description",
           "type": "string",
           "minLength": 1,
@@ -924,7 +1701,7 @@
             },
             {
               "const": "REFUND_PREVIOUS_ORDER",
-              "title": "Refund previous order",
+              "title": "Refund previous order mode",
               "description": "The cashier is refunding lines from a previous receipt."
             },
             {
