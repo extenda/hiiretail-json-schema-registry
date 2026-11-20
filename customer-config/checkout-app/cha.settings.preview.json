@@ -1919,6 +1919,11 @@
           "type": "boolean",
           "default": false,
           "description": "Enables the bags screen in SCO mode."
+        },
+        "decreaseEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables the decrease button for bag quantity in SCO mode."
         }
       },
       "additionalProperties": {
