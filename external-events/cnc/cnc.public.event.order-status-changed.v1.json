@@ -73,6 +73,14 @@
           "items": {
             "$ref": "#/$defs/OrderStatusChangedOrderLine"
           }
+        },
+        "parcels": {
+          "type": "array",
+          "minItems": 1,
+          "description": "The fulfillment's parcels in parcel order, first parcel first. Sent only with newStatus PICKED, for a fulfillment packed in a store that records parcels. Absent on every other transition and when no parcels were recorded",
+          "items": {
+            "$ref": "#/$defs/OrderStatusChangedParcel"
+          }
         }
       }
     },
@@ -154,6 +162,32 @@
           "items": {
             "$ref": "#/$defs/OrderStatusChangedSubstitution"
           }
+        }
+      }
+    },
+    "OrderStatusChangedParcel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weightKg"
+      ],
+      "properties": {
+        "weightKg": {
+          "type": "number",
+          "minimum": 0.1,
+          "description": "Estimated weight of the parcel in kilograms: the picked items' weight split evenly across the fulfillment's parcels, at least 0.1"
+        },
+        "parcelNumber": {
+          "type": "string",
+          "description": "The carrier's parcel number. Present only when the shipment was booked with TMS"
+        },
+        "locationId": {
+          "type": "string",
+          "description": "Id of the storage location scanned for the parcel. Absent when the location was typed or not given"
+        },
+        "locationComment": {
+          "type": "string",
+          "description": "Storage location typed for the parcel. Absent when the location was scanned or not given"
         }
       }
     },
