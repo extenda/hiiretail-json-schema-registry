@@ -1,0 +1,126 @@
+{
+  "$id": "ssa.public.output.customer-profile.v1.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Customer Profile Change Event",
+  "type": "object",
+  "required": [
+    "customer",
+    "profileChange"
+  ],
+  "properties": {
+    "customer": {
+      "$ref": "#/$defs/CustomerInfo"
+    },
+    "profileChange": {
+      "$ref": "#/$defs/ProfileChange"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "CustomerInfo": {
+      "type": "object",
+      "required": [
+        "customerType",
+        "customerId"
+      ],
+      "properties": {
+        "customerType": {
+          "$ref": "#/$defs/CustomerType"
+        },
+        "customerId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier of the customer/profile."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Information about the customer."
+    },
+    "CustomerType": {
+      "type": "string",
+      "enum": [
+        "ANONYMOUS",
+        "REGISTERED",
+        "IDENTIFIED"
+      ],
+      "description": "Type of customer."
+    },
+    "ProfileChange": {
+      "type": "object",
+      "required": [
+        "versionId",
+        "field",
+        "currentValue",
+        "historicalValue",
+        "changedBy",
+        "timestamp",
+        "source",
+        "changeType"
+      ],
+      "properties": {
+        "versionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Version identifier (GUID) of this profile change event."
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Name of the profile field that changed (e.g., 'cardNumber', 'trustLevel')."
+        },
+        "currentValue": {
+          "description": "New value of the field after the change.",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "integer" },
+            { "type": "boolean" },
+            { "type": "object" },
+            { "type": "array" },
+            { "type": "null" }
+          ]
+        },
+        "historicalValue": {
+          "description": "Previous value of the field before the change.",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "integer" },
+            { "type": "boolean" },
+            { "type": "object" },
+            { "type": "array" },
+            { "type": "null" }
+          ]
+        },
+        "changedBy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the system or user who performed the change."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+          "description": "UTC timestamp of the change in RFC 3339/ISO 8601 format (must end with 'Z')."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["scanngo", "slp"],
+          "description": "Originating system of the change."
+        },
+        "changeReason": {
+          "type": "string",
+          "description": "Optional free-text reason for the change.",
+          "nullable": true
+        },
+        "changeType": {
+          "type": "string",
+          "enum": ["added", "deleted", "updated"],
+          "description": "Type of change applied to the field."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Details of a single customer profile field change."
+    }
+  }
+}
