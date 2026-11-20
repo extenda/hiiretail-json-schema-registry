@@ -1642,8 +1642,8 @@
           "oneOf": [
             {
               "const": "default",
-              "title": "Default",
-              "description": "Rendered in the main menu component. Not applicable for Self checkout application type."
+              "title": "Main",
+              "description": "Rendered in the main view component alongside the receipt."
             },
             {
               "const": "payment",
@@ -1663,15 +1663,23 @@
           "oneOf": [
             {
               "const": "DEFAULT",
-              "title": "POS"
+              "title": "POS",
+              "description": "Regular POS application. Desktop or Tablet POS"
             },
             {
               "const": "MOBILE_POS",
-              "title": "Mobile POS"
+              "title": "Mobile POS",
+              "description": "Mobile POS application"
             },
             {
               "const": "SELF_CHECKOUT",
-              "title": "Self checkout"
+              "title": "Self checkout",
+              "description": "Self checkout application. Hybrid or dedicated self checkout application"
+            },
+            {
+              "const": "SELF_CHECKOUT_ATTENDANT",
+              "title": "Attendant Self checkout",
+              "description": "Self checkout application while attendant is logged in"
             }
           ]
         },
@@ -1685,54 +1693,24 @@
               "description": "Normal checkout. Scans and keys add items to the sale."
             },
             {
-              "const": "AUDIT",
-              "title": "Till audit",
-              "description": "The cashier is counting the till against expected amounts."
-            },
-            {
               "const": "ITEM_PACKAGE",
               "title": "Item package",
-              "description": "The cashier is grouping receipt lines into a package to discount them together."
-            },
-            {
-              "const": "PETTYCASH",
-              "title": "Petty cash",
-              "description": "The cashier is adding or removing till float (petty cash handling)."
-            },
-            {
-              "const": "POST_VOID",
-              "title": "Post void",
-              "description": "The cashier is voiding a completed receipt."
-            },
-            {
-              "const": "PREVIEW_CUSTOMERORDER",
-              "title": "Preview customer order",
-              "description": "The cashier is previewing a customer order before bringing it onto the till."
-            },
-            {
-              "const": "PRICE_VERIFICATION",
-              "title": "Price verification",
-              "description": "The cashier is looking up an item's price without selling it."
+              "description": "The cashier is grouping receipt lines into a package to discount them together. Not applicable for Self checkout application type."
             },
             {
               "const": "REFUND",
               "title": "Refund",
-              "description": "The next item scanned is treated as a refund, not a sale."
+              "description": "The next item scanned is treated as a refund, not a sale. Not applicable for Self checkout application type."
             },
             {
               "const": "REFUND_PREVIOUS_ORDER",
               "title": "Refund previous order mode",
-              "description": "The cashier is refunding lines from a previous receipt."
-            },
-            {
-              "const": "SPOTBALANCE",
-              "title": "Spot balance",
-              "description": "The cashier is doing a quick till count, not a full audit."
+              "description": "The cashier is refunding lines from a previous receipt. Not applicable for Self checkout application type."
             },
             {
               "const": "VOID",
               "title": "Void",
-              "description": "The next scan or key voids a line on the current sale."
+              "description": "The next scan or key voids a line on the current sale. Not applicable for Self checkout application type."
             }
           ]
         },
