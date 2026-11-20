@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "required": [
     "menuTrees",
-    "defaultMenuTreeActionsCatalogue"
+    "defaultMenuActionsCatalogue"
   ],
   "properties": {
     "menuTrees": {
@@ -18,7 +18,7 @@
         "$ref": "#/$defs/MenuListType"
       }
     },
-    "defaultMenuTreeActionsCatalogue": {
+    "defaultMenuActionsCatalogue": {
       "title": "Default menu tree actions catalogue",
       "description": "Defines alias mapping for the Checkout Engine default commands. Used in the menu tree to define actions without having to specify the command name and conditions.",
       "type": "object",
@@ -90,7 +90,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "retrieveOrder": {
               "default": {
@@ -101,7 +105,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "cancelOrder": {
               "default": {
@@ -112,7 +120,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "voidLine": {
               "default": {
@@ -123,7 +135,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "quantity": {
               "default": {
@@ -134,7 +150,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "receiptComment": {
               "default": {
@@ -145,7 +165,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "lineComment": {
               "default": {
@@ -156,31 +180,51 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "returnWithoutReceipt": {
               "default": {
                 "command": "RefundModeKeyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "complaint": {
               "default": {
                 "command": "ComplaintModeKeyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "refundPreviousOrder": {
               "default": {
                 "command": "RefundPreviousOrderCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "complaintPreviousOrder": {
               "default": {
                 "command": "ComplaintPreviousOrderCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "exitRefundPreviousOrder": {
               "default": {
@@ -191,13 +235,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "cancelRefundPreviousOrder": {
               "default": {
                 "command": "CancelRefundPreviousOrderCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "refundElement": {
               "default": {
@@ -208,13 +260,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "printCopy": {
               "default": {
                 "command": "PrintCopyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "printGiftReceipt": {
               "default": {
@@ -225,7 +285,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "vatInvoice": {
               "default": {
@@ -236,7 +300,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "extendedReceipt": {
               "default": {
@@ -247,19 +315,31 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "toggleRefundOnly": {
               "default": {
                 "command": "ToggleRefundOnlyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "toggleComplaintOnly": {
               "default": {
                 "command": "ToggleComplaintOnlyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "discountLinePercent": {
               "default": {
@@ -270,7 +350,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "discountLineAmount": {
               "default": {
@@ -281,7 +365,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "discountOrder": {
               "default": {
@@ -292,7 +380,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "removeLineDiscount": {
               "default": {
@@ -303,7 +395,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "changePrice": {
               "default": {
@@ -314,13 +410,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "priceCheck": {
               "default": {
                 "command": "PriceVerificationModeKeyCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "enterItemPackage": {
               "default": {
@@ -331,7 +435,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "exitItemPackage": {
               "default": {
@@ -342,7 +450,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "addItemToPackage": {
               "default": {
@@ -353,13 +465,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "redeemCoupon": {
               "default": {
                 "command": "RedeemCouponCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "discountCode": {
               "default": {
@@ -370,13 +490,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "retrieveCustomerOrder": {
               "default": {
                 "command": "RetrieveCustomerOrderCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "customer": {
               "default": {
@@ -387,7 +515,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "loyaltyVoucher": {
               "default": {
@@ -398,7 +530,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "externalCustomer": {
               "default": {
@@ -409,85 +545,141 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "redeemLoyaltyPoints": {
               "default": {
                 "command": "RedeemLoyaltyPointsCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "openCashDrawer": {
               "default": {
                 "command": "NoSaleCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "paidIn": {
               "default": {
                 "command": "PaidInCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "paidOut": {
               "default": {
                 "command": "PaidOutCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "tenderPickup": {
               "default": {
                 "command": "TenderPickupCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "tenderLoan": {
               "default": {
                 "command": "TenderLoanCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "epsFinalizeSalesPeriod": {
               "default": {
                 "command": "EpsFinalizeSalesPeriodCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "giftCardBalance": {
               "default": {
                 "command": "GiftCardBalanceInquryCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "issueGiftCard": {
               "default": {
                 "command": "IssueGiftCardCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "reloadGiftCard": {
               "default": {
                 "command": "ReloadGiftCardCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "giftCardCashOut": {
               "default": {
                 "command": "GiftCardCashOutCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "sessionActivation": {
               "default": {
                 "command": "SessionActivationCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "showControlledPrompt": {
               "default": {
                 "command": "ShowControlledPromptCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             }
           }
         },
@@ -531,7 +723,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "cash": {
               "default": {
@@ -542,7 +738,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "card": {
               "default": {
@@ -553,7 +753,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "mobilePayment": {
               "default": {
@@ -564,7 +768,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "giftCard": {
               "default": {
@@ -575,7 +783,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "giftCertificate": {
               "default": {
@@ -586,7 +798,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "voucher": {
               "default": {
@@ -597,7 +813,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "coupon": {
               "default": {
@@ -608,7 +828,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "organizationCharge": {
               "default": {
@@ -619,7 +843,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "loyaltyRedemption": {
               "default": {
@@ -630,7 +858,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "check": {
               "default": {
@@ -641,25 +873,41 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "houseAccount": {
               "default": {
                 "command": "TenderHouseAccountCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "eft": {
               "default": {
                 "command": "TenderEftCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "eftSelect": {
               "default": {
                 "command": "TenderEftSelectCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "electronicGiftCardUgcp": {
               "default": {
@@ -670,13 +918,21 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "electronicGiftCardUgcv": {
               "default": {
                 "command": "TenderElectronicGiftCardUGCVCommand"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "organizationChargeStd": {
               "default": {
@@ -687,19 +943,31 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "organizationChargeExtCust": {
               "default": {
                 "command": "TenderOrganizationChargeCommandExtCust"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "organizationChargeB2b": {
               "default": {
                 "command": "TenderOrganizationChargeCommandB2bCust"
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "pseudoTender": {
               "default": {
@@ -710,7 +978,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "bottleDeposit": {
               "default": {
@@ -721,7 +993,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "cardLocalTerminal": {
               "default": {
@@ -732,7 +1008,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "mobileVipps": {
               "default": {
@@ -743,7 +1023,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "mobileSvea": {
               "default": {
@@ -754,7 +1038,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "foodStamp": {
               "default": {
@@ -765,7 +1053,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             },
             "damagedBill": {
               "default": {
@@ -776,7 +1068,11 @@
                   }
                 ]
               },
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             }
           }
         }
@@ -1361,7 +1657,11 @@
               "const": "command"
             },
             "command": {
-              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+                }
+              ]
             }
           }
         }
