@@ -8,6 +8,7 @@ set -euo pipefail
 declare -A ALIASES=(
   [checkout-app]="customer-config/checkout-app/cha.settings.v1.json"
   [checkout-app-preview]="customer-config/checkout-app/cha.settings.preview.json"
+  [pos-layout-preview]="customer-config/checkout-app/cha.pos-layout.preview.json"
 )
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
