@@ -271,6 +271,13 @@
             },
             "minContains": 2
           }
+        },
+        "photos": {
+          "type": "array",
+          "description": "The photos stored for the line. Only STORED photos are listed: a REJECTED or DELETED photo is never published",
+          "items": {
+            "$ref": "#/$defs/SupplierReturnLinePhoto"
+          }
         }
       }
     },
@@ -356,6 +363,33 @@
           "goodsReceivedLineId": {
             "type": "null"
           }
+        }
+      }
+    },
+    "SupplierReturnLinePhoto": {
+      "title": "SupplierReturnLinePhoto",
+      "type": "object",
+      "description": "A photo stored for a line",
+      "required": [
+        "photoId",
+        "contentType"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "photoId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Id of the photo. Fetch it with GET .../lines/{lineId}/photos/{photoId} on the supplier-return api"
+        },
+        "contentType": {
+          "type": "string",
+          "enum": [
+            "image/jpeg",
+            "image/png",
+            "image/heic",
+            "image/heif"
+          ],
+          "description": "Media type of the photo"
         }
       }
     }
