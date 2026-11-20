@@ -71,7 +71,7 @@
         },
         "isTmsShipment": {
           "type": "boolean",
-          "description": "True when the customer chose a TMS delivery option for this fulfillment at checkout (Customer Order holds a tmsShipment.selection that is not null), so the store books the shipment with TMS when it packs the order. False in every other case. Customer Order sets it on every fulfillment it publishes; it is absent only on messages published before this field existed."
+          "description": "True when the customer chose a TMS delivery option for this fulfillment at checkout (Customer Order holds a tmsShipment.selection that is a JSON object, not absent and not null), so the store books the shipment with TMS when it packs the order. False in every other case. Customer Order sets it on every fulfillment it publishes; it is absent only on messages published before this field existed."
         },
         "lineItems": {
           "type": "array",
