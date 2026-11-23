@@ -261,6 +261,40 @@ describe('cnc.public.event.order-status-changed.v1', () => {
     const { orderType, ...withoutOrderType } = statusChange;
     assert.equal(validate(withoutOrderType), true, JSON.stringify(validate.errors));
   });
+
+  // HII-14611: the PICKED change carries the fulfillment's parcels.
+  const picked = { ...statusChange, previousStatus: 'PICKING', newStatus: 'PICKED' };
+
+  test('a PICKED message carrying parcels with and without the optional keys validates', () => {
+    assert.equal(
+      validate({
+        ...picked,
+        parcels: [
+          { weightKg: 1.5, parcelNumber: 'TMS-1', locationId: 'loc-1' },
+          { weightKg: 0.1, locationComment: 'shelf 3' },
+        ],
+      }),
+      true,
+      JSON.stringify(validate.errors),
+    );
+  });
+
+  // Absent is the single "no parcels"; an empty array is not a second one.
+  test('an empty parcels array is rejected', () => {
+    assert.equal(validate({ ...picked, parcels: [] }), false);
+  });
+
+  test('a parcel without weightKg is rejected', () => {
+    assert.equal(validate({ ...picked, parcels: [{ parcelNumber: 'TMS-1' }] }), false);
+  });
+
+  test('a parcel lighter than 0.1 kg is rejected', () => {
+    assert.equal(validate({ ...picked, parcels: [{ weightKg: 0.05 }] }), false);
+  });
+
+  test('a parcel with an unknown key is rejected', () => {
+    assert.equal(validate({ ...picked, parcels: [{ weightKg: 1, trackingLink: 'x' }] }), false);
+  });
 });
 
 describe('cnc.public.event.order-line-picked.v1', () => {
