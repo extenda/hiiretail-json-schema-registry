@@ -275,6 +275,7 @@
         "photos": {
           "type": "array",
           "description": "The photos stored for the line. Only STORED photos are listed: a REJECTED or DELETED photo is never published",
+          "maxItems": 5,
           "items": {
             "$ref": "#/$defs/SupplierReturnLinePhoto"
           }
