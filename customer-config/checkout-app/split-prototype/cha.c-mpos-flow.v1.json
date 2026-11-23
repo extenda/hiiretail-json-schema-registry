@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout App: Mobile POS sales flow",
+  "description": "Split proposal C: mixed (HRP-727). Holds the settings of one touchpoint. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-mpos-flow-editor.",
+  "type": "object",
+  "properties": {
+    "receipt": {
+      "title": "Receipt",
+      "description": "Receipt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clearTimeout": {
+          "title": "Clear Timeout (ms)",
+          "description": "The duration for which the receipt remains visible after finalization. In milliseconds.",
+          "type": "number",
+          "default": 5000
+        },
+        "displayInvalidatedItems": {
+          "title": "Show Voided Items",
+          "description": "Defines whether voided items should be rendered on the Active Receipt.",
+          "type": "boolean"
+        },
+        "layout": {
+          "title": "Layout",
+          "description": "This is a definition of the receipt layout settings.",
+          "type": "object",
+          "properties": {
+            "identifierType": {
+              "title": "Item Identifier Type",
+              "description": "The type of the identifier to be displayed in the receipt.",
+              "type": "string",
+              "enum": [
+                "id",
+                "barcode"
+              ],
+              "default": "id"
+            },
+            "visibleAttributes": {
+              "title": "Visible Item Attributes",
+              "description": "Toggles visibility of the listed item attributes in the receipt.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "linkedPromotionsIndicatorEnabled": {
+          "title": "Show Linked Promotion Indicators",
+          "description": "Enables visual linking of related promotion items with color bars in the active receipt view.",
+          "type": "boolean",
+          "default": true
+        },
+        "roundedAmountDue": {
+          "title": "Show Rounded Amount Due",
+          "description": "When true, the app displays the rounded amount due.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "lock": {
+      "title": "Lock",
+      "description": "Lock settings.",
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "title": "Auto-Lock Timeout (seconds)",
+          "description": "The number of seconds the register is idle before it is auto-locked.",
+          "type": "number",
+          "default": 0
+        }
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "title": "Authorization Provider",
+          "description": "The authorization provider used for transaction lookups. Default: iam.",
+          "type": "string",
+          "enum": [
+            "iam",
+            "ocms"
+          ],
+          "default": "iam"
+        },
+        "shortcutsEnabled": {
+          "title": "Enable Transaction Search Shortcut",
+          "description": "Enables the Transaction search shortcut.",
+          "type": "boolean",
+          "default": true
+        },
+        "internal": {
+          "title": "Internal",
+          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "pattern": {
+              "title": "Internal Order Number Pattern",
+              "description": "Regular expression used to detect internal transaction numbers (RegularOrder).",
+              "type": "string",
+              "minLength": 1,
+              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "external": {
+          "title": "External",
+          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Detect External Order Numbers",
+              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+              "type": "boolean",
+              "default": false
+            },
+            "pattern": {
+              "title": "External Order Number Pattern",
+              "description": "Regular expression for external transaction numbers. Write it as a JSON string with escaped backslashes (e.g. \\d{6}), without leading/trailing slashes.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "actions": {
+          "title": "Transaction Search Actions",
+          "description": "Controls which actions are available on the transaction search details view (refund, complaint, print copy, print gift receipt). Choose \"None\" to use the defaults.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "refundPreviousOrder": {
+              "title": "Refund previous order",
+              "description": "Show refund previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "complaintPreviousOrder": {
+              "title": "Complaint previous order",
+              "description": "Show complaint previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printCopy": {
+              "title": "Print copy",
+              "description": "Show print receipt copy action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printGiftReceipt": {
+              "title": "Print gift receipt",
+              "description": "Show print gift receipt action.",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "prompt": {
+      "title": "Prompt",
+      "description": "This is a definition of the prompt settings mobile pos.",
+      "type": "object",
+      "properties": {
+        "keyboardOverrides": {
+          "title": "Keyboard overrides",
+          "description": "Defines specific prompt codes that override the default keyboard type.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Specifies the keyboard type override for the corresponding prompt code.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Prompt code"
+              },
+              "keyboardType": {
+                "title": "Keyboard type",
+                "type": "string",
+                "enum": [
+                  "ALPHA_NUMERIC",
+                  "NUMERIC"
+                ],
+                "description": "Specifies the keyboard type override for the corresponding prompt code."
+              }
+            },
+            "required": [
+              "id",
+              "keyboardType"
+            ]
+          },
+          "default": []
+        }
+      }
+    },
+    "plu": {
+      "title": "PLU",
+      "description": "Plu settings in MPOS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable PLU",
+          "description": "Enables the PLU (price look-up) feature.",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "b2bCustomer": {
+      "title": "B 2b customer",
+      "description": "B2B customer settings in MPOS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable B2B Customer",
+          "description": "Enables the B2B customer feature.",
+          "type": "boolean"
+        },
+        "search": {
+          "title": "Search",
+          "description": "B2B customer search settings.",
+          "type": "object",
+          "properties": {
+            "autoAdvance": {
+              "title": "Auto advance",
+              "description": "Automatically advances through the Customer, Project, Agent sequence and auto-submits once nothing else is required.",
+              "type": "boolean"
+            },
+            "includeInactiveCustomers": {
+              "title": "Include inactive customers",
+              "description": "Includes inactive customers in B2B customer searches.",
+              "type": "boolean"
+            }
+          }
+        },
+        "invoiceSettlement": {
+          "title": "Invoice settlement",
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Invoice Settlement",
+              "description": "Enables the invoice settlement.",
+              "type": "boolean"
+            },
+            "itemId": {
+              "title": "Invoice Virtual Item ID",
+              "description": "The ID of the virtual item to be registered with the invoice.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "customerOrder": {
+      "title": "Customer Order Settings",
+      "description": "Customer order settings. Choose \"None\" to disable, or configure search/cancel/create behavior.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchEnabled": {
+          "title": "Search enabled",
+          "description": "Enables the customer order search functionality in the POS.",
+          "type": "boolean"
+        },
+        "cancelAllowed": {
+          "title": "Cancel allowed",
+          "description": "Allows canceling customer orders from the POS.",
+          "type": "boolean"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "description": "Allows creating customer orders from the POS.",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

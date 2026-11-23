@@ -1,0 +1,588 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout App: Mobile POS",
+  "description": "Split proposal A: by device. Holds the settings of one touchpoint. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-mpos-config-admin.",
+  "type": "object",
+  "properties": {
+    "server": {
+      "title": "Checkout Engine Server",
+      "description": "Server settings.",
+      "type": "object",
+      "properties": {
+        "host": {
+          "title": "Checkout Engine API Host",
+          "description": "Checkout Engine API URL.",
+          "type": "string"
+        },
+        "networkCallTimeout": {
+          "title": "Network Call Timeout (ms)",
+          "description": "The timeout for network calls. In milliseconds.",
+          "type": "number",
+          "default": 30000
+        }
+      }
+    },
+    "connect": {
+      "title": "Payment Connect",
+      "description": "Soft payment terminal providers settings definitions.",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "title": "Soft Payment Terminal Provider",
+          "description": "Sets the soft (mobile) payment terminal provider.",
+          "type": "string",
+          "enum": [
+            "viva",
+            "softpay"
+          ],
+          "default": null
+        }
+      }
+    },
+    "autoUpdate": {
+      "title": "Auto Update",
+      "description": "Auto-update settings.",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "title": "Update Channel",
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable.",
+          "type": "string",
+          "enum": [
+            "internal",
+            "preview",
+            "stable"
+          ]
+        }
+      }
+    },
+    "logs": {
+      "title": "Log Upload",
+      "description": "Logs settings.",
+      "type": "object",
+      "properties": {
+        "uploadEnabled": {
+          "title": "Enable Log Upload",
+          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer.",
+          "type": "boolean"
+        }
+      }
+    },
+    "peripherals": {
+      "title": "Peripherals",
+      "description": "Periperals settings definitions.",
+      "type": "object",
+      "properties": {
+        "printer": {
+          "title": "Printer",
+          "description": "Printer configurations",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Printing",
+              "description": "Enables the printing.",
+              "type": "boolean"
+            }
+          }
+        },
+        "cameraScanner": {
+          "title": "Camera scanner",
+          "description": "Defines whether camera scanning is enabled",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enable camera scanning buttons in main view and prompts",
+              "type": "boolean",
+              "default": true
+            },
+            "whitelistedPrompts": {
+              "title": "Whitelisted prompts",
+              "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true,
+              "default": []
+            }
+          }
+        },
+        "scan": {
+          "title": "Scan",
+          "description": "Configuration for item scan feedback events.",
+          "type": "object",
+          "properties": {
+            "audio": {
+              "title": "Audio",
+              "description": "Audio feedback configuration for scan events.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Audio Alerts Enabled",
+                  "description": "Enables audio alerts for barcode scanning.",
+                  "type": "boolean",
+                  "default": false
+                },
+                "success": {
+                  "title": "Success",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "title": "Success Sound",
+                      "description": "Enables audio alert for barcode scan success.",
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "error": {
+                  "title": "Error",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "title": "Error Sound",
+                      "description": "Enables audio alert for barcode scan failure.",
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "icd": {
+          "title": "ICD — MPOS (Tablet only)",
+          "description": "Settings for integration with ICD, only for Tablet devices.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "MPOS: Enable ICD Integration (Tablet only)",
+              "description": "Enables the integration with ICD. Only applies to Tablet devices.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "trainingModeAvailable": {
+      "title": "Training Mode Available",
+      "description": "Controls the availability of training mode.",
+      "type": "boolean",
+      "default": true
+    },
+    "theme": {
+      "title": "Theme",
+      "description": "Theme object for customization of the app.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "title": "Colors",
+          "description": "Theme settings",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": {
+              "title": "Primary",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "primaryDark": {
+              "title": "Primary dark",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "primaryLight": {
+              "title": "Primary light",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "secondary": {
+              "title": "Secondary",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            }
+          }
+        },
+        "fontFamilies": {
+          "title": "Font families",
+          "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "heading": {
+              "title": "Heading",
+              "description": "Font family for header titles. Replaces Dystopian.",
+              "type": "string",
+              "minLength": 1
+            },
+            "default": {
+              "title": "Default",
+              "description": "Font family for all other text. Replaces Inter.",
+              "type": "string",
+              "minLength": 1
+            },
+            "monospace": {
+              "title": "Monospace",
+              "description": "Font family for monospaced text. Replaces JetBrainsMono.",
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "roundness": {
+          "title": "Roundness",
+          "description": "The roundness of the UI elements in the app theme.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "wallpaperUri": {
+      "title": "Wallpaper Image URI",
+      "description": "URI for the wallpaper image. Accepts an https image URL (.jpg/.jpeg/.png) or a base64 data URI.",
+      "type": "string",
+      "pattern": "^(https://[^\\s]+(.(jpg|jpeg|png)))$"
+    },
+    "externalLinks": {
+      "title": "External Links",
+      "description": "Checkout App External Websites settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable External Links",
+          "description": "Enables the external links feature.",
+          "type": "boolean",
+          "default": false
+        },
+        "links": {
+          "title": "External Links",
+          "description": "External links list shown as a choice list in the app. Each entry needs a URL and a display name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "url",
+              "name"
+            ],
+            "properties": {
+              "url": {
+                "title": "URL",
+                "description": "External web page urls.",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "Name of the web site to display in the choice list in app.",
+                "type": "string"
+              },
+              "shareAuthorizationToken": {
+                "title": "Share authorization token",
+                "description": "Set true to share authorization token with this website.",
+                "type": "boolean"
+              },
+              "shareRetailInformation": {
+                "title": "Share retail information",
+                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "inAppLinksEnabled": {
+      "title": "Enable In-App Link Handling",
+      "description": "Set true to allow in-app link handling.",
+      "type": "boolean"
+    },
+    "receipt": {
+      "title": "Receipt",
+      "description": "Receipt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clearTimeout": {
+          "title": "Clear Timeout (ms)",
+          "description": "The duration for which the receipt remains visible after finalization. In milliseconds.",
+          "type": "number",
+          "default": 5000
+        },
+        "displayInvalidatedItems": {
+          "title": "Show Voided Items",
+          "description": "Defines whether voided items should be rendered on the Active Receipt.",
+          "type": "boolean"
+        },
+        "layout": {
+          "title": "Layout",
+          "description": "This is a definition of the receipt layout settings.",
+          "type": "object",
+          "properties": {
+            "identifierType": {
+              "title": "Item Identifier Type",
+              "description": "The type of the identifier to be displayed in the receipt.",
+              "type": "string",
+              "enum": [
+                "id",
+                "barcode"
+              ],
+              "default": "id"
+            },
+            "visibleAttributes": {
+              "title": "Visible Item Attributes",
+              "description": "Toggles visibility of the listed item attributes in the receipt.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "linkedPromotionsIndicatorEnabled": {
+          "title": "Show Linked Promotion Indicators",
+          "description": "Enables visual linking of related promotion items with color bars in the active receipt view.",
+          "type": "boolean",
+          "default": true
+        },
+        "roundedAmountDue": {
+          "title": "Show Rounded Amount Due",
+          "description": "When true, the app displays the rounded amount due.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "lock": {
+      "title": "Lock",
+      "description": "Lock settings.",
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "title": "Auto-Lock Timeout (seconds)",
+          "description": "The number of seconds the register is idle before it is auto-locked.",
+          "type": "number",
+          "default": 0
+        }
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "title": "Authorization Provider",
+          "description": "The authorization provider used for transaction lookups. Default: iam.",
+          "type": "string",
+          "enum": [
+            "iam",
+            "ocms"
+          ],
+          "default": "iam"
+        },
+        "shortcutsEnabled": {
+          "title": "Enable Transaction Search Shortcut",
+          "description": "Enables the Transaction search shortcut.",
+          "type": "boolean",
+          "default": true
+        },
+        "internal": {
+          "title": "Internal",
+          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "pattern": {
+              "title": "Internal Order Number Pattern",
+              "description": "Regular expression used to detect internal transaction numbers (RegularOrder).",
+              "type": "string",
+              "minLength": 1,
+              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "external": {
+          "title": "External",
+          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Detect External Order Numbers",
+              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+              "type": "boolean",
+              "default": false
+            },
+            "pattern": {
+              "title": "External Order Number Pattern",
+              "description": "Regular expression for external transaction numbers. Write it as a JSON string with escaped backslashes (e.g. \\d{6}), without leading/trailing slashes.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "actions": {
+          "title": "Transaction Search Actions",
+          "description": "Controls which actions are available on the transaction search details view (refund, complaint, print copy, print gift receipt). Choose \"None\" to use the defaults.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "refundPreviousOrder": {
+              "title": "Refund previous order",
+              "description": "Show refund previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "complaintPreviousOrder": {
+              "title": "Complaint previous order",
+              "description": "Show complaint previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printCopy": {
+              "title": "Print copy",
+              "description": "Show print receipt copy action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printGiftReceipt": {
+              "title": "Print gift receipt",
+              "description": "Show print gift receipt action.",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "prompt": {
+      "title": "Prompt",
+      "description": "This is a definition of the prompt settings mobile pos.",
+      "type": "object",
+      "properties": {
+        "keyboardOverrides": {
+          "title": "Keyboard overrides",
+          "description": "Defines specific prompt codes that override the default keyboard type.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Specifies the keyboard type override for the corresponding prompt code.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Prompt code"
+              },
+              "keyboardType": {
+                "title": "Keyboard type",
+                "type": "string",
+                "enum": [
+                  "ALPHA_NUMERIC",
+                  "NUMERIC"
+                ],
+                "description": "Specifies the keyboard type override for the corresponding prompt code."
+              }
+            },
+            "required": [
+              "id",
+              "keyboardType"
+            ]
+          },
+          "default": []
+        }
+      }
+    },
+    "plu": {
+      "title": "PLU",
+      "description": "Plu settings in MPOS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable PLU",
+          "description": "Enables the PLU (price look-up) feature.",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "b2bCustomer": {
+      "title": "B 2b customer",
+      "description": "B2B customer settings in MPOS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable B2B Customer",
+          "description": "Enables the B2B customer feature.",
+          "type": "boolean"
+        },
+        "search": {
+          "title": "Search",
+          "description": "B2B customer search settings.",
+          "type": "object",
+          "properties": {
+            "autoAdvance": {
+              "title": "Auto advance",
+              "description": "Automatically advances through the Customer, Project, Agent sequence and auto-submits once nothing else is required.",
+              "type": "boolean"
+            },
+            "includeInactiveCustomers": {
+              "title": "Include inactive customers",
+              "description": "Includes inactive customers in B2B customer searches.",
+              "type": "boolean"
+            }
+          }
+        },
+        "invoiceSettlement": {
+          "title": "Invoice settlement",
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Invoice Settlement",
+              "description": "Enables the invoice settlement.",
+              "type": "boolean"
+            },
+            "itemId": {
+              "title": "Invoice Virtual Item ID",
+              "description": "The ID of the virtual item to be registered with the invoice.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "customerOrder": {
+      "title": "Customer Order Settings",
+      "description": "Customer order settings. Choose \"None\" to disable, or configure search/cancel/create behavior.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchEnabled": {
+          "title": "Search enabled",
+          "description": "Enables the customer order search functionality in the POS.",
+          "type": "boolean"
+        },
+        "cancelAllowed": {
+          "title": "Cancel allowed",
+          "description": "Allows canceling customer orders from the POS.",
+          "type": "boolean"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "description": "Allows creating customer orders from the POS.",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

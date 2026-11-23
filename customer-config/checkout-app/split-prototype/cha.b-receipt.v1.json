@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout App: Receipt",
+  "description": "Split proposal B: by topic. Holds a sub-object per touchpoint: pos, sco, mpos. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-receipt-editor.",
+  "type": "object",
+  "properties": {
+    "pos": {
+      "title": "POS",
+      "description": "Staffed till: the desktop Checkout App in POS mode.",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "title": "Receipt",
+          "description": "Receipt settings.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "clearTimeout": {
+              "title": "Clear Timeout (ms)",
+              "description": "The duration for which the receipt remains visible after finalization. In milliseconds.",
+              "type": "number",
+              "default": 5000
+            },
+            "displayInvalidatedItems": {
+              "title": "Show Voided Items",
+              "description": "Defines whether voided items should be rendered on the Active Receipt.",
+              "type": "boolean"
+            },
+            "layout": {
+              "title": "Layout",
+              "description": "This is a definition of the receipt layout settings.",
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "title": "Item Identifier Type",
+                  "description": "The type of the identifier to be displayed in the receipt.",
+                  "type": "string",
+                  "enum": [
+                    "id",
+                    "barcode"
+                  ],
+                  "default": "id"
+                },
+                "visibleAttributes": {
+                  "title": "Visible Item Attributes",
+                  "description": "Toggles visibility of the listed item attributes in the receipt.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              }
+            },
+            "linkedPromotionsIndicatorEnabled": {
+              "title": "Show Linked Promotion Indicators",
+              "description": "Enables visual linking of related promotion items with color bars in the active receipt view.",
+              "type": "boolean",
+              "default": true
+            },
+            "roundedAmountDue": {
+              "title": "Show Rounded Amount Due",
+              "description": "When true, the app displays the rounded amount due.",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "sco": {
+      "title": "Self-checkout",
+      "description": "The desktop Checkout App in self-checkout (SCO) or hybrid mode.",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "title": "Receipt",
+          "description": "Receipt settings.",
+          "type": "object",
+          "properties": {
+            "layout": {
+              "title": "Receipt",
+              "description": "This is a definition of the receipt layout settings.",
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "title": "Item Identifier Type",
+                  "description": "The type of the identifier to be displayed in the receipt.",
+                  "type": "string",
+                  "enum": [
+                    "id",
+                    "barcode"
+                  ],
+                  "default": "id"
+                },
+                "visibleAttributes": {
+                  "title": "Visible Item Attributes",
+                  "description": "Toggles visibility of the listed item attributes in the receipt.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mpos": {
+      "title": "Mobile POS",
+      "description": "The Checkout App on a handheld or tablet.",
+      "type": "object",
+      "properties": {
+        "receipt": {
+          "title": "Receipt",
+          "description": "Receipt settings.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "clearTimeout": {
+              "title": "Clear Timeout (ms)",
+              "description": "The duration for which the receipt remains visible after finalization. In milliseconds.",
+              "type": "number",
+              "default": 5000
+            },
+            "displayInvalidatedItems": {
+              "title": "Show Voided Items",
+              "description": "Defines whether voided items should be rendered on the Active Receipt.",
+              "type": "boolean"
+            },
+            "layout": {
+              "title": "Layout",
+              "description": "This is a definition of the receipt layout settings.",
+              "type": "object",
+              "properties": {
+                "identifierType": {
+                  "title": "Item Identifier Type",
+                  "description": "The type of the identifier to be displayed in the receipt.",
+                  "type": "string",
+                  "enum": [
+                    "id",
+                    "barcode"
+                  ],
+                  "default": "id"
+                },
+                "visibleAttributes": {
+                  "title": "Visible Item Attributes",
+                  "description": "Toggles visibility of the listed item attributes in the receipt.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              }
+            },
+            "linkedPromotionsIndicatorEnabled": {
+              "title": "Show Linked Promotion Indicators",
+              "description": "Enables visual linking of related promotion items with color bars in the active receipt view.",
+              "type": "boolean",
+              "default": true
+            },
+            "roundedAmountDue": {
+              "title": "Show Rounded Amount Due",
+              "description": "When true, the app displays the rounded amount due.",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

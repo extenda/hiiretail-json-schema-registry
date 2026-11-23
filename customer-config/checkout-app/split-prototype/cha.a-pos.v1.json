@@ -1,0 +1,1840 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout App: POS",
+  "description": "Split proposal A: by device. Holds a sub-object per touchpoint: customerDisplay. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-pos-config-admin.",
+  "type": "object",
+  "properties": {
+    "server": {
+      "title": "Server",
+      "description": "Server settings.",
+      "type": "object",
+      "properties": {
+        "host": {
+          "title": "Checkout Engine API Host",
+          "description": "Checkout Engine API URL.",
+          "type": "string"
+        },
+        "networkCallTimeout": {
+          "title": "Network Call Timeout (ms)",
+          "description": "The timeout for network calls. In milliseconds.",
+          "type": "number",
+          "default": 30000
+        }
+      }
+    },
+    "edge": {
+      "title": "Edge",
+      "description": "Edge settings.",
+      "type": "object",
+      "properties": {
+        "offline": {
+          "title": "Offline",
+          "description": "This is a definition of the offline settings.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enables offline integration. When enabled, losing connection to the Edge host will make the app switch to the offline local solution. Only works when the Edge host is configured. Not supported on mobile devices.",
+              "type": "boolean"
+            }
+          }
+        },
+        "host": {
+          "title": "Edge Host URL",
+          "description": "Edge host URL. Allows the application to switch to the Edge solution offline.",
+          "type": "string"
+        }
+      }
+    },
+    "connect": {
+      "title": "Payment Connect",
+      "description": "POS payment providers settings definitions.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "title": "Payment Connection Mode",
+          "description": "Sets the connection mode for reading payment messages.",
+          "type": "string",
+          "enum": [
+            "local",
+            "cloud"
+          ],
+          "default": "cloud"
+        }
+      }
+    },
+    "autoUpdate": {
+      "title": "Auto update",
+      "description": "Auto-update settings.",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "title": "Update Channel",
+          "description": "The channel for the update. Customers must use only the preview and stable channels - internal is reserved. All new updates will appear in the preview channel before being promoted to the stable channel. A preview channel will get preview and stable updates. A stable channel will get only stable updates. Customers are encouraged to setup a few tills on the preview channels to test drive new updates before being promoted to stable.",
+          "type": "string",
+          "enum": [
+            "internal",
+            "preview",
+            "stable"
+          ]
+        },
+        "maintenanceExclusion": {
+          "title": "Maintenance exclusion",
+          "description": "The maintenance exclusion window for the update. The exclusion maintenance period takes precedence over any scheduled maintenance window. Maximum of 30 days allowed. The exlusion window is applied only for stable channel and only for major and minor updates(semantic versioning).",
+          "type": "object",
+          "properties": {
+            "start": {
+              "title": "Exclusion Start (UTC)",
+              "description": "The start date and time of the maintenance exclusion. Specify in the UTC time zone.",
+              "type": "string",
+              "format": "date-time",
+              "examples": [
+                "2024-01-14T07:00:00.000Z"
+              ]
+            },
+            "duration": {
+              "title": "Exclusion Duration (days)",
+              "description": "The number of days from the start date for the maintenance exclusion to take precedence. Maximum 30 days.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "examples": [
+                "5"
+              ]
+            }
+          }
+        },
+        "maintenanceWindow": {
+          "title": "Maintenance window",
+          "description": "The maintenance window for the update. During this window the update will download and install automatically. To start update the app must be open else it will try to update on the next maintenance window. The maintenance window is applied to preview and stable channels for major, minor and patch updates(see semantic versioning)",
+          "type": "object",
+          "properties": {
+            "days": {
+              "title": "Maintenance Days",
+              "description": "Days of the week when maintenance updates can occur.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "MO",
+                  "TU",
+                  "WE",
+                  "TH",
+                  "FR",
+                  "SA",
+                  "SU"
+                ]
+              },
+              "uniqueItems": true,
+              "minItems": 1
+            },
+            "start": {
+              "title": "Window Start (UTC)",
+              "description": "The start time of the maintenance window, e.g. 18:00:00. Specify in the UTC time zone.",
+              "type": "string",
+              "format": "time",
+              "examples": [
+                "18:00:00"
+              ]
+            },
+            "end": {
+              "title": "Window End (UTC)",
+              "description": "The end time of the maintenance window, e.g. 23:59:00. Specify in the UTC time zone.",
+              "type": "string",
+              "format": "time",
+              "examples": [
+                "23:59:00"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "logs": {
+      "title": "Log Upload",
+      "description": "Logs settings.",
+      "type": "object",
+      "properties": {
+        "uploadEnabled": {
+          "title": "Enable Log Upload",
+          "description": "Indicates if the logs should be uploaded to the server. This also enables the logs button in the settings drawer.",
+          "type": "boolean"
+        }
+      }
+    },
+    "peripherals": {
+      "title": "Peripherals",
+      "description": "Periperals settings.",
+      "type": "object",
+      "properties": {
+        "legacy": {
+          "title": "Use Legacy MQTT Peripherals",
+          "description": "Enables legacy MQTT peripherals instead of gRPC.",
+          "type": "boolean"
+        },
+        "scale": {
+          "title": "Scale",
+          "description": "This is a definition of the scale settings.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Scale",
+              "description": "Enables the scale.",
+              "type": "boolean"
+            },
+            "autoConnect": {
+              "title": "Auto Connect",
+              "description": "Enables the auto connect.",
+              "type": "boolean"
+            },
+            "logicalName": {
+              "title": "Scale Logical Name",
+              "description": "Scale's logical name.",
+              "type": "string"
+            }
+          }
+        },
+        "scanner1": {
+          "title": "Scanner 1",
+          "description": "This is a definition of the scanner settings.",
+          "type": "object",
+          "properties": {
+            "autoConnect": {
+              "title": "Auto Connect",
+              "description": "Enables the auto connect.",
+              "type": "boolean"
+            },
+            "logicalName": {
+              "title": "Scanner 1 Logical Name",
+              "description": "Scanner's logical name.",
+              "type": "string"
+            }
+          }
+        },
+        "scanner2": {
+          "title": "Scanner 2",
+          "description": "This is a definition of the scanner settings.",
+          "type": "object",
+          "properties": {
+            "autoConnect": {
+              "title": "Auto Connect",
+              "description": "Enables the auto connect.",
+              "type": "boolean"
+            },
+            "logicalName": {
+              "title": "Scanner 2 Logical Name",
+              "description": "Scanner's logical name.",
+              "type": "string"
+            }
+          }
+        },
+        "scan": {
+          "title": "Scan",
+          "description": "Configuration for item scan feedback events.",
+          "type": "object",
+          "properties": {
+            "audio": {
+              "title": "Audio",
+              "description": "Audio feedback configuration for scan events.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Audio Alerts Enabled",
+                  "description": "Enables audio alerts for barcode scanning.",
+                  "type": "boolean",
+                  "default": false
+                },
+                "success": {
+                  "title": "Success",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "title": "Success Sound",
+                      "description": "Enables audio alert for barcode scan success.",
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "error": {
+                  "title": "Error",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "title": "Error Sound",
+                      "description": "Enables audio alert for barcode scan failure.",
+                      "type": "boolean",
+                      "default": false
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "printer": {
+          "title": "Printer",
+          "description": "This is a definition of the printer settings.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Printer",
+              "description": "Enables the printer device.",
+              "type": "boolean"
+            },
+            "autoConnect": {
+              "title": "Auto Connect",
+              "description": "Enables the auto connect.",
+              "type": "boolean"
+            },
+            "logicalName": {
+              "title": "Printer Logical Name",
+              "description": "Printer's logical name.",
+              "type": "string"
+            },
+            "cashdrawerEnabled": {
+              "title": "Enable Cash Drawer",
+              "description": "Enables the cash drawer device.",
+              "type": "boolean"
+            },
+            "cashdrawerLogicalName": {
+              "title": "Cash Drawer Logical Name",
+              "description": "Cash drawer's logical name.",
+              "type": "string"
+            }
+          }
+        },
+        "systemPrinter": {
+          "title": "System printer",
+          "description": "This is a definition of the system printer settings.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enables the device.",
+              "type": "boolean"
+            },
+            "logicalName": {
+              "title": "Logical name",
+              "description": "Printer's device name.",
+              "type": "string"
+            },
+            "timeout": {
+              "title": "Timeout",
+              "description": "Printer's timeout in ms for loading operations.",
+              "type": "number"
+            }
+          }
+        },
+        "cashchanger": {
+          "title": "Cash changer",
+          "description": "This is a definition of the CashChanger settings.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Cash Changer",
+              "description": "Enables the cash changer.",
+              "type": "boolean"
+            }
+          }
+        },
+        "icd": {
+          "title": "ICD",
+          "description": "Settings for integration with ICD.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "POS: Enable ICD Integration",
+              "description": "Enables the integration with ICD.",
+              "type": "boolean"
+            }
+          }
+        },
+        "itab": {
+          "title": "ITAB",
+          "description": "Settings for integration with ITAB.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enables the integration with ITAB.",
+              "type": "boolean"
+            },
+            "model": {
+              "title": "Model",
+              "description": "The ITAB hardware system.",
+              "type": "string",
+              "enum": [
+                "TWINFLOW",
+                "MOVEFLOW",
+                "EASYFLOW"
+              ]
+            },
+            "host": {
+              "title": "Host",
+              "description": "ITAB SCO API server address",
+              "type": "string"
+            },
+            "port": {
+              "title": "Port",
+              "description": "ITAB SCO API server address's port",
+              "type": "integer"
+            },
+            "messageTimeoutMilliseconds": {
+              "title": "Message timeout milliseconds",
+              "description": "Timeout in milliseconds for messages.",
+              "type": "integer"
+            },
+            "responseTimeoutMilliseconds": {
+              "title": "Response timeout milliseconds",
+              "description": "Timeout in milliseconds for responses.",
+              "type": "integer"
+            },
+            "connectionTimeout": {
+              "title": "Connection timeout",
+              "description": "Connection timeout in milliseconds.",
+              "type": "integer"
+            },
+            "connectionReconnectTime": {
+              "title": "Connection reconnect time",
+              "description": "Reconnect delay in milliseconds.",
+              "type": "integer"
+            },
+            "highestApiVersion": {
+              "title": "Highest API version",
+              "description": "Highest supported ITAB API version.",
+              "type": "string"
+            },
+            "lossPrevention": {
+              "title": "Loss prevention",
+              "description": "Settings for ITAB loss prevention.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the integration with ITAB loss prevention.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "exitGate": {
+              "title": "Exit gate",
+              "description": "Settings for ITAB exit gate.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the integration with ITAB exit gate.",
+                  "type": "boolean"
+                },
+                "host": {
+                  "title": "Host",
+                  "description": "IP address of exit gate.",
+                  "type": "string"
+                },
+                "port": {
+                  "title": "Port",
+                  "description": "Port which commands will be sent to.",
+                  "type": "integer"
+                }
+              }
+            },
+            "lightTower": {
+              "title": "Light tower",
+              "description": "Settings for ITAB light tower.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the integration with ITAB light tower.",
+                  "type": "boolean"
+                },
+                "serialPort": {
+                  "title": "Serial port",
+                  "description": "Serial port for the light tower.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "lineDisplay": {
+          "title": "Line display",
+          "description": "Settings for integration with JPOS line display.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enables the line display.",
+              "type": "boolean"
+            },
+            "columns": {
+              "title": "Columns",
+              "description": "Number of chars fitting on the line.",
+              "type": "integer"
+            },
+            "rows": {
+              "title": "Rows",
+              "description": "Number of lines available.",
+              "type": "integer"
+            },
+            "thankYou": {
+              "title": "Thank you",
+              "description": "Override thank you message to show after finalization.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "title": "Line"
+              }
+            },
+            "welcome": {
+              "title": "Welcome",
+              "description": "Override welcome message to show when idle or after thank you.",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "title": "Line"
+              }
+            }
+          }
+        }
+      }
+    },
+    "zoomFactor": {
+      "title": "Zoom Factor",
+      "description": "The zoom factor for the POS and SCO application. Intended range is 0.6-2.0 in 0.1 steps (not currently enforced by the data schema).",
+      "type": "number",
+      "enum": [
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2
+      ],
+      "default": 1
+    },
+    "fullscreen": {
+      "title": "Open in Fullscreen",
+      "description": "Sets whether the application should open in full screen by default.",
+      "type": "boolean",
+      "default": false
+    },
+    "kiosk": {
+      "title": "Kiosk Mode",
+      "description": "Hides the settings button from the drawer.",
+      "type": "boolean",
+      "default": false
+    },
+    "trainingModeAvailable": {
+      "title": "Training Mode Available",
+      "description": "Controls the availability of training mode.",
+      "type": "boolean",
+      "default": true
+    },
+    "theme": {
+      "title": "Theme",
+      "description": "Theme object for customisation of the app.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "title": "Colors",
+          "description": "Theme settings",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": {
+              "title": "Primary",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "primaryDark": {
+              "title": "Primary dark",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "primaryLight": {
+              "title": "Primary light",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            },
+            "secondary": {
+              "title": "Secondary",
+              "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+            }
+          }
+        },
+        "fontFamilies": {
+          "title": "Font families",
+          "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "heading": {
+              "title": "Heading",
+              "description": "Font family for header titles. Replaces Dystopian.",
+              "type": "string",
+              "minLength": 1
+            },
+            "default": {
+              "title": "Default",
+              "description": "Font family for all other text. Replaces Inter.",
+              "type": "string",
+              "minLength": 1
+            },
+            "monospace": {
+              "title": "Monospace",
+              "description": "Font family for monospaced text. Replaces JetBrainsMono.",
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "roundness": {
+          "title": "Roundness",
+          "description": "The roundness of the UI elements in the app theme.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "wallpaperUri": {
+      "title": "Wallpaper Image URI",
+      "description": "URI for the wallpaper image. Accepts an https image URL (.jpg/.jpeg/.png) or a base64 data URI.",
+      "type": "string",
+      "pattern": "^(https://[^\\s]+(.(jpg|jpeg|png)))$"
+    },
+    "externalLinks": {
+      "title": "External Links",
+      "description": "Checkout App External Websites settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable External Links",
+          "description": "Enables the external links feature.",
+          "type": "boolean",
+          "default": false
+        },
+        "links": {
+          "title": "External Links",
+          "description": "External links list shown as a choice list in the app. Each entry needs a URL and a display name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "url",
+              "name"
+            ],
+            "properties": {
+              "url": {
+                "title": "URL",
+                "description": "External web page urls.",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "Name of the web site to display in the choice list in app.",
+                "type": "string"
+              },
+              "shareAuthorizationToken": {
+                "title": "Share authorization token",
+                "description": "Set true to share authorization token with this website.",
+                "type": "boolean"
+              },
+              "shareRetailInformation": {
+                "title": "Share retail information",
+                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "inAppLinksEnabled": {
+      "title": "Enable In-App Link Handling",
+      "description": "Set true to allow in-app link handling.",
+      "type": "boolean"
+    },
+    "itemPicturesEnabled": {
+      "title": "Show Item Pictures",
+      "description": "Enables showing of item images in receipt and search.",
+      "type": "boolean"
+    },
+    "receipt": {
+      "title": "Receipt",
+      "description": "Receipt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clearTimeout": {
+          "title": "Clear Timeout (ms)",
+          "description": "The duration for which the receipt remains visible after finalization. In milliseconds.",
+          "type": "number",
+          "default": 5000
+        },
+        "displayInvalidatedItems": {
+          "title": "Show Voided Items",
+          "description": "Defines whether voided items should be rendered on the Active Receipt.",
+          "type": "boolean"
+        },
+        "layout": {
+          "title": "Layout",
+          "description": "This is a definition of the receipt layout settings.",
+          "type": "object",
+          "properties": {
+            "identifierType": {
+              "title": "Item Identifier Type",
+              "description": "The type of the identifier to be displayed in the receipt.",
+              "type": "string",
+              "enum": [
+                "id",
+                "barcode"
+              ],
+              "default": "id"
+            },
+            "visibleAttributes": {
+              "title": "Visible Item Attributes",
+              "description": "Toggles visibility of the listed item attributes in the receipt.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "linkedPromotionsIndicatorEnabled": {
+          "title": "Show Linked Promotion Indicators",
+          "description": "Enables visual linking of related promotion items with color bars in the active receipt view.",
+          "type": "boolean",
+          "default": true
+        },
+        "roundedAmountDue": {
+          "title": "Show Rounded Amount Due",
+          "description": "When true, the app displays the rounded amount due.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "auth": {
+      "title": "Authentication",
+      "description": "Auth settings",
+      "type": "object",
+      "properties": {
+        "operatorIdCard": {
+          "title": "Operator ID card",
+          "description": "Allows login by scanning a card Id. Set a configurable pattern to distinguish between standard product barcode.",
+          "type": "object",
+          "properties": {
+            "prefix": {
+              "title": "Operator Card ID Prefix",
+              "description": "Unique starting pattern for the employee card ID. Can be a regex pattern or a fixed string.",
+              "type": "string"
+            },
+            "suffix": {
+              "title": "Operator Card ID Suffix",
+              "description": "Unique ending pattern for the employee card ID. Can be a regex pattern or a fixed string.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "lock": {
+      "title": "Lock",
+      "description": "Lock settings.",
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "title": "Auto-Lock Timeout (seconds)",
+          "description": "The number of seconds the register is idle before it is auto-locked.",
+          "type": "number",
+          "default": 0
+        }
+      }
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "The configuration point to determine whether a customer's specific order numbers are handled by an external or internal repository.",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "title": "Authorization Provider",
+          "description": "The authorization provider used for transaction lookups. Default: iam.",
+          "type": "string",
+          "enum": [
+            "iam",
+            "ocms"
+          ],
+          "default": "iam"
+        },
+        "shortcutsEnabled": {
+          "title": "Enable Transaction Search Shortcut",
+          "description": "Enables the Transaction search shortcut.",
+          "type": "boolean",
+          "default": true
+        },
+        "internal": {
+          "title": "Internal",
+          "description": "Defines how internal transaction numbers (RegularOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "pattern": {
+              "title": "Internal Order Number Pattern",
+              "description": "Regular expression used to detect internal transaction numbers (RegularOrder).",
+              "type": "string",
+              "minLength": 1,
+              "default": "^(66|44)([\\dA-Z]{3}|[\\dA-Z]{5})(\\d{14}|\\d{15})(\\d|)$"
+            }
+          },
+          "additionalProperties": false
+        },
+        "external": {
+          "title": "External",
+          "description": "Defines how external customer order numbers (ExternalCustomerOrder) should be detected.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Detect External Order Numbers",
+              "description": "When enabled, transaction numbers matching the external pattern will be treated as external.",
+              "type": "boolean",
+              "default": false
+            },
+            "pattern": {
+              "title": "External Order Number Pattern",
+              "description": "Regular expression for external transaction numbers. Write it as a JSON string with escaped backslashes (e.g. \\d{6}), without leading/trailing slashes.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "actions": {
+          "title": "Transaction Search Actions",
+          "description": "Controls which actions are available on the transaction search details view (refund, complaint, print copy, print gift receipt). Choose \"None\" to use the defaults.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "refundPreviousOrder": {
+              "title": "Refund previous order",
+              "description": "Show refund previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "complaintPreviousOrder": {
+              "title": "Complaint previous order",
+              "description": "Show complaint previous order action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printCopy": {
+              "title": "Print copy",
+              "description": "Show print receipt copy action.",
+              "type": "boolean",
+              "default": true
+            },
+            "printGiftReceipt": {
+              "title": "Print gift receipt",
+              "description": "Show print gift receipt action.",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "prompt": {
+      "title": "Prompt Input",
+      "description": "Prompt settings.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decimalMonetary": {
+          "title": "Decimal Monetary Input",
+          "description": "Enables the decimal monetary input mode, allowing interactive character-by-character editing of monetary values with a fixed decimal point. Defaults to false.",
+          "type": "boolean"
+        },
+        "integerMonetary": {
+          "title": "Integer-Only Monetary Input",
+          "description": "Indicates if the monetary input should accept decimals or not.",
+          "type": "boolean"
+        },
+        "keyboardOverrides": {
+          "title": "Keyboard overrides",
+          "description": "Defines specific prompt codes that override the default keyboard type.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Specifies the keyboard type override for the corresponding prompt code.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Prompt code"
+              },
+              "keyboardType": {
+                "title": "Keyboard type",
+                "type": "string",
+                "enum": [
+                  "ALPHA_NUMERIC",
+                  "NUMERIC"
+                ],
+                "description": "Specifies the keyboard type override for the corresponding prompt code."
+              }
+            },
+            "required": [
+              "id",
+              "keyboardType"
+            ]
+          },
+          "default": []
+        }
+      }
+    },
+    "plu": {
+      "title": "PLU",
+      "description": "Plu settings in POS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable PLU",
+          "description": "Enables the PLU (price look-up) feature.",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "b2bCustomer": {
+      "title": "B 2b customer",
+      "description": "B2B customer settings in POS mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable B2B Customer",
+          "description": "Enables the B2B customer feature.",
+          "type": "boolean"
+        },
+        "search": {
+          "title": "Search",
+          "description": "B2B customer search settings.",
+          "type": "object",
+          "properties": {
+            "autoAdvance": {
+              "title": "Auto advance",
+              "description": "Automatically advances through the Customer, Project, Agent sequence and auto-submits once nothing else is required.",
+              "type": "boolean"
+            },
+            "includeInactiveCustomers": {
+              "title": "Include inactive customers",
+              "description": "Includes inactive customers in B2B customer searches.",
+              "type": "boolean"
+            }
+          }
+        },
+        "invoiceSettlement": {
+          "title": "Invoice settlement",
+          "description": "Invoice settlement settings in MPOS mode.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Invoice Settlement",
+              "description": "Enables the invoice settlement.",
+              "type": "boolean"
+            },
+            "itemId": {
+              "title": "Invoice Virtual Item ID",
+              "description": "The ID of the virtual item to be registered with the invoice.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "customerOrder": {
+      "title": "Customer Order Settings",
+      "description": "Customer order settings. Choose \"None\" to disable, or configure search/cancel/create behavior.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchEnabled": {
+          "title": "Search enabled",
+          "description": "Enables the customer order search functionality in the POS.",
+          "type": "boolean"
+        },
+        "cancelAllowed": {
+          "title": "Cancel allowed",
+          "description": "Allows canceling customer orders from the POS.",
+          "type": "boolean"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "description": "Allows creating customer orders from the POS.",
+          "type": "boolean"
+        }
+      }
+    },
+    "variantSearch": {
+      "title": "Variant search",
+      "description": "Variant search settings. This property is also used for android tablet application variant search feature configuration.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Variant Search",
+          "description": "Enables the variant search. Also used for the Android tablet application's variant search feature.",
+          "type": "boolean",
+          "default": false
+        },
+        "inventory": {
+          "title": "Inventory Settings",
+          "description": "Inventory-related settings for variant search, e.g. showing incoming deliveries.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "showIncomingDeliveries": {
+              "title": "Show incoming deliveries",
+              "description": "Shows the incoming deliveries in the item search. Uses the Order Response API to fetch the deliveries. See more details in the documentation: https://developer.hiiretail.com/api/order-response-api",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "facetSearchParameters": {
+          "title": "Facet search parameters",
+          "description": "Map of item properties to be used as filters in the search. Each key represents the name of the item property, and the value is an object containing the filter configuration.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "assortmentPolicyType": {
+              "title": "Assortment Policy Type",
+              "description": "Filter configuration for the assortment policy type facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "assortmentTags": {
+              "title": "Assortment Tags",
+              "description": "Filter configuration for the assortment tags facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "brand": {
+              "title": "Brand",
+              "description": "Filter configuration for the brand facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "businessUnitIds": {
+              "title": "Business Unit IDs",
+              "description": "Filter configuration for the business unit IDs facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "depositAndFeeRuleIds": {
+              "title": "Deposit & Fee Rule IDs",
+              "description": "Filter configuration for the deposit and fee rule IDs facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "tags": {
+              "title": "Tags",
+              "description": "Filter configuration for the tags facet in variant search.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enabled",
+                  "description": "Enables the filter for the variant search.",
+                  "type": "boolean"
+                },
+                "displayName": {
+                  "title": "Display name",
+                  "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                  "type": "string"
+                }
+              }
+            },
+            "additionalItemProperties": {
+              "title": "Facet Search Additional properties",
+              "description": "Map of additional properties to be used as filters in the search. Each key represents the ID of the additional property, and the value is an object containing the filter configuration.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "title": "Item property ID",
+                    "type": "string",
+                    "pattern": "^(?:[a-zA-Z0-9.]+)$"
+                  },
+                  "enabled": {
+                    "title": "Enabled",
+                    "description": "Enables the filter for the variant search.",
+                    "type": "boolean"
+                  },
+                  "displayName": {
+                    "title": "Display name",
+                    "description": "The display name for the filter in the search UI. Translation key could be passed instead for dynamic localization. If not provided, filter property key will be used as display name.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "quickSearch": {
+      "title": "Quick Search",
+      "description": "Quick search settings.",
+      "type": "object",
+      "properties": {
+        "additionalFilterExpression": {
+          "title": "Additional filter expression",
+          "description": "Extra Kibana Query Language (KQL) clause that is always AND-ed with every quick search. Use it to pre-narrow the catalog (assortment, brand, tags, additional properties, and similar) so typical searches run against a smaller set of items. This is not a default search term and is not shown or editable in the POS. Cashiers still type a query as usual. Leave unset, null, or empty for no extra filtering. Platform constraints still apply (sellable STOCK/SERVICE items, current sales prices, active identifiers, and item status). Invalid KQL makes quick search fail for all users — test the expression in the Complete Item query playground before rollout. KQL syntax: https://www.elastic.co/docs/explore-analyze/query-filter/languages/kql Complete Item fields and nested additional-property syntax: https://developer.hiiretail.com/docs/product-price-and-promotion/concepts/capabilities/querying-for-data/#how-it-works",
+          "type": "string"
+        },
+        "showItemIdentifier": {
+          "title": "Item Identifier in Quick Search",
+          "description": "Controls whether and how an item identifier is shown in quick search results: none, the standard identifier, or a custom additional-property ID.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "title": "Show item identifier",
+              "description": "Show an item identifier in quick search results. Uses the primary identifier (isPrimary), falling back to any other active identifier."
+            },
+            "additionalPropertyId": {
+              "type": "string",
+              "title": "Additional item property ID",
+              "description": "Show the value of this additional item property instead of the standard identifier. If an item has no such property, no identifier is shown."
+            }
+          }
+        }
+      }
+    },
+    "keyboardShortcuts": {
+      "title": "Keyboard shortcuts",
+      "description": "Settings for POS keybindings and fast commands.",
+      "type": "object",
+      "properties": {
+        "keyBindings": {
+          "title": "Key bindings",
+          "description": "Settings for POS keybindings.",
+          "type": "object",
+          "properties": {
+            "lock": {
+              "title": "Lock",
+              "description": "Used to set the lock keybinding. Triggers the opening of the lock confirmation dialog.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "secondaryPaymentMethod": {
+              "title": "Secondary Payment Method",
+              "description": "Used to set the secondary payment method keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "primaryPaymentMethod": {
+              "title": "Primary Payment Method",
+              "description": "Used to set the primary payment method keybinding. In the POS application, the primary payment method is assigned to the highlighted button in the payment menu.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openPLU": {
+              "title": "Open PLU",
+              "description": "Used to set the open PLU keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openTransactionsSearch": {
+              "title": "Open Transaction Search",
+              "description": "Used to set the open transactions search keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openWebBrowser": {
+              "title": "Open Embedded Web Browser",
+              "description": "Used to set the open embedded web browser keybinding. Requires the corresponding feature flag to be enabled.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openVariantSearch": {
+              "title": "Open Variant Search",
+              "description": "Used to set the open variant search keybinding. Requires the corresponding feature flag to be enabled.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openRescans": {
+              "title": "Open Rescan",
+              "description": "Used to set the open rescan keybinding. Requires the corresponding feature flag to be enabled.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openItemSearch": {
+              "title": "Open Item Search",
+              "description": "Used to set the open item search keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "openB2BCustomerSearch": {
+              "title": "Open B2B Customer Search",
+              "description": "Used to set the open B2B customer search keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "addItem": {
+              "title": "Add item",
+              "description": "Used to set the add item keybinding. It will trigger the addition of the item with selected barcode to the receipt",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Key binding for the barcode number.",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "title": "Barcode",
+                    "pattern": "^[0-9]+$"
+                  },
+                  "keyCode": {
+                    "title": "Key code",
+                    "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                    "type": "string"
+                  },
+                  "altKey": {
+                    "title": "Alt key",
+                    "description": "Defines whether the Alt key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "ctrlKey": {
+                    "title": "Ctrl key",
+                    "description": "Defines whether the Control key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "shiftKey": {
+                    "title": "Shift key",
+                    "description": "Defines whether the Shift key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "metaKey": {
+                    "title": "Meta key",
+                    "description": "Defines whether the Meta/Command key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            },
+            "openCustomerOrderSearch": {
+              "title": "Open Customer Order Search",
+              "description": "Used to set the open customer order search keybinding.",
+              "type": "object",
+              "properties": {
+                "keyCode": {
+                  "title": "Key code",
+                  "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                  "type": "string"
+                },
+                "altKey": {
+                  "title": "Alt key",
+                  "description": "Defines whether the Alt key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "ctrlKey": {
+                  "title": "Ctrl key",
+                  "description": "Defines whether the Control key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "shiftKey": {
+                  "title": "Shift key",
+                  "description": "Defines whether the Shift key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                },
+                "metaKey": {
+                  "title": "Meta key",
+                  "description": "Defines whether the Meta/Command key should be pressed",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            },
+            "menuCommand": {
+              "title": "Menu command",
+              "description": "Used to set keybinding for menu commands.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Key binding dictionary for menu commands. Note: if you want to trigger a payment command, you might find it more convenient to use the primaryPaymentMethod or secondaryPaymentMethod property instead.",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "title": "Menu command",
+                    "pattern": "^[A-Z][a-zA-Z]+Command[a-zA-Z]*$"
+                  },
+                  "keyCode": {
+                    "title": "Key code",
+                    "description": "Key or code property value of the KeyboardEvent that will be used to trigger the action. \n\nNote: this is the Chromium code value for the KeyboardEvent or the key property. Available codes can be found here: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values \nUtilize the key property for non-standard keyboard layouts.",
+                    "type": "string"
+                  },
+                  "altKey": {
+                    "title": "Alt key",
+                    "description": "Defines whether the Alt key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "ctrlKey": {
+                    "title": "Ctrl key",
+                    "description": "Defines whether the Control key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "shiftKey": {
+                    "title": "Shift key",
+                    "description": "Defines whether the Shift key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "metaKey": {
+                    "title": "Meta key",
+                    "description": "Defines whether the Meta/Command key should be pressed",
+                    "type": "boolean",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        },
+        "fastCommands": {
+          "title": "Fast commands",
+          "description": "Enables fast commands for the POS.",
+          "type": "object",
+          "properties": {
+            "registerWithQuantity": {
+              "title": "Register with quantity",
+              "description": "Settings for register with quantity fast command.",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Enable Register-With-Quantity Fast Command",
+                  "description": "Enables the register-with-quantity fast command for the POS.",
+                  "default": false,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "osk": {
+      "title": "On-screen keyboard",
+      "description": "This is a definition of the on-screen keyboard settings.",
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "title": "Keyboard Visibility",
+          "description": "Whether to show the on-screen keyboard automatically on input focus, or manually on demand.",
+          "type": "string",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "default": "auto"
+        },
+        "suggestions": {
+          "title": "Suggestions",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Word Suggestions",
+              "description": "Enables word suggestions on the on-screen keyboard.",
+              "type": "boolean"
+            },
+            "items": {
+              "title": "Suggestion Items",
+              "description": "List of suggestions to show on the on-screen keyboard, e.g. email domains.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "title": "ID",
+                    "description": "The label value to be shown in the suggestions.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "eva": {
+      "title": "Age verification service (EVA)",
+      "description": "EVA integration settings",
+      "type": "object",
+      "properties": {
+        "ageVerification": {
+          "title": "Age verification",
+          "description": "Settings for age verification feature.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Age Verification",
+              "description": "Enables or disables the age verification feature (EVA integration).",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "priceVerificationEnabled": {
+      "title": "Enable Price Verification",
+      "description": "Displays a price verification button in PLU and item search, only for countries that do not require a control transaction for that.",
+      "type": "boolean"
+    },
+    "customerDisplay": {
+      "title": "Customer display",
+      "description": "Customer-facing display attached to a POS workstation.",
+      "type": "object",
+      "properties": {
+        "zoomFactor": {
+          "title": "Zoom Factor",
+          "description": "The zoom factor for the CFD application. Intended range is 0.6-2.0 in 0.1 steps (not currently enforced by the data schema).",
+          "type": "number",
+          "enum": [
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            1,
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5,
+            1.6,
+            1.7,
+            1.8,
+            1.9,
+            2
+          ],
+          "default": 1
+        },
+        "autoStart": {
+          "title": "CFD: Auto-Start Display",
+          "description": "Enables auto-start of the customer facing display.",
+          "type": "boolean",
+          "default": false
+        },
+        "welcomeMessage": {
+          "title": "Welcome Message",
+          "description": "Welcome message to display on the customer facing display.",
+          "type": "string"
+        },
+        "loyalty": {
+          "title": "Loyalty",
+          "description": "Loyalty settings for CFD.",
+          "type": "object",
+          "properties": {
+            "showLoyaltyCard": {
+              "title": "CFD: Show Loyalty Card",
+              "description": "Defines whether to show the loyalty card on the CFD.",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}

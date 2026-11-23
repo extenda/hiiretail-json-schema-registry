@@ -1,0 +1,484 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Checkout App: Self-checkout",
+  "description": "Split proposal A: by device. Holds the settings of one touchpoint. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-sco-config-admin.",
+  "type": "object",
+  "properties": {
+    "sessionKeepAliveInterval": {
+      "title": "Session Keep-Alive Interval (ms)",
+      "description": "Defines the session keep-alive interval in SCO mode, in milliseconds.",
+      "type": "number",
+      "default": 600000
+    },
+    "lock": {
+      "title": "Lock",
+      "description": "Lock settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable SCO Lock Screen",
+          "description": "Enables the SCO lock screen feature.",
+          "type": "boolean",
+          "default": false
+        },
+        "timeout": {
+          "title": "Lock Screen Timeout (seconds)",
+          "description": "Timeout before the SCO lock screen appears, in seconds.",
+          "type": "number",
+          "default": 15
+        }
+      }
+    },
+    "enabled": {
+      "title": "Enable SCO Mode",
+      "description": "Enables the self-checkout (SCO) mode.",
+      "type": "boolean",
+      "default": false
+    },
+    "hybrid": {
+      "title": "Enable Hybrid Mode",
+      "description": "Enables the hybrid mode. Automatically forced to off when SCO mode is disabled.",
+      "type": "boolean",
+      "default": false
+    },
+    "language": {
+      "title": "Language",
+      "description": "Language settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "availableLanguages": {
+          "title": "Available Languages (comma-separated)",
+          "description": "Defines the available languages in SCO mode, comma-separated, e.g. en-GB,sv-SE.",
+          "type": "string",
+          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO"
+        },
+        "defaultLanguage": {
+          "title": "Default Language",
+          "description": "Defines the default language in SCO mode.",
+          "type": "string",
+          "default": "en-GB"
+        }
+      }
+    },
+    "attendant": {
+      "title": "Attendant",
+      "description": "Attendant settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Attendant Feature",
+          "description": "Enables the attendant feature in SCO mode.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "sslp": {
+      "title": "SSLP",
+      "description": "SSLP settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable SSLP",
+          "description": "Enables SSLP (self-scanning, self-checkout) in SCO mode.",
+          "type": "boolean",
+          "default": false
+        },
+        "rescan": {
+          "title": "SSLP Rescan Rules",
+          "description": "Settings for the rescan functionality in attendable SCO mode.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "indicateScanStatus": {
+              "title": "Indicate Scan Status",
+              "description": "Toggles the indication of the item scan status, e.g. quantity mismatch.",
+              "type": "boolean",
+              "default": true
+            },
+            "clearBasketOnSwitch": {
+              "title": "Clear Basket on Switch to Full Rescan",
+              "description": "Resets the scanning basket when a partial rescan switches to full rescan mode, manually or automatically.",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "logoUri": {
+      "title": "Logo Image URI",
+      "description": "URI for the logo shown in SCO mode.",
+      "type": "string",
+      "pattern": "^(https://[^\\s]+(.(jpg|jpeg|png)))$"
+    },
+    "receipt": {
+      "title": "Receipt",
+      "description": "Receipt settings.",
+      "type": "object",
+      "properties": {
+        "layout": {
+          "title": "Receipt",
+          "description": "This is a definition of the receipt layout settings.",
+          "type": "object",
+          "properties": {
+            "identifierType": {
+              "title": "Item Identifier Type",
+              "description": "The type of the identifier to be displayed in the receipt.",
+              "type": "string",
+              "enum": [
+                "id",
+                "barcode"
+              ],
+              "default": "id"
+            },
+            "visibleAttributes": {
+              "title": "Visible Item Attributes",
+              "description": "Toggles visibility of the listed item attributes in the receipt.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "schedule": {
+      "title": "Schedule",
+      "description": "This is a definition of the SCO schedule settings.",
+      "type": "object",
+      "properties": {
+        "logoutTimeout": {
+          "title": "Logout Timeout (minutes)",
+          "description": "The number of minutes after which the SCO will log out even if it has an ongoing transaction.",
+          "type": "number",
+          "default": 30
+        },
+        "days": {
+          "title": "Opening hours per day",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Schedule settings for the corresponding period of week.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Day",
+                "enum": [
+                  "MO",
+                  "TU",
+                  "WE",
+                  "TH",
+                  "FR",
+                  "SA",
+                  "SU",
+                  "ALL",
+                  "WORKDAYS",
+                  "WEEKEND"
+                ]
+              },
+              "start": {
+                "title": "Start",
+                "description": "Opening time in HH:MM:SS format (24-hour)",
+                "type": "string",
+                "format": "time",
+                "examples": [
+                  "09:00:00"
+                ]
+              },
+              "end": {
+                "title": "End",
+                "description": "Closing time in HH:MM:SS format (24-hour)",
+                "type": "string",
+                "format": "time",
+                "examples": [
+                  "17:00:00"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "start",
+              "end"
+            ]
+          }
+        }
+      }
+    },
+    "bags": {
+      "title": "Bags",
+      "description": "Bags settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Bag Selection Screen",
+          "description": "Enables the bags screen in SCO mode.",
+          "type": "boolean",
+          "default": false
+        },
+        "items": {
+          "title": "Bags",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Defines the bag types available in SCO mode.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Bag ID"
+              },
+              "ean": {
+                "title": "EAN",
+                "description": "Defines the EAN of the bag.",
+                "type": "string"
+              },
+              "title": {
+                "title": "Title",
+                "description": "Defines the name of the bag.",
+                "type": "string"
+              },
+              "imageUrl": {
+                "title": "Image URL",
+                "description": "Defines the image URL of the bag.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "ean",
+              "title"
+            ]
+          }
+        }
+      }
+    },
+    "itemDetails": {
+      "title": "Item details",
+      "description": "Settings for the item details view in SCO mode.",
+      "type": "object",
+      "properties": {
+        "voidItemEnabled": {
+          "title": "Void item enabled",
+          "description": "Shows the 'Remove from receipt' button in the item details panel.",
+          "type": "boolean"
+        }
+      }
+    },
+    "prompt": {
+      "title": "Prompts",
+      "description": "Prompt settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "keyboardOverrides": {
+          "title": "Keyboard overrides",
+          "description": "Defines specific prompt codes that override the default keyboard type.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Specifies the keyboard type override for the corresponding prompt code.",
+            "properties": {
+              "id": {
+                "type": "string",
+                "title": "Prompt code"
+              },
+              "keyboardType": {
+                "title": "Keyboard type",
+                "type": "string",
+                "enum": [
+                  "ALPHA_NUMERIC",
+                  "NUMERIC"
+                ],
+                "description": "Specifies the keyboard type override for the corresponding prompt code."
+              }
+            },
+            "required": [
+              "id",
+              "keyboardType"
+            ]
+          },
+          "default": []
+        },
+        "whitelistedPrompts": {
+          "title": "Whitelisted Prompts",
+          "description": "List of prompt codes and whether each one is whitelisted in SCO mode.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "whitelisted"
+            ],
+            "properties": {
+              "id": {
+                "title": "ID",
+                "description": "The prompt code to whitelist, will act as an identifier.",
+                "type": "string"
+              },
+              "whitelisted": {
+                "title": "Whitelisted",
+                "description": "Indicates if the prompt is whitelisted or not.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "plu": {
+      "title": "PLU",
+      "description": "Plu settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable PLU",
+          "description": "Enables the PLU in SCO mode.",
+          "type": "boolean"
+        },
+        "shortcutsEnabled": {
+          "title": "Enable PLU Shortcuts",
+          "description": "Allows PLU shortcut items to be set in the main view of SCO mode.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "loyalty": {
+      "title": "Loyalty",
+      "description": "Loyalty settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Loyalty Card",
+          "description": "Enables the loyalty card feature in SCO mode.",
+          "type": "boolean",
+          "default": true
+        },
+        "countryCodePrefix": {
+          "title": "Loyalty Card Country Code Prefix",
+          "description": "Defines the loyalty card prefix in SCO mode.",
+          "type": "string"
+        },
+        "cardReminderEnabled": {
+          "title": "Enable Card Reminder Dialog",
+          "description": "Enables the loyalty card reminder dialog in SCO mode.",
+          "type": "boolean",
+          "default": false
+        },
+        "cardReminderTriggers": {
+          "title": "Card reminder triggers",
+          "description": "Defines when to show the loyalty card reminder dialog in SCO mode.",
+          "type": "object",
+          "properties": {
+            "startTrip": {
+              "title": "Trigger at Trip Start",
+              "description": "Triggers the loyalty card reminder straight after the trip starts in SCO mode.",
+              "type": "boolean",
+              "default": true
+            },
+            "startPayment": {
+              "title": "Trigger at Payment Start",
+              "description": "Triggers the loyalty card reminder when the 'Pay' button is clicked in SCO mode.",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "default": {
+            "startTrip": true,
+            "startPayment": false
+          }
+        },
+        "cardReminderMediaContent": {
+          "title": "Card reminder media content",
+          "description": "Defines the media content of the loyalty card reminder dialog in SCO mode.",
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "Reminder Media Type",
+              "description": "The type of the media content shown in the loyalty card reminder dialog.",
+              "type": "string",
+              "enum": [
+                "image",
+                "video"
+              ]
+            },
+            "sourceUrl": {
+              "title": "Reminder Media Source URL",
+              "description": "The direct source URL of the media file (.jpg/.png for images, .mp4 for video).",
+              "type": "string"
+            }
+          }
+        },
+        "qrCode": {
+          "title": "QR code",
+          "description": "QR code settings",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enable Loyalty QR Info",
+              "description": "Enables the SCO loyalty QR info feature.",
+              "type": "boolean",
+              "default": false
+            },
+            "data": {
+              "title": "Loyalty QR Code Data URL",
+              "description": "Loyalty info data (URL) to be encoded in the QR code.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "manualSearchEnabled": {
+      "title": "Enable Manual Barcode Search",
+      "description": "Enables the manual search (by barcode) shortcut in SCO mode.",
+      "type": "boolean",
+      "default": true
+    },
+    "callAssistantEnabled": {
+      "title": "Enable Call Assistant",
+      "description": "Enables the call assistant button in SCO mode.",
+      "type": "boolean",
+      "default": false
+    },
+    "decreaseEnabled": {
+      "title": "Allow Quantity Decrease",
+      "description": "Allows an item's quantity to be decreased in SCO mode.",
+      "type": "boolean",
+      "default": false
+    },
+    "spotCheckEnabled": {
+      "title": "Show Spot Check Message",
+      "description": "Enables the spot check message on the SCO welcome screen.",
+      "type": "boolean",
+      "default": true
+    },
+    "paymentMenuSettings": {
+      "title": "Payment menu settings",
+      "description": "Payment menu settings in SCO mode.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Settings for a payment menu command in SCO mode.",
+        "properties": {
+          "id": {
+            "title": "Payment command",
+            "type": "string",
+            "pattern": "^(?:[a-zA-Z0-9]+)$"
+          },
+          "imageUrl": {
+            "title": "Image URL",
+            "description": "URL of the image to be displayed in the payment menu.",
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://[^\\s]+\\.(jpg|jpeg|png|JPG|JPEG|PNG)$"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  }
+}
