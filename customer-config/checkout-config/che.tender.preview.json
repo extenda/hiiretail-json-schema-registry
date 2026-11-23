@@ -681,7 +681,7 @@
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Raw checkout settings for cases this form does not cover. Use them only when support asks for it. Each entry is identified by its name ('id'). A name for a setting this form offers, or for one that is added automatically, such as the payment service settings or the provider code, is refused. Other names are passed to the checkout as written, and must match the setting's name exactly, including upper and lower case; a name with spaces at either end is refused.",
+        "description": "Raw checkout settings for cases this form does not cover. Use them only when support asks for it. Each entry is identified by its name ('id'). A name for a setting this form offers, or for one that is added automatically, such as the payment service settings or the provider code, is refused. Other names are passed to the checkout as written, and must match the setting's name exactly, including upper and lower case; a name with spaces at either end is refused. On an electronic gift card tender, 'giftCardProductCode' makes a refund create a new virtual gift card instead of asking for a card number. It applies to payments with the tender too: the checkout then uses the product code instead of asking for the card. Set it only on a tender used for refunds.",
         "items": {
           "type": "object",
           "required": [
