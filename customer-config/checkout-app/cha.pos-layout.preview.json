@@ -1712,6 +1712,7 @@
           "title": "Warning light"
         },
         {
+          "const": null,
           "type": "null",
           "title": "Default (theme)"
         }
@@ -1936,6 +1937,13 @@
           "minLength": 1,
           "maxLength": 100
         },
+        "numberOfColumns": {
+          "title": "Number of columns",
+          "description": "The number of columns to render the menu list in. If not set, the menu list will be rendered in 2 columns.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
         "type": {
           "title": "List type",
           "description": "Where in the app the given list is displayed.",
@@ -1999,12 +2007,12 @@
             },
             {
               "const": "REFUND",
-              "title": "Refund",
+              "title": "Refund without receipt",
               "description": "The next item scanned is treated as a refund, not a sale. Not applicable for Self checkout application type."
             },
             {
               "const": "REFUND_PREVIOUS_ORDER",
-              "title": "Refund previous order mode",
+              "title": "Refund from receipt",
               "description": "The cashier is refunding lines from a previous receipt. Not applicable for Self checkout application type."
             },
             {
