@@ -23,7 +23,7 @@
           "name": "Default menu",
           "description": "Main POS buttons shown beside the receipt during a sale.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "DEFAULT": true
           },
           "mode": "NONE",
@@ -441,7 +441,7 @@
           "name": "Payment menu",
           "description": "Payment methods shown when the cashier takes payment.",
           "type": "payment",
-          "applicationType": {
+          "applicationTypes": {
             "DEFAULT": true
           },
           "mode": "NONE",
@@ -640,7 +640,7 @@
           "name": "Complaint menu",
           "description": "Buttons shown while the till is in complaint-only mode.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
@@ -664,7 +664,7 @@
           "name": "Mobile POS Context menu",
           "description": "Actions for the selected receipt line on Mobile POS.",
           "type": "item",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true
           },
           "mode": "NONE",
@@ -726,7 +726,7 @@
           "name": "Mobile POS Default menu",
           "description": "Main Mobile POS buttons shown beside the receipt during a sale.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true
           },
           "mode": "NONE",
@@ -825,7 +825,7 @@
           "name": "Item Package menu",
           "description": "Buttons shown while grouping receipt lines into a package.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
@@ -859,7 +859,7 @@
           "name": "MOBILE_POS.payment",
           "description": "Payment methods shown when taking payment on Mobile POS.",
           "type": "payment",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true
           },
           "mode": "NONE",
@@ -962,7 +962,7 @@
           "name": "MediumMode.REFUND_ONLY",
           "description": "Buttons shown while the till is in refund-only mode.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
@@ -986,7 +986,7 @@
           "name": "MediumMode.REFUND_PREVIOUS_ORDER",
           "description": "Buttons shown while refunding lines from a previous receipt.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
@@ -1032,7 +1032,7 @@
           "name": "default",
           "description": "Main buttons for a self-checkout attendant during a sale.",
           "type": "default",
-          "applicationType": {
+          "applicationTypes": {
             "SELF_CHECKOUT_ATTENDANT": true
           },
           "mode": "NONE",
@@ -1443,7 +1443,7 @@
           "name": "SELF_CHECKOUT.payment_attendant",
           "description": "Payment methods for a self-checkout attendant.",
           "type": "payment",
-          "applicationType": {
+          "applicationTypes": {
             "SELF_CHECKOUT_ATTENDANT": true
           },
           "mode": "NONE",
@@ -1626,7 +1626,7 @@
           "name": "SELF_CHECKOUT.payment",
           "description": "Payment methods shown to the shopper at self-checkout.",
           "type": "payment",
-          "applicationType": {
+          "applicationTypes": {
             "SELF_CHECKOUT": true
           },
           "mode": "NONE",
