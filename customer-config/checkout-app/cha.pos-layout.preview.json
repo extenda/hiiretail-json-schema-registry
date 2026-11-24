@@ -3413,6 +3413,7 @@
       "required": [
         "id",
         "name",
+        "action",
         "type"
       ],
       "properties": {
