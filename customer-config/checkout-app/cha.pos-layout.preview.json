@@ -967,7 +967,7 @@
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
           },
-          "mode": "REFUND_ONLY",
+          "mode": "REFUND",
           "content": [
             {
               "id": "1",
