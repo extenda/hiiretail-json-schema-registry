@@ -645,7 +645,7 @@
             "DEFAULT": true,
             "SELF_CHECKOUT_ATTENDANT": true
           },
-          "mode": "COMPLAINT_ONLY",
+          "mode": "COMPLAINT",
           "content": [
             {
               "id": "1",
