@@ -631,7 +631,7 @@
             "type": "number",
             "exclusiveMinimum": 0,
             "title": "Maximum per Entry",
-            "description": "Largest amount for a single entry of this tender."
+            "description": "Largest amount for a single payment with this tender. Refunds and change paid with this tender are not limited by it."
           },
           "minPerEntry": {
             "type": "number",
@@ -681,7 +681,7 @@
       "extraAttributes": {
         "type": "array",
         "title": "Extra Attributes",
-        "description": "Raw checkout settings for cases this form does not cover. Use them only when support asks for it; 'giftCardProductCode', described at the end, is the exception. Each entry is identified by its name ('id'). A name for a setting this form offers, or for one that is added automatically, such as the payment service settings or the provider code, is refused. Other names are passed to the checkout as written, and must match the setting's name exactly, including upper and lower case; a name with spaces at either end is refused. On an integrated electronic gift card tender, 'giftCardProductCode', with the gift card product code as value, makes a refund create a new virtual gift card instead of asking for a card number. No setting keeps a tender out of payments: the till also offers this tender for payment, and a payment with it then uses the product code and does not ask for the customer's card. Add it only to a separate tender for refunds, for example 'Gift Card Refund', and take gift card payments with a tender without it; the cashier chooses the right one.",
+        "description": "Raw checkout settings for cases this form does not cover. Use them only when support asks for it; 'giftCardProductCode', described at the end, is the exception. Each entry is identified by its name ('id'). A name for a setting this form offers, or for one that is added automatically, such as the payment service settings or the provider code, is refused. Other names are passed to the checkout as written, and must match the setting's name exactly, including upper and lower case; a name with spaces at either end is refused. On an integrated electronic gift card tender, 'giftCardProductCode' (Data Type 'Text', value: the product code of the virtual gift card in your gift card system) makes a refund create a new virtual gift card instead of asking for a card number. It also applies to payments with that tender: the till then uses the product code and does not ask for the customer's card. So add it only to a separate tender for refunds, for example 'Gift Card Refund', and set that tender's 'Maximum per Entry' to the smallest amount of the currency, for example 0.01: the till then refuses payments with it, while refunds and change are not limited by it. Take gift card payments with a tender without the attribute.",
         "items": {
           "type": "object",
           "required": [
