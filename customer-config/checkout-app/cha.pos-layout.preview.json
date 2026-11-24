@@ -856,7 +856,7 @@
         },
         {
           "id": "mpos-payment",
-          "name": "MOBILE_POS.payment",
+          "name": "Mobile POS Payment menu",
           "description": "Payment methods shown when taking payment on Mobile POS.",
           "type": "payment",
           "applicationTypes": {
@@ -959,7 +959,7 @@
         },
         {
           "id": "refund-only",
-          "name": "MediumMode.REFUND_ONLY",
+          "name": "Refund without receipt menu",
           "description": "Buttons shown while the till is in refund-only mode.",
           "type": "default",
           "applicationTypes": {
@@ -983,7 +983,7 @@
         },
         {
           "id": "refund-prev-order",
-          "name": "MediumMode.REFUND_PREVIOUS_ORDER",
+          "name": "Refund from receipt menu",
           "description": "Buttons shown while refunding lines from a previous receipt.",
           "type": "default",
           "applicationTypes": {
@@ -1029,7 +1029,7 @@
         },
         {
           "id": "sco-default-attendant",
-          "name": "default",
+          "name": "Self-checkout attendant default menu",
           "description": "Main buttons for a self-checkout attendant during a sale.",
           "type": "default",
           "applicationTypes": {
@@ -1440,7 +1440,7 @@
         },
         {
           "id": "sco-payment-attendant",
-          "name": "SELF_CHECKOUT.payment_attendant",
+          "name": "Self-checkout attendant payment menu",
           "description": "Payment methods for a self-checkout attendant.",
           "type": "payment",
           "applicationTypes": {
@@ -1623,7 +1623,7 @@
         },
         {
           "id": "sco-payment",
-          "name": "SELF_CHECKOUT.payment",
+          "name": "Self-checkout payment menu",
           "description": "Payment methods shown to the shopper at self-checkout.",
           "type": "payment",
           "applicationTypes": {
