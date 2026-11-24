@@ -636,30 +636,6 @@
           ]
         },
         {
-          "id": "complaint-only",
-          "name": "Complaint menu",
-          "description": "Buttons shown while the till is in complaint-only mode.",
-          "type": "default",
-          "applicationTypes": {
-            "MOBILE_POS": true,
-            "DEFAULT": true,
-            "SELF_CHECKOUT_ATTENDANT": true
-          },
-          "mode": "COMPLAINT",
-          "content": [
-            {
-              "id": "1",
-              "name": "Exit complaint mode",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report_problem/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "saleFunctions",
-                "type": "toggleComplaintOnly"
-              }
-            }
-          ]
-        },
-        {
           "id": "mpos-context",
           "name": "Mobile POS Context menu",
           "description": "Actions for the selected receipt line on Mobile POS.",
@@ -953,30 +929,6 @@
               "action": {
                 "category": "tender",
                 "type": "mobileSvea"
-              }
-            }
-          ]
-        },
-        {
-          "id": "refund-only",
-          "name": "Refund without receipt menu",
-          "description": "Buttons shown while the till is in refund-only mode.",
-          "type": "default",
-          "applicationTypes": {
-            "MOBILE_POS": true,
-            "DEFAULT": true,
-            "SELF_CHECKOUT_ATTENDANT": true
-          },
-          "mode": "REFUND",
-          "content": [
-            {
-              "id": "1",
-              "name": "Exit refund mode",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/undo/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "saleFunctions",
-                "type": "toggleRefundOnly"
               }
             }
           ]
