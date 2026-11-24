@@ -16,7 +16,1683 @@
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/MenuListType"
-      }
+      },
+      "default": [
+        {
+          "id": "default",
+          "name": "Default menu",
+          "type": "default",
+          "applicationType": {
+            "DEFAULT": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Retrieve customer order",
+              "description": "Look up and retrieve a customer order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment_returned/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "retrieveCustomerOrder"
+              }
+            },
+            {
+              "id": "2",
+              "name": "Suspend order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pause/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "suspendOrder"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Retrieve order",
+              "sequenceNumber": 3,
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/unarchive/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "retrieveOrder"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Void",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/delete/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "voidLine"
+              },
+              "color": "error"
+            },
+            {
+              "id": "5",
+              "name": "Quantity",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/plus_one/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "quantity"
+              }
+            },
+            {
+              "id": "6",
+              "deleted": false,
+              "name": "Markdown item",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/money_off/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLineAmount"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Markdown %",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pie_chart/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLinePercent"
+              }
+            },
+            {
+              "id": "8",
+              "name": "Paid-in",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/add_circle/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "paidIn"
+              }
+            },
+            {
+              "id": "9",
+              "name": "Paid-out",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/remove_circle/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "paidOut"
+              }
+            },
+            {
+              "id": "10",
+              "name": "Sale functions...",
+              "description": "Additional sale functions",
+              "sequenceNumber": 10,
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/apps/outline-4x.png",
+              "type": "GROUP",
+              "content": [
+                {
+                  "id": "11",
+                  "name": "Verify item price",
+                  "description": "Check an item price without selling it",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/search/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "priceCheck"
+                  }
+                },
+                {
+                  "id": "12",
+                  "name": "Markdown order",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_offer/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "discountOrder"
+                  }
+                },
+                {
+                  "id": "13",
+                  "name": "Start package",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/widgets/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "enterItemPackage"
+                  }
+                },
+                {
+                  "id": "14",
+                  "name": "Overwrite price",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/edit/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "changePrice"
+                  }
+                },
+                {
+                  "id": "15",
+                  "name": "e-Gift cards...",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/redeem/outline-4x.png",
+                  "type": "GROUP",
+                  "color": "secondary",
+                  "content": [
+                    {
+                      "id": "16",
+                      "name": "Balance inquiry",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance_wallet/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "giftCardBalance"
+                      }
+                    },
+                    {
+                      "id": "17",
+                      "name": "Issue gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_giftcard/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "issueGiftCard"
+                      }
+                    },
+                    {
+                      "id": "18",
+                      "name": "Reload gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/autorenew/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "reloadGiftCard"
+                      }
+                    },
+                    {
+                      "id": "19",
+                      "name": "Cash-out gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/payment/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "giftCardCashOut"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "20",
+                  "name": "Remove discount from line item",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/remove/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "removeLineDiscount"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "21",
+              "deleted": false,
+              "name": "Order...",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/view_list/outline-4x.png",
+              "type": "GROUP",
+              "content": [
+                {
+                  "id": "22",
+                  "name": "Enter refund mode",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/undo/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "toggleRefundOnly"
+                  }
+                },
+                {
+                  "id": "23",
+                  "name": "Enter complaint mode",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report_problem/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "toggleComplaintOnly"
+                  }
+                },
+                {
+                  "id": "24",
+                  "name": "Refund item",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment_return/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "returnWithoutReceipt"
+                  },
+                  "color": "warning"
+                },
+                {
+                  "id": "25",
+                  "name": "Complaint",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "complaint"
+                  },
+                  "color": "warning"
+                },
+                {
+                  "id": "26",
+                  "name": "Cancel order",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/cancel/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "cancelOrder"
+                  },
+                  "color": "error"
+                },
+                {
+                  "id": "27",
+                  "name": "Item receipt comment",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/comment/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "lineComment"
+                  }
+                },
+                {
+                  "id": "28",
+                  "name": "Receipt comment",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/speaker_notes/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "receiptComment"
+                  }
+                },
+                {
+                  "id": "29",
+                  "name": "Register external customer",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/person_add/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "externalCustomer"
+                  }
+                },
+                {
+                  "id": "30",
+                  "name": "Register loyalty ID",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/loyalty/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "customer"
+                  }
+                },
+                {
+                  "id": "31",
+                  "name": "Loyalty vouchers",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/star/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "loyaltyVoucher"
+                  }
+                },
+                {
+                  "id": "32",
+                  "name": "VAT invoice",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/description/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "vatInvoice"
+                  }
+                },
+                {
+                  "id": "33",
+                  "name": "Extended cust. info.",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "extendedReceipt"
+                  }
+                },
+                {
+                  "id": "34",
+                  "name": "Print gift receipt",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/print/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "printGiftReceipt"
+                  }
+                },
+                {
+                  "id": "35",
+                  "name": "Add discount code",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/vpn_key/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "discountCode"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "36",
+              "name": "Register coupon",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_activity/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "redeemCoupon"
+              }
+            },
+            {
+              "id": "37",
+              "name": "Open cashdrawer",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/inbox/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "openCashDrawer"
+              }
+            },
+            {
+              "id": "38",
+              "name": "Controlled prompt",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/security/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "showControlledPrompt"
+              }
+            },
+            {
+              "id": "39",
+              "name": "Increase petty cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/trending_down/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "tenderLoan"
+              }
+            },
+            {
+              "id": "40",
+              "name": "Decrease petty cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/trending_up/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "tenderPickup"
+              }
+            }
+          ]
+        },
+        {
+          "id": "payment",
+          "name": "Payment menu",
+          "type": "payment",
+          "applicationType": {
+            "DEFAULT": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Cash",
+              "description": "Pay with cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/attach_money/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cash"
+              },
+              "color": "success"
+            },
+            {
+              "id": "0",
+              "deleted": false,
+              "name": "Other payemnt methods",
+              "description": "Additional payment methods",
+              "sequenceNumber": 100,
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance/outline-4x.png",
+              "type": "GROUP",
+              "color": "primaryLight",
+              "content": [
+                {
+                  "id": "3",
+                  "name": "Tender EFT",
+                  "sequenceNumber": 3,
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "cardLocalTerminal"
+                  }
+                },
+                {
+                  "id": "4",
+                  "deleted": false,
+                  "name": "Tender gift certificate",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "giftCertificate"
+                  }
+                },
+                {
+                  "id": "5",
+                  "name": "Organizational charge",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/business/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "organizationCharge"
+                  }
+                },
+                {
+                  "id": "6",
+                  "name": "Electronic gift card",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "giftCard"
+                  }
+                },
+                {
+                  "id": "7",
+                  "name": "Tender cheque",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/monetization_on/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "check"
+                  }
+                },
+                {
+                  "id": "8",
+                  "name": "Redeem bottle deposit",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_drink/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "bottleDeposit"
+                  }
+                },
+                {
+                  "id": "10",
+                  "name": "Tender coupon",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/label/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "coupon"
+                  }
+                },
+                {
+                  "id": "11",
+                  "name": "Voucher",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/bookmark/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "voucher"
+                  }
+                },
+                {
+                  "id": "12",
+                  "name": "Food stamp",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/restaurant/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "foodStamp"
+                  }
+                },
+                {
+                  "id": "13",
+                  "name": "Loyalty redemption",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stars/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "loyaltyRedemption"
+                  }
+                },
+                {
+                  "id": "14",
+                  "name": "Mobile",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobilePayment"
+                  }
+                },
+                {
+                  "id": "15",
+                  "name": "Mobile Vipps",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobileVipps"
+                  }
+                },
+                {
+                  "id": "16",
+                  "name": "Mobile Svea",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobileSvea"
+                  }
+                },
+                {
+                  "id": "17",
+                  "name": "Offline EFT",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/important_devices/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "cardExternalTerminal"
+                  }
+                },
+                {
+                  "id": "18",
+                  "name": "Damaged bill",
+                  "description": "Accept a damaged banknote",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/broken_image/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "damagedBill"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "card"
+              }
+            }
+          ]
+        },
+        {
+          "id": "complaint-only",
+          "name": "Complaint menu",
+          "type": "default",
+          "applicationType": {
+            "MOBILE_POS": true,
+            "DEFAULT": true,
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "COMPLAINT_ONLY",
+          "content": [
+            {
+              "id": "1",
+              "name": "Exit complaint mode",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report_problem/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "toggleComplaintOnly"
+              }
+            }
+          ]
+        },
+        {
+          "id": "mpos-context",
+          "name": "Mobile POS Context menu",
+          "type": "item",
+          "applicationType": {
+            "MOBILE_POS": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Item receipt comment",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/comment/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "lineComment"
+              }
+            },
+            {
+              "id": "2",
+              "name": "Markdown item",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/money_off/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLineAmount"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Markdown %",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pie_chart/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLinePercent"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Overwrite price",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/edit/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "changePrice"
+              }
+            },
+            {
+              "id": "5",
+              "name": "Quantity",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/plus_one/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "quantity"
+              }
+            }
+          ]
+        },
+        {
+          "id": "mpos-default",
+          "name": "Mobile POS Default menu",
+          "type": "default",
+          "applicationType": {
+            "MOBILE_POS": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Cancel order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/cancel/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "cancelOrder"
+              },
+              "color": "error"
+            },
+            {
+              "id": "2",
+              "name": "Suspend order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pause/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "suspendOrder"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Retrieve order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/unarchive/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "retrieveOrder"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Markdown order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_offer/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountOrder"
+              }
+            },
+            {
+              "id": "5",
+              "name": "Register external customer",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/person_add/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "externalCustomer"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Receipt comment",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/speaker_notes/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "receiptComment"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Enter refund mode",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/undo/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "toggleRefundOnly"
+              }
+            },
+            {
+              "id": "8",
+              "name": "Add discount code",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/vpn_key/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountCode"
+              }
+            },
+            {
+              "id": "9",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
+              "type": "ITEM"
+            }
+          ]
+        },
+        {
+          "id": "package",
+          "name": "Item Package menu",
+          "type": "default",
+          "applicationType": {
+            "MOBILE_POS": true,
+            "DEFAULT": true,
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "ITEM_PACKAGE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Add / remove item in Package",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/add_box/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "addItemToPackage"
+              }
+            },
+            {
+              "id": "2",
+              "name": "End package",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/done_all/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "exitItemPackage"
+              }
+            }
+          ]
+        },
+        {
+          "id": "mpos-payment",
+          "name": "MOBILE_POS.payment",
+          "type": "payment",
+          "applicationType": {
+            "MOBILE_POS": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Tender gift certificate",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "giftCertificate"
+              }
+            },
+            {
+              "id": "2",
+              "name": "Electronic gift card",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "giftCard"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Organizational charge",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/domain/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "organizationChargeStd"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/attach_money/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cash"
+              },
+              "color": "success"
+            },
+            {
+              "id": "5",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "card"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cardLocalTerminal"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Mobile",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobilePayment"
+              }
+            },
+            {
+              "id": "8",
+              "name": "Mobile Vipps",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileVipps"
+              }
+            },
+            {
+              "id": "9",
+              "name": "Mobile Svea",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileSvea"
+              }
+            }
+          ]
+        },
+        {
+          "id": "refund-only",
+          "name": "MediumMode.REFUND_ONLY",
+          "type": "default",
+          "applicationType": {
+            "MOBILE_POS": true,
+            "DEFAULT": true,
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "REFUND_ONLY",
+          "content": [
+            {
+              "id": "1",
+              "name": "Exit refund mode",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/undo/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "toggleRefundOnly"
+              }
+            }
+          ]
+        },
+        {
+          "id": "refund-prev-order",
+          "name": "MediumMode.REFUND_PREVIOUS_ORDER",
+          "type": "default",
+          "applicationType": {
+            "MOBILE_POS": true,
+            "DEFAULT": true,
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "REFUND_PREVIOUS_ORDER",
+          "content": [
+            {
+              "id": "1",
+              "name": "Refund item online",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/replay/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "refundElement"
+              },
+              "color": "warning"
+            },
+            {
+              "id": "2",
+              "name": "Exit refund from previous order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/exit_to_app/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "exitRefundPreviousOrder"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Cancel refund from previous order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/highlight_off/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "cancelRefundPreviousOrder"
+              },
+              "color": "error"
+            }
+          ]
+        },
+        {
+          "id": "sco-default-attendant",
+          "name": "default",
+          "type": "default",
+          "applicationType": {
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Retrieve customer order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment_returned/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "retrieveCustomerOrder"
+              }
+            },
+            {
+              "id": "2",
+              "name": "Suspend order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pause/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "suspendOrder"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Retrieve order",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/unarchive/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "retrieveOrder"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Void",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/delete/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "voidLine"
+              },
+              "color": "error"
+            },
+            {
+              "id": "5",
+              "name": "Quantity",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/plus_one/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "quantity"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Markdown item",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/money_off/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLineAmount"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Markdown %",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/pie_chart/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "discountLinePercent"
+              }
+            },
+            {
+              "id": "8",
+              "name": "Paid-in",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/add_circle/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "paidIn"
+              }
+            },
+            {
+              "id": "9",
+              "name": "Paid-out",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/remove_circle/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "paidOut"
+              }
+            },
+            {
+              "id": "10",
+              "name": "Sale functions...",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/apps/outline-4x.png",
+              "type": "GROUP",
+              "content": [
+                {
+                  "id": "11",
+                  "name": "Verify item price",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/search/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "priceCheck"
+                  }
+                },
+                {
+                  "id": "12",
+                  "name": "Markdown order",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_offer/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "discountOrder"
+                  }
+                },
+                {
+                  "id": "13",
+                  "name": "Start package",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/widgets/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "enterItemPackage"
+                  }
+                },
+                {
+                  "id": "14",
+                  "name": "Overwrite price",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/edit/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "changePrice"
+                  }
+                },
+                {
+                  "id": "15",
+                  "name": "e-Gift cards...",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/redeem/outline-4x.png",
+                  "type": "GROUP",
+                  "color": "secondary",
+                  "content": [
+                    {
+                      "id": "16",
+                      "name": "Balance inquiry",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance_wallet/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "giftCardBalance"
+                      }
+                    },
+                    {
+                      "id": "17",
+                      "name": "Issue gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_giftcard/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "issueGiftCard"
+                      }
+                    },
+                    {
+                      "id": "18",
+                      "name": "Reload gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/autorenew/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "reloadGiftCard"
+                      }
+                    },
+                    {
+                      "id": "19",
+                      "name": "Cash-out gift card",
+                      "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/payment/outline-4x.png",
+                      "type": "ITEM",
+                      "action": {
+                        "category": "saleFunctions",
+                        "type": "giftCardCashOut"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "20",
+                  "name": "Remove discount from line item",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/remove/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "removeLineDiscount"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "21",
+              "name": "Order...",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/view_list/outline-4x.png",
+              "type": "GROUP",
+              "content": [
+                {
+                  "id": "22",
+                  "name": "Enter refund mode",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/undo/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "toggleRefundOnly"
+                  }
+                },
+                {
+                  "id": "23",
+                  "name": "Enter complaint mode",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report_problem/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "toggleComplaintOnly"
+                  }
+                },
+                {
+                  "id": "24",
+                  "name": "Refund item",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment_return/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "returnWithoutReceipt"
+                  },
+                  "color": "warning"
+                },
+                {
+                  "id": "25",
+                  "name": "Complaint",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/report/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "complaint"
+                  },
+                  "color": "warning"
+                },
+                {
+                  "id": "26",
+                  "name": "Cancel order",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/cancel/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "cancelOrder"
+                  },
+                  "color": "error"
+                },
+                {
+                  "id": "27",
+                  "name": "Item receipt comment",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/comment/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "lineComment"
+                  }
+                },
+                {
+                  "id": "28",
+                  "name": "Receipt comment",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/speaker_notes/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "receiptComment"
+                  }
+                },
+                {
+                  "id": "29",
+                  "name": "Register external customer",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/person_add/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "externalCustomer"
+                  }
+                },
+                {
+                  "id": "30",
+                  "name": "Register loyalty ID",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/loyalty/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "customer"
+                  }
+                },
+                {
+                  "id": "31",
+                  "name": "Loyalty vouchers",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/star/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "loyaltyVoucher"
+                  }
+                },
+                {
+                  "id": "32",
+                  "name": "VAT invoice",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/description/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "vatInvoice"
+                  }
+                },
+                {
+                  "id": "33",
+                  "name": "Extended cust. info.",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/assignment/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "extendedReceipt"
+                  }
+                },
+                {
+                  "id": "34",
+                  "name": "Print gift receipt",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/print/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "printGiftReceipt"
+                  }
+                },
+                {
+                  "id": "35",
+                  "name": "Add discount code",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/vpn_key/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "saleFunctions",
+                    "type": "discountCode"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "36",
+              "name": "Register coupon",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_activity/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "redeemCoupon"
+              }
+            },
+            {
+              "id": "37",
+              "name": "Open cashdrawer",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/inbox/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "openCashDrawer"
+              }
+            },
+            {
+              "id": "38",
+              "name": "Controlled prompt",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/security/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "showControlledPrompt"
+              }
+            },
+            {
+              "id": "39",
+              "name": "Increase petty cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/trending_down/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "tenderLoan"
+              }
+            },
+            {
+              "id": "40",
+              "name": "Decrease petty cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/trending_up/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "saleFunctions",
+                "type": "tenderPickup"
+              }
+            }
+          ]
+        },
+        {
+          "id": "sco-payment-attendant",
+          "name": "SELF_CHECKOUT.payment_attendant",
+          "type": "payment",
+          "applicationType": {
+            "SELF_CHECKOUT_ATTENDANT": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/attach_money/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cash"
+              },
+              "color": "success"
+            },
+            {
+              "id": "2",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "card"
+              }
+            },
+            {
+              "id": "3",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cardLocalTerminal"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Tender gift certificate",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "giftCertificate"
+              }
+            },
+            {
+              "id": "5",
+              "name": "Organizational charge",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/domain/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "organizationChargeStd"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Electronic gift card",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "giftCard"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Tender cheque",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/monetization_on/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "check"
+              }
+            },
+            {
+              "id": "8",
+              "name": "Redeem bottle deposit",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_drink/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "bottleDeposit"
+              }
+            },
+            {
+              "id": "9",
+              "name": "Register coupon",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/receipt/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "pseudoTender"
+              }
+            },
+            {
+              "id": "10",
+              "name": "Tender coupon",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/label/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "coupon"
+              }
+            },
+            {
+              "id": "11",
+              "name": "Voucher",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/bookmark/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "voucher"
+              }
+            },
+            {
+              "id": "12",
+              "name": "Food stamp",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/restaurant/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "foodStamp"
+              }
+            },
+            {
+              "id": "13",
+              "name": "Loyalty redemption",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stars/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "loyaltyRedemption"
+              }
+            },
+            {
+              "id": "14",
+              "name": "Offline EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/important_devices/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cardExternalTerminal"
+              }
+            },
+            {
+              "id": "15",
+              "name": "Mobile",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobilePayment"
+              }
+            },
+            {
+              "id": "16",
+              "name": "Mobile Vipps",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileVipps"
+              }
+            },
+            {
+              "id": "17",
+              "name": "Mobile Svea",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileSvea"
+              }
+            }
+          ]
+        },
+        {
+          "id": "sco-payment",
+          "name": "SELF_CHECKOUT.payment",
+          "type": "payment",
+          "applicationType": {
+            "SELF_CHECKOUT": true
+          },
+          "mode": "NONE",
+          "content": [
+            {
+              "id": "1",
+              "name": "Electronic gift card",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "giftCard"
+              }
+            },
+            {
+              "id": "2",
+              "name": "Cash",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/attach_money/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cash"
+              },
+              "color": "success"
+            },
+            {
+              "id": "3",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "card"
+              }
+            },
+            {
+              "id": "4",
+              "name": "Tender EFT",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "cardLocalTerminal"
+              }
+            },
+            {
+              "id": "5",
+              "name": "Mobile",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobilePayment"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Mobile Vipps",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileVipps"
+              }
+            },
+            {
+              "id": "7",
+              "name": "Mobile Svea",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
+              "type": "ITEM",
+              "action": {
+                "category": "tender",
+                "type": "mobileSvea"
+              }
+            }
+          ]
+        }
+      ]
     },
     "defaultMenuActionsCatalogue": {
       "title": "Default menu tree actions catalogue",
@@ -1905,6 +3581,7 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "applicationTypes",
         "id",
         "name",
         "type",
@@ -1965,31 +3642,33 @@
             }
           ]
         },
-        "applicationType": {
-          "title": "Application type",
-          "description": "The application type required to access the Menu list.",
-          "oneOf": [
-            {
-              "const": "DEFAULT",
+        "applicationTypes": {
+          "title": "Application types",
+          "description": "The application types that can access the Menu list.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "DEFAULT": {
               "title": "POS",
-              "description": "Regular POS application. Desktop or Tablet POS"
+              "description": "Regular POS application. Desktop or Tablet POS",
+              "type": "boolean"
             },
-            {
-              "const": "MOBILE_POS",
+            "MOBILE_POS": {
               "title": "Mobile POS",
-              "description": "Mobile POS application"
+              "description": "Mobile POS application",
+              "type": "boolean"
             },
-            {
-              "const": "SELF_CHECKOUT",
+            "SELF_CHECKOUT": {
               "title": "Self checkout",
-              "description": "Self checkout application. Hybrid or dedicated self checkout application"
+              "description": "Self checkout application. Hybrid or dedicated self checkout application",
+              "type": "boolean"
             },
-            {
-              "const": "SELF_CHECKOUT_ATTENDANT",
+            "SELF_CHECKOUT_ATTENDANT": {
               "title": "Attendant Self checkout",
-              "description": "Self checkout application while attendant is logged in"
+              "description": "Self checkout application while attendant is logged in",
+              "type": "boolean"
             }
-          ]
+          }
         },
         "mode": {
           "title": "Mode",
