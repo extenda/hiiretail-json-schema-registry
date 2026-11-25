@@ -1,30 +1,30 @@
 {
   "$id": "mys.device-api-cradles-automapping-settings.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Configurations for Automapping between Cradles to Walls",
-  "description": "Configurations for Automapping between Cradles to Walls",
+  "title": "Legacy Cradle Data Parsing Settings",
+  "description": "Regular expressions that Device Management uses to parse legacy encoded cradle data (signals.cradleData) into a wall map ID, row and column. Structured cradle reports (signals.cradle) do not use these settings.",
   "type": "object",
   "properties": {
     "enableCradleAutomapping": {
-      "title": "Enable Automatic Cradle Mapping",
+      "title": "Enable Automatic Cradle Mapping (Deprecated)",
       "type": "boolean",
-      "description": "Enable or disable Automapping between Cradles and Walls."
+      "description": "Deprecated. Device Management ignores this flag and always discovers walls and cradle positions from scanner reports. Kept only so that existing stored values remain valid; do not set it in new configurations.",
+      "deprecated": true
     },
     "cradleDataRowRegex": {
       "title": "Cradle Data Row Pattern (Regex)",
       "type": "string",
-      "description": "Regular expression to extract the row number from CradleData. Example: '(?<=;).*?(?=;)' extracts '1' from '100;1;2'."
+      "description": "Regular expression to extract the row number from legacy cradleData. Applies only to legacy cradleData; structured cradle reports do not use it. Example: '(?<=;).*?(?=;)' extracts '1' from '100;1;2'."
     },
     "cradleDataColRegex": {
       "title": "Cradle Data Column Pattern (Regex)",
       "type": "string",
-      "description": "Regular expression to extract the column number from CradleData. Example: '[^;]+$' extracts '2' from '100;1;2'."
+      "description": "Regular expression to extract the column number from legacy cradleData. Applies only to legacy cradleData; structured cradle reports do not use it. Example: '[^;]+$' extracts '2' from '100;1;2'."
     },
     "cradleDataWallMapIdRegex": {
       "title": "Cradle Data Wall MapId Pattern (Regex)",
       "type": "string",
-      "description": "Regular expression to extract the Wall MapId from CradleData. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
+      "description": "Regular expression to extract the wall map ID from legacy cradleData. Applies only to legacy cradleData; structured cradle reports do not use it. Example: '^.*?(?=;)' extracts '100' from '100;1;2'."
     }
-  },
-  "required": ["enableCradleAutomapping"]
+  }
 }
