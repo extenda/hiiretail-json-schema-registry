@@ -83,7 +83,6 @@
             },
             {
               "id": "6",
-              "deleted": false,
               "name": "Markdown item",
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/money_off/outline-4x.png",
               "type": "ITEM",
@@ -234,7 +233,6 @@
             },
             {
               "id": "21",
-              "deleted": false,
               "name": "Order...",
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/view_list/outline-4x.png",
               "type": "GROUP",
@@ -460,7 +458,6 @@
             },
             {
               "id": "0",
-              "deleted": false,
               "name": "Other payemnt methods",
               "description": "Additional payment methods",
               "sequenceNumber": 100,
@@ -481,7 +478,6 @@
                 },
                 {
                   "id": "4",
-                  "deleted": false,
                   "name": "Tender gift certificate",
                   "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
                   "type": "ITEM",
@@ -2803,11 +2799,6 @@
               "description": "Active (non-voided) items should be present in the transaction. If no items present in the transaction, the operation will fail if invoked."
             }
           ]
-        },
-        "deleted": {
-          "title": "Condition deleted",
-          "description": "If true, this condition will be ignored",
-          "type": "boolean"
         }
       }
     },
@@ -3376,11 +3367,6 @@
           "minLength": 1,
           "example": "suspend-order"
         },
-        "deleted": {
-          "title": "Menu item deleted",
-          "description": "If true, this Menu item will not be available",
-          "type": "boolean"
-        },
         "name": {
           "title": "Menu item name",
           "description": "The Menu item title",
@@ -3460,11 +3446,6 @@
           "type": "string",
           "minLength": 1,
           "example": "sale-functions"
-        },
-        "deleted": {
-          "title": "Menu group deleted",
-          "description": "If true, this Menu group will not be available",
-          "type": "boolean"
         },
         "name": {
           "title": "Menu group name",
@@ -3559,11 +3540,6 @@
           "type": "string",
           "minLength": 1,
           "example": "POS-defaul-menu-none-mode"
-        },
-        "deleted": {
-          "title": "Menu list deleted",
-          "description": "If true, this Menu list will not be available",
-          "type": "boolean"
         },
         "name": {
           "title": "Menu list name",
