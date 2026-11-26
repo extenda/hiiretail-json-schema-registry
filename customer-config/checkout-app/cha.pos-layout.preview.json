@@ -456,7 +456,7 @@
             },
             {
               "id": "0",
-              "name": "Other payemnt methods",
+              "name": "Other payment methods",
               "description": "Additional payment methods",
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance/outline-4x.png",
               "type": "GROUP",
@@ -1405,7 +1405,7 @@
             },
             {
               "id": "0",
-              "name": "Other payemnt methods",
+              "name": "Other payment methods",
               "description": "Additional payment methods",
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance/outline-4x.png",
               "type": "GROUP",
