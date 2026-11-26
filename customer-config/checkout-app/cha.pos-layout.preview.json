@@ -2808,499 +2808,511 @@
         }
       }
     },
+    "ScreenAction": {
+      "title": "Screen",
+      "description": "Opens a Checkout App screen.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "type"
+      ],
+      "properties": {
+        "category": {
+          "title": "Screen category",
+          "const": "screen"
+        },
+        "type": {
+          "title": "Screen action",
+          "oneOf": [
+            {
+              "const": "returnFromReceipt",
+              "title": "Return from a receipt",
+              "description": "Opens receipt search so the cashier can find a past sale and start a return. Opens the transactionSearch screen."
+            },
+            {
+              "const": "findReceipt",
+              "title": "Find a receipt",
+              "description": "Opens receipt search so the cashier can look up a past sale. Opens the transactionSearch screen."
+            },
+            {
+              "const": "b2bCustomer",
+              "title": "Business customer",
+              "description": "Opens business customer search to attach a B2B customer, project and agent to the sale. Opens the b2bCustomer screen."
+            },
+            {
+              "const": "customerOrderSearch",
+              "title": "Find a customer order",
+              "description": "Opens customer order search so the cashier can find and retrieve an order. Opens the customerOrderSearch screen."
+            },
+            {
+              "const": "findItem",
+              "title": "Find an item",
+              "description": "Opens item search. Choosing a result adds it to the receipt. Opens the itemSearch screen."
+            },
+            {
+              "const": "pluMenu",
+              "title": "PLU menu",
+              "description": "Opens the PLU button menu. Choosing a PLU adds it to the receipt. Opens the plu screen."
+            },
+            {
+              "const": "externalLinks",
+              "title": "Web links",
+              "description": "Opens the store's configured web links. Opens the externalLinks screen."
+            }
+          ]
+        }
+      }
+    },
+    "TenderAction": {
+      "title": "Tender",
+      "description": "Payment methods for the current sale.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "type"
+      ],
+      "properties": {
+        "category": {
+          "title": "Tender category",
+          "const": "tender"
+        },
+        "type": {
+          "title": "Tender action",
+          "oneOf": [
+            {
+              "const": "cash",
+              "title": "Cash",
+              "description": "Accepts cash payment. Aliases to TenderCashCommand. An active transaction must exist."
+            },
+            {
+              "const": "card",
+              "title": "Card",
+              "description": "Accepts card payment on the integrated payment terminal. Aliases to TenderUnifiedPaymentCommand. An active transaction must exist."
+            },
+            {
+              "const": "cardExternalTerminal",
+              "title": "Card, external terminal",
+              "description": "Records a card payment taken on a stand-alone terminal. Aliases to TenderStandAloneEftCommand. An active transaction must exist."
+            },
+            {
+              "const": "cardLocalTerminal",
+              "title": "Card, local terminal",
+              "description": "Accepts card payment on the local unified payment terminal. Aliases to TenderLocalUnifiedPaymentCommand. An active transaction must exist."
+            },
+            {
+              "const": "mobilePayment",
+              "title": "Mobile payment",
+              "description": "Accepts a mobile wallet payment. Aliases to TenderMobilePaymentCommand. An active transaction must exist."
+            },
+            {
+              "const": "mobileVipps",
+              "title": "Mobile payment, Vipps",
+              "description": "Accepts Vipps mobile payment. Aliases to TenderMobilePaymentMOVCommand. An active transaction must exist."
+            },
+            {
+              "const": "mobileSvea",
+              "title": "Mobile payment, Svea",
+              "description": "Accepts Svea mobile payment. Aliases to TenderMobilePaymentMOACommand. An active transaction must exist."
+            },
+            {
+              "const": "giftCard",
+              "title": "Gift card",
+              "description": "Pays with an electronic gift card. Aliases to TenderElectronicGiftCardCommand. An active transaction must exist."
+            },
+            {
+              "const": "giftCertificate",
+              "title": "Gift certificate",
+              "description": "Pays with a gift certificate. Aliases to TenderGiftCertificateCommand. An active transaction must exist."
+            },
+            {
+              "const": "voucher",
+              "title": "Voucher",
+              "description": "Pays with a voucher. Aliases to TenderVoucherCommand. An active transaction must exist."
+            },
+            {
+              "const": "coupon",
+              "title": "Coupon",
+              "description": "Pays with a coupon as tender, not as a promotion. Aliases to TenderCouponCommand. An active transaction must exist."
+            },
+            {
+              "const": "organizationCharge",
+              "title": "Invoice to organisation",
+              "description": "Charges the sale to the organisation already on the receipt. Aliases to TenderOrganizationChargeCommandCust. An active transaction must exist."
+            },
+            {
+              "const": "organizationChargeStd",
+              "title": "Invoice to organisation (standard)",
+              "description": "Charges the sale to an organisation account using the store default type. Aliases to TenderOrganizationChargeCommand. An active transaction must exist."
+            },
+            {
+              "const": "organizationChargeExtCust",
+              "title": "Invoice to organisation (external customer)",
+              "description": "Charges the sale to an external organisation customer on the receipt. Aliases to TenderOrganizationChargeCommandExtCust."
+            },
+            {
+              "const": "organizationChargeB2b",
+              "title": "Invoice to organisation (B2B)",
+              "description": "Charges the sale to the B2B customer on the receipt. Aliases to TenderOrganizationChargeCommandB2bCust."
+            },
+            {
+              "const": "loyaltyRedemption",
+              "title": "Loyalty points",
+              "description": "Pays with loyalty points. Aliases to TenderLoyaltyRedemptionCommand. An active transaction must exist."
+            },
+            {
+              "const": "check",
+              "title": "Check",
+              "description": "Pays by check. Aliases to TenderCheckCommand. An active transaction must exist."
+            },
+            {
+              "const": "houseAccount",
+              "title": "House account",
+              "description": "Charges the sale to a house account. Aliases to TenderHouseAccountCommand."
+            },
+            {
+              "const": "eft",
+              "title": "Card, EPS",
+              "description": "Accepts card payment through the classic EPS terminal. Aliases to TenderEftCommand."
+            },
+            {
+              "const": "eftSelect",
+              "title": "Card, EPS (select subtype)",
+              "description": "Accepts card payment through EPS after the cashier chooses the card type. Aliases to TenderEftSelectCommand."
+            },
+            {
+              "const": "electronicGiftCardUgcp",
+              "title": "E-gift card UGCP",
+              "description": "Pays with an electronic gift card (UGCP). Aliases to TenderElectronicGiftCardUGCPCommand. An active transaction must exist."
+            },
+            {
+              "const": "electronicGiftCardUgcv",
+              "title": "E-gift card UGCV",
+              "description": "Pays with an electronic gift card (UGCV). Aliases to TenderElectronicGiftCardUGCVCommand."
+            },
+            {
+              "const": "pseudoTender",
+              "title": "Pseudo tender",
+              "description": "Registers a preconfigured pseudo tender, not a payment of the amount due. Aliases to PreSelectedPseudoTenderCommand1. An active transaction must exist."
+            },
+            {
+              "const": "bottleDeposit",
+              "title": "Bottle deposit",
+              "description": "Registers a bottle deposit return with a preset deposit item. Aliases to PreSelectedRedeemBottleDepositCommand. An active transaction must exist."
+            },
+            {
+              "const": "foodStamp",
+              "title": "Food stamp",
+              "description": "Pays with food stamps. Aliases to TenderFoodStampCommand. An active transaction must exist."
+            },
+            {
+              "const": "damagedBill",
+              "title": "Damaged bill",
+              "description": "Accepts cash as a damaged banknote. Aliases to DamagedBillTenderCashCommand. An active transaction must exist."
+            }
+          ]
+        }
+      }
+    },
+    "CustomCommandAction": {
+      "title": "Custom command",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "command"
+      ],
+      "properties": {
+        "category": {
+          "title": "Command category",
+          "const": "command"
+        },
+        "command": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/CheckoutEngineCommandDefinition"
+            }
+          ]
+        }
+      }
+    },
+    "SaleFunctionsAction": {
+      "title": "Sale functions",
+      "description": "Sale, refund, price, customer, cash drawer and gift-card functions.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "type"
+      ],
+      "properties": {
+        "category": {
+          "title": "Sale functions category",
+          "const": "saleFunctions"
+        },
+        "type": {
+          "title": "Sale function",
+          "oneOf": [
+            {
+              "const": "suspendOrder",
+              "title": "Suspend order",
+              "description": "Parks the current sale so it can be finished later. Aliases to SuspendOrderCommand. An active transaction must exist."
+            },
+            {
+              "const": "retrieveOrder",
+              "title": "Retrieve suspended order",
+              "description": "Brings back a parked sale so the cashier can continue. Aliases to ResumeOrderCommand. A transaction should not be active."
+            },
+            {
+              "const": "cancelOrder",
+              "title": "Cancel order",
+              "description": "Cancels the current sale. Nothing is kept to resume later. Aliases to CancelOrderCommand. An active transaction must exist."
+            },
+            {
+              "const": "voidLine",
+              "title": "Void selected line",
+              "description": "Voids the selected receipt line so it no longer counts toward the total. Aliases to VoidModeKeyCommand. A receipt line must be selected."
+            },
+            {
+              "const": "quantity",
+              "title": "Change quantity",
+              "description": "Changes the quantity of the selected receipt line. Aliases to QuantityKeyCommand. A receipt line must be selected."
+            },
+            {
+              "const": "receiptComment",
+              "title": "Receipt comment",
+              "description": "Adds a comment to the whole receipt. Aliases to ReceiptCommentCommand. An active transaction must exist."
+            },
+            {
+              "const": "lineComment",
+              "title": "Comment on line",
+              "description": "Adds a comment to the selected receipt line. Aliases to ReceiptCommentLineCommand. A receipt line must be selected."
+            },
+            {
+              "const": "returnWithoutReceipt",
+              "title": "Return without receipt",
+              "description": "Puts the till into refund mode so the next item is refunded without looking up an original receipt. Aliases to RefundModeKeyCommand."
+            },
+            {
+              "const": "complaint",
+              "title": "Complaint",
+              "description": "Puts the till into complaint mode so the next item is treated as a complaint without looking up an original receipt. Aliases to ComplaintModeKeyCommand."
+            },
+            {
+              "const": "refundPreviousOrder",
+              "title": "Refund previous order",
+              "description": "Looks up a previous receipt and starts a refund against that sale. Aliases to RefundPreviousOrderCommand."
+            },
+            {
+              "const": "complaintPreviousOrder",
+              "title": "Complaint previous order",
+              "description": "Looks up a previous receipt and starts a complaint against that sale. Aliases to ComplaintPreviousOrderCommand."
+            },
+            {
+              "const": "exitRefundPreviousOrder",
+              "title": "Exit refund previous order",
+              "description": "Completes a refund of a previous receipt so the cashier can pay it out. Aliases to ExitRefundPreviousOrderCommand. An active transaction must exist."
+            },
+            {
+              "const": "cancelRefundPreviousOrder",
+              "title": "Cancel refund previous order",
+              "description": "Abandons a refund of a previous receipt without completing it. Aliases to CancelRefundPreviousOrderCommand."
+            },
+            {
+              "const": "refundElement",
+              "title": "Refund selected line",
+              "description": "Refunds the selected line while returning items from a previous receipt. Aliases to RefundElementCommand. A receipt line must be selected."
+            },
+            {
+              "const": "printCopy",
+              "title": "Print receipt copy",
+              "description": "Prints a copy of a completed receipt. Aliases to PrintCopyCommand."
+            },
+            {
+              "const": "printGiftReceipt",
+              "title": "Print gift receipt",
+              "description": "Requests a gift receipt for the current sale. Aliases to PrintGiftReceiptCommand. An active transaction must exist."
+            },
+            {
+              "const": "vatInvoice",
+              "title": "VAT invoice",
+              "description": "Marks that the customer wants a VAT invoice when the sale is completed. Aliases to RequestVatInvoiceIssueCommand. An active transaction must exist."
+            },
+            {
+              "const": "extendedReceipt",
+              "title": "Extended receipt",
+              "description": "Collects extra customer details onto the receipt, such as name or organisation number. Aliases to ExtendedReceiptCommand. An active transaction must exist."
+            },
+            {
+              "const": "toggleRefundOnly",
+              "title": "Toggle refund-only mode",
+              "description": "Switches the till between normal selling and refund-only mode. Aliases to ToggleRefundOnlyCommand."
+            },
+            {
+              "const": "toggleComplaintOnly",
+              "title": "Toggle complaint-only mode",
+              "description": "Switches the till between normal selling and complaint-only mode. Aliases to ToggleComplaintOnlyCommand."
+            },
+            {
+              "const": "discountLinePercent",
+              "title": "Discount on line, percent",
+              "description": "Applies a percentage discount to the selected receipt line. Aliases to MarkDownPercentageKeyCommand. A receipt line must be selected."
+            },
+            {
+              "const": "discountLineAmount",
+              "title": "Discount on line, amount",
+              "description": "Applies an amount discount to the selected receipt line. Aliases to MarkDownAmountKeyCommand. A receipt line must be selected."
+            },
+            {
+              "const": "discountOrder",
+              "title": "Discount on whole order",
+              "description": "Applies a discount to the whole sale. Aliases to MarkDownOrderKeyCommand. An active transaction must exist."
+            },
+            {
+              "const": "removeLineDiscount",
+              "title": "Remove discount from line",
+              "description": "Removes a discount from the selected receipt line. Aliases to RemoveOfferFromLineItemCommandChooser. A receipt line must be selected."
+            },
+            {
+              "const": "changePrice",
+              "title": "Change price of line",
+              "description": "Overwrites the price of the selected receipt line. Aliases to PriceKeyCommand. A receipt line must be selected."
+            },
+            {
+              "const": "priceCheck",
+              "title": "Check a price",
+              "description": "Looks up an item's price without selling it. Aliases to PriceVerificationModeKeyCommand."
+            },
+            {
+              "const": "enterItemPackage",
+              "title": "Enter item package",
+              "description": "Starts grouping receipt lines into a package so they can be discounted together. Aliases to EnterItemPackageCommand. An active transaction must exist."
+            },
+            {
+              "const": "exitItemPackage",
+              "title": "Exit item package",
+              "description": "Finishes the item package and applies the chosen package discount. Aliases to ExitItemPackageCommand. An active transaction must exist."
+            },
+            {
+              "const": "addItemToPackage",
+              "title": "Add item to package",
+              "description": "Marks the selected line as part of the item package being built. Aliases to AddItemToPackageCommand. A receipt line must be selected."
+            },
+            {
+              "const": "redeemCoupon",
+              "title": "Redeem coupon",
+              "description": "Registers a coupon on the sale so promotions can apply. Aliases to RedeemCouponCommand."
+            },
+            {
+              "const": "discountCode",
+              "title": "Discount code",
+              "description": "Attaches a promotion discount code to the sale. Aliases to DiscountCodeCommand. An active transaction must exist."
+            },
+            {
+              "const": "retrieveCustomerOrder",
+              "title": "Retrieve customer order",
+              "description": "Looks up a customer order and brings it onto the till. Aliases to RetrieveCustomerOrderCommand."
+            },
+            {
+              "const": "customer",
+              "title": "Customer",
+              "description": "Registers a loyalty customer on the sale. Aliases to RegisterLoyaltyCustomerCommand. An active transaction must exist."
+            },
+            {
+              "const": "loyaltyVoucher",
+              "title": "Loyalty voucher",
+              "description": "Applies a loyalty voucher already available on the sale. Aliases to LoyaltyVoucherCommand. An active transaction must exist."
+            },
+            {
+              "const": "externalCustomer",
+              "title": "Register external customer",
+              "description": "Registers an external or business customer on the sale. Aliases to ExternalCustomerRegistrationCommand. An active transaction must exist."
+            },
+            {
+              "const": "redeemLoyaltyPoints",
+              "title": "Redeem loyalty points",
+              "description": "Registers a loyalty points scheme on the sale. Aliases to RedeemLoyaltyPointsCommand."
+            },
+            {
+              "const": "openCashDrawer",
+              "title": "Open cash drawer",
+              "description": "Opens the cash drawer with no sale. Aliases to NoSaleCommand."
+            },
+            {
+              "const": "paidIn",
+              "title": "Paid in",
+              "description": "Records cash paid into the till. Aliases to PaidInCommand."
+            },
+            {
+              "const": "paidOut",
+              "title": "Paid out",
+              "description": "Records cash taken out of the till. Aliases to PaidOutCommand."
+            },
+            {
+              "const": "tenderPickup",
+              "title": "Tender pickup",
+              "description": "Removes cash from the till (tender pickup). Aliases to TenderPickupCommand."
+            },
+            {
+              "const": "tenderLoan",
+              "title": "Tender loan",
+              "description": "Adds cash to the till (tender loan). Aliases to TenderLoanCommand."
+            },
+            {
+              "const": "epsFinalizeSalesPeriod",
+              "title": "Finalize EPS sales period",
+              "description": "Closes the card terminal sales period. Aliases to EpsFinalizeSalesPeriodCommand."
+            },
+            {
+              "const": "giftCardBalance",
+              "title": "Gift card balance",
+              "description": "Checks the balance of a gift card. Aliases to GiftCardBalanceInquryCommand."
+            },
+            {
+              "const": "issueGiftCard",
+              "title": "Issue gift card",
+              "description": "Issues a new gift card. Aliases to IssueGiftCardCommand."
+            },
+            {
+              "const": "reloadGiftCard",
+              "title": "Reload gift card",
+              "description": "Adds value to an existing gift card. Aliases to ReloadGiftCardCommand."
+            },
+            {
+              "const": "giftCardCashOut",
+              "title": "Gift card cash out",
+              "description": "Withdraws the remaining balance from a gift card. Aliases to GiftCardCashOutCommand."
+            },
+            {
+              "const": "sessionActivation",
+              "title": "Session activation",
+              "description": "Runs session start checks after sign-on. Not a typical sale button. Aliases to SessionActivationCommand."
+            },
+            {
+              "const": "showControlledPrompt",
+              "title": "Show controlled prompt",
+              "description": "Shows a timed test prompt. Not intended for store use. Aliases to ShowControlledPromptCommand."
+            }
+          ]
+        }
+      }
+    },
     "MenuItemAction": {
       "title": "Menu item action",
       "description": "The action to perform when the Menu item is selected. Catalogue actions pick a category and type. Custom commands set category command plus the Checkout Engine command name.",
       "oneOf": [
         {
-          "title": "Sale functions",
-          "description": "Sale, refund, price, customer, cash drawer and gift-card functions.",
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "category",
-            "type"
-          ],
-          "properties": {
-            "category": {
-              "title": "Sale functions category",
-              "const": "saleFunctions"
-            },
-            "type": {
-              "title": "Sale function",
-              "oneOf": [
-                {
-                  "const": "suspendOrder",
-                  "title": "Suspend order",
-                  "description": "Parks the current sale so it can be finished later. Aliases to SuspendOrderCommand. An active transaction must exist."
-                },
-                {
-                  "const": "retrieveOrder",
-                  "title": "Retrieve suspended order",
-                  "description": "Brings back a parked sale so the cashier can continue. Aliases to ResumeOrderCommand. A transaction should not be active."
-                },
-                {
-                  "const": "cancelOrder",
-                  "title": "Cancel order",
-                  "description": "Cancels the current sale. Nothing is kept to resume later. Aliases to CancelOrderCommand. An active transaction must exist."
-                },
-                {
-                  "const": "voidLine",
-                  "title": "Void selected line",
-                  "description": "Voids the selected receipt line so it no longer counts toward the total. Aliases to VoidModeKeyCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "quantity",
-                  "title": "Change quantity",
-                  "description": "Changes the quantity of the selected receipt line. Aliases to QuantityKeyCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "receiptComment",
-                  "title": "Receipt comment",
-                  "description": "Adds a comment to the whole receipt. Aliases to ReceiptCommentCommand. An active transaction must exist."
-                },
-                {
-                  "const": "lineComment",
-                  "title": "Comment on line",
-                  "description": "Adds a comment to the selected receipt line. Aliases to ReceiptCommentLineCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "returnWithoutReceipt",
-                  "title": "Return without receipt",
-                  "description": "Puts the till into refund mode so the next item is refunded without looking up an original receipt. Aliases to RefundModeKeyCommand."
-                },
-                {
-                  "const": "complaint",
-                  "title": "Complaint",
-                  "description": "Puts the till into complaint mode so the next item is treated as a complaint without looking up an original receipt. Aliases to ComplaintModeKeyCommand."
-                },
-                {
-                  "const": "refundPreviousOrder",
-                  "title": "Refund previous order",
-                  "description": "Looks up a previous receipt and starts a refund against that sale. Aliases to RefundPreviousOrderCommand."
-                },
-                {
-                  "const": "complaintPreviousOrder",
-                  "title": "Complaint previous order",
-                  "description": "Looks up a previous receipt and starts a complaint against that sale. Aliases to ComplaintPreviousOrderCommand."
-                },
-                {
-                  "const": "exitRefundPreviousOrder",
-                  "title": "Exit refund previous order",
-                  "description": "Completes a refund of a previous receipt so the cashier can pay it out. Aliases to ExitRefundPreviousOrderCommand. An active transaction must exist."
-                },
-                {
-                  "const": "cancelRefundPreviousOrder",
-                  "title": "Cancel refund previous order",
-                  "description": "Abandons a refund of a previous receipt without completing it. Aliases to CancelRefundPreviousOrderCommand."
-                },
-                {
-                  "const": "refundElement",
-                  "title": "Refund selected line",
-                  "description": "Refunds the selected line while returning items from a previous receipt. Aliases to RefundElementCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "printCopy",
-                  "title": "Print receipt copy",
-                  "description": "Prints a copy of a completed receipt. Aliases to PrintCopyCommand."
-                },
-                {
-                  "const": "printGiftReceipt",
-                  "title": "Print gift receipt",
-                  "description": "Requests a gift receipt for the current sale. Aliases to PrintGiftReceiptCommand. An active transaction must exist."
-                },
-                {
-                  "const": "vatInvoice",
-                  "title": "VAT invoice",
-                  "description": "Marks that the customer wants a VAT invoice when the sale is completed. Aliases to RequestVatInvoiceIssueCommand. An active transaction must exist."
-                },
-                {
-                  "const": "extendedReceipt",
-                  "title": "Extended receipt",
-                  "description": "Collects extra customer details onto the receipt, such as name or organisation number. Aliases to ExtendedReceiptCommand. An active transaction must exist."
-                },
-                {
-                  "const": "toggleRefundOnly",
-                  "title": "Toggle refund-only mode",
-                  "description": "Switches the till between normal selling and refund-only mode. Aliases to ToggleRefundOnlyCommand."
-                },
-                {
-                  "const": "toggleComplaintOnly",
-                  "title": "Toggle complaint-only mode",
-                  "description": "Switches the till between normal selling and complaint-only mode. Aliases to ToggleComplaintOnlyCommand."
-                },
-                {
-                  "const": "discountLinePercent",
-                  "title": "Discount on line, percent",
-                  "description": "Applies a percentage discount to the selected receipt line. Aliases to MarkDownPercentageKeyCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "discountLineAmount",
-                  "title": "Discount on line, amount",
-                  "description": "Applies an amount discount to the selected receipt line. Aliases to MarkDownAmountKeyCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "discountOrder",
-                  "title": "Discount on whole order",
-                  "description": "Applies a discount to the whole sale. Aliases to MarkDownOrderKeyCommand. An active transaction must exist."
-                },
-                {
-                  "const": "removeLineDiscount",
-                  "title": "Remove discount from line",
-                  "description": "Removes a discount from the selected receipt line. Aliases to RemoveOfferFromLineItemCommandChooser. A receipt line must be selected."
-                },
-                {
-                  "const": "changePrice",
-                  "title": "Change price of line",
-                  "description": "Overwrites the price of the selected receipt line. Aliases to PriceKeyCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "priceCheck",
-                  "title": "Check a price",
-                  "description": "Looks up an item's price without selling it. Aliases to PriceVerificationModeKeyCommand."
-                },
-                {
-                  "const": "enterItemPackage",
-                  "title": "Enter item package",
-                  "description": "Starts grouping receipt lines into a package so they can be discounted together. Aliases to EnterItemPackageCommand. An active transaction must exist."
-                },
-                {
-                  "const": "exitItemPackage",
-                  "title": "Exit item package",
-                  "description": "Finishes the item package and applies the chosen package discount. Aliases to ExitItemPackageCommand. An active transaction must exist."
-                },
-                {
-                  "const": "addItemToPackage",
-                  "title": "Add item to package",
-                  "description": "Marks the selected line as part of the item package being built. Aliases to AddItemToPackageCommand. A receipt line must be selected."
-                },
-                {
-                  "const": "redeemCoupon",
-                  "title": "Redeem coupon",
-                  "description": "Registers a coupon on the sale so promotions can apply. Aliases to RedeemCouponCommand."
-                },
-                {
-                  "const": "discountCode",
-                  "title": "Discount code",
-                  "description": "Attaches a promotion discount code to the sale. Aliases to DiscountCodeCommand. An active transaction must exist."
-                },
-                {
-                  "const": "retrieveCustomerOrder",
-                  "title": "Retrieve customer order",
-                  "description": "Looks up a customer order and brings it onto the till. Aliases to RetrieveCustomerOrderCommand."
-                },
-                {
-                  "const": "customer",
-                  "title": "Customer",
-                  "description": "Registers a loyalty customer on the sale. Aliases to RegisterLoyaltyCustomerCommand. An active transaction must exist."
-                },
-                {
-                  "const": "loyaltyVoucher",
-                  "title": "Loyalty voucher",
-                  "description": "Applies a loyalty voucher already available on the sale. Aliases to LoyaltyVoucherCommand. An active transaction must exist."
-                },
-                {
-                  "const": "externalCustomer",
-                  "title": "Register external customer",
-                  "description": "Registers an external or business customer on the sale. Aliases to ExternalCustomerRegistrationCommand. An active transaction must exist."
-                },
-                {
-                  "const": "redeemLoyaltyPoints",
-                  "title": "Redeem loyalty points",
-                  "description": "Registers a loyalty points scheme on the sale. Aliases to RedeemLoyaltyPointsCommand."
-                },
-                {
-                  "const": "openCashDrawer",
-                  "title": "Open cash drawer",
-                  "description": "Opens the cash drawer with no sale. Aliases to NoSaleCommand."
-                },
-                {
-                  "const": "paidIn",
-                  "title": "Paid in",
-                  "description": "Records cash paid into the till. Aliases to PaidInCommand."
-                },
-                {
-                  "const": "paidOut",
-                  "title": "Paid out",
-                  "description": "Records cash taken out of the till. Aliases to PaidOutCommand."
-                },
-                {
-                  "const": "tenderPickup",
-                  "title": "Tender pickup",
-                  "description": "Removes cash from the till (tender pickup). Aliases to TenderPickupCommand."
-                },
-                {
-                  "const": "tenderLoan",
-                  "title": "Tender loan",
-                  "description": "Adds cash to the till (tender loan). Aliases to TenderLoanCommand."
-                },
-                {
-                  "const": "epsFinalizeSalesPeriod",
-                  "title": "Finalize EPS sales period",
-                  "description": "Closes the card terminal sales period. Aliases to EpsFinalizeSalesPeriodCommand."
-                },
-                {
-                  "const": "giftCardBalance",
-                  "title": "Gift card balance",
-                  "description": "Checks the balance of a gift card. Aliases to GiftCardBalanceInquryCommand."
-                },
-                {
-                  "const": "issueGiftCard",
-                  "title": "Issue gift card",
-                  "description": "Issues a new gift card. Aliases to IssueGiftCardCommand."
-                },
-                {
-                  "const": "reloadGiftCard",
-                  "title": "Reload gift card",
-                  "description": "Adds value to an existing gift card. Aliases to ReloadGiftCardCommand."
-                },
-                {
-                  "const": "giftCardCashOut",
-                  "title": "Gift card cash out",
-                  "description": "Withdraws the remaining balance from a gift card. Aliases to GiftCardCashOutCommand."
-                },
-                {
-                  "const": "sessionActivation",
-                  "title": "Session activation",
-                  "description": "Runs session start checks after sign-on. Not a typical sale button. Aliases to SessionActivationCommand."
-                },
-                {
-                  "const": "showControlledPrompt",
-                  "title": "Show controlled prompt",
-                  "description": "Shows a timed test prompt. Not intended for store use. Aliases to ShowControlledPromptCommand."
-                }
-              ]
-            }
-          }
+          "$ref": "#/$defs/SaleFunctionsAction"
         },
         {
-          "title": "Screen",
-          "description": "Opens a Checkout App screen.",
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "category",
-            "type"
-          ],
-          "properties": {
-            "category": {
-              "title": "Screen category",
-              "const": "screen"
-            },
-            "type": {
-              "title": "Screen action",
-              "oneOf": [
-                {
-                  "const": "returnFromReceipt",
-                  "title": "Return from a receipt",
-                  "description": "Opens receipt search so the cashier can find a past sale and start a return. Opens the transactionSearch screen."
-                },
-                {
-                  "const": "findReceipt",
-                  "title": "Find a receipt",
-                  "description": "Opens receipt search so the cashier can look up a past sale. Opens the transactionSearch screen."
-                },
-                {
-                  "const": "b2bCustomer",
-                  "title": "Business customer",
-                  "description": "Opens business customer search to attach a B2B customer, project and agent to the sale. Opens the b2bCustomer screen."
-                },
-                {
-                  "const": "customerOrderSearch",
-                  "title": "Find a customer order",
-                  "description": "Opens customer order search so the cashier can find and retrieve an order. Opens the customerOrderSearch screen."
-                },
-                {
-                  "const": "findItem",
-                  "title": "Find an item",
-                  "description": "Opens item search. Choosing a result adds it to the receipt. Opens the itemSearch screen."
-                },
-                {
-                  "const": "pluMenu",
-                  "title": "PLU menu",
-                  "description": "Opens the PLU button menu. Choosing a PLU adds it to the receipt. Opens the plu screen."
-                },
-                {
-                  "const": "externalLinks",
-                  "title": "Web links",
-                  "description": "Opens the store's configured web links. Opens the externalLinks screen."
-                }
-              ]
-            }
-          }
+          "$ref": "#/$defs/ScreenAction"
         },
         {
-          "title": "Tender",
-          "description": "Payment methods for the current sale.",
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "category",
-            "type"
-          ],
-          "properties": {
-            "category": {
-              "title": "Tender category",
-              "const": "tender"
-            },
-            "type": {
-              "title": "Tender action",
-              "oneOf": [
-                {
-                  "const": "cash",
-                  "title": "Cash",
-                  "description": "Accepts cash payment. Aliases to TenderCashCommand. An active transaction must exist."
-                },
-                {
-                  "const": "card",
-                  "title": "Card",
-                  "description": "Accepts card payment on the integrated payment terminal. Aliases to TenderUnifiedPaymentCommand. An active transaction must exist."
-                },
-                {
-                  "const": "cardExternalTerminal",
-                  "title": "Card, external terminal",
-                  "description": "Records a card payment taken on a stand-alone terminal. Aliases to TenderStandAloneEftCommand. An active transaction must exist."
-                },
-                {
-                  "const": "cardLocalTerminal",
-                  "title": "Card, local terminal",
-                  "description": "Accepts card payment on the local unified payment terminal. Aliases to TenderLocalUnifiedPaymentCommand. An active transaction must exist."
-                },
-                {
-                  "const": "mobilePayment",
-                  "title": "Mobile payment",
-                  "description": "Accepts a mobile wallet payment. Aliases to TenderMobilePaymentCommand. An active transaction must exist."
-                },
-                {
-                  "const": "mobileVipps",
-                  "title": "Mobile payment, Vipps",
-                  "description": "Accepts Vipps mobile payment. Aliases to TenderMobilePaymentMOVCommand. An active transaction must exist."
-                },
-                {
-                  "const": "mobileSvea",
-                  "title": "Mobile payment, Svea",
-                  "description": "Accepts Svea mobile payment. Aliases to TenderMobilePaymentMOACommand. An active transaction must exist."
-                },
-                {
-                  "const": "giftCard",
-                  "title": "Gift card",
-                  "description": "Pays with an electronic gift card. Aliases to TenderElectronicGiftCardCommand. An active transaction must exist."
-                },
-                {
-                  "const": "giftCertificate",
-                  "title": "Gift certificate",
-                  "description": "Pays with a gift certificate. Aliases to TenderGiftCertificateCommand. An active transaction must exist."
-                },
-                {
-                  "const": "voucher",
-                  "title": "Voucher",
-                  "description": "Pays with a voucher. Aliases to TenderVoucherCommand. An active transaction must exist."
-                },
-                {
-                  "const": "coupon",
-                  "title": "Coupon",
-                  "description": "Pays with a coupon as tender, not as a promotion. Aliases to TenderCouponCommand. An active transaction must exist."
-                },
-                {
-                  "const": "organizationCharge",
-                  "title": "Invoice to organisation",
-                  "description": "Charges the sale to the organisation already on the receipt. Aliases to TenderOrganizationChargeCommandCust. An active transaction must exist."
-                },
-                {
-                  "const": "organizationChargeStd",
-                  "title": "Invoice to organisation (standard)",
-                  "description": "Charges the sale to an organisation account using the store default type. Aliases to TenderOrganizationChargeCommand. An active transaction must exist."
-                },
-                {
-                  "const": "organizationChargeExtCust",
-                  "title": "Invoice to organisation (external customer)",
-                  "description": "Charges the sale to an external organisation customer on the receipt. Aliases to TenderOrganizationChargeCommandExtCust."
-                },
-                {
-                  "const": "organizationChargeB2b",
-                  "title": "Invoice to organisation (B2B)",
-                  "description": "Charges the sale to the B2B customer on the receipt. Aliases to TenderOrganizationChargeCommandB2bCust."
-                },
-                {
-                  "const": "loyaltyRedemption",
-                  "title": "Loyalty points",
-                  "description": "Pays with loyalty points. Aliases to TenderLoyaltyRedemptionCommand. An active transaction must exist."
-                },
-                {
-                  "const": "check",
-                  "title": "Check",
-                  "description": "Pays by check. Aliases to TenderCheckCommand. An active transaction must exist."
-                },
-                {
-                  "const": "houseAccount",
-                  "title": "House account",
-                  "description": "Charges the sale to a house account. Aliases to TenderHouseAccountCommand."
-                },
-                {
-                  "const": "eft",
-                  "title": "Card, EPS",
-                  "description": "Accepts card payment through the classic EPS terminal. Aliases to TenderEftCommand."
-                },
-                {
-                  "const": "eftSelect",
-                  "title": "Card, EPS (select subtype)",
-                  "description": "Accepts card payment through EPS after the cashier chooses the card type. Aliases to TenderEftSelectCommand."
-                },
-                {
-                  "const": "electronicGiftCardUgcp",
-                  "title": "E-gift card UGCP",
-                  "description": "Pays with an electronic gift card (UGCP). Aliases to TenderElectronicGiftCardUGCPCommand. An active transaction must exist."
-                },
-                {
-                  "const": "electronicGiftCardUgcv",
-                  "title": "E-gift card UGCV",
-                  "description": "Pays with an electronic gift card (UGCV). Aliases to TenderElectronicGiftCardUGCVCommand."
-                },
-                {
-                  "const": "pseudoTender",
-                  "title": "Pseudo tender",
-                  "description": "Registers a preconfigured pseudo tender, not a payment of the amount due. Aliases to PreSelectedPseudoTenderCommand1. An active transaction must exist."
-                },
-                {
-                  "const": "bottleDeposit",
-                  "title": "Bottle deposit",
-                  "description": "Registers a bottle deposit return with a preset deposit item. Aliases to PreSelectedRedeemBottleDepositCommand. An active transaction must exist."
-                },
-                {
-                  "const": "foodStamp",
-                  "title": "Food stamp",
-                  "description": "Pays with food stamps. Aliases to TenderFoodStampCommand. An active transaction must exist."
-                },
-                {
-                  "const": "damagedBill",
-                  "title": "Damaged bill",
-                  "description": "Accepts cash as a damaged banknote. Aliases to DamagedBillTenderCashCommand. An active transaction must exist."
-                }
-              ]
-            }
-          }
+          "$ref": "#/$defs/TenderAction"
         },
         {
-          "title": "Custom command",
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "category",
-            "command"
-          ],
-          "properties": {
-            "category": {
-              "title": "Command category",
-              "const": "command"
-            },
-            "command": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/CheckoutEngineCommandDefinition"
-                }
-              ]
-            }
-          }
+          "$ref": "#/$defs/CustomCommandAction"
         }
       ]
     },
@@ -3429,6 +3441,21 @@
             {
               "const": "2x2",
               "title": "Large"
+            }
+          ]
+        }
+      }
+    },
+    "PaymentMenuItem": {
+      "$ref": "#/$defs/MenuItem",
+      "properties": {
+        "action": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/TenderAction"
+            },
+            {
+              "$ref": "#/$defs/CustomCommandAction"
             }
           ]
         }
@@ -3687,9 +3714,6 @@
               "numberOfColumns": {
                 "const": 2
               },
-              "type": {
-                "const": "payment"
-              },
               "content": {
                 "items": {
                   "$ref": "#/$defs/MenuItem"
@@ -3778,6 +3802,38 @@
                   }
                 ],
                 "maxItems": 3
+              }
+            }
+          }
+        },
+        {
+          "$comment": "Payment menu constraint. Only tender and custom command actions are allowed in payment menu.",
+          "if": {
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "const": "payment"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "items": {
+                  "$ref": "#/$defs/MenuContentItem",
+                  "oneOf": [
+                    {
+                      "title": "Menu item",
+                      "$ref": "#/$defs/PaymentMenuItem"
+                    },
+                    {
+                      "title": "Menu group",
+                      "$ref": "#/$defs/MenuGroup"
+                    }
+                  ]
+                }
               }
             }
           }
