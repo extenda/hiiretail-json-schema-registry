@@ -52,7 +52,6 @@
             {
               "id": "3",
               "name": "Retrieve order",
-              "sequenceNumber": 3,
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/unarchive/outline-4x.png",
               "type": "ITEM",
               "action": {
@@ -125,7 +124,6 @@
               "id": "10",
               "name": "Sale functions...",
               "description": "Additional sale functions",
-              "sequenceNumber": 10,
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/apps/outline-4x.png",
               "type": "GROUP",
               "content": [
@@ -460,7 +458,6 @@
               "id": "0",
               "name": "Other payemnt methods",
               "description": "Additional payment methods",
-              "sequenceNumber": 100,
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance/outline-4x.png",
               "type": "GROUP",
               "color": "primaryLight",
@@ -468,7 +465,6 @@
                 {
                   "id": "3",
                   "name": "Tender EFT",
-                  "sequenceNumber": 3,
                   "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
                   "type": "ITEM",
                   "action": {
@@ -1408,6 +1404,166 @@
               "color": "success"
             },
             {
+              "id": "0",
+              "name": "Other payemnt methods",
+              "description": "Additional payment methods",
+              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/account_balance/outline-4x.png",
+              "type": "GROUP",
+              "color": "primaryLight",
+              "content": [
+                {
+                  "id": "3",
+                  "name": "Tender EFT",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "cardLocalTerminal"
+                  }
+                },
+                {
+                  "id": "4",
+                  "name": "Tender gift certificate",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "giftCertificate"
+                  }
+                },
+                {
+                  "id": "5",
+                  "name": "Organizational charge",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/domain/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "organizationChargeStd"
+                  }
+                },
+                {
+                  "id": "6",
+                  "name": "Electronic gift card",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "giftCard"
+                  }
+                },
+                {
+                  "id": "7",
+                  "name": "Tender cheque",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/monetization_on/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "check"
+                  }
+                },
+                {
+                  "id": "8",
+                  "name": "Redeem bottle deposit",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_drink/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "bottleDeposit"
+                  }
+                },
+                {
+                  "id": "9",
+                  "name": "Register coupon",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/receipt/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "pseudoTender"
+                  }
+                },
+                {
+                  "id": "10",
+                  "name": "Tender coupon",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/label/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "coupon"
+                  }
+                },
+                {
+                  "id": "11",
+                  "name": "Voucher",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/bookmark/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "voucher"
+                  }
+                },
+                {
+                  "id": "12",
+                  "name": "Food stamp",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/restaurant/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "foodStamp"
+                  }
+                },
+                {
+                  "id": "13",
+                  "name": "Loyalty redemption",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stars/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "loyaltyRedemption"
+                  }
+                },
+                {
+                  "id": "14",
+                  "name": "Offline EFT",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/important_devices/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "cardExternalTerminal"
+                  }
+                },
+                {
+                  "id": "15",
+                  "name": "Mobile",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobilePayment"
+                  }
+                },
+                {
+                  "id": "16",
+                  "name": "Mobile Vipps",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobileVipps"
+                  }
+                },
+                {
+                  "id": "17",
+                  "name": "Mobile Svea",
+                  "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
+                  "type": "ITEM",
+                  "action": {
+                    "category": "tender",
+                    "type": "mobileSvea"
+                  }
+                }
+              ]
+            },
+            {
               "id": "2",
               "name": "Tender EFT",
               "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/credit_card/outline-4x.png",
@@ -1415,156 +1571,6 @@
               "action": {
                 "category": "tender",
                 "type": "card"
-              }
-            },
-            {
-              "id": "3",
-              "name": "Tender EFT",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phonelink/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "cardLocalTerminal"
-              }
-            },
-            {
-              "id": "4",
-              "name": "Tender gift certificate",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/style/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "giftCertificate"
-              }
-            },
-            {
-              "id": "5",
-              "name": "Organizational charge",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/domain/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "organizationChargeStd"
-              }
-            },
-            {
-              "id": "6",
-              "name": "Electronic gift card",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/card_membership/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "giftCard"
-              }
-            },
-            {
-              "id": "7",
-              "name": "Tender cheque",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/monetization_on/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "check"
-              }
-            },
-            {
-              "id": "8",
-              "name": "Redeem bottle deposit",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/local_drink/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "bottleDeposit"
-              }
-            },
-            {
-              "id": "9",
-              "name": "Register coupon",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/receipt/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "pseudoTender"
-              }
-            },
-            {
-              "id": "10",
-              "name": "Tender coupon",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/label/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "coupon"
-              }
-            },
-            {
-              "id": "11",
-              "name": "Voucher",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/bookmark/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "voucher"
-              }
-            },
-            {
-              "id": "12",
-              "name": "Food stamp",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/restaurant/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "foodStamp"
-              }
-            },
-            {
-              "id": "13",
-              "name": "Loyalty redemption",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stars/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "loyaltyRedemption"
-              }
-            },
-            {
-              "id": "14",
-              "name": "Offline EFT",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/important_devices/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "cardExternalTerminal"
-              }
-            },
-            {
-              "id": "15",
-              "name": "Mobile",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/smartphone/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "mobilePayment"
-              }
-            },
-            {
-              "id": "16",
-              "name": "Mobile Vipps",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/phone_android/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "mobileVipps"
-              }
-            },
-            {
-              "id": "17",
-              "name": "Mobile Svea",
-              "icon": "https://cdn.jsdelivr.net/gh/material-icons/material-icons-png@master/png/black/stay_current_portrait/outline-4x.png",
-              "type": "ITEM",
-              "action": {
-                "category": "tender",
-                "type": "mobileSvea"
               }
             }
           ]
@@ -3532,6 +3538,105 @@
         "name",
         "type",
         "content"
+      ],
+      "allOf": [
+        {
+          "$comment": "Self checkout payment menu constraints condition. Self checkout only support single payment menu with 2 columns, no nested groups, no non standard checkout engine modes.",
+          "if": {
+            "properties": {
+              "applicationTypes": {
+                "properties": {
+                  "SELF_CHECKOUT": true
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "numberOfColumns": {
+                "const": 2
+              },
+              "type": {
+                "const": "payment"
+              },
+              "content": {
+                "items": {
+                  "$ref": "#/$defs/MenuItem"
+                }
+              },
+              "mode": {
+                "not": {
+                  "oneOf": [
+                    {
+                      "const": "ITEM_PACKAGE"
+                    },
+                    {
+                      "const": "REFUND_PREVIOUS_ORDER"
+                    },
+                    {
+                      "const": "REFUND"
+                    },
+                    {
+                      "const": "VOID"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "Due to the structural limitations, POS payment menu must have maximum 3 items. Root level payment actions considered as primary and secondary payment options depending on the order",
+          "if": {
+            "properties": {
+              "applicationTypes": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "DEFAULT": true
+                    }
+                  },
+                  {
+                    "properties": {
+                      "SELF_CHECKOUT_ATTENDANT": true
+                    }
+                  }
+                ]
+              },
+              "type": {
+                "const": "payment"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "numberOfColumns": {
+                "const": 3
+              },
+              "content": {
+                "prefixItems": [
+                  {
+                    "$ref": "#/$defs/MenuItem"
+                  },
+                  {
+                    "$ref": "#/$defs/MenuGroup",
+                    "properties": {
+                      "content": {
+                        "items": {
+                          "$ref": "#/$defs/MenuItem"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/MenuItem"
+                  }
+                ],
+                "maxItems": 3
+              }
+            }
+          }
+        }
       ],
       "properties": {
         "id": {
