@@ -24,7 +24,8 @@
           "description": "Main POS buttons shown beside the receipt during a sale.",
           "type": "default",
           "applicationTypes": {
-            "DEFAULT": true
+            "DEFAULT": true,
+            "MOBILE_TABLET_POS": true
           },
           "mode": "NONE",
           "content": [
@@ -438,7 +439,8 @@
           "description": "Payment methods shown when the cashier takes payment.",
           "type": "payment",
           "applicationTypes": {
-            "DEFAULT": true
+            "DEFAULT": true,
+            "MOBILE_TABLET_POS": true
           },
           "mode": "NONE",
           "content": [
@@ -796,7 +798,8 @@
           "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
-            "SELF_CHECKOUT_ATTENDANT": true
+            "SELF_CHECKOUT_ATTENDANT": true,
+            "MOBILE_TABLET_POS": true
           },
           "mode": "ITEM_PACKAGE",
           "content": [
@@ -933,7 +936,8 @@
           "applicationTypes": {
             "MOBILE_POS": true,
             "DEFAULT": true,
-            "SELF_CHECKOUT_ATTENDANT": true
+            "SELF_CHECKOUT_ATTENDANT": true,
+            "MOBILE_TABLET_POS": true
           },
           "mode": "REFUND_PREVIOUS_ORDER",
           "content": [
@@ -3522,6 +3526,17 @@
         }
       }
     },
+    "PaymentMenuGroup": {
+      "$ref": "#/$defs/MenuGroup",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PaymentMenuContentItem"
+          }
+        }
+      }
+    },
     "MenuContentItem": {
       "title": "Menu content item.",
       "description": "Each item in a menu list can be a menu item or a menu group.",
@@ -3534,6 +3549,21 @@
         {
           "title": "Menu group",
           "$ref": "#/$defs/MenuGroup"
+        }
+      ]
+    },
+    "PaymentMenuContentItem": {
+      "title": "Menu content item.",
+      "description": "Each item in a menu list can be a menu item or a menu group.",
+      "type": "object",
+      "oneOf": [
+        {
+          "title": "Menu item",
+          "$ref": "#/$defs/PaymentMenuItem"
+        },
+        {
+          "title": "Menu group",
+          "$ref": "#/$defs/PaymentMenuGroup"
         }
       ]
     },
@@ -3615,6 +3645,11 @@
                 "MOBILE_POS": {
                   "title": "Mobile POS",
                   "description": "Mobile POS application",
+                  "type": "boolean"
+                },
+                "MOBILE_TABLET_POS": {
+                  "title": "Mobile Tablet POS",
+                  "description": "Mobile Tablet POS application",
                   "type": "boolean"
                 },
                 "SELF_CHECKOUT": {
@@ -3735,6 +3770,16 @@
                 "anyOf": [
                   {
                     "required": [
+                      "MOBILE_TABLET_POS"
+                    ],
+                    "properties": {
+                      "MOBILE_TABLET_POS": {
+                        "const": true
+                      }
+                    }
+                  },
+                  {
+                    "required": [
                       "DEFAULT"
                     ],
                     "properties": {
@@ -3768,20 +3813,20 @@
               "content": {
                 "prefixItems": [
                   {
-                    "$ref": "#/$defs/MenuItem"
+                    "$ref": "#/$defs/PaymentMenuItem"
                   },
                   {
-                    "$ref": "#/$defs/MenuGroup",
+                    "$ref": "#/$defs/PaymentMenuGroup",
                     "properties": {
                       "content": {
                         "items": {
-                          "$ref": "#/$defs/MenuItem"
+                          "$ref": "#/$defs/PaymentMenuItem"
                         }
                       }
                     }
                   },
                   {
-                    "$ref": "#/$defs/MenuItem"
+                    "$ref": "#/$defs/PaymentMenuItem"
                   }
                 ],
                 "maxItems": 3
@@ -3790,7 +3835,7 @@
           }
         },
         {
-          "$comment": "Payment menu: only tender and custom command. shortcut: one group level, nested folders of folders are not checked.",
+          "$comment": "Payment menu: only tender and custom command.",
           "if": {
             "required": [
               "type"
@@ -3805,21 +3850,7 @@
             "properties": {
               "content": {
                 "items": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/$defs/PaymentMenuItem"
-                    },
-                    {
-                      "$ref": "#/$defs/MenuGroup",
-                      "properties": {
-                        "content": {
-                          "items": {
-                            "$ref": "#/$defs/PaymentMenuItem"
-                          }
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/$defs/PaymentMenuContentItem"
                 }
               }
             }
