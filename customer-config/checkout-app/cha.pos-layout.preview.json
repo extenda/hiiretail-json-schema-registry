@@ -3528,26 +3528,157 @@
       ]
     },
     "MenuListType": {
-      "title": "Menu list",
-      "description": "A menu tree. Type defines where in the app the list is displayed.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "applicationTypes",
-        "id",
-        "name",
-        "type",
-        "content"
-      ],
       "allOf": [
+        {
+          "title": "Menu list",
+          "description": "A menu tree. Type defines where in the app the list is displayed.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "applicationTypes",
+            "id",
+            "name",
+            "type",
+            "content"
+          ],
+          "properties": {
+            "id": {
+              "title": "Menu list id",
+              "description": "A unique identifier for the Menu.",
+              "type": "string",
+              "minLength": 1,
+              "example": "POS-defaul-menu-none-mode"
+            },
+            "name": {
+              "title": "Menu list name",
+              "description": "The Menu list title",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "description": {
+              "title": "Menu list description",
+              "description": "The Menu list description",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "numberOfColumns": {
+              "title": "Number of columns",
+              "description": "The number of columns to render the menu list in. If not set, the menu list will be rendered in 2 columns.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4
+            },
+            "type": {
+              "title": "List type",
+              "description": "Where in the app the given list is displayed.",
+              "oneOf": [
+                {
+                  "const": "default",
+                  "title": "Main",
+                  "description": "Rendered in the main view component alongside the receipt."
+                },
+                {
+                  "const": "payment",
+                  "title": "Payment",
+                  "description": "Payment options menu. Rendered in dedicated payment menu component."
+                },
+                {
+                  "const": "item",
+                  "title": "Item",
+                  "description": "Item context menu when an item is manually selected. Available for smaller devices only (Mobile POS)."
+                }
+              ]
+            },
+            "applicationTypes": {
+              "title": "Application types",
+              "description": "The application types that can access the Menu list.",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "DEFAULT": {
+                  "title": "POS",
+                  "description": "Regular POS application. Desktop or Tablet POS",
+                  "type": "boolean"
+                },
+                "MOBILE_POS": {
+                  "title": "Mobile POS",
+                  "description": "Mobile POS application",
+                  "type": "boolean"
+                },
+                "SELF_CHECKOUT": {
+                  "title": "Self checkout",
+                  "description": "Self checkout application. Hybrid or dedicated self checkout application",
+                  "type": "boolean"
+                },
+                "SELF_CHECKOUT_ATTENDANT": {
+                  "title": "Attendant Self checkout",
+                  "description": "Self checkout application while attendant is logged in",
+                  "type": "boolean"
+                }
+              }
+            },
+            "mode": {
+              "title": "Mode",
+              "description": "The checkout engine mode required to access the Menu list. This menu is shown when the till is in this mode.",
+              "oneOf": [
+                {
+                  "const": "NONE",
+                  "title": "None (default)",
+                  "description": "Normal checkout. Scans and keys add items to the sale."
+                },
+                {
+                  "const": "ITEM_PACKAGE",
+                  "title": "Item package",
+                  "description": "The cashier is grouping receipt lines into a package to discount them together. Not applicable for Self checkout application type."
+                },
+                {
+                  "const": "REFUND",
+                  "title": "Refund without receipt",
+                  "description": "The next item scanned is treated as a refund, not a sale. Not applicable for Self checkout application type."
+                },
+                {
+                  "const": "REFUND_PREVIOUS_ORDER",
+                  "title": "Refund from receipt",
+                  "description": "The cashier is refunding lines from a previous receipt. Not applicable for Self checkout application type."
+                },
+                {
+                  "const": "VOID",
+                  "title": "Void",
+                  "description": "The next scan or key voids a line on the current sale. Not applicable for Self checkout application type."
+                }
+              ]
+            },
+            "content": {
+              "description": "Menu list content.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/MenuContentItem"
+              }
+            }
+          }
+        },
         {
           "$comment": "Self checkout payment menu constraints condition. Self checkout only support single payment menu with 2 columns, no nested groups, no non standard checkout engine modes.",
           "if": {
+            "required": [
+              "applicationTypes",
+              "type"
+            ],
             "properties": {
               "applicationTypes": {
+                "required": [
+                  "SELF_CHECKOUT"
+                ],
                 "properties": {
-                  "SELF_CHECKOUT": true
+                  "SELF_CHECKOUT": {
+                    "const": true
+                  }
                 }
+              },
+              "type": {
+                "const": "payment"
               }
             }
           },
@@ -3588,17 +3719,31 @@
         {
           "$comment": "Due to the structural limitations, POS payment menu must have maximum 3 items. Root level payment actions considered as primary and secondary payment options depending on the order",
           "if": {
+            "required": [
+              "applicationTypes",
+              "type"
+            ],
             "properties": {
               "applicationTypes": {
-                "oneOf": [
+                "anyOf": [
                   {
+                    "required": [
+                      "DEFAULT"
+                    ],
                     "properties": {
-                      "DEFAULT": true
+                      "DEFAULT": {
+                        "const": true
+                      }
                     }
                   },
                   {
+                    "required": [
+                      "SELF_CHECKOUT_ATTENDANT"
+                    ],
                     "properties": {
-                      "SELF_CHECKOUT_ATTENDANT": true
+                      "SELF_CHECKOUT_ATTENDANT": {
+                        "const": true
+                      }
                     }
                   }
                 ]
@@ -3637,124 +3782,7 @@
             }
           }
         }
-      ],
-      "properties": {
-        "id": {
-          "title": "Menu list id",
-          "description": "A unique identifier for the Menu.",
-          "type": "string",
-          "minLength": 1,
-          "example": "POS-defaul-menu-none-mode"
-        },
-        "name": {
-          "title": "Menu list name",
-          "description": "The Menu list title",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
-        },
-        "description": {
-          "title": "Menu list description",
-          "description": "The Menu list description",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 100
-        },
-        "numberOfColumns": {
-          "title": "Number of columns",
-          "description": "The number of columns to render the menu list in. If not set, the menu list will be rendered in 2 columns.",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 4
-        },
-        "type": {
-          "title": "List type",
-          "description": "Where in the app the given list is displayed.",
-          "oneOf": [
-            {
-              "const": "default",
-              "title": "Main",
-              "description": "Rendered in the main view component alongside the receipt."
-            },
-            {
-              "const": "payment",
-              "title": "Payment",
-              "description": "Payment options menu. Rendered in dedicated payment menu component."
-            },
-            {
-              "const": "item",
-              "title": "Item",
-              "description": "Item context menu when an item is manually selected. Available for smaller devices only (Mobile POS)."
-            }
-          ]
-        },
-        "applicationTypes": {
-          "title": "Application types",
-          "description": "The application types that can access the Menu list.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "DEFAULT": {
-              "title": "POS",
-              "description": "Regular POS application. Desktop or Tablet POS",
-              "type": "boolean"
-            },
-            "MOBILE_POS": {
-              "title": "Mobile POS",
-              "description": "Mobile POS application",
-              "type": "boolean"
-            },
-            "SELF_CHECKOUT": {
-              "title": "Self checkout",
-              "description": "Self checkout application. Hybrid or dedicated self checkout application",
-              "type": "boolean"
-            },
-            "SELF_CHECKOUT_ATTENDANT": {
-              "title": "Attendant Self checkout",
-              "description": "Self checkout application while attendant is logged in",
-              "type": "boolean"
-            }
-          }
-        },
-        "mode": {
-          "title": "Mode",
-          "description": "The checkout engine mode required to access the Menu list. This menu is shown when the till is in this mode.",
-          "oneOf": [
-            {
-              "const": "NONE",
-              "title": "None (default)",
-              "description": "Normal checkout. Scans and keys add items to the sale."
-            },
-            {
-              "const": "ITEM_PACKAGE",
-              "title": "Item package",
-              "description": "The cashier is grouping receipt lines into a package to discount them together. Not applicable for Self checkout application type."
-            },
-            {
-              "const": "REFUND",
-              "title": "Refund without receipt",
-              "description": "The next item scanned is treated as a refund, not a sale. Not applicable for Self checkout application type."
-            },
-            {
-              "const": "REFUND_PREVIOUS_ORDER",
-              "title": "Refund from receipt",
-              "description": "The cashier is refunding lines from a previous receipt. Not applicable for Self checkout application type."
-            },
-            {
-              "const": "VOID",
-              "title": "Void",
-              "description": "The next scan or key voids a line on the current sale. Not applicable for Self checkout application type."
-            }
-          ]
-        },
-        "content": {
-          "description": "Menu list content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/MenuContentItem"
-          }
-        }
-      }
+      ]
     }
   }
 }
