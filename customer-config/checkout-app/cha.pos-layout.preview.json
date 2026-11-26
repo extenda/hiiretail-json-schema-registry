@@ -3526,23 +3526,6 @@
       "title": "Menu content item.",
       "description": "Each item in a menu list can be a menu item or a menu group.",
       "type": "object",
-      "properties": {
-        "type": {
-          "title": "Type",
-          "description": "Item is a single button with an action. Group is a folder of more buttons.",
-          "type": "string",
-          "oneOf": [
-            {
-              "const": "Menu item",
-              "title": "Item"
-            },
-            {
-              "const": "Menu group",
-              "title": "Group"
-            }
-          ]
-        }
-      },
       "oneOf": [
         {
           "title": "Menu item",
@@ -3807,7 +3790,7 @@
           }
         },
         {
-          "$comment": "Payment menu constraint. Only tender and custom command actions are allowed in payment menu.",
+          "$comment": "Payment menu: only tender and custom command. shortcut: one group level, nested folders of folders are not checked.",
           "if": {
             "required": [
               "type"
@@ -3822,15 +3805,19 @@
             "properties": {
               "content": {
                 "items": {
-                  "$ref": "#/$defs/MenuContentItem",
                   "oneOf": [
                     {
-                      "title": "Menu item",
                       "$ref": "#/$defs/PaymentMenuItem"
                     },
                     {
-                      "title": "Menu group",
-                      "$ref": "#/$defs/MenuGroup"
+                      "$ref": "#/$defs/MenuGroup",
+                      "properties": {
+                        "content": {
+                          "items": {
+                            "$ref": "#/$defs/PaymentMenuItem"
+                          }
+                        }
+                      }
                     }
                   ]
                 }
