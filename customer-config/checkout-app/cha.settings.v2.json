@@ -689,7 +689,7 @@
               "title": "Window Start (UTC)",
               "description": "The start time of the maintenance window, e.g. 18:00:00. Specify in the UTC time zone.",
               "type": "string",
-              "format": "time",
+              "format": "iso-time",
               "examples": [
                 "18:00:00"
               ]
@@ -698,7 +698,7 @@
               "title": "Window End (UTC)",
               "description": "The end time of the maintenance window, e.g. 23:59:00. Specify in the UTC time zone.",
               "type": "string",
-              "format": "time",
+              "format": "iso-time",
               "examples": [
                 "23:59:00"
               ]
@@ -2010,7 +2010,7 @@
                 "title": "Start",
                 "description": "Opening time in HH:MM:SS format (24-hour)",
                 "type": "string",
-                "format": "time",
+                "format": "iso-time",
                 "examples": [
                   "09:00:00"
                 ]
@@ -2019,7 +2019,7 @@
                 "title": "End",
                 "description": "Closing time in HH:MM:SS format (24-hour)",
                 "type": "string",
-                "format": "time",
+                "format": "iso-time",
                 "examples": [
                   "17:00:00"
                 ]
