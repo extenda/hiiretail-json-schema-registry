@@ -13,6 +13,7 @@
     "intervalInWeeks": {
       "type": "integer",
       "default": 2,
+      "minimum": 1,
       "description": "Indicates stock count should be generated every x weeks."
     },
     "weekdayToBeGenerated": {
@@ -24,11 +25,14 @@
     "minNumberOfWeeksSinceLastCount": {
       "type": "integer",
       "default": 6,
+      "minimum": 1,
       "description": "Minimum number of weeks since last count."
     },
     "slowSalesFactorThreshold": {
       "type": "number",
       "default": 0.1,
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1,
       "description": "Slow sales factor threshold. Example: factor of 0.1 means that items for the last 3 days sold less than 10% of normal sales are included in the stock count for suspicious items."
     },
     "nameOfStockCountGenerated": {
