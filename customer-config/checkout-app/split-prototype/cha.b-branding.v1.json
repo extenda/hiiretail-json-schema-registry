@@ -1,7 +1,8 @@
 {
+  "$id": "cha.b-branding.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Checkout App: Branding",
-  "description": "Split proposal B: by topic. Holds a sub-object per touchpoint: pos, sco, mpos, customerDisplay. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-branding-editor.",
+  "description": "Split proposal B: by topic. Holds a sub-object per touchpoint: pos, sco, mpos, customerDisplay. Proposed IAM role: checkout-branding-editor.",
   "type": "object",
   "properties": {
     "pos": {
@@ -13,72 +14,7 @@
           "title": "Theme",
           "description": "Theme object for customisation of the app.",
           "type": "object",
-          "properties": {
-            "colors": {
-              "title": "Colors",
-              "description": "Theme settings",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "primary": {
-                  "title": "Primary",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "primaryDark": {
-                  "title": "Primary dark",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "primaryLight": {
-                  "title": "Primary light",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "secondary": {
-                  "title": "Secondary",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                }
-              }
-            },
-            "fontFamilies": {
-              "title": "Font families",
-              "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "heading": {
-                  "title": "Heading",
-                  "description": "Font family for header titles. Replaces Dystopian.",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "default": {
-                  "title": "Default",
-                  "description": "Font family for all other text. Replaces Inter.",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "monospace": {
-                  "title": "Monospace",
-                  "description": "Font family for monospaced text. Replaces JetBrainsMono.",
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            },
-            "roundness": {
-              "title": "Roundness",
-              "description": "The roundness of the UI elements in the app theme.",
-              "type": "number",
-              "minimum": 0
-            }
-          }
+          "$ref": "#/$defs/ThemeType"
         },
         "wallpaperUri": {
           "title": "Wallpaper Image URI",
@@ -90,48 +26,7 @@
           "title": "External Links",
           "description": "Checkout App External Websites settings.",
           "type": "object",
-          "properties": {
-            "enabled": {
-              "title": "Enable External Links",
-              "description": "Enables the external links feature.",
-              "type": "boolean",
-              "default": false
-            },
-            "links": {
-              "title": "External Links",
-              "description": "External links list shown as a choice list in the app. Each entry needs a URL and a display name.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "required": [
-                  "url",
-                  "name"
-                ],
-                "properties": {
-                  "url": {
-                    "title": "URL",
-                    "description": "External web page urls.",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "Name of the web site to display in the choice list in app.",
-                    "type": "string"
-                  },
-                  "shareAuthorizationToken": {
-                    "title": "Share authorization token",
-                    "description": "Set true to share authorization token with this website.",
-                    "type": "boolean"
-                  },
-                  "shareRetailInformation": {
-                    "title": "Share retail information",
-                    "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
-                    "type": "boolean"
-                  }
-                }
-              }
-            }
-          }
+          "$ref": "#/$defs/ExternalLinksType"
         },
         "inAppLinksEnabled": {
           "title": "Enable In-App Link Handling",
@@ -167,72 +62,7 @@
           "title": "Theme",
           "description": "Theme object for customization of the app.",
           "type": "object",
-          "properties": {
-            "colors": {
-              "title": "Colors",
-              "description": "Theme settings",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "primary": {
-                  "title": "Primary",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "primaryDark": {
-                  "title": "Primary dark",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "primaryLight": {
-                  "title": "Primary light",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                },
-                "secondary": {
-                  "title": "Secondary",
-                  "description": "HEX color code. With optional alpha channel, e.g. #RRGGBB or #AARRGGBB.",
-                  "type": "string",
-                  "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
-                }
-              }
-            },
-            "fontFamilies": {
-              "title": "Font families",
-              "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "heading": {
-                  "title": "Heading",
-                  "description": "Font family for header titles. Replaces Dystopian.",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "default": {
-                  "title": "Default",
-                  "description": "Font family for all other text. Replaces Inter.",
-                  "type": "string",
-                  "minLength": 1
-                },
-                "monospace": {
-                  "title": "Monospace",
-                  "description": "Font family for monospaced text. Replaces JetBrainsMono.",
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            },
-            "roundness": {
-              "title": "Roundness",
-              "description": "The roundness of the UI elements in the app theme.",
-              "type": "number",
-              "minimum": 0
-            }
-          }
+          "$ref": "#/$defs/MposThemeType"
         },
         "wallpaperUri": {
           "title": "Wallpaper Image URI",
@@ -244,48 +74,7 @@
           "title": "External Links",
           "description": "Checkout App External Websites settings.",
           "type": "object",
-          "properties": {
-            "enabled": {
-              "title": "Enable External Links",
-              "description": "Enables the external links feature.",
-              "type": "boolean",
-              "default": false
-            },
-            "links": {
-              "title": "External Links",
-              "description": "External links list shown as a choice list in the app. Each entry needs a URL and a display name.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "required": [
-                  "url",
-                  "name"
-                ],
-                "properties": {
-                  "url": {
-                    "title": "URL",
-                    "description": "External web page urls.",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "Name of the web site to display in the choice list in app.",
-                    "type": "string"
-                  },
-                  "shareAuthorizationToken": {
-                    "title": "Share authorization token",
-                    "description": "Set true to share authorization token with this website.",
-                    "type": "boolean"
-                  },
-                  "shareRetailInformation": {
-                    "title": "Share retail information",
-                    "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
-                    "type": "boolean"
-                  }
-                }
-              }
-            }
-          }
+          "$ref": "#/$defs/ExternalLinksType"
         },
         "inAppLinksEnabled": {
           "title": "Enable In-App Link Handling",
@@ -303,6 +92,172 @@
           "title": "Welcome Message",
           "description": "Welcome message to display on the customer facing display.",
           "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ColorType": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$"
+    },
+    "FontFamilyType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ThemeType": {
+      "description": "This is a definition of the theme settings.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "title": "Colors",
+          "description": "Theme settings",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": {
+              "title": "Primary",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryDark": {
+              "title": "Primary dark",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryLight": {
+              "title": "Primary light",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "secondary": {
+              "title": "Secondary",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            }
+          }
+        },
+        "fontFamilies": {
+          "title": "Font families",
+          "description": "Font settings. Applied in POS and SCO only. Fonts that are not set keep the default font.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "heading": {
+              "title": "Heading",
+              "description": "Font family for header titles. Replaces Dystopian.",
+              "$ref": "#/$defs/FontFamilyType"
+            },
+            "default": {
+              "title": "Default",
+              "description": "Font family for all other text. Replaces Inter.",
+              "$ref": "#/$defs/FontFamilyType"
+            },
+            "monospace": {
+              "title": "Monospace",
+              "description": "Font family for monospaced text. Replaces JetBrainsMono.",
+              "$ref": "#/$defs/FontFamilyType"
+            }
+          }
+        },
+        "roundness": {
+          "title": "Roundness",
+          "description": "The roundness of the UI elements in the app theme.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "ExternalLinksType": {
+      "description": "This is a definition of the External Websites settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable External Links",
+          "description": "Enables the external links feature.",
+          "type": "boolean",
+          "default": false
+        },
+        "links": {
+          "title": "External Links",
+          "description": "External links list shown as a choice list in the app. Each entry needs a URL and a display name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "url",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "title": "ID",
+                "description": "Unique id of this entry. A store or workstation changes or removes the entry by its id.",
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "title": "URL",
+                "description": "External web page urls.",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "Name of the web site to display in the choice list in app.",
+                "type": "string"
+              },
+              "shareAuthorizationToken": {
+                "title": "Share authorization token",
+                "description": "Set true to share authorization token with this website.",
+                "type": "boolean"
+              },
+              "shareRetailInformation": {
+                "title": "Share retail information",
+                "description": "Set true to share retail info like: countryCode, businessunitId, workstationId, operatorId, tenantId.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MposThemeType": {
+      "description": "Theme of the MPOS app: colors and component roundness. MPOS does not support a font override.",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "title": "Colors",
+          "description": "Theme settings",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": {
+              "title": "Primary",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryDark": {
+              "title": "Primary dark",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "primaryLight": {
+              "title": "Primary light",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            },
+            "secondary": {
+              "title": "Secondary",
+              "description": "HEX color code with 3, 4, 6 or 8 digits: #RGB or #RRGGBB, or with an alpha channel #ARGB or #AARRGGBB.",
+              "$ref": "#/$defs/ColorType"
+            }
+          }
+        },
+        "roundness": {
+          "title": "Roundness",
+          "description": "The roundness of the UI elements in the app theme.",
+          "type": "number",
+          "minimum": 0
         }
       }
     }

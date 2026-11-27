@@ -1,7 +1,8 @@
 {
+  "$id": "cha.b-profile.v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Checkout App: Hardware & profile",
-  "description": "Split proposal B: by topic. Holds a sub-object per touchpoint: pos, sco, mpos, customerDisplay. Prototype: not registered in CCC, so it renders but cannot be saved. Proposed IAM role: checkout-profile-admin.",
+  "description": "Split proposal B: by topic. Holds a sub-object per touchpoint: pos, sco, mpos, customerDisplay. Proposed IAM role: checkout-profile-admin.",
   "type": "object",
   "properties": {
     "pos": {
@@ -13,366 +14,13 @@
           "title": "Peripherals",
           "description": "Periperals settings.",
           "type": "object",
-          "properties": {
-            "legacy": {
-              "title": "Use Legacy MQTT Peripherals",
-              "description": "Enables legacy MQTT peripherals instead of gRPC.",
-              "type": "boolean"
-            },
-            "scale": {
-              "title": "Scale",
-              "description": "This is a definition of the scale settings.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enable Scale",
-                  "description": "Enables the scale.",
-                  "type": "boolean"
-                },
-                "autoConnect": {
-                  "title": "Auto Connect",
-                  "description": "Enables the auto connect.",
-                  "type": "boolean"
-                },
-                "logicalName": {
-                  "title": "Scale Logical Name",
-                  "description": "Scale's logical name.",
-                  "type": "string"
-                }
-              }
-            },
-            "scanner1": {
-              "title": "Scanner 1",
-              "description": "This is a definition of the scanner settings.",
-              "type": "object",
-              "properties": {
-                "autoConnect": {
-                  "title": "Auto Connect",
-                  "description": "Enables the auto connect.",
-                  "type": "boolean"
-                },
-                "logicalName": {
-                  "title": "Scanner 1 Logical Name",
-                  "description": "Scanner's logical name.",
-                  "type": "string"
-                }
-              }
-            },
-            "scanner2": {
-              "title": "Scanner 2",
-              "description": "This is a definition of the scanner settings.",
-              "type": "object",
-              "properties": {
-                "autoConnect": {
-                  "title": "Auto Connect",
-                  "description": "Enables the auto connect.",
-                  "type": "boolean"
-                },
-                "logicalName": {
-                  "title": "Scanner 2 Logical Name",
-                  "description": "Scanner's logical name.",
-                  "type": "string"
-                }
-              }
-            },
-            "scan": {
-              "title": "Scan",
-              "description": "Configuration for item scan feedback events.",
-              "type": "object",
-              "properties": {
-                "audio": {
-                  "title": "Audio",
-                  "description": "Audio feedback configuration for scan events.",
-                  "type": "object",
-                  "properties": {
-                    "enabled": {
-                      "title": "Audio Alerts Enabled",
-                      "description": "Enables audio alerts for barcode scanning.",
-                      "type": "boolean",
-                      "default": false
-                    },
-                    "success": {
-                      "title": "Success",
-                      "type": "object",
-                      "properties": {
-                        "enabled": {
-                          "title": "Success Sound",
-                          "description": "Enables audio alert for barcode scan success.",
-                          "type": "boolean",
-                          "default": false
-                        }
-                      },
-                      "additionalProperties": false
-                    },
-                    "error": {
-                      "title": "Error",
-                      "type": "object",
-                      "properties": {
-                        "enabled": {
-                          "title": "Error Sound",
-                          "description": "Enables audio alert for barcode scan failure.",
-                          "type": "boolean",
-                          "default": false
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  },
-                  "additionalProperties": false
-                }
-              },
-              "additionalProperties": false
-            },
-            "printer": {
-              "title": "Printer",
-              "description": "This is a definition of the printer settings.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enable Printer",
-                  "description": "Enables the printer device.",
-                  "type": "boolean"
-                },
-                "autoConnect": {
-                  "title": "Auto Connect",
-                  "description": "Enables the auto connect.",
-                  "type": "boolean"
-                },
-                "logicalName": {
-                  "title": "Printer Logical Name",
-                  "description": "Printer's logical name.",
-                  "type": "string"
-                },
-                "cashdrawerEnabled": {
-                  "title": "Enable Cash Drawer",
-                  "description": "Enables the cash drawer device.",
-                  "type": "boolean"
-                },
-                "cashdrawerLogicalName": {
-                  "title": "Cash Drawer Logical Name",
-                  "description": "Cash drawer's logical name.",
-                  "type": "string"
-                }
-              }
-            },
-            "systemPrinter": {
-              "title": "System printer",
-              "description": "This is a definition of the system printer settings.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enabled",
-                  "description": "Enables the device.",
-                  "type": "boolean"
-                },
-                "logicalName": {
-                  "title": "Logical name",
-                  "description": "Printer's device name.",
-                  "type": "string"
-                },
-                "timeout": {
-                  "title": "Timeout",
-                  "description": "Printer's timeout in ms for loading operations.",
-                  "type": "number"
-                }
-              }
-            },
-            "cashchanger": {
-              "title": "Cash changer",
-              "description": "This is a definition of the CashChanger settings.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enable Cash Changer",
-                  "description": "Enables the cash changer.",
-                  "type": "boolean"
-                }
-              }
-            },
-            "icd": {
-              "title": "ICD",
-              "description": "Settings for integration with ICD.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "POS: Enable ICD Integration",
-                  "description": "Enables the integration with ICD.",
-                  "type": "boolean"
-                }
-              }
-            },
-            "itab": {
-              "title": "ITAB",
-              "description": "Settings for integration with ITAB.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enabled",
-                  "description": "Enables the integration with ITAB.",
-                  "type": "boolean"
-                },
-                "model": {
-                  "title": "Model",
-                  "description": "The ITAB hardware system.",
-                  "type": "string",
-                  "enum": [
-                    "TWINFLOW",
-                    "MOVEFLOW",
-                    "EASYFLOW"
-                  ]
-                },
-                "host": {
-                  "title": "Host",
-                  "description": "ITAB SCO API server address",
-                  "type": "string"
-                },
-                "port": {
-                  "title": "Port",
-                  "description": "ITAB SCO API server address's port",
-                  "type": "integer"
-                },
-                "messageTimeoutMilliseconds": {
-                  "title": "Message timeout milliseconds",
-                  "description": "Timeout in milliseconds for messages.",
-                  "type": "integer"
-                },
-                "responseTimeoutMilliseconds": {
-                  "title": "Response timeout milliseconds",
-                  "description": "Timeout in milliseconds for responses.",
-                  "type": "integer"
-                },
-                "connectionTimeout": {
-                  "title": "Connection timeout",
-                  "description": "Connection timeout in milliseconds.",
-                  "type": "integer"
-                },
-                "connectionReconnectTime": {
-                  "title": "Connection reconnect time",
-                  "description": "Reconnect delay in milliseconds.",
-                  "type": "integer"
-                },
-                "highestApiVersion": {
-                  "title": "Highest API version",
-                  "description": "Highest supported ITAB API version.",
-                  "type": "string"
-                },
-                "lossPrevention": {
-                  "title": "Loss prevention",
-                  "description": "Settings for ITAB loss prevention.",
-                  "type": "object",
-                  "properties": {
-                    "enabled": {
-                      "title": "Enabled",
-                      "description": "Enables the integration with ITAB loss prevention.",
-                      "type": "boolean"
-                    }
-                  }
-                },
-                "exitGate": {
-                  "title": "Exit gate",
-                  "description": "Settings for ITAB exit gate.",
-                  "type": "object",
-                  "properties": {
-                    "enabled": {
-                      "title": "Enabled",
-                      "description": "Enables the integration with ITAB exit gate.",
-                      "type": "boolean"
-                    },
-                    "host": {
-                      "title": "Host",
-                      "description": "IP address of exit gate.",
-                      "type": "string"
-                    },
-                    "port": {
-                      "title": "Port",
-                      "description": "Port which commands will be sent to.",
-                      "type": "integer"
-                    }
-                  }
-                },
-                "lightTower": {
-                  "title": "Light tower",
-                  "description": "Settings for ITAB light tower.",
-                  "type": "object",
-                  "properties": {
-                    "enabled": {
-                      "title": "Enabled",
-                      "description": "Enables the integration with ITAB light tower.",
-                      "type": "boolean"
-                    },
-                    "serialPort": {
-                      "title": "Serial port",
-                      "description": "Serial port for the light tower.",
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            },
-            "lineDisplay": {
-              "title": "Line display",
-              "description": "Settings for integration with JPOS line display.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enabled",
-                  "description": "Enables the line display.",
-                  "type": "boolean"
-                },
-                "columns": {
-                  "title": "Columns",
-                  "description": "Number of chars fitting on the line.",
-                  "type": "integer"
-                },
-                "rows": {
-                  "title": "Rows",
-                  "description": "Number of lines available.",
-                  "type": "integer"
-                },
-                "thankYou": {
-                  "title": "Thank you",
-                  "description": "Override thank you message to show after finalization.",
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "title": "Line"
-                  }
-                },
-                "welcome": {
-                  "title": "Welcome",
-                  "description": "Override welcome message to show when idle or after thank you.",
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "title": "Line"
-                  }
-                }
-              }
-            }
-          }
+          "$ref": "#/$defs/PeripheralsType"
         },
         "zoomFactor": {
           "title": "Zoom Factor",
           "description": "The zoom factor for the POS and SCO application. Intended range is 0.6-2.0 in 0.1 steps (not currently enforced by the data schema).",
           "type": "number",
-          "enum": [
-            0.6,
-            0.7,
-            0.8,
-            0.9,
-            1,
-            1.1,
-            1.2,
-            1.3,
-            1.4,
-            1.5,
-            1.6,
-            1.7,
-            1.8,
-            1.9,
-            2
-          ],
-          "default": 1
+          "$ref": "#/$defs/ZoomFactorType"
         },
         "fullscreen": {
           "title": "Open in Fullscreen",
@@ -389,8 +37,7 @@
         "trainingModeAvailable": {
           "title": "Training Mode Available",
           "description": "Controls the availability of training mode.",
-          "type": "boolean",
-          "default": true
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -415,33 +62,13 @@
           "title": "Language",
           "description": "Language settings in SCO mode.",
           "type": "object",
-          "properties": {
-            "availableLanguages": {
-              "title": "Available Languages (comma-separated)",
-              "description": "Defines the available languages in SCO mode, comma-separated, e.g. en-GB,sv-SE.",
-              "type": "string",
-              "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO"
-            },
-            "defaultLanguage": {
-              "title": "Default Language",
-              "description": "Defines the default language in SCO mode.",
-              "type": "string",
-              "default": "en-GB"
-            }
-          }
+          "$ref": "#/$defs/ScoLanguageType"
         },
         "attendant": {
           "title": "Attendant",
           "description": "Attendant settings in SCO mode.",
           "type": "object",
-          "properties": {
-            "enabled": {
-              "title": "Enable Attendant Feature",
-              "description": "Enables the attendant feature in SCO mode.",
-              "type": "boolean",
-              "default": false
-            }
-          }
+          "$ref": "#/$defs/ScoAttendantType"
         },
         "sslp": {
           "title": "SSLP",
@@ -467,109 +94,12 @@
           "title": "Peripherals",
           "description": "Periperals settings definitions.",
           "type": "object",
-          "properties": {
-            "printer": {
-              "title": "Printer",
-              "description": "Printer configurations",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enable Printing",
-                  "description": "Enables the printing.",
-                  "type": "boolean"
-                }
-              }
-            },
-            "cameraScanner": {
-              "title": "Camera scanner",
-              "description": "Defines whether camera scanning is enabled",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "Enabled",
-                  "description": "Enable camera scanning buttons in main view and prompts",
-                  "type": "boolean",
-                  "default": true
-                },
-                "whitelistedPrompts": {
-                  "title": "Whitelisted prompts",
-                  "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "uniqueItems": true,
-                  "default": []
-                }
-              }
-            },
-            "scan": {
-              "title": "Scan",
-              "description": "Configuration for item scan feedback events.",
-              "type": "object",
-              "properties": {
-                "audio": {
-                  "title": "Audio",
-                  "description": "Audio feedback configuration for scan events.",
-                  "type": "object",
-                  "properties": {
-                    "enabled": {
-                      "title": "Audio Alerts Enabled",
-                      "description": "Enables audio alerts for barcode scanning.",
-                      "type": "boolean",
-                      "default": false
-                    },
-                    "success": {
-                      "title": "Success",
-                      "type": "object",
-                      "properties": {
-                        "enabled": {
-                          "title": "Success Sound",
-                          "description": "Enables audio alert for barcode scan success.",
-                          "type": "boolean",
-                          "default": false
-                        }
-                      },
-                      "additionalProperties": false
-                    },
-                    "error": {
-                      "title": "Error",
-                      "type": "object",
-                      "properties": {
-                        "enabled": {
-                          "title": "Error Sound",
-                          "description": "Enables audio alert for barcode scan failure.",
-                          "type": "boolean",
-                          "default": false
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  },
-                  "additionalProperties": false
-                }
-              },
-              "additionalProperties": false
-            },
-            "icd": {
-              "title": "ICD — MPOS (Tablet only)",
-              "description": "Settings for integration with ICD, only for Tablet devices.",
-              "type": "object",
-              "properties": {
-                "enabled": {
-                  "title": "MPOS: Enable ICD Integration (Tablet only)",
-                  "description": "Enables the integration with ICD. Only applies to Tablet devices.",
-                  "type": "boolean"
-                }
-              }
-            }
-          }
+          "$ref": "#/$defs/MposPeripheralType"
         },
         "trainingModeAvailable": {
           "title": "Training Mode Available",
           "description": "Controls the availability of training mode.",
-          "type": "boolean",
-          "default": true
+          "$ref": "#/$defs/TrainingModeType"
         }
       }
     },
@@ -582,24 +112,7 @@
           "title": "Zoom Factor",
           "description": "The zoom factor for the CFD application. Intended range is 0.6-2.0 in 0.1 steps (not currently enforced by the data schema).",
           "type": "number",
-          "enum": [
-            0.6,
-            0.7,
-            0.8,
-            0.9,
-            1,
-            1.1,
-            1.2,
-            1.3,
-            1.4,
-            1.5,
-            1.6,
-            1.7,
-            1.8,
-            1.9,
-            2
-          ],
-          "default": 1
+          "$ref": "#/$defs/ZoomFactorType"
         },
         "autoStart": {
           "title": "CFD: Auto-Start Display",
@@ -608,6 +121,486 @@
           "default": false
         }
       }
+    }
+  },
+  "$defs": {
+    "MposPeripheralType": {
+      "description": "This is a definition of the Mobile POS peripherals settings.",
+      "type": "object",
+      "properties": {
+        "printer": {
+          "title": "Printer",
+          "$ref": "#/$defs/MposPrinterType"
+        },
+        "cameraScanner": {
+          "title": "Camera scanner",
+          "description": "Defines whether camera scanning is enabled",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Enabled",
+              "description": "Enable camera scanning buttons in main view and prompts",
+              "type": "boolean",
+              "default": true
+            },
+            "whitelistedPrompts": {
+              "title": "Whitelisted prompts",
+              "description": "By default camera scan button will be visible in main view and all prompts. One can whitelist specific prompt codes where camera should be enabled only.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true,
+              "default": []
+            }
+          }
+        },
+        "scan": {
+          "title": "Scan",
+          "$ref": "#/$defs/ScanAlertType"
+        },
+        "icd": {
+          "title": "ICD — MPOS (Tablet only)",
+          "description": "Settings for integration with ICD, only for Tablet devices.",
+          "$ref": "#/$defs/IcdType"
+        }
+      }
+    },
+    "PeripheralsType": {
+      "description": "This is a definition of the peripherals properties settings.",
+      "type": "object",
+      "properties": {
+        "legacy": {
+          "title": "Use Legacy MQTT Peripherals",
+          "description": "Enables legacy MQTT peripherals instead of gRPC.",
+          "type": "boolean"
+        },
+        "scale": {
+          "title": "Scale",
+          "$ref": "#/$defs/ScaleType"
+        },
+        "scanner1": {
+          "title": "Scanner 1",
+          "$ref": "#/$defs/ScannerType"
+        },
+        "scanner2": {
+          "title": "Scanner 2",
+          "$ref": "#/$defs/ScannerType"
+        },
+        "scan": {
+          "title": "Scan",
+          "$ref": "#/$defs/ScanAlertType"
+        },
+        "printer": {
+          "title": "Printer",
+          "$ref": "#/$defs/PrinterType"
+        },
+        "systemPrinter": {
+          "title": "System printer",
+          "$ref": "#/$defs/SystemPrinterType"
+        },
+        "cashchanger": {
+          "title": "Cash changer",
+          "$ref": "#/$defs/CashChangerType"
+        },
+        "icd": {
+          "title": "ICD",
+          "$ref": "#/$defs/IcdType"
+        },
+        "itab": {
+          "title": "ITAB",
+          "type": "object",
+          "$ref": "#/$defs/ItabType"
+        },
+        "lineDisplay": {
+          "title": "Line display",
+          "type": "object",
+          "$ref": "#/$defs/LineDisplayType"
+        }
+      }
+    },
+    "ItabType": {
+      "description": "Settings for integration with ITAB.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the integration with ITAB.",
+          "type": "boolean"
+        },
+        "model": {
+          "title": "Model",
+          "description": "The ITAB hardware system.",
+          "type": "string",
+          "enum": [
+            "TWINFLOW",
+            "MOVEFLOW",
+            "EASYFLOW"
+          ]
+        },
+        "host": {
+          "title": "Host",
+          "description": "ITAB SCO API server address",
+          "type": "string"
+        },
+        "port": {
+          "title": "Port",
+          "description": "ITAB SCO API server address's port",
+          "type": "integer"
+        },
+        "messageTimeoutMilliseconds": {
+          "title": "Message timeout milliseconds",
+          "description": "Timeout in milliseconds for messages.",
+          "type": "integer"
+        },
+        "responseTimeoutMilliseconds": {
+          "title": "Response timeout milliseconds",
+          "description": "Timeout in milliseconds for responses.",
+          "type": "integer"
+        },
+        "connectionTimeout": {
+          "title": "Connection timeout",
+          "description": "Connection timeout in milliseconds.",
+          "type": "integer"
+        },
+        "connectionReconnectTime": {
+          "title": "Connection reconnect time",
+          "description": "Reconnect delay in milliseconds.",
+          "type": "integer"
+        },
+        "highestApiVersion": {
+          "title": "Highest API version",
+          "description": "Highest supported ITAB API version.",
+          "type": "string"
+        },
+        "lossPrevention": {
+          "title": "Loss prevention",
+          "$ref": "#/$defs/ItabLossPreventionType"
+        },
+        "exitGate": {
+          "title": "Exit gate",
+          "type": "object",
+          "$ref": "#/$defs/ItabExitGateType"
+        },
+        "lightTower": {
+          "title": "Light tower",
+          "type": "object",
+          "$ref": "#/$defs/ItabLightTowerType"
+        }
+      }
+    },
+    "ItabLossPreventionType": {
+      "description": "Settings for ITAB loss prevention.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the integration with ITAB loss prevention.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ItabExitGateType": {
+      "description": "Settings for ITAB exit gate.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the integration with ITAB exit gate.",
+          "type": "boolean"
+        },
+        "host": {
+          "title": "Host",
+          "description": "IP address of exit gate.",
+          "type": "string"
+        },
+        "port": {
+          "title": "Port",
+          "description": "Port which commands will be sent to.",
+          "type": "integer"
+        }
+      }
+    },
+    "ItabLightTowerType": {
+      "description": "Settings for ITAB light tower.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the integration with ITAB light tower.",
+          "type": "boolean"
+        },
+        "serialPort": {
+          "title": "Serial port",
+          "description": "Serial port for the light tower.",
+          "type": "string"
+        }
+      }
+    },
+    "IcdType": {
+      "description": "Settings for integration with ICD.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "MPOS: Enable ICD Integration (Tablet only)",
+          "description": "Enables the integration with ICD.",
+          "type": "boolean"
+        }
+      }
+    },
+    "LineDisplayType": {
+      "description": "Settings for integration with JPOS line display.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the line display.",
+          "type": "boolean"
+        },
+        "columns": {
+          "title": "Columns",
+          "description": "Number of chars fitting on the line.",
+          "type": "integer"
+        },
+        "rows": {
+          "title": "Rows",
+          "description": "Number of lines available.",
+          "type": "integer"
+        },
+        "thankYou": {
+          "title": "Thank you",
+          "description": "Override thank you message to show after finalization.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "title": "Line"
+          }
+        },
+        "welcome": {
+          "title": "Welcome",
+          "description": "Override welcome message to show when idle or after thank you.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "title": "Line"
+          }
+        }
+      }
+    },
+    "CashChangerType": {
+      "description": "This is a definition of the CashChanger settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Cash Changer",
+          "description": "Enables the cash changer.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ScaleType": {
+      "description": "This is a definition of the scale settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Scale",
+          "description": "Enables the scale.",
+          "type": "boolean"
+        },
+        "autoConnect": {
+          "title": "Auto Connect",
+          "description": "Enables the auto connect.",
+          "type": "boolean"
+        },
+        "logicalName": {
+          "title": "Scale Logical Name",
+          "description": "Scale's logical name.",
+          "type": "string"
+        }
+      }
+    },
+    "ScannerType": {
+      "description": "This is a definition of the scanner settings.",
+      "type": "object",
+      "properties": {
+        "autoConnect": {
+          "title": "Auto Connect",
+          "description": "Enables the auto connect.",
+          "type": "boolean"
+        },
+        "logicalName": {
+          "title": "Scanner 1 Logical Name",
+          "description": "Scanner's logical name.",
+          "type": "string"
+        }
+      }
+    },
+    "ScanAlertType": {
+      "description": "Configuration for item scan feedback events.",
+      "type": "object",
+      "properties": {
+        "audio": {
+          "title": "Audio",
+          "description": "Audio feedback configuration for scan events.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "title": "Audio Alerts Enabled",
+              "description": "Enables audio alerts for barcode scanning.",
+              "type": "boolean",
+              "default": false
+            },
+            "success": {
+              "title": "Success",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Success Sound",
+                  "description": "Enables audio alert for barcode scan success.",
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "error": {
+              "title": "Error",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "title": "Error Sound",
+                  "description": "Enables audio alert for barcode scan failure.",
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "SystemPrinterType": {
+      "description": "This is a definition of the system printer settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enabled",
+          "description": "Enables the device.",
+          "type": "boolean"
+        },
+        "logicalName": {
+          "title": "Logical name",
+          "description": "Printer's device name.",
+          "type": "string"
+        },
+        "timeout": {
+          "title": "Timeout",
+          "description": "Printer's timeout in ms for loading operations.",
+          "type": "number"
+        }
+      }
+    },
+    "PrinterType": {
+      "description": "This is a definition of the printer settings.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Printer",
+          "description": "Enables the printer device.",
+          "type": "boolean"
+        },
+        "autoConnect": {
+          "title": "Auto Connect",
+          "description": "Enables the auto connect.",
+          "type": "boolean"
+        },
+        "logicalName": {
+          "title": "Printer Logical Name",
+          "description": "Printer's logical name.",
+          "type": "string"
+        },
+        "cashdrawerEnabled": {
+          "title": "Enable Cash Drawer",
+          "description": "Enables the cash drawer device.",
+          "type": "boolean"
+        },
+        "cashdrawerLogicalName": {
+          "title": "Cash Drawer Logical Name",
+          "description": "Cash drawer's logical name.",
+          "type": "string"
+        }
+      }
+    },
+    "MposPrinterType": {
+      "description": "Printer configurations",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Printing",
+          "description": "Enables the printing.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ScoAttendantType": {
+      "description": "This is a definition of the attendant settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "title": "Enable Attendant Feature",
+          "description": "Enables the attendant feature in SCO mode.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "ScoLanguageType": {
+      "description": "This is a definition language settings in SCO mode.",
+      "type": "object",
+      "properties": {
+        "availableLanguages": {
+          "title": "Available Languages (comma-separated)",
+          "description": "Defines the available languages in SCO mode, comma-separated, e.g. en-GB,sv-SE.",
+          "type": "string",
+          "default": "en-GB,sv-SE,de-DE,fr-FR,es-ES,da-DK,fi-FI,nb-NO"
+        },
+        "defaultLanguage": {
+          "title": "Default Language",
+          "description": "Defines the default language in SCO mode.",
+          "type": "string",
+          "default": "en-GB"
+        }
+      }
+    },
+    "ZoomFactorType": {
+      "description": "The zoom factor for the application.",
+      "type": "number",
+      "enum": [
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2
+      ],
+      "default": 1
+    },
+    "TrainingModeType": {
+      "description": "Control the availability of training mode",
+      "type": "boolean",
+      "default": true
     }
   }
 }
